@@ -110,8 +110,9 @@ See `docs/terminology.md` for details.
 docs/
 ├── 00_overview/        # Project overview
 ├── 01_architecture/    # System architecture
-├── 02_development/     # Development guides
-└── 03_designs/         # UI/UX designs
+├── 03_development/     # Development guides
+├── 04_designs/         # UI/UX designs
+└── 05_standards/       # Shared coding standards (submodule)
 ```
 ```
 
@@ -135,15 +136,15 @@ Read these documents first:
 
 1. `docs/00_overview/README.md`
 2. `docs/01_architecture/architecture.md`
-3. `docs/02_development/coding_standards/`
+3. `docs/05_standards/`
 
 ### Common scenarios
 
 | Task | Reference |
 |------|-----------|
 | Understanding architecture | `docs/01_architecture/` |
-| Writing new code | `docs/02_development/coding_standards/` |
-| UI design reference | `docs/03_designs/ui-mockup.md` |
+| Writing new code | `docs/05_standards/` |
+| UI design reference | `docs/04_designs/ui-mockup.md` |
 ```
 
 ---
@@ -180,8 +181,8 @@ patterns and architecture decisions.
 
 | Content | Where it belongs |
 |---------|-----------------|
-| Architecture details | `docs/architecture/` |
-| API specifications | `docs/api/` |
+| Architecture details | `docs/01_architecture/` |
+| API specifications | `docs/01_architecture/` or dedicated API docs |
 | Setup instructions | `README.md` |
 | General programming knowledge | (AI already knows) |
 
@@ -276,17 +277,20 @@ Brief description of the project (1-2 sentences).
 
 ```
 docs/
-├── architecture/
-├── development/
-└── designs/
+├── 00_overview/
+├── 01_architecture/
+├── 03_development/
+├── 04_designs/
+└── 05_standards/
 ```
 
 ---
 
 ## Before starting work
 
-1. `docs/architecture/overview.md`
-2. `docs/development/coding-standards.md`
+1. `docs/00_overview/README.md`
+2. `docs/01_architecture/architecture.md`
+3. `docs/05_standards/`
 
 ---
 

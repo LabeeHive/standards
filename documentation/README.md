@@ -78,6 +78,7 @@ This page summarizes the most important rules. For details, see each guide.
 | [Document structure](document-structure.md) | Standard document organization |
 | [Markdown formatting](markdown-formatting.md) | Markdown syntax and formatting rules |
 | [File organization](file-organization.md) | File naming and directory structure |
+| [Project structure](project-structure.md) | Standard project docs/ directory structure |
 | [Code examples](code-examples.md) | Writing clear and consistent code examples |
 
 ### Extended guides

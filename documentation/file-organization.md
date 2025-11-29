@@ -106,14 +106,15 @@ architecture (v2).md
 
 ```
 docs/
-├── getting-started/       # Onboarding and setup
-├── guides/                # How-to guides
-├── reference/             # API and technical reference
-├── architecture/          # Architecture decisions
-├── standards/             # Coding and documentation standards
-│   ├── code/
-│   └── documentation/
-└── archive/               # Deprecated content
+├── 00_overview/           # Project overview and terminology
+├── 01_architecture/       # Architecture decisions
+├── 02_business/           # Business-related (optional)
+├── 03_development/        # Development guides
+│   └── testing/           # Testing guidelines
+├── 04_designs/            # UI/UX designs (optional)
+├── 05_standards/          # Shared coding standards (Git submodule)
+├── 98_plans/              # Implementation plans (optional)
+└── 99_ideas/              # Ideas and exploration (optional)
 ```
 
 ---
@@ -128,7 +129,7 @@ docs/
 **✅ Good:**
 
 ```
-docs/standards/code/naming-conventions.md  (4 levels)
+docs/05_standards/swift/naming.md  (4 levels)
 ```
 
 **❌ Bad:**
@@ -178,10 +179,10 @@ This directory contains coding standards applicable to all projects.
 
 ```bash
 # View document history
-git log --follow docs/standards/naming-conventions.md
+git log --follow docs/05_standards/swift/naming.md
 
 # View specific changes
-git diff HEAD~1 docs/standards/naming-conventions.md
+git diff HEAD~1 docs/05_standards/swift/naming.md
 ```
 
 **❌ Bad:**
@@ -324,18 +325,18 @@ docs/
 
 **Rules:**
 - Use numbered prefixes for enforcing order
-- Format: `00-`, `01-`, `02-`, etc.
+- Format: `00_`, `01_`, `02_`, etc. (two digits with underscore)
 - Use for sequential or priority-based organization
 
 **Example:**
 
 ```
-tutorials/
-├── 00-prerequisites/
-├── 01-installation/
-├── 02-configuration/
-├── 03-first-project/
-└── 04-advanced-topics/
+docs/
+├── 00_overview/
+├── 01_architecture/
+├── 02_business/
+├── 03_development/
+└── 04_designs/
 ```
 
 ---
@@ -390,11 +391,11 @@ docs/architecture/
 ```
 project-a/
 └── docs/
-    └── standards/  (Git submodule)
+    └── 05_standards/  (Git submodule)
 
 project-b/
 └── docs/
-    └── standards/  (Same submodule)
+    └── 05_standards/  (Same submodule)
 ```
 
 ---
@@ -404,8 +405,8 @@ project-b/
 **`.gitmodules` example:**
 
 ```ini
-[submodule "docs/standards"]
-    path = docs/standards
+[submodule "docs/05_standards"]
+    path = docs/05_standards
     url = https://github.com/your-org/coding-standards.git
 ```
 
@@ -413,10 +414,10 @@ project-b/
 
 ```bash
 # Add submodule
-git submodule add https://github.com/your-org/coding-standards.git docs/standards
+git submodule add https://github.com/your-org/coding-standards.git docs/05_standards
 
 # Update submodule
-git submodule update --remote docs/standards
+git submodule update --remote docs/05_standards
 
 # Clone project with submodules
 git clone --recursive https://github.com/your-org/project.git
