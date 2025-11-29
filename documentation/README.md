@@ -48,7 +48,7 @@ This page summarizes the most important rules. For details, see each guide.
 - Use snake_case for file and directory names (e.g., `api_reference.md`)
 - Keep file names under 30 characters
 - Keep directory hierarchy shallow (max 3-4 levels)
-- Use `README.md` as the index for each directory
+- Use `README.md` only for top-level `docs/` directories (not for subdirectories like `images/` or `mockups/`)
 
 ### Code examples
 

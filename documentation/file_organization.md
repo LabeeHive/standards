@@ -143,7 +143,8 @@ docs/technical/standards/coding/languages/python/core/naming/conventions.md  (9 
 ### Index files
 
 **Rules:**
-- Use `README.md` as the index for each directory
+- Use `README.md` as the index for top-level `docs/` directories (e.g., `00_overview/`, `01_architecture/`)
+- Do NOT create README.md for subdirectories (e.g., `mockups/`, `images/`, `test/`)
 - README should provide overview and navigation
 - Link to subdirectories and key files
 
