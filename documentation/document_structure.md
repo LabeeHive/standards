@@ -128,7 +128,7 @@ All errors should return a consistent JSON structure...
 
 ## References
 
-- [Error codes reference](error-codes.md)
+- [Error codes reference](error_codes.md)
 - [REST API Guidelines](https://github.com/microsoft/api-guidelines)
 ```
 

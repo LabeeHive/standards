@@ -41,7 +41,7 @@ It is recommended that one should utilize dependency injection for the purpose o
 **✅ Good:**
 
 ```markdown
-If you're new to async/await, start with the [basic introduction](async-intro.md) before diving into advanced patterns.
+If you're new to async/await, start with the [basic introduction](async_intro.md) before diving into advanced patterns.
 ```
 
 **❌ Bad:**
@@ -239,13 +239,13 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 **✅ Good:**
 
 ```markdown
-![Diagram showing request flow from client through API gateway to microservices](images/request-flow.png)
+![Diagram showing request flow from client through API gateway to microservices](images/request_flow.png)
 ```
 
 **❌ Bad:**
 
 ```markdown
-![Architecture](images/request-flow.png)
+![Architecture](images/request_flow.png)
 ```
 
 ---
@@ -415,7 +415,7 @@ Message queues are beneficial because they reduce coupling and you can scale the
 - Use code blocks for examples
 - Always specify language in code blocks
 
-See [Code examples](code-examples.md) for detailed guidelines.
+See [Code examples](code_examples.md) for detailed guidelines.
 
 ---
 

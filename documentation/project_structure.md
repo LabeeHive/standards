@@ -55,7 +55,7 @@ docs/
 **Contents:**
 - `README.md` - Project overview and navigation
 - `terminology.md` - Project-specific terms and definitions
-- `product-identity.md` - Product vision and identity (optional)
+- `product_identity.md` - Product vision and identity (optional)
 
 **Required:** Yes
 
@@ -105,7 +105,7 @@ docs/
 **Purpose:** UI/UX designs and visual documentation.
 
 **Contents:**
-- `ui-mockup.md` - UI design documentation
+- `ui_mockup.md` - UI design documentation
 - `mockups/` - Design files and screenshots
 - Design system documentation
 
@@ -239,6 +239,6 @@ docs/
 
 ## References
 
-- [File organization](file-organization.md)
-- [AI documentation](ai-documentation.md)
+- [File organization](file_organization.md)
+- [AI documentation](ai_documentation.md)
 - [Git Submodules documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)

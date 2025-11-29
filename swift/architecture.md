@@ -4,7 +4,7 @@
 
 This document defines the architecture pattern for Swift applications at Labee LLC. This standard uses a Layered MVVM architecture that provides clear separation of concerns, testability, and maintainability.
 
-> **Note:** This architecture is inspired by Clean Architecture but is not a strict implementation. See [Industry comparison](comparison-with-industry.md) for details on the differences.
+> **Note:** This architecture is inspired by Clean Architecture but is not a strict implementation. See [Industry comparison](comparison_with_industry.md) for details on the differences.
 
 ---
 
@@ -412,6 +412,6 @@ class ReminderViewModel {
 
 ## References
 
-- [Industry comparison](comparison-with-industry.md)
+- [Industry comparison](comparison_with_industry.md)
 - [Uncle Bob's Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [iOS Clean Architecture MVVM](https://github.com/kudoleh/iOS-Clean-Architecture-MVVM)

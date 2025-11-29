@@ -310,7 +310,7 @@ struct DatabaseTests {
 
 ## References
 
-- [Mock patterns](mock-patterns.md)
+- [Mock patterns](mock_patterns.md)
 - [Apple Swift Testing Documentation](https://developer.apple.com/documentation/testing)
 - [SwiftLee - Swift Testing](https://www.avanderlee.com/swift-testing/modern-unit-test/)
 - [Swift with Majid - Swift Testing](https://swiftwithmajid.com/2024/10/22/introducing-swift-testing-basics/)

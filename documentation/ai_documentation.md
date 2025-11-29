@@ -144,7 +144,7 @@ Read these documents first:
 |------|-----------|
 | Understanding architecture | `docs/01_architecture/` |
 | Writing new code | `docs/05_standards/` |
-| UI design reference | `docs/04_designs/ui-mockup.md` |
+| UI design reference | `docs/04_designs/ui_mockup.md` |
 ```
 
 ---

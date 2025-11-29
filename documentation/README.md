@@ -45,7 +45,7 @@ This page summarizes the most important rules. For details, see each guide.
 
 ### Files and naming
 
-- Use kebab-case for file and directory names (e.g., `api-reference.md`)
+- Use snake_case for file and directory names (e.g., `api_reference.md`)
 - Keep file names under 30 characters
 - Keep directory hierarchy shallow (max 3-4 levels)
 - Use `README.md` as the index for each directory
@@ -74,19 +74,19 @@ This page summarizes the most important rules. For details, see each guide.
 
 | Guide | Description |
 |-------|-------------|
-| [Writing principles](writing-principles.md) | Voice, tone, grammar, and style guidelines |
-| [Document structure](document-structure.md) | Standard document organization |
-| [Markdown formatting](markdown-formatting.md) | Markdown syntax and formatting rules |
-| [File organization](file-organization.md) | File naming and directory structure |
-| [Project structure](project-structure.md) | Standard project docs/ directory structure |
-| [Code examples](code-examples.md) | Writing clear and consistent code examples |
+| [Writing principles](writing_principles.md) | Voice, tone, grammar, and style guidelines |
+| [Document structure](document_structure.md) | Standard document organization |
+| [Markdown formatting](markdown_formatting.md) | Markdown syntax and formatting rules |
+| [File organization](file_organization.md) | File naming and directory structure |
+| [Project structure](project_structure.md) | Standard project docs/ directory structure |
+| [Code examples](code_examples.md) | Writing clear and consistent code examples |
 
 ### Extended guides
 
 | Guide | Description |
 |-------|-------------|
-| [Content types](content-types.md) | Templates for README, Changelog, API docs, etc. |
-| [AI documentation](ai-documentation.md) | Standards for AGENTS.md and AI context files |
+| [Content types](content_types.md) | Templates for README, Changelog, API docs, etc. |
+| [AI documentation](ai_documentation.md) | Standards for AGENTS.md and AI context files |
 
 ---
 

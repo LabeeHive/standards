@@ -53,8 +53,8 @@ Brief description of what this project does (1-2 sentences).
 
 ## Documentation
 
-- [Getting started guide](docs/getting-started.md)
-- [API reference](docs/api-reference.md)
+- [Getting started guide](docs/getting_started.md)
+- [API reference](docs/api_reference.md)
 - [Contributing](CONTRIBUTING.md)
 
 ## License
@@ -303,8 +303,8 @@ To verify the task was completed successfully:
 
 ## Next steps
 
-- [Related guide 1](related-guide-1.md)
-- [Related guide 2](related-guide-2.md)
+- [Related guide 1](related_guide_1.md)
+- [Related guide 2](related_guide_2.md)
 ```
 
 ### Guidelines
@@ -389,8 +389,8 @@ In this tutorial, you learned:
 
 ## Next steps
 
-- [Advanced tutorial](advanced-tutorial.md)
-- [Related concept explanation](concept-explanation.md)
+- [Advanced tutorial](advanced_tutorial.md)
+- [Related concept explanation](concept_explanation.md)
 ```
 
 ### Guidelines
@@ -466,7 +466,7 @@ This document explains [concept] and why it matters for [context].
 
 ## Further reading
 
-- [Related concept](related-concept.md)
+- [Related concept](related_concept.md)
 - [External resource](https://example.com)
 ```
 

@@ -8,29 +8,29 @@ This document defines standards for file naming, directory structure, and versio
 
 ## File naming - P1
 
-### Kebab-case convention
+### Snake_case convention
 
 **Rules:**
-- Use lowercase letters with hyphens (`kebab-case`)
-- No spaces, underscores, or camelCase
+- Use lowercase letters with underscores (`snake_case`)
+- No spaces, hyphens, or camelCase
 - Use descriptive names that indicate content
 
 **✅ Good:**
 
 ```
-naming-conventions.md
-api-reference.md
-getting-started.md
-error-handling-patterns.md
+naming_conventions.md
+api_reference.md
+getting_started.md
+error_handling_patterns.md
 ```
 
 **❌ Bad:**
 
 ```
-Naming_Conventions.md
+Naming-Conventions.md
 apiReference.md
 Getting Started.md
-Error-Handling-Patterns.MD
+error-handling-patterns.MD
 ```
 
 ---
@@ -45,16 +45,16 @@ Error-Handling-Patterns.MD
 **✅ Good:**
 
 ```
-error-handling.md           (15 chars)
-dependency-management.md    (21 chars)
-api-authentication.md       (18 chars)
+error_handling.md           (14 chars)
+dependency_management.md    (21 chars)
+api_authentication.md       (18 chars)
 ```
 
 **❌ Bad:**
 
 ```
-error-handling-patterns-and-best-practices-guide.md  (51 chars - too long)
-err-hdl.md                                           (7 chars - unclear)
+error_handling_patterns_and_best_practices_guide.md  (50 chars - too long)
+err_hdl.md                                           (7 chars - unclear)
 ```
 
 ---
@@ -62,21 +62,21 @@ err-hdl.md                                           (7 chars - unclear)
 ### Special characters
 
 **Rules:**
-- Avoid spaces, underscores, and special characters
-- Do not use: `!@#$%^&*()+=[]{}|;:'",<>?/\`
-- Exception: Use `-` (hyphen) as word separator
+- Avoid spaces, hyphens, and special characters
+- Do not use: `!@#$%^&*()+=[]{}|;:'",<>?/\-`
+- Exception: Use `_` (underscore) as word separator
 
 **✅ Good:**
 
 ```
-database-design.md
-event-driven-architecture.md
+database_design.md
+event_driven_architecture.md
 ```
 
 **❌ Bad:**
 
 ```
-database_design.md
+database-design.md
 event & messaging.md
 architecture (v2).md
 ```
@@ -158,10 +158,10 @@ This directory contains coding standards applicable to all projects.
 
 ## Contents
 
-- [Naming conventions](naming-conventions.md)
-- [Code organization](code-organization.md)
-- [Error handling](error-handling.md)
-- [Testing guidelines](testing-guidelines.md)
+- [Naming conventions](naming_conventions.md)
+- [Code organization](code_organization.md)
+- [Error handling](error_handling.md)
+- [Testing guidelines](testing_guidelines.md)
 ```
 
 ---
@@ -290,10 +290,10 @@ status: active
 
 ## Directory naming - P1
 
-### Kebab-case for directories
+### Snake_case for directories
 
 **Rules:**
-- Use kebab-case for directory names
+- Use snake_case for directory names
 - Keep names short and descriptive
 - Use numbers for ordering when needed
 
@@ -301,7 +301,7 @@ status: active
 
 ```
 docs/
-├── getting-started/
+├── getting_started/
 ├── guides/
 ├── reference/
 │   ├── api/
@@ -314,7 +314,7 @@ docs/
 ```
 docs/
 ├── GettingStarted/
-├── User_Guides/
+├── User-Guides/
 ├── technicalReference/
 └── Coding Standards/
 ```
@@ -356,9 +356,9 @@ docs/
 docs/architecture/
 ├── microservices.md
 ├── images/
-│   ├── service-flow.png
-│   ├── database-schema.png
-│   └── deployment-diagram.png
+│   ├── service_flow.png
+│   ├── database_schema.png
+│   └── deployment_diagram.png
 ```
 
 ---
@@ -389,11 +389,11 @@ docs/architecture/
 **Example:**
 
 ```
-project-a/
+project_a/
 └── docs/
     └── 05_standards/  (Git submodule)
 
-project-b/
+project_b/
 └── docs/
     └── 05_standards/  (Same submodule)
 ```
@@ -439,7 +439,7 @@ git clone --recursive https://github.com/your-org/project.git
 ```markdown
 # Legacy authentication
 
-> **Deprecated:** This document is deprecated as of 2025-01-15. See [OAuth 2.0 guide](oauth2-guide.md) for the current approach.
+> **Deprecated:** This document is deprecated as of 2025-01-15. See [OAuth 2.0 guide](oauth2_guide.md) for the current approach.
 
 ## Purpose
 
@@ -462,8 +462,8 @@ docs/
 ├── guides/
 ├── reference/
 ├── archive/
-│   ├── legacy-auth.md
-│   └── old-api-v1.md
+│   ├── legacy_auth.md
+│   └── old_api_v1.md
 ```
 
 ---

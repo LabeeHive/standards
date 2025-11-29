@@ -270,7 +270,7 @@ This architecture uses controllers, services and repositories.
 ```markdown
 See the [PostgreSQL documentation](https://www.postgresql.org/docs/) for details.
 
-Read more about [RESTful API design patterns](api-design.md).
+Read more about [RESTful API design patterns](api_design.md).
 ```
 
 **❌ Bad:**
@@ -288,13 +288,13 @@ Read more [here](api-design.md).
 **Rules:**
 - Use relative paths for internal documentation links
 - Include `.md` extension
-- Use kebab-case for file names
+- Use snake_case for file names
 
 **✅ Good:**
 
 ```markdown
-- [Naming conventions](../core/naming-conventions.md)
-- [Error handling](../core/error-handling.md)
+- [Naming conventions](../core/naming_conventions.md)
+- [Error handling](../core/error_handling.md)
 ```
 
 **❌ Bad:**
@@ -386,7 +386,7 @@ The *singleton pattern* should be used sparingly.
 **✅ Good:**
 
 ```markdown
-![Diagram showing request flow through API gateway](images/request-flow.png)
+![Diagram showing request flow through API gateway](images/request_flow.png)
 ```
 
 **❌ Bad:**

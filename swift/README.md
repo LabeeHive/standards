@@ -14,7 +14,7 @@ This document defines Swift and SwiftUI coding standards for Labee LLC projects.
 |-------|-------------|
 | [Naming conventions](naming.md) | Type, variable, function, and test naming rules |
 | [Formatting](formatting.md) | Indentation, line length, braces, and whitespace |
-| [File structure](file-structure.md) | Import order, type organization, and extensions |
+| [File structure](file_structure.md) | Import order, type organization, and extensions |
 
 ### SwiftUI guides
 
@@ -29,13 +29,13 @@ This document defines Swift and SwiftUI coding standards for Labee LLC projects.
 | Guide | Description |
 |-------|-------------|
 | [Testing](testing.md) | Swift Testing conventions and AAA pattern |
-| [Mock patterns](mock-patterns.md) | Mock structure and dependency injection |
+| [Mock patterns](mock_patterns.md) | Mock structure and dependency injection |
 
 ### Reference
 
 | Guide | Description |
 |-------|-------------|
-| [Industry comparison](comparison-with-industry.md) | Comparison with Apple, Google, and Airbnb guidelines |
+| [Industry comparison](comparison_with_industry.md) | Comparison with Apple, Google, and Airbnb guidelines |
 
 ---
 
