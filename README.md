@@ -6,6 +6,12 @@ This repository contains shared coding standards for Labee LLC projects. Add it 
 
 ---
 
+## Getting started
+
+**Setting up a new repository?** Start here: [repository/setup.md](repository/setup.md)
+
+---
+
 ## Standards
 
 | Directory | Description |
@@ -14,6 +20,7 @@ This repository contains shared coding standards for Labee LLC projects. Add it 
 | [docusaurus/](docusaurus/) | Docusaurus public site standards |
 | [documentation/](documentation/) | Documentation writing standards |
 | [github/](github/) | GitHub collaboration standards (Issues, PRs) |
+| [repository/](repository/) | Repository setup standards |
 | [swift/](swift/) | Swift and SwiftUI coding standards |
 
 ---
