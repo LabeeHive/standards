@@ -1,6 +1,6 @@
-# Coding Standards - AI Context
+# Standards - AI Context
 
-Shared coding standards repository for Labee LLC projects. This repository is used as a Git submodule in other projects to maintain consistency.
+Shared standards repository for Labee LLC projects. This repository is used as a Git submodule in other projects to maintain consistency.
 
 ---
 

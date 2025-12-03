@@ -1,8 +1,8 @@
-# Coding standards
+# Standards
 
 ## Purpose
 
-This repository contains shared coding standards for Labee LLC projects. Add it as a Git submodule to maintain consistency across repositories.
+This repository contains shared standards for Labee LLC projects. Add it as a Git submodule to maintain consistency across repositories.
 
 ---
 
