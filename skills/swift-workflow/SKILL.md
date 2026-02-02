@@ -5,7 +5,7 @@ model: opus
 context: fork
 agent: general-purpose
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Skill, Task, EnterPlanMode, AskUserQuestion, WebFetch, WebSearch
+allowed-tools: Read, Glob, Grep, Skill, Task, EnterPlanMode, AskUserQuestion, WebFetch, WebSearch, Bash(xcrun:*), Bash(swift:*), TaskCreate, TaskUpdate, TaskList
 ---
 
 # Swift Workflow
@@ -17,6 +17,26 @@ Orchestrate Swift development from Vigilare task to completion.
 1. **Task-driven** - Every implementation starts from a task, ends with recorded progress
 2. **Parallel execution** - Run independent operations concurrently
 3. **Evidence-based** - Check project config and official docs before implementing
+4. **Phase tracking** - Use TaskCreate at start to create phase checklist, TaskUpdate to mark progress
+
+## Phase Tracking
+
+**At workflow start, create tasks for each phase:**
+
+```
+TaskCreate: "Phase 1: Task Identification"
+TaskCreate: "Phase 2: Project Context"
+TaskCreate: "Phase 3: Research & Analysis"
+TaskCreate: "Phase 4: Planning"
+TaskCreate: "Phase 5: Implementation"
+TaskCreate: "Phase 6: Build & Test"
+TaskCreate: "Phase 7: Localization"
+TaskCreate: "Phase 8: Wrap-up"
+```
+
+**Update status as you progress:**
+- `in_progress` when starting a phase
+- `completed` when done
 
 ## Constraints
 
@@ -25,7 +45,7 @@ Orchestrate Swift development from Vigilare task to completion.
 | vigilare_get_reminders | `filter: 'all'` is **FORBIDDEN**. Use `today` or `list_id` |
 | Commit | Generate message only. User commits (GPG required) |
 | Task completion | Do NOT call `vigilare_complete_reminder`. User decides |
-| Xcode build | Required before localization. Ask user to build |
+| Xcode build | Required for xcstrings update. Ask user to build in Xcode before Phase 7 |
 
 ## Workflow
 
@@ -96,7 +116,28 @@ Invoke `/swift-development` which includes:
 - Swift Testing (AAA pattern)
 - Code review aspects
 
-### Phase 6: Localization
+**After every code change, run swift-format:**
+
+```bash
+xcrun swift-format --recursive . --in-place
+```
+
+### Phase 6: Build & Test
+
+**REQUIRED before proceeding to localization.**
+
+```bash
+# Build
+swift build
+
+# Run tests
+swift test
+```
+
+**If build fails:** Fix errors, re-run swift-format, try again.
+**If tests fail:** Fix tests or implementation, re-run swift-format, try again.
+
+### Phase 7: Localization
 
 **If UI strings were added/changed:**
 
@@ -104,7 +145,7 @@ Invoke `/swift-development` which includes:
 2. Wait for confirmation
 3. Invoke `/swift-localization` to add translations
 
-### Phase 7: Wrap-up
+### Phase 8: Wrap-up
 
 1. **Generate commit message** - Invoke `/commit-message`
 2. **Record work** - `vigilare_add_comment` with summary of changes
@@ -131,13 +172,15 @@ Invoke `/swift-development` which includes:
 | 1 | /vigilare-task | Create task if none exists |
 | 3 | /research | Technical investigation |
 | 5 | /swift-development | Coding with standards |
-| 6 | /swift-localization | Translation management |
-| 7 | /commit-message | Generate commit message |
+| 7 | /swift-localization | Translation management |
+| 8 | /commit-message | Generate commit message |
 
 ## Example Session
 
 ```
 User: "このタスクやって" (with Vigilare task in context)
+
+[TaskCreate for all 8 phases]
 
 Phase 1: Task identified from context
 Phase 2: [PARALLEL] Read Package.swift, project.pbxproj, task notes
@@ -149,8 +192,9 @@ Phase 3: [PARALLEL]
          - Read existing code
          → Record findings to Vigilare comment
 Phase 4: Present plan with deployment target considerations
-Phase 5: Implement with /swift-development
-Phase 6: Ask user to build → /swift-localization
-Phase 7: Generate commit message, record progress
+Phase 5: Implement with /swift-development + swift-format
+Phase 6: swift build → swift test → All green ✓
+Phase 7: Ask user to build in Xcode → /swift-localization
+Phase 8: Generate commit message, record progress
          → "コミットとタスク完了はお願いします"
 ```
