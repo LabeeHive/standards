@@ -107,6 +107,15 @@
       "skills": [
         "./skills/swift-mcp-server"
       ]
+    },
+    {
+      "name": "skill-creator",
+      "description": "Create and update Claude skills following best practices",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/skill-creator"
+      ]
     }
   ]
 }
