@@ -49,6 +49,30 @@ allowed-tools: Read, Glob, Grep, Bash(specific:*)
 
 **allowed-tools:** Use specific patterns like `Bash(git:*)`, `Bash(gh:*)`, not generic `Bash`.
 
+### Invocation Control
+
+```yaml
+disable-model-invocation: true  # User must invoke manually with /skill-name
+user-invocable: false           # Only Claude can invoke (hidden from / menu)
+```
+
+**When to use `disable-model-invocation: true`:**
+
+| Pattern | Example | Reason |
+|---------|---------|--------|
+| Setup/Init | repository-setup, docusaurus-setup | One-time setup should be intentional |
+| Release/Deploy | swift-release | Side effects, requires user confirmation |
+| Config changes | automation-config | Modifies project configuration |
+| Complex creation | skill-creator, swift-mcp-server | Large-scale changes, user should control timing |
+
+**When to keep default (auto-invocation allowed):**
+
+| Pattern | Example | Reason |
+|---------|---------|--------|
+| Daily tasks | commit-message, vigilare-task | Frequent use, "コミットメッセージ" triggers naturally |
+| Code assistance | swift-development, documentation | Helps during normal development flow |
+| Workflow shortcuts | github-workflow | "Issue作って" should just work |
+
 ### Body
 
 Concise instructions only. Move detailed content to `references/`.
@@ -91,6 +115,7 @@ Check:
 - [ ] description has WHAT + WHEN + Triggers (JP & EN)
 - [ ] allowed-tools uses specific patterns
 - [ ] context: fork for workflow skills
+- [ ] disable-model-invocation: true for setup/release/config skills
 - [ ] No non-existent reference files listed
 - [ ] Under 500 lines in SKILL.md body
 
