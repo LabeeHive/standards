@@ -2,6 +2,13 @@
 
 Patterns for consistent skill output.
 
+## Core Principle
+
+> **Claude is already very smart.** Don't explain what Claude already knows.
+
+**Good:** Specific patterns, edge cases, project-specific conventions
+**Bad:** "A function is a reusable block of code", "Git is a version control system"
+
 ## Description Format
 
 **Required structure:** WHAT + WHEN + Triggers
@@ -96,11 +103,32 @@ Output: `fix: resolve null pointer on app launch`
 
 ## Model Selection
 
-| Model | Use When | Example Skills |
-|-------|----------|----------------|
-| haiku | Read-only guidance | documentation, automation-config |
-| sonnet | Code generation, file creation | swift-development, repository-setup |
-| opus | Complex multi-step workflows | vigilare-task, skill-creator |
+**Numeric Decision Criteria:**
+
+| Model | Steps | File Writes | External Services | MCP Tools |
+|-------|:-----:|:-----------:|:-----------------:|:---------:|
+| haiku | 1-2 | 0 | 0 | No |
+| sonnet | 1-3 | 1-5 | 0-2 | No |
+| opus | 4+ | Any | 3+ | Yes |
+
+**Decision Tree:**
+```
+Does skill use MCP tools? → Yes → opus
+Does skill call 3+ external services? → Yes → opus
+Does skill have 4+ workflow steps? → Yes → opus
+Does skill write files? → Yes → sonnet
+Otherwise → haiku
+```
+
+**Examples:**
+
+| Skill | Steps | Writes | Services | MCP | → Model |
+|-------|:-----:|:------:|:--------:|:---:|:-------:|
+| documentation | 2 | 0 | 0 | No | haiku |
+| swift-development | 3 | 3 | 0 | No | sonnet |
+| repository-setup | 4 | 5 | 1 | No | sonnet |
+| vigilare-task | 5 | 2 | 0 | Yes | opus |
+| skill-creator | 5 | 4 | 0 | No | opus |
 
 ## Skill Type Matrix
 

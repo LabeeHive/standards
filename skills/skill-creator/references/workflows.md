@@ -6,15 +6,32 @@ Patterns for designing effective skill workflows.
 
 Match specificity to task fragility:
 
-| Freedom | Use When | Format |
-|---------|----------|--------|
-| High | Multiple valid approaches, context-dependent | Text instructions |
-| Medium | Preferred pattern exists, some variation OK | Pseudocode with parameters |
-| Low | Fragile operations, consistency critical | Specific scripts, few parameters |
+| Freedom | Use When | Format | Risk if Wrong |
+|---------|----------|--------|---------------|
+| High | Multiple valid approaches | Text instructions | Low - easily corrected |
+| Medium | Preferred pattern exists | Pseudocode with params | Medium - rework needed |
+| Low | Fragile operations | Specific scripts | High - data loss, side effects |
+
+**Decision criteria:**
+
+| Question | Yes → | No → |
+|----------|-------|------|
+| Can user easily undo mistakes? | Higher freedom | Lower freedom |
+| Are there external side effects? | Lower freedom | Higher freedom |
+| Does order matter strictly? | Lower freedom | Higher freedom |
+| Is output format critical? | Lower freedom | Higher freedom |
 
 **Example - High freedom:**
 ```markdown
 Analyze the code and suggest improvements based on the project's style.
+```
+
+**Example - Medium freedom:**
+```markdown
+Create commit message following conventional commits:
+- type: feat|fix|refactor|docs|test
+- scope: optional, in parentheses
+- description: imperative mood, lowercase
 ```
 
 **Example - Low freedom:**
@@ -62,16 +79,31 @@ Guide through decision points:
 
 ## Progressive Disclosure
 
-Keep SKILL.md lean, load details as needed:
+**3-Level Loading System:**
 
-```markdown
-## Reference Files
+| Level | Content | When Loaded | Budget |
+|-------|---------|-------------|--------|
+| 1 | name + description | Always | ~100 tokens |
+| 2 | SKILL.md body | Skill triggers | <5000 tokens |
+| 3 | references/, scripts/ | On-demand | Unlimited |
 
-| File | Use When |
-|------|----------|
-| references/api.md | Working with external APIs |
-| references/schemas.md | Database operations |
-```
+**Reference Loading Rules:**
+
+| Indicator | Behavior | Example |
+|-----------|----------|---------|
+| `_filename.md` | Auto-load with skill | `_core-rules.md` |
+| `filename.md` | Load when task matches | `api.md` → API work |
+| Explicit instruction | Load when SKILL.md says | "See schemas.md for DB" |
+
+**When to load a reference (Claude's decision):**
+- Task explicitly mentions the reference topic
+- SKILL.md instruction points to it
+- Current step requires domain-specific knowledge
+
+**When NOT to load:**
+- General task that doesn't need specifics
+- Information already in SKILL.md body
+- Reference would duplicate context
 
 **Pattern: Domain-specific organization**
 ```

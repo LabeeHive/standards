@@ -4,25 +4,39 @@ description: Create and update Claude skills following best practices. Use this 
 model: opus
 context: fork
 agent: general-purpose
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*)
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), WebFetch, WebSearch, Task
 ---
 
 # Skill Creator
 
 Create effective skills that extend Claude's capabilities.
 
+## Core Principle
+
+> **Claude is already very smart.** Only add context Claude doesn't already have. Prefer concise examples over verbose explanations.
+
 ## Official Documentation
 
-- **Agent Skills Specification**: https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
+- **Agent Skills Specification**: https://agentskills.io/specification
+- **Building Skills Guide**: https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
 - **Claude Code Skills**: https://code.claude.com/docs/en/skills
-- **Plugin Marketplaces**: https://code.claude.com/docs/en/plugin-marketplaces
+
+## Progressive Disclosure (3-Level Loading)
+
+| Level | What | Token Budget | When Loaded |
+|-------|------|--------------|-------------|
+| 1. Metadata | name + description | ~100 tokens | Always (all skills) |
+| 2. Body | SKILL.md content | <5000 tokens | When skill triggers |
+| 3. Resources | references/, scripts/, assets/ | Unlimited | On-demand by Claude |
+
+**Key insight:** Keep SKILL.md lean. Move detailed content to references/.
 
 ## Skill Structure
 
 ```
 skill-name/
-├── SKILL.md           # Required: frontmatter + instructions
-├── references/        # Optional: documentation loaded as needed
+├── SKILL.md           # Required: frontmatter + instructions (<500 lines)
+├── references/        # Optional: documentation (on-demand loading)
 ├── scripts/           # Optional: executable code
 └── assets/            # Optional: templates, images
 ```
@@ -44,10 +58,20 @@ allowed-tools: Read, Glob, Grep, Bash(specific:*)
 ---
 ```
 
-**Model Selection:**
-- `haiku`: Guidance/reference skills (read-only)
-- `sonnet`: Code generation, file creation
-- `opus`: Complex multi-step workflows
+**Field Constraints (Agent Skills Spec):**
+
+| Field | Required | Constraints |
+|-------|:--------:|-------------|
+| name | Yes | 1-64 chars, lowercase + hyphens, must match folder name |
+| description | Yes | 1-1024 chars, WHAT + WHEN + Triggers |
+
+**Model Selection (with numeric criteria):**
+
+| Model | Use When | Criteria |
+|-------|----------|----------|
+| haiku | Read-only guidance | 0 file writes, 0 external calls |
+| sonnet | Code generation | 1-3 steps, ≤2 external services |
+| opus | Complex workflows | 4+ steps OR 3+ services OR MCP tools |
 
 **allowed-tools:** Use specific patterns like `Bash(git:*)`, `Bash(gh:*)`, not generic `Bash`.
 
@@ -81,20 +105,48 @@ Concise instructions only. Move detailed content to `references/`.
 
 ## When Invoked
 
+### Step 0: Research (if needed)
+
+**When to research:**
+- Creating a new type of skill (no similar existing skill)
+- User asks for "best practices" or "latest patterns"
+- Unfamiliar domain or tool integration
+
+**Research targets (parallel):**
+
+| Target | Method |
+|--------|--------|
+| Agent Skills Spec | WebFetch agentskills.io/specification |
+| Existing skills | Task(Explore) in skills/ directory |
+| Other marketplaces | WebSearch "claude code skills marketplace" |
+| Similar tools | WebSearch "{tool-name} claude skill" |
+
+**Skip research when:**
+- Simple modification to existing skill
+- Pattern already exists in this repository
+- User provides clear, complete requirements
+
 ### Step 1: Gather Requirements
 
-Ask:
+**Essential:**
 - What should the skill do?
 - Example usage scenarios?
 - What tools/commands are needed?
 
+**Invocation & scope:**
+- Should it auto-invoke, or manual only? → `disable-model-invocation`
+- Who uses it? JP users, EN users, or both? → Triggers in description
+- Does it have side effects (deploy, release, config)? → manual only
+
 ### Step 2: Determine Skill Type
 
-| Type | context: fork | model | Example |
-|------|:-------------:|:-----:|---------|
-| Guidance | No | haiku | documentation |
-| Code Generation | Yes | sonnet | swift-development |
-| Workflow | Yes | opus | vigilare-task |
+| Type | context: fork | model | Criteria | Example |
+|------|:-------------:|:-----:|----------|---------|
+| Guidance | No | haiku | 0 writes, 0 services | documentation |
+| Code Gen | Yes | sonnet | 1-3 steps, ≤2 services | swift-development |
+| Workflow | Yes | opus | 4+ steps OR 3+ services OR MCP | vigilare-task |
+
+**Quick check:** Does it use MCP tools? → opus. Does it write files? → sonnet+. Read-only? → haiku.
 
 ### Step 3: Plan Structure
 
@@ -112,18 +164,31 @@ Identify:
 
 ### Step 5: Validate
 
-Check:
-- [ ] name is kebab-case and matches folder
+**Agent Skills Spec Compliance:**
+- [ ] name: 1-64 chars, lowercase + hyphens only, matches folder
+- [ ] name: no leading/trailing hyphens, no consecutive hyphens (`--`)
+- [ ] description: 1-1024 chars, non-empty
+
+**Labee Standards:**
 - [ ] description has WHAT + WHEN + Triggers (JP & EN)
-- [ ] allowed-tools uses specific patterns
-- [ ] context: fork for workflow skills
+- [ ] allowed-tools uses specific patterns (not generic `Bash`)
+- [ ] model selected by numeric criteria (see references/output-patterns.md)
+- [ ] context: fork for workflow skills (sonnet/opus)
 - [ ] disable-model-invocation: true for setup/release/config skills
+
+**Context Efficiency:**
+- [ ] SKILL.md body under 500 lines
+- [ ] No redundant explanations (Claude is smart)
+- [ ] Detailed content moved to references/
 - [ ] No non-existent reference files listed
-- [ ] Under 500 lines in SKILL.md body
 
 ## Reference Files
 
-| File | Use When |
-|------|----------|
-| references/workflows.md | Multi-step workflow patterns |
-| references/output-patterns.md | Template and example patterns |
+**Loading behavior:** Claude loads these on-demand when the task requires them. Do NOT pre-load all references.
+
+| File | Load When |
+|------|-----------|
+| references/workflows.md | Creating skills with 3+ steps or conditional logic |
+| references/output-patterns.md | Defining description format, allowed-tools patterns, or model selection |
+
+**Auto-load indicator:** If a reference should always be loaded with the skill, prefix filename with `_` (e.g., `_core-rules.md`).
