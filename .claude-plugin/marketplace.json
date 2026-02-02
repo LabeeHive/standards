@@ -1,48 +1,112 @@
 {
-  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/plugin.schema.json",
   "name": "labee-standards",
-  "description": "Shared standards for Labee LLC projects",
-  "version": "1.0.0",
-  "skills": [
+  "owner": {
+    "name": "Labee LLC",
+    "email": "contact@labee.jp"
+  },
+  "metadata": {
+    "description": "Shared standards for Labee LLC projects",
+    "version": "1.0.0"
+  },
+  "plugins": [
     {
       "name": "documentation",
       "description": "Write documentation following Labee standards",
-      "path": "skills/documentation"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/documentation"
+      ]
     },
     {
       "name": "swift-development",
       "description": "Write Swift/SwiftUI code following Labee standards",
-      "path": "skills/swift-development"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/swift-development"
+      ]
     },
     {
       "name": "github-workflow",
       "description": "Create GitHub Issues and PRs following Labee standards",
-      "path": "skills/github-workflow"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/github-workflow"
+      ]
     },
     {
       "name": "repository-setup",
       "description": "Set up repositories following Labee standards",
-      "path": "skills/repository-setup"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/repository-setup"
+      ]
     },
     {
       "name": "docusaurus-setup",
       "description": "Configure Docusaurus sites following Labee standards",
-      "path": "skills/docusaurus-setup"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/docusaurus-setup"
+      ]
     },
     {
       "name": "automation-config",
       "description": "Configure automation tools following Labee standards",
-      "path": "skills/automation-config"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/automation-config"
+      ]
     },
     {
       "name": "vigilare-task",
       "description": "Create Vigilare tasks with proper structure",
-      "path": "skills/vigilare-task"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/vigilare-task"
+      ]
     },
     {
       "name": "commit-message",
       "description": "Generate commit messages following conventional commits",
-      "path": "skills/commit-message"
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/commit-message"
+      ]
+    },
+    {
+      "name": "swift-release",
+      "description": "Execute Swift app release workflow with fastlane",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/swift-release"
+      ]
+    },
+    {
+      "name": "swift-localization",
+      "description": "Manage Swift app localization with xckit",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/swift-localization"
+      ]
+    },
+    {
+      "name": "swift-mcp-server",
+      "description": "Guide MCP server implementation for Swift apps",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/swift-mcp-server"
+      ]
     }
   ]
 }
