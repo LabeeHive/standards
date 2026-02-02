@@ -4,6 +4,7 @@ description: Guide MCP server implementation for Swift apps. Use this when build
 model: opus
 context: fork
 agent: general-purpose
+disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash(swift:*), Bash(mkdir:*)
 ---
 

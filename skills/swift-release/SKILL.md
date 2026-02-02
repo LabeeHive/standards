@@ -4,6 +4,7 @@ description: Execute Swift app release workflow with fastlane. Use this when rel
 model: sonnet
 context: fork
 agent: general-purpose
+disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Write, Bash(git:*), Bash(mise:*), Bash(bundle:*), Bash(fastlane:*), Bash(ls:*), Task
 ---
 
@@ -34,7 +35,7 @@ git log {previous}..{current} --pretty=format:'- %s' --no-merges
 
 ### Step 3: Generate Release Notes
 
-Use `@agent-release-notes-generator` to generate release notes:
+Read `references/release-notes-generator.md` for detailed guidelines, then use Task tool to generate release notes:
 - Focus ONLY on user-facing features (ignore refactor, chore, ci, docs, test)
 - Create 14 language files in `fastlane/metadata/{lang}/release_notes.txt` format
 
@@ -83,22 +84,15 @@ This will: build app, upload to App Store Connect, update metadata
 - List all generated release note files
 - Report fastlane execution status
 
-## Release Note Format
-
-Based on agent-release-notes-generator:
-
-```
-What's New in Version [VERSION]
-
-• [Feature Name] - Clear description of what it does and why it helps users
-• [Another Feature] - Explanation of the improvement
-• Bug Fixes - Fixed specific issues that users might have encountered
-• Performance Improvements - Enhanced app responsiveness and stability
-```
-
 ## Guidelines
 
 - Focus on user-facing changes, not technical details
 - Use native tone for each language (not literal translations)
 - Lead with the most impactful changes
 - Avoid technical jargon
+
+## Reference Files
+
+| File | Use When |
+|------|----------|
+| references/release-notes-generator.md | Generating release notes for App Store |

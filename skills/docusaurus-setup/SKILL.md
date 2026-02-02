@@ -4,6 +4,7 @@ description: Configure Docusaurus documentation sites. Use this when setting up 
 model: sonnet
 context: fork
 agent: general-purpose
+disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash(npm:*), Bash(pnpm:*), Bash(bun:*), Bash(mkdir:*), Write
 ---
 

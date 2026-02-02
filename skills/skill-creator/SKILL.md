@@ -4,6 +4,7 @@ description: Create and update Claude skills following best practices. Use this 
 model: opus
 context: fork
 agent: general-purpose
+disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*)
 ---
 

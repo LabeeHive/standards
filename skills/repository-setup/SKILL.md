@@ -4,6 +4,7 @@ description: Set up new repositories following Labee standards. Use this when in
 model: sonnet
 context: fork
 agent: general-purpose
+disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Bash(git:*), Bash(gh:*), Bash(mkdir:*), Write
 ---
 
