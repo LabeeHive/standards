@@ -23,16 +23,21 @@ Based on Vigilare's localization patterns.
 
 `{Project}/Localizable.xcstrings`
 
-## Supported Languages (Vigilare)
+## Supported Languages
 
-- en (Default)
-- es
-- ja
-- ko
-- zh-Hans
-- zh-Hant
+**CRITICAL: You MUST translate ALL languages in the project.**
 
-Note: Check each project's localization.md for its specific supported languages.
+### Step 1: Discover Languages First
+
+```bash
+xckit status -f ./{Project}/Localizable.xcstrings
+```
+
+This shows all supported languages. **Translate every single one.**
+
+### Step 2: Translate All
+
+Do NOT stop after a few languages. Continue until ALL languages from status are translated.
 
 ## When Invoked
 
@@ -90,7 +95,7 @@ Text("Welcome")
 
 ## Workflow
 
-1. **Identify untranslated keys** using `xckit untranslated`
-2. **Generate translations** for each language
-3. **Add translations** using `xckit set`
-4. **Verify status** using `xckit status`
+1. **Check status** - `xckit status` to see ALL supported languages
+2. **Identify untranslated keys** - `xckit untranslated` to see what needs translation
+3. **Translate ALL languages** - Do NOT skip any language. Continue until every language is done.
+4. **Verify completion** - `xckit status` again to confirm 100% for all languages
