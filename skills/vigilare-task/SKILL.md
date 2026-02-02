@@ -1,6 +1,6 @@
 ---
 name: vigilare-task
-description: Create Vigilare tasks with proper structure. Triggers on "タスク作成", "起票して", "Vigilare", "リマインダー登録", "TODO追加".
+description: Create Vigilare tasks with proper structure. Use this when adding tasks or reminders to Vigilare. Triggers on "タスク作成", "起票して", "Vigilare", "リマインダー登録", "TODO追加".
 model: opus
 context: fork
 agent: general-purpose

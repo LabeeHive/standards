@@ -1,8 +1,7 @@
 ---
 name: docusaurus-setup
-description: Configure Docusaurus documentation sites. Triggers on "Docusaurus", "docusaurus.config", "ドキュメントサイト", "docs site setup".
+description: Configure Docusaurus documentation sites. Use this when setting up or configuring Docusaurus projects. Triggers on "Docusaurus", "docusaurus.config", "ドキュメントサイト", "docs site setup".
 model: sonnet
-disable-model-invocation: true
 allowed-tools: Read, Glob, Grep
 ---
 

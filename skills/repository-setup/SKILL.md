@@ -1,9 +1,10 @@
 ---
 name: repository-setup
-description: Set up new repositories following Labee standards. Triggers on "リポジトリ作成", "new repository", "プロジェクト初期化", "repo setup".
+description: Set up new repositories following Labee standards. Use this when initializing a new project repository. Triggers on "リポジトリ作成", "new repository", "プロジェクト初期化", "repo setup".
 model: sonnet
-disable-model-invocation: true
-allowed-tools: Read, Glob, Grep
+context: fork
+agent: general-purpose
+allowed-tools: Read, Glob, Grep, Bash(git:*), Bash(gh:*), Bash(mkdir:*), Write
 ---
 
 # Repository Setup Skill

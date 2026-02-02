@@ -1,6 +1,6 @@
 ---
 name: commit-message
-description: Generate commit messages following conventional commits. Triggers on "コミットメッセージ", "commit message", "what should I commit", "変更をコミット".
+description: Generate commit messages following conventional commits. Use this when preparing to commit staged changes. Triggers on "コミットメッセージ", "commit message", "what should I commit", "変更をコミット".
 model: haiku
 context: fork
 agent: general-purpose
