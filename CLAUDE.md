@@ -1,6 +1,6 @@
 # Standards - AI Context
 
-Shared standards repository for Labee LLC projects. This repository is used as a Git submodule in other projects to maintain consistency.
+Shared standards repository for Labee LLC projects. Install as a Claude Code plugin marketplace to use skills across your projects.
 
 ---
 
@@ -12,6 +12,9 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 |-------|-------------|
 | `/documentation` | Write documentation following Labee standards |
 | `/swift-development` | Write Swift/SwiftUI code following standards |
+| `/swift-release` | Execute Swift app release workflow with fastlane |
+| `/swift-localization` | Manage Swift app localization with xckit |
+| `/swift-mcp-server` | Guide MCP server implementation for Swift apps |
 | `/github-workflow` | Create GitHub Issues and PRs |
 | `/repository-setup` | Set up new repositories |
 | `/docusaurus-setup` | Configure Docusaurus sites |
@@ -27,6 +30,9 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 skills/
 ├── documentation/       # Documentation writing standards
 ├── swift-development/   # Swift and SwiftUI coding standards
+├── swift-release/       # Swift app release workflow
+├── swift-localization/  # Swift app localization
+├── swift-mcp-server/    # MCP server implementation
 ├── github-workflow/     # GitHub Issues and PR standards
 ├── repository-setup/    # Repository setup standards
 ├── docusaurus-setup/    # Docusaurus configuration standards

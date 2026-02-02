@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This repository contains shared standards for Labee LLC projects. Add it as a Git submodule to maintain consistency across repositories.
+This repository contains shared standards for Labee LLC projects. Install as a Claude Code plugin marketplace to use skills across your projects.
 
 ---
 
@@ -20,6 +20,9 @@ This repository provides skills for Claude Code:
 |-------|-------------|
 | `/documentation` | Write documentation following Labee standards |
 | `/swift-development` | Write Swift/SwiftUI code following standards |
+| `/swift-release` | Execute Swift app release workflow with fastlane |
+| `/swift-localization` | Manage Swift app localization with xckit |
+| `/swift-mcp-server` | Guide MCP server implementation for Swift apps |
 | `/github-workflow` | Create GitHub Issues and PRs |
 | `/repository-setup` | Set up new repositories |
 | `/docusaurus-setup` | Configure Docusaurus sites |
@@ -35,6 +38,9 @@ This repository provides skills for Claude Code:
 skills/
 ├── documentation/       # Documentation writing standards
 ├── swift-development/   # Swift and SwiftUI coding standards
+├── swift-release/       # Swift app release workflow
+├── swift-localization/  # Swift app localization
+├── swift-mcp-server/    # MCP server implementation
 ├── github-workflow/     # GitHub Issues and PR standards
 ├── repository-setup/    # Repository setup standards
 ├── docusaurus-setup/    # Docusaurus configuration standards
@@ -58,14 +64,11 @@ Each standard uses priority levels to indicate importance:
 ## Installation
 
 ```bash
-# Add as submodule
-git submodule add https://github.com/labee/coding-standards.git docs/05_standards
+# Add marketplace
+/plugin marketplace add labee/standards
 
-# Clone with submodules
-git clone --recurse-submodules <your-project-url>
-
-# Initialize submodules in existing clone
-git submodule update --init --recursive
+# Install a plugin
+/plugin install documentation@labee-standards
 ```
 
 ---
@@ -73,5 +76,6 @@ git submodule update --init --recursive
 ## Updates
 
 ```bash
-git submodule update --remote docs/05_standards
+# Update marketplace
+/plugin marketplace update labee-standards
 ```
