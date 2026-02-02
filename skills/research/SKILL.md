@@ -19,6 +19,27 @@ Conduct thorough, multi-source investigation with verification.
 4. **Actually read content** - Don't just list URLs, extract information
 5. **Follow the chain** - Issues reference other issues, follow them
 
+## CRITICAL: Minimum Search Requirements
+
+**You MUST perform at least 7+ parallel searches covering these source types:**
+
+| Source Type | Required | Example Query |
+|-------------|:--------:|---------------|
+| Official docs | ✓ | `site:developer.apple.com` |
+| GitHub Issues | ✓ | `gh search issues "topic"` |
+| Zenn | ✓ | `site:zenn.dev` |
+| Qiita | ✓ | `site:qiita.com` |
+| Stack Overflow | ✓ | `site:stackoverflow.com` |
+| Reddit | ○ | `site:reddit.com` |
+| note.com | ○ | `site:note.com` |
+
+**After searching, you MUST WebFetch at least 3 relevant results to actually read content.**
+
+**DO NOT:**
+- Do only 2-3 searches and call it done
+- Skip Japanese sources
+- Skip reading actual content
+
 ## Execution Protocol
 
 ### Phase 1: Scope
@@ -42,25 +63,41 @@ Ask user (if unclear):
 
 ### Phase 3: Retrieve (PARALLEL)
 
-**Execute ALL searches in a single message with multiple tool calls:**
+**CRITICAL: Execute ALL searches in a single message with multiple tool calls.**
 
 ```
-[Single message]
-- WebSearch(query="topic site:github.com issues")
-- WebSearch(query="topic site:zenn.dev")
-- WebSearch(query="topic site:qiita.com")
-- WebSearch(query="topic site:note.com")
-- WebSearch(query="topic reddit OR stackoverflow")
-- Bash(gh search issues "topic" --repo owner/repo)
-- Task(subagent_type="Explore", prompt="Investigate X aspect...")
-- Task(subagent_type="Explore", prompt="Investigate Y aspect...")
+┌─────────────────────────────────────────────────────────────────────┐
+│ SINGLE MESSAGE - ALL THESE IN PARALLEL:                             │
+├─────────────────────────────────────────────────────────────────────┤
+│ WebSearch(query="topic site:developer.apple.com")                   │
+│ WebSearch(query="topic site:zenn.dev")                              │
+│ WebSearch(query="topic site:qiita.com")                             │
+│ WebSearch(query="topic site:stackoverflow.com")                     │
+│ WebSearch(query="topic site:reddit.com")                            │
+│ Bash(gh search issues "topic" --limit 10)                           │
+│ Task(subagent_type="Explore", prompt="Find related code patterns")  │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Phase 3.5: Deep Read (PARALLEL)
+
+**After getting search results, ACTUALLY READ the content:**
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ SINGLE MESSAGE - READ TOP RESULTS:                                  │
+├─────────────────────────────────────────────────────────────────────┤
+│ WebFetch(url="top result from Apple docs")                          │
+│ WebFetch(url="top result from Zenn")                                │
+│ WebFetch(url="top result from Qiita")                               │
+│ Bash(gh issue view 123 --repo owner/repo)                           │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
 **For each result:**
-1. Actually fetch and read the content (WebFetch or gh issue view)
-2. Extract specific information, not summaries
-3. Note contradictions between sources
-4. Follow references to related issues/articles
+1. Extract specific information, not summaries
+2. Note contradictions between sources
+3. Follow references to related issues/articles
 
 ### Phase 4: Triangulate
 
@@ -84,12 +121,19 @@ Do NOT use (will fail):
 - Medium (authentication required)
 - Authenticated services (Google Docs, Confluence, Jira)
 
-## Quality Checklist
+## Quality Checklist (MANDATORY)
 
-- [ ] Used parallel searches (single message, multiple tools)
-- [ ] Actually read content (not just listed URLs)
-- [ ] Followed issue chains (duplicates, references)
-- [ ] Included Japanese sources (Zenn, Qiita, note)
+**Before marking research complete, verify ALL:**
+
+- [ ] Performed 7+ parallel searches in single message
+- [ ] Included official docs (Apple/Google/etc.)
+- [ ] Included Japanese sources (Zenn, Qiita)
+- [ ] Included community sources (SO, Reddit)
+- [ ] Used gh command for GitHub Issues
+- [ ] WebFetch'd at least 3 results to actually read
+- [ ] Extracted specific quotes/code, not just summaries
+- [ ] Followed reference chains
+- [ ] Documented contradictions if any
 - [ ] Verified critical claims with 2+ sources
-- [ ] Documented contradictions
-- [ ] Provided specific evidence, not summaries
+
+**If any checkbox is unchecked, GO BACK and complete it.**
