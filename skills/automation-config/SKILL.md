@@ -2,6 +2,8 @@
 name: automation-config
 description: Configure Renovate and automation tools. Use this when setting up dependency automation. Triggers on "Renovate設定", "renovate.json", "dependency updates", "自動更新設定".
 model: haiku
+context: fork
+agent: general-purpose
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep
 ---

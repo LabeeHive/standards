@@ -12,9 +12,11 @@ allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*)
 
 Create effective skills that extend Claude's capabilities.
 
-## Official Guide
+## Official Documentation
 
-Full specification: https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
+- **Agent Skills Specification**: https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
+- **Claude Code Skills**: https://code.claude.com/docs/en/skills
+- **Plugin Marketplaces**: https://code.claude.com/docs/en/plugin-marketplaces
 
 ## Skill Structure
 

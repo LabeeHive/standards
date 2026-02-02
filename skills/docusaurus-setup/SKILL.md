@@ -5,7 +5,7 @@ model: sonnet
 context: fork
 agent: general-purpose
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Bash(npm:*), Bash(pnpm:*), Bash(bun:*), Bash(mkdir:*), Write
+allowed-tools: Read, Glob, Grep, Bash(npm:*), Bash(pnpm:*), Bash(bun:*), Bash(mkdir:*), Write, Edit
 ---
 
 # Docusaurus Setup Skill
