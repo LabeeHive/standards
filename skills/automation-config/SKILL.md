@@ -1,6 +1,6 @@
 ---
 name: automation-config
-description: Configure automation tools like Renovate following Labee standards. Use when setting up dependency update automation.
+description: Configure Renovate and automation tools. Triggers on "Renovate設定", "renovate.json", "dependency updates", "自動更新設定".
 model: haiku
 allowed-tools: Read, Glob, Grep
 ---

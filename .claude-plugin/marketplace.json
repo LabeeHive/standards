@@ -38,6 +38,11 @@
       "name": "vigilare-task",
       "description": "Create Vigilare tasks with proper structure",
       "path": "skills/vigilare-task"
+    },
+    {
+      "name": "commit-message",
+      "description": "Generate commit messages following conventional commits",
+      "path": "skills/commit-message"
     }
   ]
 }

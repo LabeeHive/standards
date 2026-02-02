@@ -17,6 +17,7 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | `/docusaurus-setup` | Configure Docusaurus sites |
 | `/automation-config` | Configure automation tools (Renovate) |
 | `/vigilare-task` | Create Vigilare tasks with proper structure |
+| `/commit-message` | Generate commit messages (conventional commits) |
 
 ---
 
@@ -30,7 +31,8 @@ skills/
 ├── repository-setup/    # Repository setup standards
 ├── docusaurus-setup/    # Docusaurus configuration standards
 ├── automation-config/   # Automation (Renovate) standards
-└── vigilare-task/       # Vigilare task creation standards
+├── vigilare-task/       # Vigilare task creation standards
+└── commit-message/      # Commit message generation
 ```
 
 ---

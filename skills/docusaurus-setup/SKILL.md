@@ -1,6 +1,6 @@
 ---
 name: docusaurus-setup
-description: Configure Docusaurus documentation sites following Labee standards. Use when setting up or configuring Docusaurus.
+description: Configure Docusaurus documentation sites. Triggers on "Docusaurus", "docusaurus.config", "ドキュメントサイト", "docs site setup".
 model: sonnet
 disable-model-invocation: true
 allowed-tools: Read, Glob, Grep

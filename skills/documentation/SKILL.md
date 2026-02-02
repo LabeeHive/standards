@@ -1,6 +1,6 @@
 ---
 name: documentation
-description: Write and review documentation following Labee standards. Use when creating, editing, or reviewing markdown files, README files, or any documentation.
+description: Write and review documentation following Labee standards. Triggers on "ドキュメント", "README", "markdown", "docs", "文書作成", "ドキュメントレビュー".
 model: haiku
 allowed-tools: Read, Glob, Grep
 ---

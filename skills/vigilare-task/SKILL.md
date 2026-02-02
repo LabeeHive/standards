@@ -1,6 +1,6 @@
 ---
 name: vigilare-task
-description: Create and manage Vigilare tasks with proper structure. Use when creating development tasks, feature requests, or bug reports in Vigilare.
+description: Create Vigilare tasks with proper structure. Triggers on "タスク作成", "起票して", "Vigilare", "リマインダー登録", "TODO追加".
 model: opus
 context: fork
 agent: general-purpose
@@ -74,10 +74,71 @@ You are a task management specialist. Help users create well-structured Vigilare
 - `9` (!): 通常
 - `0`: 優先度なし
 
-## When Creating Tasks
+## When Invoked
 
-1. 適切なリストを選択（プロジェクト別）
-2. タイトルにカテゴリを付与（開発タスクの場合）
-3. Notes に構造化された情報を記載
-4. 期限がある場合は due_date を設定
-5. 優先度を適切に設定
+### Step 1: リスト選択
+
+`vigilare_get_lists` でリスト一覧を取得し、適切なリストを選択。
+
+```
+Labee - Vigilare  → Vigilare 開発タスク
+Labee - Chimr     → Chimr 開発タスク
+Labee - Operations → 事業運営タスク
+Ideas             → アイデア・将来検討
+技術検証           → 技術調査・PoC
+```
+
+### Step 2: タイトル生成
+
+開発タスクの場合は `[カテゴリ]` を付与：
+```
+[MCP] リスト作成機能を追加
+[Bug] ログイン時にクラッシュする問題を修正
+```
+
+Operations タスクはシンプルに：
+```
+年金事業の確認書類の返送
+```
+
+### Step 3: Notes 作成
+
+開発タスクの場合、以下の構造で作成：
+```markdown
+## 概要
+何をするか、なぜ必要かを1-2文で説明
+
+## ゴール
+- 達成すべき具体的な項目
+- 完了条件が明確であること
+
+## 関連ファイル
+- path/to/file.swift
+
+## 技術メモ
+- 実装上の注意点
+- 現状の問題点
+```
+
+### Step 4: タスク作成
+
+`vigilare_create_reminder` を呼び出し：
+- `title`: 生成したタイトル
+- `list_id`: 選択したリストのID
+- `notes`: 構造化した Notes
+- `priority`: 1(緊急) / 5(重要) / 9(通常) / 0(なし)
+- `due_date`: 期限があれば YYYY-MM-DD 形式
+
+### Step 5: 補足追加（任意）
+
+追加情報があれば `vigilare_add_comment` で記録：
+- 背景情報
+- 参考リンク
+- 懸念事項
+
+### Step 6: 完了報告
+
+作成したタスクの内容をユーザーに報告：
+- タスク名
+- 登録先リスト
+- 設定した優先度・期限

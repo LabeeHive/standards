@@ -1,6 +1,6 @@
 ---
 name: github-workflow
-description: Create and manage GitHub Issues and Pull Requests following Labee standards. Use when creating issues, PRs, or reviewing GitHub workflows.
+description: Create GitHub Issues and Pull Requests following Labee standards. Triggers on "Issue作成", "PR作成", "pull request", "GitHub Issue", "起票".
 model: haiku
 allowed-tools: Read, Glob, Grep, Bash
 ---

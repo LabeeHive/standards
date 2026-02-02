@@ -1,6 +1,6 @@
 ---
 name: swift-development
-description: Write Swift and SwiftUI code following Labee coding standards. Use when writing, reviewing, or refactoring Swift code.
+description: Write Swift and SwiftUI code following Labee standards. Triggers on "Swift", "SwiftUI", "iOS開発", "ViewModel", "MVVM".
 model: sonnet
 allowed-tools: Read, Glob, Grep, Edit, Write, Bash
 ---
