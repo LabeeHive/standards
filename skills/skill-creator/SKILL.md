@@ -4,7 +4,6 @@ description: Create and update Claude skills following best practices. Use this 
 model: opus
 context: fork
 agent: general-purpose
-disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*)
 ---
 
@@ -66,7 +65,7 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 | Setup/Init | repository-setup, docusaurus-setup | One-time setup should be intentional |
 | Release/Deploy | swift-release | Side effects, requires user confirmation |
 | Config changes | automation-config | Modifies project configuration |
-| Complex creation | skill-creator, swift-mcp-server | Large-scale changes, user should control timing |
+| Complex creation | swift-mcp-server | Large-scale changes, user should control timing |
 
 **When to keep default (auto-invocation allowed):**
 
