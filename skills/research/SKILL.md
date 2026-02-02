@@ -4,7 +4,6 @@ description: Conduct deep research with multi-source verification and parallel i
 model: opus
 context: fork
 agent: general-purpose
-disable-model-invocation: true
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, Bash(gh:*), Bash(curl:*), Task
 ---
 
