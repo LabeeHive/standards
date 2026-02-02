@@ -2,7 +2,9 @@
 name: docusaurus-setup
 description: Configure Docusaurus documentation sites. Use this when setting up or configuring Docusaurus projects. Triggers on "Docusaurus", "docusaurus.config", "ドキュメントサイト", "docs site setup".
 model: sonnet
-allowed-tools: Read, Glob, Grep
+context: fork
+agent: general-purpose
+allowed-tools: Read, Glob, Grep, Bash(npm:*), Bash(pnpm:*), Bash(bun:*), Bash(mkdir:*), Write
 ---
 
 # Docusaurus Setup Skill
