@@ -8,21 +8,38 @@ This repository contains shared standards for Labee LLC projects. Add it as a Gi
 
 ## Getting started
 
-**Setting up a new repository?** Start here: [repository/setup.md](repository/setup.md)
+**Setting up a new repository?** Use the `/repository-setup` skill or see [skills/repository-setup/references/setup.md](skills/repository-setup/references/setup.md)
 
 ---
 
-## Standards
+## Skills
 
-| Directory | Description |
-|-----------|-------------|
-| [automation/](automation/) | Automation standards (Renovate, etc.) |
-| [culture/](culture/) | Culture and behavioral principles |
-| [docusaurus/](docusaurus/) | Docusaurus public site standards |
-| [documentation/](documentation/) | Documentation writing standards |
-| [github/](github/) | GitHub collaboration standards (Issues, PRs) |
-| [repository/](repository/) | Repository setup standards |
-| [swift/](swift/) | Swift and SwiftUI coding standards |
+This repository provides skills for Claude Code:
+
+| Skill | Description |
+|-------|-------------|
+| `/documentation` | Write documentation following Labee standards |
+| `/swift-development` | Write Swift/SwiftUI code following standards |
+| `/github-workflow` | Create GitHub Issues and PRs |
+| `/repository-setup` | Set up new repositories |
+| `/docusaurus-setup` | Configure Docusaurus sites |
+| `/automation-config` | Configure automation tools (Renovate) |
+| `/vigilare-task` | Create Vigilare tasks with proper structure |
+
+---
+
+## Structure
+
+```text
+skills/
+├── documentation/       # Documentation writing standards
+├── swift-development/   # Swift and SwiftUI coding standards
+├── github-workflow/     # GitHub Issues and PR standards
+├── repository-setup/    # Repository setup standards
+├── docusaurus-setup/    # Docusaurus configuration standards
+├── automation-config/   # Automation (Renovate) standards
+└── vigilare-task/       # Vigilare task creation standards
+```
 
 ---
 
@@ -56,4 +73,3 @@ git submodule update --init --recursive
 ```bash
 git submodule update --remote docs/05_standards
 ```
-

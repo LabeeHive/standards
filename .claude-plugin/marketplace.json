@@ -1,0 +1,43 @@
+{
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-code/main/schemas/plugin.schema.json",
+  "name": "labee-standards",
+  "description": "Shared standards for Labee LLC projects",
+  "version": "1.0.0",
+  "skills": [
+    {
+      "name": "documentation",
+      "description": "Write documentation following Labee standards",
+      "path": "skills/documentation"
+    },
+    {
+      "name": "swift-development",
+      "description": "Write Swift/SwiftUI code following Labee standards",
+      "path": "skills/swift-development"
+    },
+    {
+      "name": "github-workflow",
+      "description": "Create GitHub Issues and PRs following Labee standards",
+      "path": "skills/github-workflow"
+    },
+    {
+      "name": "repository-setup",
+      "description": "Set up repositories following Labee standards",
+      "path": "skills/repository-setup"
+    },
+    {
+      "name": "docusaurus-setup",
+      "description": "Configure Docusaurus sites following Labee standards",
+      "path": "skills/docusaurus-setup"
+    },
+    {
+      "name": "automation-config",
+      "description": "Configure automation tools following Labee standards",
+      "path": "skills/automation-config"
+    },
+    {
+      "name": "vigilare-task",
+      "description": "Create Vigilare tasks with proper structure",
+      "path": "skills/vigilare-task"
+    }
+  ]
+}
