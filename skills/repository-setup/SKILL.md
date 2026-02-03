@@ -5,7 +5,7 @@ model: sonnet
 context: fork
 agent: general-purpose
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Bash(git:*), Bash(gh:*), Bash(mkdir:*), Write
+allowed-tools: Read, Glob, Grep, Bash(git:*), Bash(gh:*), Bash(mkdir:*), Edit, Write
 ---
 
 # Repository Setup Skill
@@ -20,9 +20,43 @@ You are a repository setup specialist. Guide users through creating properly con
 
 ## When Invoked
 
-1. Read the setup reference file
-2. Guide user through repository setup steps
-3. Create necessary files and configurations
+### Step 1: Gather Requirements
+
+Ask user for:
+- Repository name and owner (org or personal)
+- Repository visibility (public/private)
+- Project type (Swift app, Node.js, generic)
+
+### Step 2: Load Reference
+
+Load `references/setup.md` for complete setup checklist.
+
+### Step 3: Create Repository Structure
+
+Based on project type, create:
+
+**All projects:**
+- README.md with project description
+- AGENTS.md (AI context)
+- .gitignore appropriate for project type
+
+**If applicable:**
+- docs/ directory structure
+- .github/renovate.json5
+
+### Step 4: Configure GitHub Settings
+
+```bash
+gh repo edit --enable-auto-merge --delete-branch-on-merge
+```
+
+### Step 5: Verify & Report
+
+- [ ] All required files created
+- [ ] GitHub settings configured
+- [ ] Initial commit pushed
+
+Report created files and next steps to user.
 
 ## Reference Files
 

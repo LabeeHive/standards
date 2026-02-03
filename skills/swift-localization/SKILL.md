@@ -4,7 +4,7 @@ description: Manage Swift app localization with xckit. Use this when adding or c
 model: sonnet
 context: fork
 agent: general-purpose
-allowed-tools: Read, Glob, Grep, Bash(xckit:*), Write
+allowed-tools: Read, Glob, Grep, Bash(xckit:*), Edit, Write
 ---
 
 # Swift Localization Skill
@@ -41,35 +41,60 @@ Do NOT stop after a few languages. Continue until ALL languages from status are 
 
 ## When Invoked
 
-### Check Translation Status
+### Step 1: Discover Project
+
+Find the xcstrings file:
+```bash
+find . -name "Localizable.xcstrings" -type f
+```
+
+### Step 2: Check Status
 
 ```bash
 xckit status -f ./{Project}/Localizable.xcstrings
 ```
 
-### List Untranslated Keys
+Note ALL supported languages from output.
+
+### Step 3: Identify Untranslated Keys
 
 ```bash
 xckit untranslated -f ./{Project}/Localizable.xcstrings
 ```
 
-### Add Single Translation
+### Step 4: Translate All Languages
 
+For EACH language from Step 2, translate ALL untranslated keys:
+
+**Single translation:**
 ```bash
 xckit set -f ./{Project}/Localizable.xcstrings --lang {lang} {key} "{value}"
 ```
 
-Example:
-```bash
-xckit set -f ./Vigilare/Localizable.xcstrings --lang ja dropdown.list.all "すべて"
-```
-
-### Add Batch Translations
-
+**Batch translations:**
 ```bash
 xckit set -f ./{Project}/Localizable.xcstrings --lang ja key1 "value1" && \
 xckit set -f ./{Project}/Localizable.xcstrings --lang ja key2 "value2"
 ```
+
+### Step 5: Verify Completion
+
+```bash
+xckit status -f ./{Project}/Localizable.xcstrings
+```
+
+Confirm 100% for ALL languages.
+
+**If not 100%:** Return to Step 3 and continue.
+
+## Error Handling
+
+**If xckit not found:**
+→ Inform user that xckit CLI is required
+
+**If xcstrings file not found:**
+→ Check if project uses legacy .strings files
+→ Suggest creating Localizable.xcstrings in Xcode
 
 ## Key Naming Convention
 

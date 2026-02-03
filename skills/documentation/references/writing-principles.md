@@ -415,7 +415,7 @@ Message queues are beneficial because they reduce coupling and you can scale the
 - Use code blocks for examples
 - Always specify language in code blocks
 
-See [Code examples](code_examples.md) for detailed guidelines.
+See [Code examples](code-examples.md) for detailed guidelines.
 
 ---
 

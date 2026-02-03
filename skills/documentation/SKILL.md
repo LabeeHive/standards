@@ -17,9 +17,32 @@ Write and review documentation following Labee standards.
 
 ## When Invoked
 
-1. Read relevant reference files based on the user's request
-2. Apply standards to review or generate documentation
-3. Provide specific, actionable feedback
+### Step 1: Identify Task Type
+
+- **Writing new docs?** → Go to Step 2a
+- **Reviewing existing?** → Go to Step 2b
+- **Formatting questions?** → Load markdown-formatting.md directly
+
+### Step 2a: Writing New Documentation
+
+1. Load `references/content-types.md` to choose document type
+2. Load `references/document-structure.md` for structure template
+3. Apply writing principles from `_core-rules.md` (auto-loaded)
+4. Draft document following templates
+
+### Step 2b: Reviewing Documentation
+
+1. `_core-rules.md` is auto-loaded with P1 rules
+2. Check against rules, noting specific issues with line numbers
+3. Categorize issues by priority (P1 must fix, P2 should fix, P3 nice to have)
+
+### Step 3: Provide Output
+
+**For writing:** Provide draft following templates
+**For review:** List specific issues with:
+- Line number
+- Issue description
+- Suggested fix
 
 ## Reference Files
 
