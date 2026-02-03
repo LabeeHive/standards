@@ -143,7 +143,7 @@ struct ProjectNameView: View {
 
   // 3. Binding and observed properties
   @Binding var selectedItem: Item?
-  @StateObject private var viewModel = ProjectNameViewModel()
+  @State private var viewModel = ProjectNameViewModel()  // Use @State with @Observable
 
   // 4. Regular properties
   let title: String
@@ -327,7 +327,7 @@ var body: some View {
 
 ```swift
 struct ReminderView: View {
-  @StateObject private var viewModel = ReminderViewModel()
+  @State private var viewModel = ReminderViewModel()  // Use @State with @Observable
 
   var body: some View {
     Button("Save") {

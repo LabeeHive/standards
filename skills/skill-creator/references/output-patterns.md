@@ -43,8 +43,11 @@ Use specific patterns, not generic tool names:
 | `Bash(git:*)` | Git operations |
 | `Bash(gh:*)` | GitHub CLI |
 | `Bash(npm:*)` | Node.js package management |
+| `Bash(mkdir:*)` | Directory creation |
 | `Bash(xckit:*)` | Xcode localization |
 | `Bash(fastlane:*)` | iOS/macOS deployment |
+| `Bash(swift:*)` | Swift CLI (build, test, package) |
+| `Bash(xcodebuild:*)` | Xcode builds |
 | `mcp__app__tool_name` | Specific MCP tools |
 
 **Good:**

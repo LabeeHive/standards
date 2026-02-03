@@ -48,7 +48,7 @@ View → ViewModel → UseCase → Repository
 
 ```swift
 struct ReminderListView: View {
-  @StateObject private var viewModel = ReminderListViewModel()
+  @State private var viewModel = ReminderListViewModel()  // Use @State with @Observable
 
   var body: some View {
     List(viewModel.reminders) { reminder in
@@ -64,7 +64,7 @@ struct ReminderListView: View {
 ## ViewModel layer - P1
 
 **Responsibilities:**
-- Manage UI state with `@Published`
+- Manage UI state with `@Observable`
 - Call UseCases to execute business logic
 - Transform errors into user-friendly messages
 - Handle presentation logic
@@ -77,11 +77,13 @@ struct ReminderListView: View {
 
 ```swift
 @MainActor
-class ReminderListViewModel: ObservableObject {
-  @Published var reminders: [ReminderModel] = []
-  @Published var isLoading = false
-  @Published var errorMessage: String?
+@Observable
+class ReminderListViewModel {
+  var reminders: [ReminderModel] = []
+  var isLoading = false
+  var errorMessage: String?
 
+  @ObservationIgnored
   private let fetchRemindersUseCase: FetchRemindersUseCaseProtocol
 
   init(fetchRemindersUseCase: FetchRemindersUseCaseProtocol = FetchRemindersUseCase()) {

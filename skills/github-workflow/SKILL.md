@@ -102,6 +102,9 @@ Read references/pull-requests.md for PR standards
 ## Summary
 - Bullet points of changes
 
+## Why
+Brief explanation of why this change is needed.
+
 ## Test plan
 - [ ] How to test this change
 
