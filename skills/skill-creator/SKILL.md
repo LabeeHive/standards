@@ -50,13 +50,15 @@ skill-name/
 ```yaml
 ---
 name: kebab-case-name
-description: [WHAT it does]. [WHEN to use]. Triggers on "trigger1", "trigger2", "日本語トリガー".
+description: [WHAT it does]. [WHEN to use]. Triggers on "english1", "english2", "日本語トリガー".
 model: haiku|sonnet|opus
-context: fork          # For workflow skills
+context: fork          # Required for Code Gen/Workflow, optional for Guidance
 agent: general-purpose
 allowed-tools: Read, Glob, Grep, Bash(specific:*)
 ---
 ```
+
+**Triggers must include both English AND Japanese** for accessibility.
 
 **Field Constraints (Agent Skills Spec):**
 
@@ -142,9 +144,11 @@ Concise instructions only. Move detailed content to `references/`.
 
 | Type | context: fork | model | Criteria | Example |
 |------|:-------------:|:-----:|----------|---------|
-| Guidance | No | haiku | 0 writes, 0 services | documentation |
+| Guidance | Optional | haiku | 0 writes, 0 services | documentation |
 | Code Gen | Yes | sonnet | 1-3 steps, ≤2 services | swift-development |
 | Workflow | Yes | opus | 4+ steps OR 3+ services OR MCP | vigilare-task |
+
+**context: fork:** Use for context isolation. Required for Code Gen/Workflow. Optional for Guidance when you want to avoid polluting the main conversation context.
 
 **Quick check:** Does it use MCP tools? → opus. Does it write files? → sonnet+. Read-only? → haiku.
 
@@ -184,11 +188,16 @@ Identify:
 
 ## Reference Files
 
-**Loading behavior:** Claude loads these on-demand when the task requires them. Do NOT pre-load all references.
+**Loading behavior:**
+- **Standard files:** Claude loads on-demand when the task requires them
+- **Auto-load files (`_` prefix):** Always loaded when skill triggers
 
 | File | Load When |
 |------|-----------|
 | references/workflows.md | Creating skills with 3+ steps or conditional logic |
 | references/output-patterns.md | Defining description format, allowed-tools patterns, or model selection |
 
-**Auto-load indicator:** If a reference should always be loaded with the skill, prefix filename with `_` (e.g., `_core-rules.md`).
+**Auto-load guidelines:**
+- Use `_` prefix for core rules that apply to ALL invocations (e.g., `_core-rules.md`)
+- Keep auto-load files small (<200 lines) to preserve token budget
+- Examples: `documentation/_core-rules.md`, `research/_source-patterns.md`

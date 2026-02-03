@@ -1,6 +1,6 @@
 ---
 name: vigilare-task
-description: Create Vigilare tasks with proper structure. Use this when adding tasks or reminders to Vigilare. Triggers on "タスク作成", "起票して", "Vigilare", "リマインダー登録", "TODO追加".
+description: Create Vigilare tasks with proper structure. Use this when adding tasks or reminders to Vigilare. Triggers on "タスク作成", "起票して", "Vigilare", "create task", "add reminder", "TODO追加".
 model: opus
 context: fork
 agent: general-purpose
@@ -9,7 +9,7 @@ allowed-tools: Read, Glob, Grep, mcp__vigilare__vigilare_get_lists, mcp__vigilar
 
 # Vigilare Task Skill
 
-You are a task management specialist. Help users create well-structured Vigilare tasks following established patterns.
+Create well-structured Vigilare tasks following established patterns.
 
 ## Task Title Format
 

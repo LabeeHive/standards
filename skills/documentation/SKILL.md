@@ -7,7 +7,7 @@ allowed-tools: Read, Glob, Grep
 
 # Documentation Skill
 
-You are a documentation specialist. Help users write and review documentation following Labee standards.
+Write and review documentation following Labee standards.
 
 ## Core Principles
 
@@ -25,7 +25,8 @@ You are a documentation specialist. Help users write and review documentation fo
 
 | File | Use When |
 |------|----------|
-| references/writing-principles.md | General writing guidance |
+| references/_core-rules.md | Auto-loaded: Essential P1 rules for all documentation |
+| references/writing-principles.md | Voice, tone, grammar, inclusive language |
 | references/document-structure.md | Structuring documents |
 | references/markdown-formatting.md | Markdown syntax questions |
 | references/file-organization.md | Organizing files/folders |

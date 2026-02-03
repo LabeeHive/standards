@@ -11,7 +11,7 @@ Patterns for consistent skill output.
 
 ## Description Format
 
-**Required structure:** WHAT + WHEN + Triggers
+**Required structure:** WHAT + WHEN + Triggers (JP & EN)
 
 ```yaml
 description: [What it does]. [When to use]. Triggers on "english", "日本語".
@@ -19,13 +19,20 @@ description: [What it does]. [When to use]. Triggers on "english", "日本語".
 
 **Good:**
 ```yaml
-description: Create GitHub Issues and PRs following standards. Use this when filing issues or opening PRs. Triggers on "Issue作成", "PR作成", "pull request", "起票".
+description: Create GitHub Issues and PRs following standards. Use this when filing issues or opening PRs. Triggers on "Issue作成", "PR作成", "pull request", "create issue", "起票".
 ```
 
-**Bad:**
+**Bad (missing English triggers):**
+```yaml
+description: Create tasks in Vigilare. Use this when adding tasks. Triggers on "タスク作成", "起票して".
+```
+
+**Bad (missing description):**
 ```yaml
 description: GitHub workflow helper.
 ```
+
+**Triggers must include BOTH English AND Japanese** for international accessibility.
 
 ## allowed-tools Patterns
 
@@ -134,6 +141,8 @@ Otherwise → haiku
 
 | Type | context: fork | agent | allowed-tools |
 |------|:-------------:|-------|---------------|
-| Guidance | No | - | Read, Glob, Grep |
+| Guidance | Optional | - | Read, Glob, Grep |
 | Code Gen | Yes | general-purpose | + Edit, Write, Bash(specific:*) |
 | Workflow | Yes | general-purpose | + MCP tools, Task |
+
+**Note:** `context: fork` isolates the skill's context from the main conversation. Use it even for Guidance skills when you want to avoid polluting the conversation context.

@@ -17,7 +17,11 @@ from pathlib import Path
 
 SKILL_TEMPLATE = """---
 name: {skill_name}
-description: [TODO: Complete and informative explanation of what the skill does and when to use it. Include WHEN to use this skill - specific scenarios, file types, or tasks that trigger it.]
+description: [TODO: WHAT it does]. [WHEN to use]. Triggers on "english-trigger", "日本語トリガー".
+model: sonnet
+context: fork
+agent: general-purpose
+allowed-tools: Read, Glob, Grep
 ---
 
 # {skill_title}

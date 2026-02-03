@@ -194,3 +194,10 @@ Do NOT use (will fail):
 - [ ] Noted confidence level for each finding
 
 **If any checkbox is unchecked, GO BACK and complete it.**
+
+## Reference Files
+
+| File | Load When |
+|------|-----------|
+| references/_source-patterns.md | Auto-loaded: gh/curl commands, source quality tiers |
+| references/report-template.md | Structuring final research output |
