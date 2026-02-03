@@ -9,43 +9,13 @@ allowed-tools: Read, Glob, Grep, Bash(xckit:*), Edit, Write
 
 # Swift Localization Skill
 
-You are a localization specialist for Swift apps. Help users manage translations using xckit and Localizable.xcstrings.
+Localization specialist for Swift apps using xckit and Localizable.xcstrings.
 
-Based on Vigilare's localization patterns.
-
-## Core Principles
-
-1. **All user-facing text must be localizable**
-2. **Use hierarchical dot-notation for keys**
-3. **Natural translations, not literal**
-
-## File Location
-
-`{Project}/Localizable.xcstrings`
-
-## Supported Languages
-
-**CRITICAL: You MUST translate ALL languages in the project.**
-
-### Step 1: Discover Languages First
-
-```bash
-xckit status -f ./{Project}/Localizable.xcstrings
-```
-
-This shows all supported languages. **Translate every single one.**
-
-### Step 2: Translate All
-
-Do NOT stop after a few languages. Continue until ALL languages from status are translated.
-
-## When Invoked
+## Workflow
 
 ### Step 1: Discover Project
 
-Find the xcstrings file using Glob:
-
-```
+```bash
 Glob("**/Localizable.xcstrings")
 ```
 
@@ -63,45 +33,54 @@ Note ALL supported languages from output.
 xckit untranslated -f ./{Project}/Localizable.xcstrings
 ```
 
-### Step 4: Translate All Languages
+### Step 4: Translate
 
-For EACH language from Step 2, translate ALL untranslated keys:
+For EACH language, translate ALL untranslated keys:
 
-**Single translation:**
 ```bash
 xckit set -f ./{Project}/Localizable.xcstrings --lang {lang} {key} "{value}"
 ```
 
-**Batch translations:**
+Batch example:
 ```bash
-xckit set -f ./{Project}/Localizable.xcstrings --lang ja key1 "value1" && \
-xckit set -f ./{Project}/Localizable.xcstrings --lang ja key2 "value2"
+xckit set -f ./{Project}/Localizable.xcstrings --lang ja key1 "val1" && \
+xckit set -f ./{Project}/Localizable.xcstrings --lang ja key2 "val2"
 ```
 
-### Step 5: Verify Completion
+### Step 5: Verify (ARL Entry Point)
 
 ```bash
 xckit status -f ./{Project}/Localizable.xcstrings
 ```
 
-Confirm 100% for ALL languages.
+- **ALL languages 100%** → Go to Step 7 (Report)
+- **Any language < 100%** → Go to Step 6 (Diagnose & Refine)
 
-**If not 100%:** Return to Step 3 and continue.
+### Step 6: Diagnose & Refine
 
-## Error Handling
+1. Run `xckit untranslated` to identify remaining keys
+2. Categorize failure (see Error Reference)
+3. Apply fix
+4. Return to Step 5
 
-**If xckit not found:**
-→ Inform user that xckit CLI is required
+**Exit conditions:**
+- Max iterations: 3
+- Same keys fail 2 consecutive times
 
-**If xcstrings file not found:**
-→ Check if project uses legacy .strings files
-→ Suggest creating Localizable.xcstrings in Xcode
+### Step 7: Report
+
+**On success:**
+> All translations complete. {N} languages at 100%.
+
+**On failure (max iterations or stuck):**
+> Translation incomplete. Remaining issues:
+> - {key}: {reason}
+> Suggested action: {action}
 
 ## Key Naming Convention
 
 Use hierarchical dot-notation:
 ```
-// Screen.Component.Element
 settings.general.title
 reminder.detail.notes
 error.network.message
@@ -109,19 +88,21 @@ error.network.message
 
 ## Swift Usage
 
-**Good:**
 ```swift
+// Good
 Text(String(localized: "welcome.title", defaultValue: "Welcome"))
-```
 
-**Bad:**
-```swift
+// Bad
 Text("Welcome")
 ```
 
-## Workflow
+## Error Reference
 
-1. **Check status** - `xckit status` to see ALL supported languages
-2. **Identify untranslated keys** - `xckit untranslated` to see what needs translation
-3. **Translate ALL languages** - Do NOT skip any language. Continue until every language is done.
-4. **Verify completion** - `xckit status` again to confirm 100% for all languages
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `xckit not found` | CLI not installed | Inform user xckit CLI is required |
+| `File not found` | Wrong path or legacy .strings | Check path; suggest creating xcstrings in Xcode |
+| `Key not found` | Key doesn't exist in source | Run `xckit untranslated` to get valid keys |
+| `Invalid value` | Malformed translation string | Check for unescaped quotes or special chars |
+| `Set failed` | Permission or file lock | Check file permissions; close Xcode if open |
+| `Same key fails 2x` | Persistent issue | Report to user with key and last error |
