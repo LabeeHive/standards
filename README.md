@@ -65,7 +65,7 @@ Each standard uses priority levels to indicate importance:
 
 ```bash
 # Add marketplace
-/plugin marketplace add labee/standards
+/plugin marketplace add labeehive/standards
 
 # Install a plugin
 /plugin install documentation@labee-standards
