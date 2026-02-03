@@ -43,9 +43,10 @@ Do NOT stop after a few languages. Continue until ALL languages from status are 
 
 ### Step 1: Discover Project
 
-Find the xcstrings file:
-```bash
-find . -name "Localizable.xcstrings" -type f
+Find the xcstrings file using Glob:
+
+```
+Glob("**/Localizable.xcstrings")
 ```
 
 ### Step 2: Check Status

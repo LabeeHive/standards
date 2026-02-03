@@ -5,7 +5,7 @@ model: opus
 context: fork
 agent: general-purpose
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Skill, Task, EnterPlanMode, AskUserQuestion, WebFetch, WebSearch, Bash(xcrun:*), Bash(swift:*), TaskCreate, TaskUpdate, TaskList, mcp__vigilare__vigilare_get_reminders, mcp__vigilare__vigilare_add_comment
+allowed-tools: Read, Glob, Grep, Skill, Task, EnterPlanMode, AskUserQuestion, WebFetch, WebSearch, Bash(xcrun:*), Bash(swift:*), TaskCreate, TaskUpdate, TaskList, mcp__vigilare__vigilare_get_reminders, mcp__vigilare__vigilare_get_reminder, mcp__vigilare__vigilare_add_comment
 ---
 
 # Swift Workflow
