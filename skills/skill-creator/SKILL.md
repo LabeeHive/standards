@@ -197,6 +197,17 @@ Identify:
 | references/workflows.md | Creating skills with 3+ steps or conditional logic |
 | references/output-patterns.md | Defining description format, allowed-tools patterns, or model selection |
 | references/resource-patterns.md | Deciding scripts/ vs references/ vs assets/, implementing scripts |
+| references/autonomous-refinement-loop.md | Creating skills that need self-correction (verify→fix→retry loops) |
+
+## Session Learning Scripts
+
+For Autonomous Refinement Loop enabled skills:
+
+| Script | Purpose |
+|--------|---------|
+| `scripts/init_session.ts` | Initialize session learning file |
+| `scripts/log_iteration.ts` | Log each verification attempt |
+| `scripts/finalize_session.ts` | Finalize session with learnings |
 
 **Auto-load guidelines:**
 - Use `_` prefix for core rules that apply to ALL invocations (e.g., `_core-rules.md`)

@@ -141,3 +141,28 @@ For workflow skills using `context: fork`:
 - Cannot see main conversation history
 - Must be self-contained with clear instructions
 - Report results back explicitly
+
+## Autonomous Refinement Loop (Advanced)
+
+For skills that need self-correction capability:
+
+```
+Execute → Verify → [Pass?] → Done
+                ↓ No
+           Diagnose → Refine → Re-verify (loop)
+```
+
+**When to use:**
+- Output has automatable verification criteria
+- Failures can be diagnosed and fixed by agent
+- Multiple iterations may be needed
+
+**Key components:**
+1. Verification step with clear pass/fail criteria
+2. Diagnosis logic to categorize failures
+3. Refinement strategy based on diagnosis
+4. Session learning file for recording iterations
+
+**See:** `references/autonomous-refinement-loop.md` for full pattern details.
+
+**Template:** `references/arl-skill-template.md` for quick start.
