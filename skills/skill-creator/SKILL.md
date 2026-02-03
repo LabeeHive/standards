@@ -196,6 +196,7 @@ Identify:
 |------|-----------|
 | references/workflows.md | Creating skills with 3+ steps or conditional logic |
 | references/output-patterns.md | Defining description format, allowed-tools patterns, or model selection |
+| references/resource-patterns.md | Deciding scripts/ vs references/ vs assets/, implementing scripts |
 
 **Auto-load guidelines:**
 - Use `_` prefix for core rules that apply to ALL invocations (e.g., `_core-rules.md`)

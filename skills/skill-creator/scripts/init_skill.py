@@ -68,63 +68,55 @@ Delete this entire "Structuring This Skill" section when done - it's just guidan
 
 ## Resources
 
-This skill includes example resource directories that demonstrate how to organize different types of bundled resources:
+This skill includes example resource directories. **Delete unused directories.**
 
 ### scripts/
-Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+Executable code for **deterministic, repeatable operations**.
 
-**Examples from other skills:**
-- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
-- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
-
-**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
-
-**Note:** Scripts may be executed without loading into context, but can still be read by Claude for patching or environment adjustments.
+- **Language:** TypeScript with Bun (`bun scripts/example.ts`)
+- **Use when:** Validation, transformation, automation
+- **Pattern:** CLI with exit codes, stdout for results, stderr for errors
+- **Note:** Avoid `bunx <package>` in CI (exit code issues); use `bun` direct execution
 
 ### references/
-Documentation and reference material intended to be loaded into context to inform Claude's process and thinking.
+Documentation Claude **reads into context** when needed.
 
-**Examples from other skills:**
-- Product management: `communication.md`, `context_building.md` - detailed workflow guides
-- BigQuery: API reference documentation and query examples
-- Finance: Schema documentation, company policies
-
-**Appropriate for:** In-depth documentation, API references, database schemas, comprehensive guides, or any detailed information that Claude should reference while working.
+- **Use when:** API specs, detailed guides, domain knowledge
+- **Pattern:** Focused markdown files, on-demand loading
+- **Naming:** `_filename.md` for auto-load (use sparingly)
 
 ### assets/
-Files not intended to be loaded into context, but rather used within the output Claude produces.
+Files used **in output**, not for Claude's understanding.
 
-**Examples from other skills:**
-- Brand styling: PowerPoint template files (.pptx), logo files
-- Frontend builder: HTML/React boilerplate project directories
-- Typography: Font files (.ttf, .woff2)
+- **Use when:** Templates, images, fonts, boilerplate
+- **Pattern:** Binary or template files copied to output
 
-**Appropriate for:** Templates, boilerplate code, document templates, images, icons, fonts, or any files meant to be copied or used in the final output.
-
----
-
-**Any unneeded directories can be deleted.** Not every skill requires all three types of resources.
+See `references/resource-patterns.md` in skill-creator for detailed guidelines.
 """
 
-EXAMPLE_SCRIPT = '''#!/usr/bin/env python3
-"""
-Example helper script for {skill_name}
+EXAMPLE_SCRIPT = '''#!/usr/bin/env bun
+/**
+ * Example helper script for {skill_name}
+ *
+ * Usage:
+ *   bun scripts/example.ts <input>
+ *
+ * This is a placeholder script. Replace with actual implementation or delete.
+ */
 
-This is a placeholder script that can be executed directly.
-Replace with actual implementation or delete if not needed.
+function main() {{
+  const args = Bun.argv.slice(2);
 
-Example real scripts from other skills:
-- pdf/scripts/fill_fillable_fields.py - Fills PDF form fields
-- pdf/scripts/convert_pdf_to_images.py - Converts PDF pages to images
-"""
+  if (args.length < 1) {{
+    console.error("Usage: bun scripts/example.ts <input>");
+    process.exit(1);
+  }}
 
-def main():
-    print("This is an example script for {skill_name}")
-    # TODO: Add actual script logic here
-    # This could be data processing, file conversion, API calls, etc.
+  console.log(`Processing: ${{args[0]}}`);
+  // TODO: Add actual script logic here
+}}
 
-if __name__ == "__main__":
-    main()
+main();
 '''
 
 EXAMPLE_REFERENCE = """# Reference Documentation for {skill_title}
@@ -242,10 +234,10 @@ def init_skill(skill_name, path):
         # Create scripts/ directory with example script
         scripts_dir = skill_dir / 'scripts'
         scripts_dir.mkdir(exist_ok=True)
-        example_script = scripts_dir / 'example.py'
+        example_script = scripts_dir / 'example.ts'
         example_script.write_text(EXAMPLE_SCRIPT.format(skill_name=skill_name))
         example_script.chmod(0o755)
-        print("✅ Created scripts/example.py")
+        print("✅ Created scripts/example.ts")
 
         # Create references/ directory with example reference doc
         references_dir = skill_dir / 'references'
@@ -280,7 +272,7 @@ def main():
         print("\nSkill name requirements:")
         print("  - Hyphen-case identifier (e.g., 'data-analyzer')")
         print("  - Lowercase letters, digits, and hyphens only")
-        print("  - Max 40 characters")
+        print("  - Max 64 characters")
         print("  - Must match directory name exactly")
         print("\nExamples:")
         print("  init_skill.py my-new-skill --path skills/public")
