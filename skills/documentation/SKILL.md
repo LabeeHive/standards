@@ -2,8 +2,6 @@
 name: documentation
 description: Write and review documentation following Labee standards. Use this when creating or reviewing markdown files. Triggers on "ドキュメント", "README", "markdown", "docs", "文書作成", "ドキュメントレビュー".
 model: sonnet
-context: fork
-agent: general-purpose
 allowed-tools: Read, Glob, Grep, Edit, Write
 ---
 

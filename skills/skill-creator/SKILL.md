@@ -2,8 +2,6 @@
 name: skill-creator
 description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones. Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
 model: opus
-context: fork
-agent: general-purpose
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), WebFetch, WebSearch, Task
 ---
 
@@ -52,8 +50,6 @@ skill-name/
 name: kebab-case-name
 description: [WHAT it does]. [WHEN to use]. Triggers on "english1", "english2", "日本語トリガー".
 model: haiku|sonnet|opus
-context: fork          # Required for Code Gen/Workflow, optional for Guidance
-agent: general-purpose
 allowed-tools: Read, Glob, Grep, Bash(specific:*)
 ---
 ```
@@ -142,15 +138,26 @@ Concise instructions only. Move detailed content to `references/`.
 
 ### Step 2: Determine Skill Type
 
-| Type | context: fork | model | Criteria | Example |
-|------|:-------------:|:-----:|----------|---------|
-| Guidance | Optional | haiku | 0 writes, 0 services | documentation |
-| Code Gen | Yes | sonnet | 1-3 steps, ≤2 services | swift-development |
-| Workflow | Yes | opus | 4+ steps OR 3+ services OR MCP | vigilare-task |
-
-**context: fork:** Use for context isolation. Required for Code Gen/Workflow. Optional for Guidance when you want to avoid polluting the main conversation context.
+| Type | model | Criteria | Example |
+|------|:-----:|----------|---------|
+| Guidance | haiku | 0 writes, 0 services | documentation |
+| Code Gen | sonnet | 1-3 steps, ≤2 external services | swift-development |
+| Workflow | opus | 4+ steps OR 3+ services OR MCP | swift-release |
 
 **Quick check:** Does it use MCP tools? → opus. Does it write files? → sonnet+. Read-only? → haiku.
+
+### Step 2b: Decide `context: fork`
+
+**IMPORTANT:** `context: fork` runs in **isolation with NO conversation history** (not a true fork). See [Issue #20492](https://github.com/anthropics/claude-code/issues/20492) for naming concerns.
+
+| Use `context: fork` | Do NOT use `context: fork` |
+|---------------------|----------------------------|
+| Self-contained task with explicit instructions | Needs conversation context |
+| Final report is sufficient | User wants to see process |
+| Long-running automation (release, deploy) | Interactive/dialogue-based |
+| Orchestration that calls other skills | Guidance/reference content |
+
+**Most skills should NOT use `context: fork`.**
 
 ### Step 3: Plan Structure
 
@@ -177,7 +184,7 @@ Identify:
 - [ ] description has WHAT + WHEN + Triggers (JP & EN)
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
 - [ ] model selected by numeric criteria (see references/output-patterns.md)
-- [ ] context: fork for workflow skills (sonnet/opus)
+- [ ] context: fork ONLY for self-contained tasks that don't need conversation context
 - [ ] disable-model-invocation: true for setup/release/config skills
 
 **Context Efficiency:**
