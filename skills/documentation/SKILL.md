@@ -1,9 +1,10 @@
 ---
 name: documentation
 description: Write and review documentation following Labee standards. Use this when creating or reviewing markdown files. Triggers on "ドキュメント", "README", "markdown", "docs", "文書作成", "ドキュメントレビュー".
-model: haiku
+model: sonnet
 context: fork
-allowed-tools: Read, Glob, Grep
+agent: general-purpose
+allowed-tools: Read, Glob, Grep, Edit, Write
 ---
 
 # Documentation Skill
@@ -59,3 +60,9 @@ Write and review documentation following Labee standards.
 | references/ai-documentation.md | Writing AI context files |
 | references/project-structure.md | Project documentation |
 | references/culture-principles.md | Company values/culture |
+
+## Related Skills
+
+| Skill | Purpose |
+|-------|---------|
+| /humanizer | Remove AI writing patterns from documentation |

@@ -22,6 +22,7 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | `/vigilare-task` | Create Vigilare tasks with proper structure |
 | `/commit-message` | Generate commit messages (conventional commits) |
 | `/today` | Show today's calendar events and tasks |
+| `/humanizer` | Remove AI writing patterns from text |
 
 ---
 
@@ -40,7 +41,8 @@ skills/
 ├── automation-config/   # Automation (Renovate) standards
 ├── vigilare-task/       # Vigilare task creation standards
 ├── commit-message/      # Commit message generation
-└── today/               # Daily overview (calendar + tasks)
+├── today/               # Daily overview (calendar + tasks)
+└── humanizer/           # Remove AI writing patterns
 ```
 
 ---
