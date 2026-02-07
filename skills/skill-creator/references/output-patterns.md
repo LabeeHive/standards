@@ -149,3 +149,82 @@ Otherwise → haiku
 | Workflow | Yes | general-purpose | + MCP tools, Task |
 
 **Note:** `context: fork` isolates the skill's context from the main conversation. Use it even for Guidance skills when you want to avoid polluting the conversation context.
+
+## Invocation Control
+
+```yaml
+disable-model-invocation: true  # User must invoke manually with /skill-name
+user-invocable: false           # Only Claude can invoke (hidden from / menu)
+```
+
+### When to use `disable-model-invocation: true`
+
+| Pattern | Example | Reason |
+|---------|---------|--------|
+| Setup/Init | repository-setup, docusaurus-setup | One-time setup should be intentional |
+| Release/Deploy | swift-release | Side effects, requires user confirmation |
+| Config changes | automation-config | Modifies project configuration |
+| Complex creation | swift-mcp-server | Large-scale changes, user should control timing |
+
+### When to keep default (auto-invocation allowed)
+
+| Pattern | Example | Reason |
+|---------|---------|--------|
+| Daily tasks | commit-message, vigilare-task | Frequent use, triggers naturally |
+| Code assistance | swift-development, documentation | Helps during normal development flow |
+| Workflow shortcuts | github-workflow | "Issue作って" should just work |
+
+### When to use `user-invocable: false`
+
+| Pattern | Example | Reason |
+|---------|---------|--------|
+| Helper sub-skill | Internal validation | Only called by other skills |
+| Background automation | Session cleanup | Claude decides when to run |
+
+## context: fork Decision
+
+**IMPORTANT:** `context: fork` runs in **isolation with NO conversation history** (not a true fork). See [Issue #20492](https://github.com/anthropics/claude-code/issues/20492).
+
+### Use `context: fork`
+
+| Condition | Example |
+|-----------|---------|
+| Self-contained task with explicit instructions | Release workflow |
+| Final report is sufficient | Code generation |
+| Long-running automation | Deploy pipeline |
+| Orchestration that calls other skills | swift-workflow |
+
+### Do NOT use `context: fork`
+
+| Condition | Example |
+|-----------|---------|
+| Needs conversation context | Answering questions about prior discussion |
+| User wants to see process | Interactive guidance |
+| Interactive/dialogue-based | Requirements gathering |
+| Guidance/reference content | Documentation standards |
+
+**Most skills should NOT use `context: fork`.**
+
+## Frontmatter Fields
+
+Complete field reference combining Agent Skills Spec and Labee extensions.
+
+### Agent Skills Spec Fields
+
+| Field | Required | Type | Constraints | Description |
+|-------|:--------:|------|-------------|-------------|
+| name | Yes | string | 1-64 chars, `[a-z0-9-]`, no leading/trailing/consecutive hyphens | Skill identifier, must match folder name |
+| description | Yes | string | 1-1024 chars, no angle brackets | WHAT + WHEN + Triggers |
+| license | No | string | SPDX identifier | License for the skill |
+| allowed-tools | No | string | Comma-separated | Tools the skill can use |
+| metadata | No | object | Key-value pairs | Arbitrary metadata |
+
+### Labee Extension Fields
+
+| Field | Required | Type | Default | Description |
+|-------|:--------:|------|---------|-------------|
+| model | No | enum | (inherited) | `haiku`, `sonnet`, or `opus` |
+| context | No | enum | (normal) | `fork` for isolated execution |
+| agent | No | string | - | Agent type (e.g., `general-purpose`) |
+| disable-model-invocation | No | bool | false | Prevent auto-invocation by Claude |
+| user-invocable | No | bool | true | Show in `/` menu |

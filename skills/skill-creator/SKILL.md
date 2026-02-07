@@ -2,22 +2,30 @@
 name: skill-creator
 description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones. Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
 model: opus
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), WebFetch, WebSearch, Task
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), Bash(python3:*), Bash(bun:*), WebFetch, WebSearch, Task, TaskCreate, TaskUpdate, TaskList
 ---
 
 # Skill Creator
 
 Create effective skills that extend Claude's capabilities.
 
-## Core Principle
-
 > **Claude is already very smart.** Only add context Claude doesn't already have. Prefer concise examples over verbose explanations.
 
-## Official Documentation
+## Phase Tracking
 
-- **Agent Skills Specification**: https://agentskills.io/specification
-- **Building Skills Guide**: https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
-- **Claude Code Skills**: https://code.claude.com/docs/en/skills
+**At workflow start, create tasks for each phase:**
+
+```
+TaskCreate: "Phase 1: Understand"
+TaskCreate: "Phase 2: Research"
+TaskCreate: "Phase 3: Plan Resources"
+TaskCreate: "Phase 4: Initialize"
+TaskCreate: "Phase 5: Create Resources"
+TaskCreate: "Phase 6: Write SKILL.md"
+TaskCreate: "Phase 7: Validate & Package"
+```
+
+Update status as you progress: `in_progress` when starting, `completed` when done.
 
 ## Progressive Disclosure (3-Level Loading)
 
@@ -41,139 +49,167 @@ skill-name/
 
 **DO NOT create**: README.md, CHANGELOG.md, or other auxiliary files.
 
-## SKILL.md Format
+## Official Documentation
 
-### Frontmatter (Required)
+- **Agent Skills Specification**: https://agentskills.io/specification
+- **Building Skills Guide**: https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
+- **Claude Code Skills**: https://code.claude.com/docs/en/skills
 
-```yaml
----
-name: kebab-case-name
-description: [WHAT it does]. [WHEN to use]. Triggers on "english1", "english2", "日本語トリガー".
-model: haiku|sonnet|opus
-allowed-tools: Read, Glob, Grep, Bash(specific:*)
----
-```
+## Workflow
 
-**Triggers must include both English AND Japanese** for accessibility.
+### Phase 1: Understand
 
-**Field Constraints (Agent Skills Spec):**
+**Goal:** Understand what the user needs through concrete examples.
 
-| Field | Required | Constraints |
-|-------|:--------:|-------------|
-| name | Yes | 1-64 chars, lowercase + hyphens, must match folder name |
-| description | Yes | 1-1024 chars, WHAT + WHEN + Triggers |
+1. Ask the user for **2-3 concrete usage scenarios**:
+   - "When would you use this skill?"
+   - "Walk me through a typical invocation — what do you say, what happens?"
+   - "What does the final output look like?"
 
-**Model Selection (with numeric criteria):**
+2. For each scenario, capture:
+   - **Trigger**: What the user says / situation that invokes the skill
+   - **Input**: What information the skill receives
+   - **Process**: What steps the skill performs
+   - **Output**: What the user gets back
 
-| Model | Use When | Criteria |
-|-------|----------|----------|
-| haiku | Read-only guidance | 0 file writes, 0 external calls |
-| sonnet | Code generation | 1-3 steps, ≤2 external services |
-| opus | Complex workflows | 4+ steps OR 3+ services OR MCP tools |
+3. Confirm understanding: summarize the scenarios back to the user.
 
-**allowed-tools:** Use specific patterns like `Bash(git:*)`, `Bash(gh:*)`, not generic `Bash`.
+**Skip when:** Updating an existing skill with clear requirements.
 
-### Invocation Control
+### Phase 2: Research (PARALLEL)
 
-```yaml
-disable-model-invocation: true  # User must invoke manually with /skill-name
-user-invocable: false           # Only Claude can invoke (hidden from / menu)
-```
-
-**When to use `disable-model-invocation: true`:**
-
-| Pattern | Example | Reason |
-|---------|---------|--------|
-| Setup/Init | repository-setup, docusaurus-setup | One-time setup should be intentional |
-| Release/Deploy | swift-release | Side effects, requires user confirmation |
-| Config changes | automation-config | Modifies project configuration |
-| Complex creation | swift-mcp-server | Large-scale changes, user should control timing |
-
-**When to keep default (auto-invocation allowed):**
-
-| Pattern | Example | Reason |
-|---------|---------|--------|
-| Daily tasks | commit-message, vigilare-task | Frequent use, "コミットメッセージ" triggers naturally |
-| Code assistance | swift-development, documentation | Helps during normal development flow |
-| Workflow shortcuts | github-workflow | "Issue作って" should just work |
-
-### Body
-
-Concise instructions only. Move detailed content to `references/`.
-
-## When Invoked
-
-### Step 0: Research (if needed)
-
-**When to research:**
-- Creating a new type of skill (no similar existing skill)
-- User asks for "best practices" or "latest patterns"
-- Unfamiliar domain or tool integration
-
-**Research targets (parallel):**
+**Run these in parallel:**
 
 | Target | Method |
 |--------|--------|
 | Agent Skills Spec | WebFetch agentskills.io/specification |
-| Existing skills | Task(Explore) in skills/ directory |
+| Building Skills Guide | WebFetch the PDF URL (if not recently read) |
+| Existing similar skills | Task(Explore) in skills/ directory |
 | Other marketplaces | WebSearch "claude code skills marketplace" |
-| Similar tools | WebSearch "{tool-name} claude skill" |
+| Domain tools | WebSearch "{tool-name} CLI documentation" |
 
-**Skip research when:**
+**Skip when:**
 - Simple modification to existing skill
 - Pattern already exists in this repository
-- User provides clear, complete requirements
+- User provides complete requirements with no unknowns
 
-### Step 1: Gather Requirements
+### Phase 3: Plan Resources
 
-**Essential:**
-- What should the skill do?
-- Example usage scenarios?
-- What tools/commands are needed?
+**Goal:** From the concrete examples in Phase 1, reverse-engineer what resources the skill needs.
 
-**Invocation & scope:**
-- Should it auto-invoke, or manual only? → `disable-model-invocation`
-- Who uses it? JP users, EN users, or both? → Triggers in description
-- Does it have side effects (deploy, release, config)? → manual only
+For **each scenario** from Phase 1, ask:
+- "What operations repeat across scenarios?" → **scripts/**
+- "What domain knowledge does Claude need?" → **references/**
+- "What templates or files does the output need?" → **assets/**
 
-### Step 2: Determine Skill Type
+**Resource planning table:**
 
-| Type | model | Criteria | Example |
-|------|:-----:|----------|---------|
-| Guidance | haiku | 0 writes, 0 services | documentation |
-| Code Gen | sonnet | 1-3 steps, ≤2 external services | swift-development |
-| Workflow | opus | 4+ steps OR 3+ services OR MCP | swift-release |
+| Scenario | Repeated Operation | Resource Type | File |
+|----------|--------------------|---------------|------|
+| (fill per scenario) | | scripts/refs/assets | |
 
-**Quick check:** Does it use MCP tools? → opus. Does it write files? → sonnet+. Read-only? → haiku.
+**Then decide frontmatter:**
 
-### Step 2b: Decide `context: fork`
+1. **model** — See `references/output-patterns.md` Model Selection
+2. **allowed-tools** — List specific tool patterns needed
+3. **Invocation control** — See `references/output-patterns.md` Invocation Control
+4. **context: fork** — See `references/output-patterns.md` context: fork Decision
 
-**IMPORTANT:** `context: fork` runs in **isolation with NO conversation history** (not a true fork). See [Issue #20492](https://github.com/anthropics/claude-code/issues/20492) for naming concerns.
+**Present the resource plan to the user for approval before proceeding.**
 
-| Use `context: fork` | Do NOT use `context: fork` |
-|---------------------|----------------------------|
-| Self-contained task with explicit instructions | Needs conversation context |
-| Final report is sufficient | User wants to see process |
-| Long-running automation (release, deploy) | Interactive/dialogue-based |
-| Orchestration that calls other skills | Guidance/reference content |
+### Phase 4: Initialize
 
-**Most skills should NOT use `context: fork`.**
+1. Run the initializer:
+   ```bash
+   python3 skills/skill-creator/scripts/init_skill.py {skill-name} --path skills
+   ```
 
-### Step 3: Plan Structure
+2. **Delete unused directories** from the generated scaffold:
+   - No scripts planned? Delete `scripts/`
+   - No references planned? Delete `references/`
+   - No assets planned? Delete `assets/`
 
-Identify:
-- Required `allowed-tools` with specific patterns
-- Reference files needed
-- Scripts or assets (if any)
+3. Delete placeholder files (`example.ts`, `api_reference.md`, `example_asset.txt`).
 
-### Step 4: Create Skill
+### Phase 5: Create Resources
 
-1. Create directory: `skills/{skill-name}/`
-2. Create `SKILL.md` with proper frontmatter
-3. Create `references/` if needed
-4. Add to `.claude-plugin/marketplace.json`
+**Resources FIRST, SKILL.md body SECOND.** This ensures the body can reference real resources.
 
-### Step 5: Validate
+**Order: scripts → test → references → assets**
+
+#### 5a: Scripts
+
+For each script identified in Phase 3:
+
+1. **Write the script** following patterns in `references/resource-patterns.md`:
+   - Shebang line (`#!/usr/bin/env bun` or `#!/usr/bin/env python3`)
+   - Usage documentation at top
+   - Exit codes: 0 = success, 1 = failure
+   - Errors to stderr, results to stdout
+
+2. **Test the script immediately:**
+   ```bash
+   bun scripts/{script-name}.ts --help    # Verify it runs
+   bun scripts/{script-name}.ts {test-input}  # Verify with real input
+   ```
+
+3. Fix any failures before moving on.
+
+#### 5b: References
+
+For each reference file identified in Phase 3:
+
+- Write focused markdown files
+- Use `_` prefix only for files that apply to ALL invocations (keep <200 lines)
+- Load on-demand by default
+
+#### 5c: Assets
+
+For each asset identified in Phase 3:
+
+- Copy or create template files
+- Binary files placed directly, no encoding
+
+### Phase 6: Write SKILL.md
+
+Now write the SKILL.md body, referencing the resources created in Phase 5.
+
+**Frontmatter** — Use values decided in Phase 3. See `references/output-patterns.md` for:
+- Frontmatter field reference
+- Model selection criteria
+- Invocation control patterns
+- allowed-tools patterns
+
+**Body guidelines:**
+
+1. Keep it concise — Claude is smart, don't over-explain
+2. Reference scripts by exact path: `` `bun scripts/validate.ts <input>` ``
+3. Reference files: "See `references/api.md` for details"
+4. Include step-by-step workflow if the skill has 3+ steps (see `references/workflows.md`)
+5. Add a **Reference Files** table at the bottom:
+
+```markdown
+## Reference Files
+
+| File | Load When |
+|------|-----------|
+| references/foo.md | When doing X |
+| references/bar.md | When doing Y |
+```
+
+**For ARL-enabled skills:** See `references/autonomous-refinement-loop.md` and `references/arl-skill-template.md`.
+
+### Phase 7: Validate & Package
+
+#### 7a: Quick Validate
+
+```bash
+python3 skills/skill-creator/scripts/quick_validate.py skills/{skill-name}
+```
+
+Fix any errors and re-run.
+
+#### 7b: Checklist
 
 **Agent Skills Spec Compliance:**
 - [ ] name: 1-64 chars, lowercase + hyphens only, matches folder
@@ -183,28 +219,35 @@ Identify:
 **Labee Standards:**
 - [ ] description has WHAT + WHEN + Triggers (JP & EN)
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
-- [ ] model selected by numeric criteria (see references/output-patterns.md)
-- [ ] context: fork ONLY for self-contained tasks that don't need conversation context
-- [ ] disable-model-invocation: true for setup/release/config skills
+- [ ] model selected by numeric criteria (see `references/output-patterns.md`)
+- [ ] Invocation control set correctly for skill type
+- [ ] context: fork ONLY for self-contained tasks
 
 **Context Efficiency:**
 - [ ] SKILL.md body under 500 lines
-- [ ] No redundant explanations (Claude is smart)
+- [ ] No redundant explanations
 - [ ] Detailed content moved to references/
-- [ ] No non-existent reference files listed
+- [ ] No references to non-existent files
+- [ ] All scripts tested and working
+
+**Resources:**
+- [ ] No unused directories (scripts/, references/, assets/)
+- [ ] No placeholder files from init_skill.py
+- [ ] Scripts have shebang, usage docs, proper exit codes
+
+#### 7c: Package
+
+Add the skill to `.claude-plugin/marketplace.json` if applicable.
 
 ## Reference Files
 
-**Loading behavior:**
-- **Standard files:** Claude loads on-demand when the task requires them
-- **Auto-load files (`_` prefix):** Always loaded when skill triggers
-
 | File | Load When |
 |------|-----------|
+| references/output-patterns.md | Defining frontmatter, description, allowed-tools, model, invocation control |
 | references/workflows.md | Creating skills with 3+ steps or conditional logic |
-| references/output-patterns.md | Defining description format, allowed-tools patterns, or model selection |
 | references/resource-patterns.md | Deciding scripts/ vs references/ vs assets/, implementing scripts |
-| references/autonomous-refinement-loop.md | Creating skills that need self-correction (verify→fix→retry loops) |
+| references/autonomous-refinement-loop.md | Creating skills that need self-correction loops |
+| references/arl-skill-template.md | Quick-starting an ARL-enabled skill |
 
 ## Session Learning Scripts
 
@@ -215,8 +258,3 @@ For Autonomous Refinement Loop enabled skills:
 | `scripts/init_session.ts` | Initialize session learning file |
 | `scripts/log_iteration.ts` | Log each verification attempt |
 | `scripts/finalize_session.ts` | Finalize session with learnings |
-
-**Auto-load guidelines:**
-- Use `_` prefix for core rules that apply to ALL invocations (e.g., `_core-rules.md`)
-- Keep auto-load files small (<200 lines) to preserve token budget
-- Examples: `documentation/_core-rules.md`, `research/_source-patterns.md`
