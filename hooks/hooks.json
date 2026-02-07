@@ -1,6 +1,18 @@
 {
-  "description": "Labee standards: auto-format Swift files",
+  "description": "Labee standards: automated hooks",
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -re '.tool_input.query | select(test(\"202[0-4]\"))' > /dev/null && { echo \"Query contains outdated year. Current year is $(date +%Y). Fix it.\" >&2; exit 2; } || exit 0",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
