@@ -26,9 +26,33 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 
 ---
 
+## Agents
+
+AI employees for Labee LLC. Available as custom agents when this plugin is installed.
+
+| Agent | Role | Name |
+|-------|------|------|
+| `labee-pr-sns-ruka` | PR & SNS | 広瀬 瑠華 (Hirose Ruka) |
+| `labee-pmm-fujimoto-ren` | Product Marketing | 藤本 蓮 (Fujimoto Ren) |
+| `labee-pr-media` | PR & Media | 白石 結月 (Shiraishi Yuzuki) |
+| `labee-marketing-seo` | SEO & Blog | 高橋 陽菜 (Takahashi Hina) |
+| `labee-marketing-aso` | App Store Optimization | 佐藤 翔太 (Sato Shota) |
+| `labee-marketing-analyst` | Data Analytics | 中村 理沙 (Nakamura Risa) |
+| `labee-dev-apm` | APM & Performance | 山田 健一 (Yamada Kenichi) |
+
+---
+
 ## Structure
 
 ```text
+agents/
+├── labee-pr-sns-ruka.md        # PR & SNS (Hirose Ruka)
+├── labee-pmm-fujimoto-ren.md   # Product Marketing (Fujimoto Ren)
+├── labee-pr-media.md           # PR & Media (Shiraishi Yuzuki)
+├── labee-marketing-seo.md      # SEO & Blog (Takahashi Hina)
+├── labee-marketing-aso.md      # App Store Optimization (Sato Shota)
+├── labee-marketing-analyst.md  # Data Analytics (Nakamura Risa)
+└── labee-dev-apm.md            # APM & Performance (Yamada Kenichi)
 skills/
 ├── documentation/       # Documentation writing standards
 ├── swift-development/   # Swift and SwiftUI coding standards
