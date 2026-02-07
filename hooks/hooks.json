@@ -11,6 +11,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "mcp__vigilare__vigilare_get_reminders",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -re '.tool_input.filter | select(. == \"all\")' > /dev/null && { echo 'filter \"all\" is not allowed. Use vigilare_get_lists first, then filter by list_id.' >&2; exit 2; } || exit 0",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PostToolUse": [
