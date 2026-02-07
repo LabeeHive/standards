@@ -1,0 +1,17 @@
+{
+  "description": "Labee standards: auto-format Swift files",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -re '.tool_input.file_path | select(endswith(\".swift\"))' | xargs xcrun swift-format --in-place",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
