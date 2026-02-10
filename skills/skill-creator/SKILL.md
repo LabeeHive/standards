@@ -2,7 +2,7 @@
 name: skill-creator
 description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones. Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
 model: opus
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), Bash(python3:*), Bash(bun:*), WebFetch, WebSearch, Task, TaskCreate, TaskUpdate, TaskList
+allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), Bash(bun:*), WebFetch, WebSearch, Task, TaskCreate, TaskUpdate, TaskList
 ---
 
 # Skill Creator
@@ -121,7 +121,7 @@ For **each scenario** from Phase 1, ask:
 
 1. Run the initializer:
    ```bash
-   python3 skills/skill-creator/scripts/init_skill.py {skill-name} --path skills
+   bun skills/skill-creator/scripts/init_skill.ts {skill-name} --path skills
    ```
 
 2. **Delete unused directories** from the generated scaffold:
@@ -142,7 +142,7 @@ For **each scenario** from Phase 1, ask:
 For each script identified in Phase 3:
 
 1. **Write the script** following patterns in `references/resource-patterns.md`:
-   - Shebang line (`#!/usr/bin/env bun` or `#!/usr/bin/env python3`)
+   - Shebang line (`#!/usr/bin/env bun`)
    - Usage documentation at top
    - Exit codes: 0 = success, 1 = failure
    - Errors to stderr, results to stdout
@@ -204,7 +204,7 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 #### 7a: Quick Validate
 
 ```bash
-python3 skills/skill-creator/scripts/quick_validate.py skills/{skill-name}
+bun skills/skill-creator/scripts/quick_validate.ts skills/{skill-name}
 ```
 
 Fix any errors and re-run.
@@ -232,7 +232,7 @@ Fix any errors and re-run.
 
 **Resources:**
 - [ ] No unused directories (scripts/, references/, assets/)
-- [ ] No placeholder files from init_skill.py
+- [ ] No placeholder files from init_skill.ts
 - [ ] Scripts have shebang, usage docs, proper exit codes
 
 #### 7c: Package
