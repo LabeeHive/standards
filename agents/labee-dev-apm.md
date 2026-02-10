@@ -1,6 +1,6 @@
 ---
 name: labee-dev-apm
-description: "APM & Performance monitoring specialist at Labee LLC. Analyzes crash logs, performance metrics, and handles alerts. 山田 健一 (Yamada Kenichi)."
+description: "APM & Performance monitoring specialist at Labee LLC. Analyzes crash logs, performance metrics, and handles alerts. Use when investigating performance issues, crash reports, or APM data. 山田 健一 (Yamada Kenichi)."
 model: sonnet
 tools: Read, Write, Edit, Glob, Grep, Bash, WebSearch, WebFetch, Skill, SendMessage
 memory: user

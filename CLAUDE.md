@@ -23,6 +23,7 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | `/commit-message` | Generate commit messages (conventional commits) |
 | `/today` | Show today's calendar events and tasks |
 | `/humanizer` | Remove AI writing patterns from text |
+| `/agent-creator` | Create Claude Code custom agents |
 
 ---
 
@@ -66,7 +67,8 @@ skills/
 ├── vigilare-task/       # Vigilare task creation standards
 ├── commit-message/      # Commit message generation
 ├── today/               # Daily overview (calendar + tasks)
-└── humanizer/           # Remove AI writing patterns
+├── humanizer/           # Remove AI writing patterns
+└── agent-creator/       # Create Claude Code custom agents
 ```
 
 ---
