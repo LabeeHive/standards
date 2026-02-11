@@ -100,6 +100,7 @@ skill-name/
 
 For **each scenario** from Phase 1, ask:
 - "What operations repeat across scenarios?" → **scripts/**
+- "Can consecutive deterministic steps be combined into one script?" → **scripts/**
 - "What domain knowledge does Claude need?" → **references/**
 - "What templates or files does the output need?" → **assets/**
 
@@ -153,6 +154,8 @@ For each script identified in Phase 3:
    bun scripts/{script-name}.ts --help    # Verify it runs
    bun scripts/{script-name}.ts {test-input}  # Verify with real input
    ```
+
+3. **Test against a real project:** Run the script against an actual project that uses the target tool/format. Do not rely on `--help` alone.
 
 3. Fix any failures before moving on.
 
@@ -235,6 +238,7 @@ Fix any errors and re-run.
 - [ ] No unused directories (scripts/, references/, assets/)
 - [ ] No placeholder files from init_skill.ts
 - [ ] Scripts have shebang, usage docs, proper exit codes
+- [ ] Scripts tested against a real project with real data
 
 #### 7c: Package
 
