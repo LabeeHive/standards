@@ -4,77 +4,59 @@ description: Manage Swift app localization with xckit. Use this when adding or c
 model: sonnet
 context: fork
 agent: general-purpose
-allowed-tools: Read, Glob, Grep, Bash(xckit:*), Edit, Write
+allowed-tools: Read, Glob, Grep, Bash(bun:*), Bash(xckit:*), Edit, Write
 ---
 
 # Swift Localization Skill
 
-Localization specialist for Swift apps using xckit and Localizable.xcstrings.
+Localization specialist for Swift apps using xckit and xcstrings files.
 
 ## Workflow
 
-### Step 1: Discover Project
+### Step 1: Verify Current State
 
 ```bash
-Glob("**/Localizable.xcstrings")
+bun scripts/verify.ts
 ```
 
-### Step 2: Check Status
+Outputs xckit status and untranslated keys for all discovered xcstrings files.
+
+### Step 2: Translate
+
+For EACH file with untranslated keys from Step 1, translate ALL keys for ALL languages:
 
 ```bash
-xckit status -f ./{Project}/Localizable.xcstrings
-```
-
-Note ALL supported languages from output.
-
-### Step 3: Identify Untranslated Keys
-
-```bash
-xckit untranslated -f ./{Project}/Localizable.xcstrings
-```
-
-### Step 4: Translate
-
-For EACH language, translate ALL untranslated keys:
-
-```bash
-xckit set -f ./{Project}/Localizable.xcstrings --lang {lang} {key} "{value}"
+xckit set -f {file} --lang {lang} {key} "{value}"
 ```
 
 Batch example:
 ```bash
-xckit set -f ./{Project}/Localizable.xcstrings --lang ja key1 "val1" && \
-xckit set -f ./{Project}/Localizable.xcstrings --lang ja key2 "val2"
+xckit set -f {file} --lang ja key1 "val1" && \
+xckit set -f {file} --lang ja key2 "val2"
 ```
 
-### Step 5: Verify (ARL Entry Point)
+### Step 3: Re-verify (ARL Entry Point)
 
 ```bash
-xckit status -f ./{Project}/Localizable.xcstrings
+bun scripts/verify.ts
 ```
 
-- **ALL languages 100%** → Go to Step 7 (Report)
-- **Any language < 100%** → Go to Step 6 (Diagnose & Refine)
-
-### Step 6: Diagnose & Refine
-
-1. Run `xckit untranslated` to identify remaining keys
-2. Categorize failure (see Error Reference)
-3. Apply fix
-4. Return to Step 5
+- **All languages 100%** → Go to Step 4 (Report)
+- **Any language < 100%** → Translate remaining keys, then re-verify
 
 **Exit conditions:**
 - Max iterations: 3
 - Same keys fail 2 consecutive times
 
-### Step 7: Report
+### Step 4: Report
 
-**On success:**
-> All translations complete. {N} languages at 100%.
+**On success (all 100%):**
+> All translations complete.
+> - {file}: {N} languages at 100%
 
 **On failure (max iterations or stuck):**
-> Translation incomplete. Remaining issues:
-> - {key}: {reason}
+> Translation incomplete.
+> - {file}: {key}: {reason}
 > Suggested action: {action}
 
 ## Key Naming Convention
