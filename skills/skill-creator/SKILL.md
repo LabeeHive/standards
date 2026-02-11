@@ -88,10 +88,11 @@ skill-name/
 | Other marketplaces | WebSearch "claude code skills marketplace" |
 | Domain tools | WebSearch "{tool-name} CLI documentation" |
 
-**Skip when:**
-- Simple modification to existing skill
+**Skip when ALL of these are true:**
+- Change is limited to existing SKILL.md body (no new resources needed)
+- No workflow steps are being added, removed, or restructured
+- No new tools or external commands are introduced
 - Pattern already exists in this repository
-- User provides complete requirements with no unknowns
 
 ### Phase 3: Plan Resources
 

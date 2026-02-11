@@ -30,43 +30,19 @@ This skill uses the **Autonomous Refinement Loop** pattern:
 
 ### Step 1: Initialize Session
 
-Create a session learning file to track iterations:
+Copy session scripts from skill-creator and run init:
 
 ```bash
-# Create session file (returns JSON with sessionFile path)
-TIMESTAMP=$(date +%Y%m%d-%H%M%S)
-SESSION_FILE="{output-dir}/.session-${TIMESTAMP}.md"
+# Copy session helpers to your skill's scripts/ directory
+cp skills/skill-creator/scripts/init_session.ts scripts/
+cp skills/skill-creator/scripts/log_iteration.ts scripts/
+cp skills/skill-creator/scripts/finalize_session.ts scripts/
 
-# Initialize with header
-cat > "${SESSION_FILE}" << 'EOF'
-# Session: {skill-name}
-**Started:** $(date -Iseconds)
-**Task:** {task description}
-**Status:** IN_PROGRESS
-
----
-
-## Iterations
-
----
-
-## Summary
-
-| Metric | Value |
-|--------|-------|
-| Total iterations | 0 |
-| Final status | IN_PROGRESS |
-| Time elapsed | - |
-
-### Key Learnings
-
-### Recommendations
-EOF
+# Initialize session
+bun scripts/init_session.ts {output-dir}
 ```
 
-Store `SESSION_FILE` for subsequent logging.
-
-**Alternative:** Copy session scripts from skill-creator to your skill's `scripts/` directory for reusable helpers.
+Store the returned `sessionFile` path for subsequent logging.
 
 ### Step 2: Gather Requirements
 

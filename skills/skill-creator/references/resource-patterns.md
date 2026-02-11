@@ -138,6 +138,17 @@ Run the validation script:
 If validation fails, fix the errors and retry.
 ```
 
+### Output Format
+
+Choose format based on **who consumes the output**:
+
+| Consumer | Format | Rationale |
+|----------|--------|-----------|
+| Claude (reads and acts) | Raw text | Claude reads human-readable output directly. No parsing needed, no bugs from format mismatches. |
+| Another script | JSON | Structured data for programmatic consumption. |
+
+**Default to raw text.** Only use JSON when another script must parse the output.
+
 ### Context Efficiency
 
 Scripts execute **without loading code into context**. Only output consumes tokens.

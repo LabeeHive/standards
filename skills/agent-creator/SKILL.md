@@ -1,6 +1,6 @@
 ---
 name: agent-creator
-description: "Create and improve Claude Code custom agents (subagents) following official best practices. Use when building new agents or improving existing ones. エージェント作成, agent作成, create agent, new agent, エージェント改善."
+description: "Create and improve Claude Code custom agents (subagents) following official best practices. Use when building new agents or improving existing ones. Triggers on \"エージェント作成\", \"agent作成\", \"create agent\", \"new agent\", \"エージェント改善\"."
 model: opus
 allowed-tools: Read, Write, Edit, Glob, Grep, Bash(bun:*), WebSearch, WebFetch, Task(Explore), TaskCreate, TaskUpdate, TaskList
 ---

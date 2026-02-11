@@ -113,6 +113,22 @@ export function validateSkill(skillPath: string): ValidationResult {
     }
   }
 
+  // --- Labee Standards ---
+
+  // Description must have Triggers
+  if (description && !description.includes("Triggers on")) {
+    return { valid: false, message: "Description missing 'Triggers on' section (Labee standard: WHAT + WHEN + Triggers)" };
+  }
+
+  // allowed-tools must not contain bare "Bash" (must use specific patterns like Bash(git:*))
+  const allowedTools = frontmatter["allowed-tools"] || "";
+  if (allowedTools) {
+    const tools = allowedTools.split(",").map((t) => t.trim());
+    if (tools.includes("Bash")) {
+      return { valid: false, message: "allowed-tools contains generic 'Bash'. Use specific patterns like Bash(git:*), Bash(bun:*)" };
+    }
+  }
+
   return { valid: true, message: "Skill is valid!" };
 }
 
