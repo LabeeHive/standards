@@ -117,28 +117,35 @@ Output: `fix: resolve null pointer on app launch`
 
 | Model | Steps | File Writes | External Services | MCP Tools |
 |-------|:-----:|:-----------:|:-----------------:|:---------:|
-| haiku | 1-2 | 0 | 0 | No |
-| sonnet | 1-3 | 1-5 | 0-2 | No |
-| opus | 4+ | Any | 3+ | Yes |
+| haiku | Any | 0 | 0 | No |
+| sonnet | Any | 1-5 | 0-2 | Simple queries only |
+| opus | 4+ | Any | 3+ | Complex orchestration |
 
 **Decision Tree:**
 ```
-Does skill use MCP tools? → Yes → opus
+Does skill use MCP tools AND perform complex reasoning/orchestration? → Yes → opus
 Does skill call 3+ external services? → Yes → opus
-Does skill have 4+ workflow steps? → Yes → opus
+Does skill have 4+ workflow steps AND write files or call external services? → Yes → opus
 Does skill write files? → Yes → sonnet
 Otherwise → haiku
 ```
 
+**Exceptions:**
+- Guidance-only skills (no Write/Edit in allowed-tools) can use haiku regardless of step count
+- Simple MCP query skills (2 or fewer calls + formatting only) can use sonnet
+
 **Examples:**
 
-| Skill | Steps | Writes | Services | MCP | → Model |
-|-------|:-----:|:------:|:--------:|:---:|:-------:|
-| documentation | 2 | 0 | 0 | No | haiku |
-| swift-development | 3 | 3 | 0 | No | sonnet |
-| repository-setup | 4 | 5 | 1 | No | sonnet |
-| vigilare-task | 5 | 2 | 0 | Yes | opus |
-| skill-creator | 5 | 4 | 0 | No | opus |
+| Skill | Steps | Writes | Services | MCP | → Model | Reason |
+|-------|:-----:|:------:|:--------:|:---:|:-------:|--------|
+| automation-config | 4 | 0 | 0 | No | haiku | Guidance-only, no writes |
+| documentation | 2 | 0 | 0 | No | haiku | Few steps, no writes |
+| today | 2 | 0 | 0 | Yes | sonnet | Simple MCP queries + formatting |
+| swift-development | 3 | 3 | 0 | No | sonnet | File writes |
+| repository-setup | 5 | 5 | 1 | No | sonnet | Writes but simple services |
+| github-workflow | 5 | 0 | 1 | No | sonnet | Analyzes code, writes PR body |
+| vigilare-task | 6 | 0 | 0 | Yes | opus | Complex MCP orchestration |
+| skill-creator | 7 | 4 | 0 | No | opus | Many steps + writes |
 
 ## Skill Type Matrix
 
