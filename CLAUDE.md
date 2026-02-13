@@ -18,11 +18,15 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | `/github-workflow` | Create GitHub Issues and PRs |
 | `/repository-setup` | Set up new repositories |
 | `/docusaurus-setup` | Configure Docusaurus sites |
+| `/docusaurus-i18n` | Localize Docusaurus pages (Translate wrapping, translation, build) |
 | `/automation-config` | Configure automation tools (Renovate) |
 | `/vigilare-task` | Create Vigilare tasks with proper structure |
 | `/commit-message` | Generate commit messages (conventional commits) |
 | `/today` | Show today's calendar events and tasks |
 | `/humanizer` | Remove AI writing patterns from text |
+| `/labee-llc-guide` | Labee brand voice, tone, and messaging context |
+| `/lp-review` | Review English LP copy (messaging, naturalness, SEO) |
+| `/aso-review` | Review App Store metadata across 14+ languages |
 | `/agent-creator` | Create Claude Code custom agents |
 
 ---
@@ -63,11 +67,15 @@ skills/
 ├── github-workflow/     # GitHub Issues and PR standards
 ├── repository-setup/    # Repository setup standards
 ├── docusaurus-setup/    # Docusaurus configuration standards
+├── docusaurus-i18n/     # Docusaurus page localization
 ├── automation-config/   # Automation (Renovate) standards
 ├── vigilare-task/       # Vigilare task creation standards
 ├── commit-message/      # Commit message generation
 ├── today/               # Daily overview (calendar + tasks)
 ├── humanizer/           # Remove AI writing patterns
+├── labee-llc-guide/     # Labee brand voice and messaging context
+├── lp-review/           # English LP copy review (team-based)
+├── aso-review/          # App Store metadata review (14+ languages)
 └── agent-creator/       # Create Claude Code custom agents
 ```
 
