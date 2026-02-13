@@ -15,25 +15,36 @@ Orchestrate Swift development from Vigilare task to completion.
 2. **Parallel execution** - Run independent operations concurrently
 3. **Evidence-based** - Check project config and official docs before implementing
 4. **Phase tracking** - Use TaskCreate at start to create phase checklist, TaskUpdate to mark progress
+5. **Skill invocation is mandatory** - Each phase lists required skills. You MUST call `Skill("name")` for every listed skill. Text references do NOT count as invocation.
 
 ## Phase Tracking
 
-**At workflow start, create tasks for each phase:**
+**At workflow start, create tasks for each phase. Each task MUST include the required skill invocations:**
 
 ```
-TaskCreate: "Phase 1: Task Identification"
-TaskCreate: "Phase 2: Project Context"
-TaskCreate: "Phase 3: Research & Analysis"
-TaskCreate: "Phase 4: Planning"
-TaskCreate: "Phase 5: Implementation"
-TaskCreate: "Phase 6: Build & Test"
-TaskCreate: "Phase 7: Localization"
-TaskCreate: "Phase 8: Wrap-up"
+TaskCreate: "Phase 1: Task Identification       | Skills: /vigilare-task (if no task exists)"
+TaskCreate: "Phase 2: Project Context            | Skills: none"
+TaskCreate: "Phase 3: Research & Analysis        | Skills: /research"
+TaskCreate: "Phase 4: Planning                   | Skills: none"
+TaskCreate: "Phase 5: Implementation             | Skills: /swift-development"
+TaskCreate: "Phase 6: Build & Test               | Skills: none"
+TaskCreate: "Phase 7: Localization               | Skills: /swift-localization (if UI strings changed)"
+TaskCreate: "Phase 8: Wrap-up                    | Skills: /commit-message"
 ```
 
 **Update status as you progress:**
 - `in_progress` when starting a phase
 - `completed` when done
+
+**Skill invocation checklist (verify at end):**
+
+| Phase | Skill | Invocation | Condition |
+|-------|-------|------------|-----------|
+| 1 | `/vigilare-task` | `Skill("vigilare-task")` | No task exists |
+| 3 | `/research` | `Skill("research")` | Always |
+| 5 | `/swift-development` | `Skill("swift-development")` | Always |
+| 7 | `/swift-localization` | `Skill("swift-localization")` | UI strings added/changed |
+| 8 | `/commit-message` | `Skill("commit-message")` | Always |
 
 ## Constraints
 
@@ -48,12 +59,16 @@ TaskCreate: "Phase 8: Wrap-up"
 
 ### Phase 1: Task Identification
 
+**Required skill:** `Skill("vigilare-task")` if no task exists.
+
 **Priority order:**
 1. **Check conversation context** - Task already mentioned? Use it
 2. **Query Vigilare** - `vigilare_get_reminders(filter: 'today')` or by list
-3. **No task exists** - Ask user: "タスクを起票しますか？" → invoke `/vigilare-task`
+3. **No task exists** - Ask user: "タスクを起票しますか？" → MUST call `Skill("vigilare-task")`
 
 ### Phase 2: Project Context (PARALLEL)
+
+**Required skills:** None.
 
 **Run these in parallel:**
 
@@ -76,16 +91,18 @@ TaskCreate: "Phase 8: Wrap-up"
 
 ### Phase 3: Research & Analysis (PARALLEL)
 
+**Required skill:** MUST call `Skill("research")` for technical investigation.
+
 **ALWAYS gather official documentation based on Phase 2 findings.**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ PARALLEL: Research from multiple sources                    │
 ├─────────────────────────────────────────────────────────────┤
-│ 1. WebSearch: Apple docs for relevant APIs + deployment ver │
+│ 1. Skill("research") ← MUST invoke for technical analysis  │
+│ 2. WebSearch: Apple docs for relevant APIs + deployment ver │
 │    Example: "SwiftUI NavigationStack iOS 17 site:apple.com" │
-│ 2. WebFetch: Specific Apple documentation pages             │
-│ 3. Invoke /research for technical investigation             │
+│ 3. WebFetch: Specific Apple documentation pages             │
 │ 4. Analyze existing codebase (related files, patterns)      │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -99,16 +116,20 @@ TaskCreate: "Phase 8: Wrap-up"
 
 ### Phase 4: Planning
 
+**Required skills:** None.
+
 1. Present implementation plan to user
 2. Include: files to modify, approach, potential risks
 3. **Include deployment target considerations**
 4. For complex tasks, use `EnterPlanMode`
 5. **Wait for user approval before proceeding**
 
-### Phase 5: Implementation + Testing
+### Phase 5: Implementation
 
-Invoke `/swift-development` which includes:
-- MVVM architecture
+**Required skill:** MUST call `Skill("swift-development")` before writing any code.
+
+Call `Skill("swift-development")` which loads:
+- MVVM architecture standards
 - Naming conventions
 - Swift Testing (AAA pattern)
 - Code review aspects
@@ -120,6 +141,8 @@ xcrun swift-format --recursive . --in-place
 ```
 
 ### Phase 6: Build & Test
+
+**Required skills:** None.
 
 **REQUIRED before proceeding to localization.**
 
@@ -136,15 +159,21 @@ swift test
 
 ### Phase 7: Localization
 
+**Required skill:** `Skill("swift-localization")` if UI strings were added/changed.
+
 **If UI strings were added/changed:**
 
 1. **Ask user to build in Xcode** - Required to update xcstrings
 2. Wait for confirmation
-3. Invoke `/swift-localization` to add translations
+3. MUST call `Skill("swift-localization")` to add translations
+
+**If no UI strings changed:** Skip this phase.
 
 ### Phase 8: Wrap-up
 
-1. **Generate commit message** - Invoke `/commit-message`
+**Required skill:** MUST call `Skill("commit-message")`.
+
+1. **Generate commit message** - MUST call `Skill("commit-message")`
 2. **Record work** - `vigilare_add_comment` with summary of changes
 3. **Inform user** - "コミットとタスク完了はお願いします"
 
@@ -155,43 +184,36 @@ swift test
 | Phase | Parallel Operations |
 |-------|---------------------|
 | 2 | Project file reads (Package.swift, pbxproj, xcconfig) |
-| 3 | WebSearch + WebFetch + /research + codebase analysis |
+| 3 | Skill("research") + WebSearch + WebFetch + codebase analysis |
 | 5 | Multiple file reads before editing |
 
 **How to parallelize:**
 - Use multiple tool calls in a single message
 - Use Task tool with multiple subagents for heavy operations
 
-## Skill Invocations
-
-| Phase | Skill | Purpose |
-|-------|-------|---------|
-| 1 | /vigilare-task | Create task if none exists |
-| 3 | /research | Technical investigation |
-| 5 | /swift-development | Coding with standards |
-| 7 | /swift-localization | Translation management |
-| 8 | /commit-message | Generate commit message |
-
 ## Example Session
 
 ```
 User: "このタスクやって" (with Vigilare task in context)
 
-[TaskCreate for all 8 phases]
+[TaskCreate for all 8 phases with skill annotations]
 
-Phase 1: Task identified from context
+Phase 1: Task identified from context → No Skill needed
 Phase 2: [PARALLEL] Read Package.swift, project.pbxproj, task notes
          → Found: iOS 17+, macOS 14+, Swift 5.9
 Phase 3: [PARALLEL]
+         - Skill("research") ← INVOKED
          - WebSearch "SwiftUI Observable iOS 17 site:apple.com"
          - WebFetch Apple docs
-         - /research for patterns
          - Read existing code
          → Record findings to Vigilare comment
 Phase 4: Present plan with deployment target considerations
-Phase 5: Implement with /swift-development + swift-format
-Phase 6: swift build → swift test → All green ✓
-Phase 7: Ask user to build in Xcode → /swift-localization
-Phase 8: Generate commit message, record progress
+Phase 5: Skill("swift-development") ← INVOKED
+         Implement with standards + swift-format
+Phase 6: swift build → swift test → All green
+Phase 7: Ask user to build in Xcode
+         Skill("swift-localization") ← INVOKED
+Phase 8: Skill("commit-message") ← INVOKED
+         Record progress to Vigilare
          → "コミットとタスク完了はお願いします"
 ```
