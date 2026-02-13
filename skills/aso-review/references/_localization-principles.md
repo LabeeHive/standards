@@ -64,5 +64,5 @@ Detect these regardless of language:
 ### French (fr)
 - Slightly more formal than EN, but not stiff
 - Avoid heavy anglicisms where French equivalents exist
-- Natural: 「Tes taches, bien organisees」
-- Unnatural: 「Gerez vos taches de maniere comprehensive」
+- Natural: 「Tes tâches, bien organisées」
+- Unnatural: 「Gérez vos tâches de manière comprehensive」

@@ -45,20 +45,22 @@ Verify the review target is ASO metadata.
 
 **Valid targets:**
 - `**/metadata/**` — fastlane metadata (subtitle, keywords, description per locale)
-- `**/i18n/**/*.json` — translation files
 
-**Redirect:** If `.tsx` LP files detected, tell user: "LP pages should use `/lp-review` instead."
+**Redirect:** If `.tsx` LP files or `docusaurus.config.*` detected, tell user: "LP pages should use `/lp-review` instead."
+
+**No metadata found:** If no fastlane metadata directory exists, ask the user for the path before proceeding.
 
 ### Phase 1: Discover Target Files
 
 ```
 Glob("**/metadata/**")     → fastlane metadata
-Glob("**/i18n/**/*.json")  → translation files
 ```
 
 - Read ALL discovered files
 - Build locale inventory (expect 14+ languages)
 - Log discovered locales: `ja, en, ko, zh-Hans, de, es, fr, ...`
+
+**If fewer than expected locales found:** Inform the user how many locales were detected and confirm whether to proceed or wait for missing locales.
 
 ### Phase 2: Build Shared Context
 
@@ -71,37 +73,65 @@ Gather before dispatching to reviewers:
 
 ### Phase 3: Form Review Team & Run Reviews
 
-**Launch ALL 3 agents in ONE message using Task tool. Do NOT launch sequentially.**
+**MUST call TeamCreate to create the review team:**
 
-| Agent | Role | Focus |
-|-------|------|-------|
-| aso-reviewer | LEAD — ASO specialist | Per-locale keyword research, subtitle optimization, competitive differentiation, search volume analysis |
-| naturalness-reviewer | Naturalness checker | Per-locale naturalness, "translated feel" detection, formality alignment |
-| messaging-reviewer | Value proposition & tone | Cross-locale value proposition consistency, tone alignment, brand voice |
+```
+TeamCreate("aso-review-team")
+```
 
-**CRITICAL:** Each agent MUST review EVERY detected locale independently. Not just JP and EN.
+**Then spawn ALL 3 agents in ONE message using Task tool. Do NOT launch sequentially.**
 
-**Agent instructions must include:**
+| Agent Name | subagent_type | Role |
+|------------|---------------|------|
+| aso-reviewer | labee-marketing-aso | **LEAD** — ASO optimization |
+| naturalness-reviewer | general-purpose | Naturalness checking |
+| messaging-reviewer | labee-pmm-fujimoto-ren | Value proposition & tone |
+
+**Each agent receives:**
 - Complete metadata text for all locales
 - The checklist from `references/_checklist-aso.md`
 - The localization principles from `references/_localization-principles.md`
 - Instruction to produce per-locale findings with P1/P2/P3 priority
 
+**CRITICAL:** Each agent MUST review EVERY detected locale independently. Not just JP and EN.
+
+**Per-agent instructions:**
+
+**aso-reviewer (LEAD):**
+- Per-locale keyword research (keywords are NOT translated — research local search terms independently)
+- Subtitle optimization within character limits (CJK ~15, Latin ~30)
+- Competitive differentiation per market (competitors differ by region)
+- Search volume analysis for primary keywords
+- Makes final call on conflicts between ASO and naturalness
+
+**naturalness-reviewer:**
+- Detect "translated feel" per locale (source-language structure leaking through)
+- Check formality alignment (consumer app = casual register in most locales)
+- Flag literally translated idioms and keyword stuffing disguised as natural text
+- Suggest specific rewrites for every flagged item
+
+**messaging-reviewer:**
+- Cross-locale value proposition consistency (core benefit must align)
+- Tone alignment with brand voice across all locales
+- Feature naming consistency (translated vs kept original)
+- Flag contradicting claims between locales
+
 ### Phase 4: Cross-Review Discussion
 
 **MUST use SendMessage between agents. Do NOT skip this phase.**
 
-Cross-pollinate findings:
+1. **SendMessage** aso-reviewer's keyword suggestions to naturalness-reviewer — "Are these keyword changes still natural?"
+2. **SendMessage** naturalness-reviewer's findings to aso-reviewer — "Can we preserve keywords while fixing naturalness?"
+3. **SendMessage** messaging consistency issues to all agents — "Locale X contradicts locale Y on value prop"
 
-1. Relay ASO keyword suggestions to naturalness-reviewer — "Are these keyword changes still natural?"
-2. Relay naturalness findings to aso-reviewer — "Can we preserve keywords while fixing naturalness?"
-3. Relay messaging consistency issues across all agents — "Locale X contradicts locale Y on value prop"
+Each agent responds with agreements, disagreements, and proposed resolutions.
 
-This ensures keyword optimization does not break naturalness, and naturalness fixes do not lose keywords.
+**The aso-reviewer (LEAD) makes final call on conflicts** — especially ASO keyword vs naturalness trade-offs.
 
 ### Phase 5: Synthesize Results
 
-Produce a prioritized report per locale, then clean up the review team.
+1. Collect final feedback from all agents after cross-review
+2. Produce a prioritized report per locale
 
 **Report format:**
 
@@ -131,7 +161,13 @@ Produce a prioritized report per locale, then clean up the review team.
 
 ## Cross-Locale Issues
 - [Issues spanning multiple locales]
+
+## Conflicts Resolved
+- [Conflict]: [Resolution by lead reviewer]
 ```
+
+3. **MUST call TeamDelete("aso-review-team")** after synthesizing results.
+4. Present report to user and **wait for approval** before applying fixes.
 
 ### Phase 6: Apply Fixes
 
@@ -151,6 +187,8 @@ Produce a prioritized report per locale, then clean up the review team.
 **Good (natural with keyword):**
 > チームのタスクと時間をまとめて管理
 
+**Why:** The bad version crams every keyword into the subtitle, sacrificing readability. The good version includes the primary keyword naturally while communicating a clear benefit.
+
 ### Korean: Translated vs Localized
 
 **Bad (translated from JP, sounds like a manual):**
@@ -158,6 +196,8 @@ Produce a prioritized report per locale, then clean up the review team.
 
 **Good (localized, casual and scannable):**
 > 할 일, 한눈에 정리
+
+**Why:** The bad version uses formal -습니다 endings and technical 작업 (work/task), reading like a translated manual. The good version uses casual 할 일 (to-do) with a noun-ending phrase natural to Korean App Store copy.
 
 ### German: Translated vs Localized
 
@@ -167,6 +207,8 @@ Produce a prioritized report per locale, then clean up the review team.
 **Good (addresses user directly):**
 > Deine Aufgaben und Zeit im Griff
 
+**Why:** The bad version omits the subject (natural in Japanese, awkward in German) and uses a bare verb. The good version addresses the user directly with "Deine" (du-form), standard for German consumer apps.
+
 ### Chinese: Translated vs Localized
 
 **Bad (reads like a spec sheet):**
@@ -174,6 +216,8 @@ Produce a prioritized report per locale, then clean up the review team.
 
 **Good (conversational, benefit-oriented):**
 > 轻松搞定每日待办
+
+**Why:** The bad version lists features in formal written register. The good version uses colloquial phrasing native to the Chinese App Store, leading with the benefit.
 
 ### English: AI Vocabulary in Metadata
 
@@ -183,6 +227,8 @@ Produce a prioritized report per locale, then clean up the review team.
 **Good:**
 > See your tasks. Check them off.
 
+**Why:** The bad version uses AI vocabulary ("delve", "comprehensive") that signals machine-generated text. The good version is concrete, action-oriented, and sounds human-written.
+
 ## Anti-Patterns
 
 1. **Do NOT launch agents sequentially** — all 3 in ONE Task call
@@ -191,6 +237,7 @@ Produce a prioritized report per locale, then clean up the review team.
 4. **Do NOT review only JP and EN** — MUST review ALL detected locales
 5. **Do NOT merge results without discussion** — agents must cross-check findings
 6. **Do NOT review LP pages** — redirect user to `/lp-review`
+7. **Do NOT forget TeamDelete** — always clean up the review team after Phase 5
 
 ## Reference Files
 
