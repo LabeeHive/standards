@@ -1,12 +1,6 @@
 # Products & Services
 
-## Company Overview
-
-- **Name:** ラビー合同会社 (Labee LLC)
-- **Location:** Yokohama, Japan (横浜線沿線)
-- **Founded by:** Engineers with 10+ years of experience
-- **Tagline:** もっと自由に、もっと楽しく。(More freedom, more fun.)
-- **Vision:** 人間とAIが並んで働く未来へ (Toward a future where humans and AI work side by side)
+> Last updated: 2026-02-14
 
 ## Target Audiences
 
@@ -25,13 +19,9 @@
 - Engineer-direct communication (エンジニアが直接対応)
 - Proximity — Yokohama Line corridor, face-to-face available
 - Speed and flexibility of a small team
-- Full-stack: Web, mobile (iOS/Android), desktop (macOS)
-- AI/LLM integration expertise
 
 **Service areas:**
-- Web application development
-- Mobile app development (Swift/SwiftUI, cross-platform)
-- Desktop app development (macOS)
+- Web / Mobile (Swift/SwiftUI) / Desktop (macOS) development
 - AI/LLM implementation and consulting
 - System architecture and technical consulting
 
@@ -39,12 +29,12 @@
 
 ### Chimr
 
-**What it is:** Calendar and schedule management tool for macOS.
+**What:** Calendar and schedule management tool for macOS.
 
 **Positioning:** Your day at a glance — meetings, events, and video calls without opening a full calendar app.
 
 **Key features:**
-- Today's events displayed in a clean, minimal interface
+- Today's events in a clean, minimal interface
 - One-click join for video meetings (Zoom, Google Meet, Teams)
 - Menu bar accessible — always visible, never in the way
 - MCP server integration for AI-powered scheduling
@@ -53,7 +43,7 @@
 
 ### Vigilare
 
-**What it is:** Task and reminder management tool for macOS.
+**What:** Task and reminder management tool for macOS.
 
 **Positioning:** Tasks that stay visible. Not buried in an app you forget to open.
 
@@ -65,14 +55,6 @@
 - MCP server for AI-powered task management
 
 **Target user:** Anyone who needs their tasks visible without a heavy project management tool.
-
-## Technology Stack
-
-- **Languages:** Swift, TypeScript, Python
-- **Platforms:** macOS, iOS, Web
-- **AI/LLM:** Claude (Anthropic), custom MCP servers
-- **Infrastructure:** Modern cloud-native stack
-- **Development tools:** Claude Code, fastlane, Xcode
 
 ## Messaging Principles
 

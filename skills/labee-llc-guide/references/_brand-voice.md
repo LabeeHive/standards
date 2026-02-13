@@ -1,10 +1,10 @@
 # Brand Voice Guide
 
-## Voice Principles
+## Guiding Phrase
 
-Labee's voice is guided by one phrase: **"もっと自由に、もっと楽しく。"** (More freedom, more fun.)
+**"もっと自由に、もっと楽しく。"** (More freedom, more fun.)
 
-Everything we write should feel like it comes from a skilled engineer who genuinely enjoys their work and wants to help — not from a corporate marketing department.
+Everything we write should feel like it comes from a skilled engineer who genuinely enjoys their work — not from a corporate marketing department.
 
 ## Core Voice Attributes
 
@@ -15,7 +15,26 @@ Everything we write should feel like it comes from a skilled engineer who genuin
 | Approachable | Partner, not vendor | Overly casual, sloppy |
 | Forward-looking | AI-native, modern tooling | Buzzword-heavy, hype |
 
-## Tone Adjustments by Context
+## Tone Spectrum
+
+Adjust tone by context. All contexts share the same voice — only intensity shifts.
+
+```
+Casual ◄─────────────────────────────────► Formal
+ SNS     Blog    LP(EN)   LP(JP)    Docs    Proposals
+```
+
+| Context | Warmth | Formality | Personality |
+|---------|:------:|:---------:|:-----------:|
+| SNS | High | Low | Playful, real |
+| Blog / Press | Medium | Medium | Informative, human |
+| LP (English) | Medium | Low-Medium | Confident, benefit-first |
+| LP (Japanese) | High | Medium | Warm, partnership-focused |
+| App Store | Medium | Low-Medium | Scannable, value-first |
+| Technical Docs | Low | Medium | Precise, developer-friendly |
+| Proposals / Formal | Low | High | Professional, clear |
+
+## Tone by Context
 
 ### Landing Page (English)
 
@@ -45,7 +64,7 @@ Everything we write should feel like it comes from a skilled engineer who genuin
 - Scannable: lead with the key benefit
 - Keyword-aware but natural — don't stuff
 - Multi-language: maintain voice across all locales
-- Focus on what the user can DO, not features lists
+- Focus on what the user can DO, not feature lists
 
 **Good:**
 > Your calendar, tasks, and meetings — one glance. Chimr keeps your day visible without getting in the way.
@@ -63,7 +82,7 @@ Everything we write should feel like it comes from a skilled engineer who genuin
 > Shipped a new Vigilare update. Task lists now sync in under 200ms. Small wins.
 
 **Bad:**
-> We're thrilled to announce an exciting new update! 🎉🚀 Our amazing team has been working tirelessly...
+> We're thrilled to announce an exciting new update! Our amazing team has been working tirelessly...
 
 ### Technical Documentation
 
@@ -78,13 +97,30 @@ Everything we write should feel like it comes from a skilled engineer who genuin
 **Bad:**
 > Our powerful and intuitive CLI tool offers flexible output formatting options to meet your diverse needs.
 
+### Proposals / Formal
+
+- Professional but still human. No corporate armor.
+- Clear structure, specific deliverables, no buzzwords.
+
+**Good:**
+> ラビーは横浜線沿線を中心に、エンジニアが直接対応する開発パートナーです。ご相談からリリースまで、同じチームが一貫して担当します。
+
+**Bad:**
+> 弊社は統合的なITソリューションの提供を通じ、貴社のDX推進およびビジネス変革を全面的にご支援いたします。
+
 ### Internal / Agent Communication
 
 - Efficient, clear, no ceremony
 - State facts, then actions
 - Questions are cheaper than assumptions
 
-## Anti-Patterns (What Labee Never Sounds Like)
+**Good:**
+> LP hero section updated. Removed "comprehensive" — replaced with specific feature list. Ready for review.
+
+**Bad:**
+> I've completed the comprehensive revision of the landing page hero section. Please find the updated copy attached for your kind review and consideration.
+
+## Anti-Patterns
 
 ### Corporate Speak
 > 弊社は、お客様のデジタルトランスフォーメーションを包括的にサポートする統合ソリューションプロバイダーとして...
@@ -93,7 +129,7 @@ Everything we write should feel like it comes from a skilled engineer who genuin
 > We're disrupting the productivity space with our AI-powered, cloud-native, enterprise-grade platform!
 
 ### Overly Cute
-> Hey there, friend! 👋 Ready to make your tasks super duper organized? Let's gooo! 🚀✨
+> Hey there, friend! Ready to make your tasks super duper organized? Let's gooo!
 
 ### Empty Confidence
 > We are the leading provider of innovative solutions in the Yokohama corridor region.
@@ -115,3 +151,32 @@ Everything we write should feel like it comes from a skilled engineer who genuin
 > AI isn't replacing your team. It's giving them better tools. We help you figure out which ones actually matter.
 
 > Built by engineers, for people who build things.
+
+## Review Checklist
+
+Use this when reviewing any Labee-facing content:
+
+**All content:**
+
+| Check | Question |
+|:-----:|----------|
+| [ ] | Does it sound like an engineer, not a marketer? |
+| [ ] | Could you remove filler words without losing meaning? |
+| [ ] | Is the first sentence about the reader's benefit (not about Labee)? |
+| [ ] | Free of anti-patterns? (corporate speak, startup hype, overly cute, empty confidence) |
+| [ ] | Tone matches the context? (see Tone Spectrum above) |
+| [ ] | Specific numbers or details instead of vague superlatives? |
+
+**Japanese-specific:**
+
+| Check | Question |
+|:-----:|----------|
+| [ ] | Uses です/ます without excessive keigo? |
+| [ ] | Partnership language (一緒に) over provider language (弊社は〜を提供)? |
+
+**English-specific:**
+
+| Check | Question |
+|:-----:|----------|
+| [ ] | Short sentences, active voice, no buzzwords? |
+| [ ] | Leads with verbs or benefits, not "We are" / "Our"? |
