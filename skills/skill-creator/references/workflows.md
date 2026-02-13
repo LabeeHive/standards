@@ -42,6 +42,49 @@ Run exactly:
 3. `git push --force-with-lease`
 ```
 
+## Phase Tracking
+
+For skills with 3+ steps, use Phase Tracking to ensure progress visibility and mandatory execution.
+
+**Pattern:** Create tasks at workflow start, annotate each with what must be executed:
+
+    ## Phase Tracking
+
+    **At workflow start, create tasks for each phase:**
+
+    TaskCreate: "Step 1: Verify        | MUST run: bun scripts/verify.ts"
+    TaskCreate: "Step 2: Execute       | Skills: /some-skill"
+    TaskCreate: "Step 3: Re-verify     | MUST run: bun scripts/verify.ts"
+    TaskCreate: "Step 4: Report"
+
+    Update status as you progress: `in_progress` when starting, `completed` when done.
+
+**Annotation format:**
+
+| Annotation | Use When | Example |
+|------------|----------|---------|
+| `\| MUST run: {command}` | Script execution is required | `\| MUST run: bun scripts/verify.ts` |
+| `\| Skills: /name` | Skill invocation is required | `\| Skills: /swift-development` |
+| `\| Skills: /name (if condition)` | Conditional skill invocation | `\| Skills: /localization (if UI strings changed)` |
+| (no annotation) | No specific execution required | Phase is purely manual or analytical |
+
+**Add an execution checklist table after the phase list** to make mandatory actions scannable:
+
+    **Execution checklist (verify at end):**
+
+    | Phase | Must Execute | Condition |
+    |-------|-------------|-----------|
+    | 1 | `bun scripts/verify.ts` | Always |
+    | 2 | `Skill("some-skill")` | Always |
+    | 3 | `bun scripts/verify.ts` | Always |
+
+**When to use Phase Tracking:**
+- Skill has 3+ sequential steps
+- Steps include mandatory script runs or skill invocations
+- Skipping a step could produce incorrect output
+
+**Real examples:** See `swift-workflow` (8 phases with skill annotations) and `swift-localization` (4 steps with MUST run annotations).
+
 ## Sequential Workflows
 
 Break complex tasks into numbered steps:

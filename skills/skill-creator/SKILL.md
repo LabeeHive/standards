@@ -17,15 +17,24 @@ Create effective skills that extend Claude's capabilities.
 
 ```
 TaskCreate: "Phase 1: Understand"
-TaskCreate: "Phase 2: Research"
+TaskCreate: "Phase 2: Research              | WebFetch spec + guide, Task(Explore)"
 TaskCreate: "Phase 3: Plan Resources"
-TaskCreate: "Phase 4: Initialize"
-TaskCreate: "Phase 5: Create Resources"
+TaskCreate: "Phase 4: Initialize            | MUST run: bun scripts/init_skill.ts"
+TaskCreate: "Phase 5: Create Resources      | Test scripts against real project"
 TaskCreate: "Phase 6: Write SKILL.md"
-TaskCreate: "Phase 7: Validate & Package"
+TaskCreate: "Phase 7: Validate & Package    | MUST run: bun scripts/quick_validate.ts"
 ```
 
 Update status as you progress: `in_progress` when starting, `completed` when done.
+
+**Execution checklist (verify at end):**
+
+| Phase | Must Execute | Condition |
+|-------|-------------|-----------|
+| 2 | WebFetch spec + guide, Task(Explore) | Unless skip criteria met |
+| 4 | `bun scripts/init_skill.ts` | New skill only |
+| 5 | Test scripts against real project | Scripts exist |
+| 7 | `bun scripts/quick_validate.ts` | Always |
 
 ## Progressive Disclosure (3-Level Loading)
 
@@ -157,7 +166,7 @@ For each script identified in Phase 3:
 
 3. **Test against a real project:** Run the script against an actual project that uses the target tool/format. Do not rely on `--help` alone.
 
-3. Fix any failures before moving on.
+4. Fix any failures before moving on.
 
 #### 5b: References
 
