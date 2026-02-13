@@ -65,8 +65,8 @@ pages/
 │   └── img/                  # Static assets
 │       ├── app-icon.png      # App icon
 │       └── og-image.png      # Social card image
-└── i18n/
-    └── ja/                   # Japanese translations
+└── i18n/                        # Add only when translations are ready
+    └── {locale}/
         └── docusaurus-plugin-content-docs/
             └── current/
 ```

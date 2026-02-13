@@ -39,6 +39,9 @@ const config: Config = {
   // Fail on broken links
   onBrokenLinks: "throw",
 
+  // GitHub Pages serves directories with trailing slashes
+  trailingSlash: true,
+
   // ... rest of config
 };
 
@@ -122,14 +125,9 @@ headTags: [
       content: 'https://{product}.labee.dev/img/og-image.png',
     },
   },
-  // Canonical URL
-  {
-    tagName: 'link',
-    attributes: {
-      rel: 'canonical',
-      href: 'https://{product}.labee.dev/',
-    },
-  },
+  // NOTE: Do NOT add a hardcoded <link rel="canonical"> here.
+  // Docusaurus automatically generates the correct canonical URL for each page.
+  // A hardcoded canonical causes all pages to point to the same URL, harming SEO.
 ],
 ```
 
@@ -206,7 +204,20 @@ themeConfig: {
 
 ### Default locales
 
-Support English and Japanese:
+Start with English only. Add locales only when translations are ready:
+
+```typescript
+i18n: {
+  defaultLocale: "en",
+  locales: ["en"],
+},
+```
+
+**Warning:** Including a locale without complete translations (e.g., `["en", "ja"]`) generates duplicate pages that Google flags as "Duplicate, submitted URL not selected as canonical". Only add a locale when its translations are fully prepared.
+
+### Adding a locale
+
+When translations are ready, add the locale and create the translation files:
 
 ```typescript
 i18n: {
@@ -214,8 +225,6 @@ i18n: {
   locales: ["en", "ja"],
 },
 ```
-
-### Translation files
 
 Place translations in `i18n/ja/`:
 
