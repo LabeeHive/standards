@@ -50,6 +50,45 @@ async function main() {
     const untranslatedOutput = await run(["xckit", "untranslated", "-f", file]);
     console.log(untranslatedOutput);
     console.log();
+
+    // Validate key naming convention (hierarchical dot-notation)
+    // Valid: settings.general.title, reminder.detail.notes
+    // Invalid: natural language ("Are you sure?"), flat (SettingsTitle),
+    //          snake_case (settings_title), UpperCamelCase segments (Settings.Title)
+    const content = await Bun.file(file).json();
+    const keys = Object.keys(content.strings || {});
+    // Skip Xcode auto-generated keys:
+    // - Empty string (source language marker)
+    // - Pure format specifier keys: %lld, (%lld), %@, etc.
+    // For keys containing format specifiers (list.create %@),
+    // strip the specifier and validate the remaining dot-notation.
+    const isPureFormatSpecifier = (key: string) => /^[()]*%/.test(key);
+    const stripFormatSpecifiers = (key: string) =>
+      key.replace(/\s*%[@dllfsc]+/g, "").trim();
+
+    const invalidKeys = keys.filter((key) => {
+      if (key === "") return false;
+      if (isPureFormatSpecifier(key)) return false;
+      const normalized = stripFormatSpecifiers(key);
+      if (normalized.includes(" ")) return true;
+      if (!normalized.includes(".")) return true;
+      const segments = normalized.split(".");
+      return segments.some(
+        (s) =>
+          s.length === 0 ||
+          /[A-Z]/.test(s[0]) ||
+          s.includes("_") ||
+          s.includes("-"),
+      );
+    });
+
+    if (invalidKeys.length > 0) {
+      console.log(`Key naming violations (expected: screen.section.element):`);
+      for (const key of invalidKeys) {
+        console.log(`  - "${key}"`);
+      }
+      console.log();
+    }
   }
 }
 

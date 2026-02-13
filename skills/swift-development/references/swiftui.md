@@ -454,6 +454,14 @@ Text("Content")
 
 ---
 
+## Localized strings - P1
+
+**Rules:**
+- Use `String(localized:defaultValue:)` for all user-facing text
+- See [Localization keys](naming.md#localization-keys---p1) for key naming format
+
+---
+
 ## References
 
 - [ViewModel conventions](viewmodel.md)

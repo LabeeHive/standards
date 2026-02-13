@@ -248,6 +248,31 @@ let numberOfChars: Int      // Use characterCount instead
 
 ---
 
+## Localization keys - P1
+
+**Rules:**
+- Use hierarchical dot-notation (`screen.section.element`)
+- Use `lowerCamelCase` for each segment
+- Use `String(localized:defaultValue:)` initializer
+
+**✅ Good:**
+
+```swift
+String(localized: "settings.general.title", defaultValue: "General")
+String(localized: "reminder.detail.notes", defaultValue: "Notes")
+String(localized: "error.network.message", defaultValue: "Connection failed")
+```
+
+**❌ Bad:**
+
+```swift
+String(localized: "SettingsGeneralTitle", defaultValue: "General")     // No dots
+String(localized: "settings_general_title", defaultValue: "General")   // snake_case
+String(localized: "General", defaultValue: "General")                  // No hierarchy
+```
+
+---
+
 ## References
 
 - [Apple Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
