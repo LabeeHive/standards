@@ -199,7 +199,7 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 | Self-contained task with explicit instructions | Release workflow |
 | Final report is sufficient | Code generation |
 | Long-running automation | Deploy pipeline |
-| Orchestration that calls other skills | swift-workflow |
+| Orchestration that calls other skills (no conversation context needed) | swift-release |
 
 ### Do NOT use `context: fork`
 

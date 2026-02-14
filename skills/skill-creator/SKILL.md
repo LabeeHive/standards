@@ -22,7 +22,8 @@ TaskCreate: "Phase 3: Plan Resources"
 TaskCreate: "Phase 4: Initialize            | MUST run: bun scripts/init_skill.ts"
 TaskCreate: "Phase 5: Create Resources      | Test scripts against real project"
 TaskCreate: "Phase 6: Write SKILL.md"
-TaskCreate: "Phase 7: Validate & Package    | MUST run: bun scripts/quick_validate.ts"
+TaskCreate: "Phase 7: Review Gate           | Agents: labee-dev-tech-lead, labee-dev-apm"
+TaskCreate: "Phase 8: Validate & Package    | MUST run: bun scripts/quick_validate.ts"
 ```
 
 Update status as you progress: `in_progress` when starting, `completed` when done.
@@ -34,7 +35,8 @@ Update status as you progress: `in_progress` when starting, `completed` when don
 | 2 | WebFetch spec + guide, Task(Explore) | Unless skip criteria met |
 | 4 | `bun scripts/init_skill.ts` | New skill only |
 | 5 | Test scripts against real project | Scripts exist |
-| 7 | `bun scripts/quick_validate.ts` | Always |
+| 7 | `Task(labee-dev-tech-lead)` + `Task(labee-dev-apm)` | Always |
+| 8 | `bun scripts/quick_validate.ts` | Always |
 
 ## Progressive Disclosure (3-Level Loading)
 
@@ -212,9 +214,43 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 
 **For ARL-enabled skills:** See `references/autonomous-refinement-loop.md` and `references/arl-skill-template.md`.
 
-### Phase 7: Validate & Package
+### Phase 7: Review Gate (PARALLEL)
 
-#### 7a: Quick Validate
+**Required agents:** MUST spawn both `labee-dev-tech-lead` and `labee-dev-apm` via Task tool.
+
+**This phase is BLOCKING. Both reviewers must approve before proceeding to Phase 8.**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ PARALLEL: Spawn 2 reviewers via Task                        │
+├─────────────────────────────────────────────────────────────┤
+│ 1. Task(labee-dev-tech-lead) → Process compliance review    │
+│    - References were read before writing SKILL.md           │
+│    - Structure follows existing skill patterns              │
+│    - No TODO placeholders or incomplete sections            │
+│    - Frontmatter values are justified (model, tools, etc.)  │
+│                                                             │
+│ 2. Task(labee-dev-apm) → Technical & automation review      │
+│    - Script quality (error handling, exit codes, shebang)   │
+│    - Scripts tested against real projects, not just --help  │
+│    - Missed automation: repeated operations that SHOULD be  │
+│      scripts but were left as manual SKILL.md instructions  │
+│    - Deterministic steps that could be combined into one    │
+│      script                                                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Provide each reviewer with:**
+- The complete SKILL.md content
+- List of all resources created in Phase 5
+- The resource plan from Phase 3 (so reviewers can verify completeness)
+
+**On approval:** Both return LGTM → proceed to Phase 8.
+**On rejection:** Fix issues cited by reviewers → re-run Phase 7.
+
+### Phase 8: Validate & Package
+
+#### 8a: Quick Validate
 
 ```bash
 bun skills/skill-creator/scripts/quick_validate.ts skills/{skill-name}
@@ -222,7 +258,7 @@ bun skills/skill-creator/scripts/quick_validate.ts skills/{skill-name}
 
 Fix any errors and re-run.
 
-#### 7b: Checklist
+#### 8b: Checklist
 
 **Agent Skills Spec Compliance:**
 - [ ] name: 1-64 chars, lowercase + hyphens only, matches folder
@@ -249,7 +285,7 @@ Fix any errors and re-run.
 - [ ] Scripts have shebang, usage docs, proper exit codes
 - [ ] Scripts tested against a real project with real data
 
-#### 7c: Package
+#### 8c: Package
 
 Add the skill to `.claude-plugin/marketplace.json` if applicable.
 

@@ -28,6 +28,8 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | `/lp-review` | Review English LP copy (messaging, naturalness, SEO) |
 | `/aso-review` | Review App Store metadata across 14+ languages |
 | `/agent-creator` | Create Claude Code custom agents |
+| `/skill-creator` | Create and update Claude skills |
+| `/swift-workflow` | Swift development workflow (Vigilare to implementation) |
 
 ---
 
@@ -78,7 +80,9 @@ skills/
 ├── labee-llc-guide/     # Labee brand voice and messaging context
 ├── lp-review/           # English LP copy review (team-based)
 ├── aso-review/          # App Store metadata review (14+ languages)
-└── agent-creator/       # Create Claude Code custom agents
+├── agent-creator/       # Create Claude Code custom agents
+├── skill-creator/       # Create and update Claude skills
+└── swift-workflow/      # Swift development workflow
 ```
 
 ---
