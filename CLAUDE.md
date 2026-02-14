@@ -44,6 +44,7 @@ AI employees for Labee LLC. Available as custom agents when this plugin is insta
 | `labee-marketing-aso` | App Store Optimization | 佐藤 翔太 (Sato Shota) |
 | `labee-marketing-analyst` | Data Analytics | 中村 理沙 (Nakamura Risa) |
 | `labee-dev-apm` | APM & Performance | 山田 健一 (Yamada Kenichi) |
+| `labee-dev-tech-lead` | Tech Lead | 黒沢 大輝 (Kurosawa Daiki) |
 
 ---
 
@@ -57,7 +58,8 @@ agents/
 ├── labee-marketing-seo.md      # SEO & Blog (Takahashi Hina)
 ├── labee-marketing-aso.md      # App Store Optimization (Sato Shota)
 ├── labee-marketing-analyst.md  # Data Analytics (Nakamura Risa)
-└── labee-dev-apm.md            # APM & Performance (Yamada Kenichi)
+├── labee-dev-apm.md            # APM & Performance (Yamada Kenichi)
+└── labee-dev-tech-lead.md      # Tech Lead (Kurosawa Daiki)
 skills/
 ├── documentation/       # Documentation writing standards
 ├── swift-development/   # Swift and SwiftUI coding standards
