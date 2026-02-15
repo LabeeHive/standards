@@ -6,9 +6,10 @@
  *   bun scripts/capture.ts [mode]
  *
  * Modes:
- *   (none)              Full screen capture (silent)
+ *   (none)              Interactive region selection (default)
  *   select / 選択       Interactive region selection
  *   window / ウィンドウ  Click to select window
+ *   full / フルスクリーン  Full screen capture (silent)
  *
  * Output:
  *   Prints the saved file path to stdout.
@@ -41,9 +42,10 @@ Usage:
   bun scripts/capture.ts [mode]
 
 Modes:
-  (none)              Full screen capture (silent)
-  select / 選択       Interactive region selection
-  window / ウィンドウ  Click to select window
+  (none)                    Interactive region selection (default)
+  select / 選択             Interactive region selection
+  window / ウィンドウ        Click to select window
+  full / フルスクリーン       Full screen capture (silent)
 
 Options:
   --help              Show this help message`);
@@ -80,14 +82,14 @@ function main() {
 
 function resolveFlags(mode: string): string[] {
   switch (mode) {
-    case "select":
-    case "選択":
-      return ["-i", "-x", "-t", "jpg"];
+    case "full":
+    case "フルスクリーン":
+      return ["-x", "-t", "jpg"];
     case "window":
     case "ウィンドウ":
       return ["-w", "-x", "-t", "jpg"];
     default:
-      return ["-x", "-t", "jpg"];
+      return ["-i", "-x", "-t", "jpg"];
   }
 }
 

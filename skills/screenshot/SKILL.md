@@ -1,6 +1,6 @@
 ---
 name: screenshot
-description: Capture macOS screen via screencapture command and read with Read tool. Use when the user wants to show their screen to Claude. Triggers on "スクショ", "screenshot", "スクリーンショット", "画面キャプチャ", "screen capture".
+description: Capture macOS screen region and read as image. Use when terminal doesn't support image paste or user wants to show specific screen area. Triggers on "スクショ", "screenshot", "スクリーンショット", "画面キャプチャ", "screen capture".
 model: haiku
 allowed-tools: Bash(bun:*), Read
 ---
@@ -20,9 +20,10 @@ bun scripts/capture.ts [mode]
 
 | Argument | Behavior |
 |----------|----------|
-| (none) | Full screen, silent |
+| (none) | Interactive region selection (default) |
 | `select` / `選択` | Interactive region selection |
 | `window` / `ウィンドウ` | Click to select window |
+| `full` / `フルスクリーン` | Full screen, silent |
 
 The script outputs the saved file path. Images are saved as JPG and downscaled if the long edge exceeds 2000px.
 
