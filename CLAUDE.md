@@ -30,6 +30,7 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | `/agent-creator` | Create Claude Code custom agents |
 | `/skill-creator` | Create and update Claude skills |
 | `/swift-workflow` | Swift development workflow (Vigilare to implementation) |
+| `/gemini-image` | Generate images using Gemini CLI with nanobanana extension |
 
 ---
 
@@ -84,7 +85,8 @@ skills/
 ├── aso-review/          # App Store metadata review (14+ languages)
 ├── agent-creator/       # Create Claude Code custom agents
 ├── skill-creator/       # Create and update Claude skills
-└── swift-workflow/      # Swift development workflow
+├── swift-workflow/      # Swift development workflow
+└── gemini-image/        # Gemini image generation (nanobanana)
 ```
 
 ---
