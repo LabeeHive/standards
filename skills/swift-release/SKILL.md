@@ -1,7 +1,7 @@
 ---
 name: swift-release
 description: Execute Swift app release workflow with fastlane. Use this when releasing apps to App Store. Triggers on "リリース", "release", "App Store", "fastlane", "リリースノート生成".
-model: opus
+model: sonnet
 context: fork
 agent: general-purpose
 disable-model-invocation: true

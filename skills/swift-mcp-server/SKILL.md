@@ -1,7 +1,7 @@
 ---
 name: swift-mcp-server
 description: Guide MCP server implementation for Swift apps. Use this when building Claude integrations in Swift. Triggers on "MCP server", "MCPサーバー", "Model Context Protocol", "Claude連携", "AI統合".
-model: opus
+model: sonnet
 context: fork
 agent: general-purpose
 disable-model-invocation: true

@@ -1,7 +1,7 @@
 ---
 name: lp-review
 description: Review English LP copy for messaging, naturalness, and SEO using a 3-agent review team. Use when reviewing landing page content. Triggers on "LP review", "LPレビュー", "landing page review", "LP copy", "コピーレビュー".
-model: opus
+model: sonnet
 context: fork
 allowed-tools: Read, Glob, Grep, Edit, Write, Task, TeamCreate, TeamDelete, SendMessage, TaskCreate, TaskUpdate, TaskList, Bash(pnpm:*)
 ---

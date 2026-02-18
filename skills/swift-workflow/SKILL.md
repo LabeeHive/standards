@@ -1,7 +1,7 @@
 ---
 name: swift-workflow
 description: Swift development workflow from Vigilare task to implementation. Orchestrates research, coding, localization, and wrap-up. Use this when starting a development task from Vigilare or implementing a feature end-to-end. Triggers on "タスクやって", "実装して", "開発開始", "start workflow", "implement task", "swift workflow".
-model: opus
+model: sonnet
 allowed-tools: Read, Glob, Grep, Skill, Task, EnterPlanMode, AskUserQuestion, WebFetch, WebSearch, Bash(xcrun:*), Bash(swift:*), TaskCreate, TaskUpdate, TaskList, mcp__vigilare__vigilare_get_reminders, mcp__vigilare__vigilare_get_reminder, mcp__vigilare__vigilare_add_comment
 ---
 

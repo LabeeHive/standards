@@ -1,7 +1,7 @@
 ---
 name: aso-review
 description: Review App Store metadata (fastlane) across 14+ languages for ASO, naturalness, and messaging. Use when reviewing localized metadata before release. Triggers on "ASO review", "ASOレビュー", "ストアレビュー", "metadata review", "メタデータレビュー", "store review".
-model: opus
+model: sonnet
 context: fork
 allowed-tools: Read, Glob, Grep, Edit, Write, Task, TeamCreate, TeamDelete, SendMessage, TaskCreate, TaskUpdate, TaskList, Bash(pnpm:*), Bash(fastlane:*)
 ---

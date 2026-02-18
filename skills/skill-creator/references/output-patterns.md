@@ -113,26 +113,28 @@ Output: `fix: resolve null pointer on app launch`
 
 ## Model Selection
 
+> **Context (Feb 2026):** Sonnet 4.6 matches Opus 4.5 on most practical tasks (SWE-bench 79.6%, OSWorld 72.5%) and exceeds it on office/finance benchmarks. Opus 4.6 leads only in abstract reasoning (ARC-AGI-2), terminal operations (Terminal-Bench), and complex web autonomy (BrowseComp). Haiku 4.5 is Anthropic's official recommendation for sub-agent tasks.
+
 **Numeric Decision Criteria:**
 
-| Model | Steps | File Writes | External Services | MCP Tools |
-|-------|:-----:|:-----------:|:-----------------:|:---------:|
-| haiku | Any | 0 | 0 | No |
-| sonnet | Any | 1-5 | 0-2 | Simple queries only |
-| opus | 4+ | Any | 3+ | Complex orchestration |
+| Model | When to Use | Price (in/out per MTok) |
+|-------|-------------|:-----------------------:|
+| haiku | No file writes, no complex reasoning, sub-agent tasks | $1 / $5 |
+| sonnet | File writes, MCP tools, multi-step workflows, standard orchestration | $3 / $15 |
+| opus | Autonomous self-correction loops (ARL), architectural design decisions, deep abstract reasoning | $5 / $25 |
 
 **Decision Tree:**
 ```
-Does skill use MCP tools AND perform complex reasoning/orchestration? → Yes → opus
-Does skill call 3+ external services? → Yes → opus
-Does skill have 4+ workflow steps AND write files or call external services? → Yes → opus
-Does skill write files? → Yes → sonnet
+Does skill require autonomous self-correction (ARL pattern)? → Yes → opus
+Does skill make architectural design decisions requiring deep abstract reasoning? → Yes → opus
+Does skill write files OR use MCP tools? → Yes → sonnet
 Otherwise → haiku
 ```
 
 **Exceptions:**
 - Guidance-only skills (no Write/Edit in allowed-tools) can use haiku regardless of step count
-- Simple MCP query skills (2 or fewer calls + formatting only) can use sonnet
+- Simple MCP query skills (read-only queries + formatting) can use sonnet
+- Skills with many steps but only standard orchestration (no ARL, no architectural decisions) → sonnet
 
 **Examples:**
 
@@ -142,10 +144,12 @@ Otherwise → haiku
 | documentation | 2 | 0 | 0 | No | haiku | Few steps, no writes |
 | today | 2 | 0 | 0 | Yes | sonnet | Simple MCP queries + formatting |
 | swift-development | 3 | 3 | 0 | No | sonnet | File writes |
-| repository-setup | 5 | 5 | 1 | No | sonnet | Writes but simple services |
+| repository-setup | 5 | 5 | 1 | No | sonnet | Writes + simple services |
 | github-workflow | 5 | 0 | 1 | No | sonnet | Analyzes code, writes PR body |
-| vigilare-task | 6 | 0 | 0 | Yes | opus | Complex MCP orchestration |
-| skill-creator | 7 | 4 | 0 | No | opus | Many steps + writes |
+| vigilare-task | 6 | 0 | 0 | Yes | sonnet | MCP orchestration (no ARL needed) |
+| swift-workflow | 8 | 5 | 0 | Yes | sonnet | Multi-step workflow, standard orchestration |
+| skill-creator | 7 | 4 | 0 | No | opus | ARL-capable, architectural design decisions |
+| aso-review | 3 | 3+ | 0 | No | sonnet | Multi-language ASO evaluation with file edits |
 
 ## Skill Type Matrix
 

@@ -1,7 +1,7 @@
 ---
 name: research
 description: Conduct deep research with multi-source verification and parallel investigation. Use for technical investigation, root cause analysis, and comprehensive comparison. Triggers on "調査して", "深掘りして", "research", "investigate", "徹底的に調べて".
-model: opus
+model: sonnet
 allowed-tools: Read, Glob, Grep, WebSearch, WebFetch, Bash(gh:*), Bash(curl:*), Task
 ---
 
