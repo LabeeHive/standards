@@ -11,7 +11,10 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | Skill | Description |
 |-------|-------------|
 | `/documentation` | Write documentation following Labee standards |
-| `/swift-development` | Write Swift/SwiftUI code following standards |
+| `/swift-core` | Swift code style, naming, formatting, file structure |
+| `/swift-architecture` | Swift app architecture, MVVM, ViewModel patterns |
+| `/swift-ui` | SwiftUI view implementation |
+| `/swift-testing` | Swift testing, mock/stub patterns |
 | `/swift-release` | Execute Swift app release workflow with fastlane |
 | `/swift-localization` | Manage Swift app localization with xckit |
 | `/swift-mcp-server` | Guide MCP server implementation for Swift apps |
@@ -67,7 +70,10 @@ agents/
 └── labee-creative-illustrator.md # Illustrator (Hoshino Ayane)
 skills/
 ├── documentation/       # Documentation writing standards
-├── swift-development/   # Swift and SwiftUI coding standards
+├── swift-core/          # Swift code style, naming, formatting
+├── swift-architecture/  # MVVM, ViewModel, architecture
+├── swift-ui/            # SwiftUI view implementation
+├── swift-testing/       # Testing, mock/stub patterns
 ├── swift-release/       # Swift app release workflow
 ├── swift-localization/  # Swift app localization
 ├── swift-mcp-server/    # MCP server implementation
