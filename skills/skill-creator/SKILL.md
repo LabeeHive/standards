@@ -63,8 +63,8 @@ skill-name/
 ## Official Documentation
 
 - **Agent Skills Specification**: https://agentskills.io/specification
-- **Building Skills Guide**: https://resources.anthropic.com/hubfs/The-Complete-Guide-to-Building-Skill-for-Claude.pdf
 - **Claude Code Skills**: https://code.claude.com/docs/en/skills
+- **Best Practices**: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
 
 ## Workflow
 
@@ -124,9 +124,12 @@ For **each scenario** from Phase 1, ask:
 **Then decide frontmatter:**
 
 1. **model** — See `references/output-patterns.md` Model Selection
-2. **allowed-tools** — List specific tool patterns needed
-3. **Invocation control** — See `references/output-patterns.md` Invocation Control
-4. **context: fork** — See `references/output-patterns.md` context: fork Decision
+2. **effort** — See `references/output-patterns.md` effort Decision
+3. **allowed-tools** — List specific tool patterns needed (space-delimited)
+4. **paths** — See `references/output-patterns.md` paths Decision. Set for any file-type-specific skill
+5. **argument-hint** — See `references/output-patterns.md` argument-hint Decision
+6. **Invocation control** — See `references/output-patterns.md` Invocation Control
+7. **context: fork** — See `references/output-patterns.md` context: fork Decision
 
 **Present the resource plan to the user for approval before proceeding.**
 
@@ -266,9 +269,14 @@ Fix any errors and re-run.
 - [ ] description: 1-1024 chars, non-empty
 
 **Labee Standards:**
-- [ ] description has WHAT + WHEN + Triggers (JP & EN)
+- [ ] description has WHAT + WHEN + Triggers (JP & EN), written in third person
+- [ ] description key info within first 250 characters (truncation boundary)
+- [ ] name does not contain reserved words (`anthropic`, `claude`)
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
 - [ ] model selected by numeric criteria (see `references/output-patterns.md`)
+- [ ] effort set appropriately for model (opus → max, haiku → low)
+- [ ] paths set for file-type-specific skills (glob patterns)
+- [ ] argument-hint set for skills with `disable-model-invocation: true` or meaningful arguments
 - [ ] Invocation control set correctly for skill type
 - [ ] context: fork ONLY for self-contained tasks
 

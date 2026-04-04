@@ -28,9 +28,12 @@ const SKILL_TEMPLATE = (name: string, title: string) => `---
 name: ${name}
 description: [TODO: WHAT it does]. [WHEN to use]. Triggers on "english-trigger", "日本語トリガー".
 model: sonnet
-context: fork
-agent: general-purpose
-allowed-tools: Read, Glob, Grep
+allowed-tools: Read Glob Grep
+# paths: "**/*.ext"           # Glob patterns for auto-activation (strongly recommended)
+# effort: high                # low | medium | high | max (max = Opus only)
+# argument-hint: "[input]"   # Hint shown in / autocomplete
+# context: fork              # Uncomment for isolated execution
+# agent: general-purpose     # Agent type when context: fork
 ---
 
 # ${title}
@@ -38,6 +41,15 @@ allowed-tools: Read, Glob, Grep
 ## Overview
 
 [TODO: 1-2 sentences explaining what this skill enables]
+
+## Available Substitutions
+
+- \`$ARGUMENTS\` — All arguments passed by user (e.g., \`/skill-name arg1 arg2\`)
+- \`$ARGUMENTS[0]\` / \`$0\` — First argument by index
+- \`\${CLAUDE_SKILL_DIR}\` — This skill's directory path (use for referencing bundled files)
+- \`!\\\`command\\\`\` — Dynamic context injection (shell command output replaces placeholder)
+
+Delete this section when done — it's just guidance.
 
 ## Structuring This Skill
 

@@ -13,6 +13,11 @@ Patterns for consistent skill output.
 
 **Required structure:** WHAT + WHEN + Triggers (JP & EN)
 
+**Constraints:**
+- **250-char truncation**: Descriptions longer than 250 characters are truncated in the skill listing. Front-load key use case and triggers within the first 250 characters.
+- **Third person only**: Description is injected into the system prompt. Inconsistent point-of-view causes discovery problems.
+- **Triggers must include BOTH English AND Japanese** for international accessibility.
+
 ```yaml
 description: [What it does]. [When to use]. Triggers on "english", "日本語".
 ```
@@ -20,6 +25,11 @@ description: [What it does]. [When to use]. Triggers on "english", "日本語".
 **Good:**
 ```yaml
 description: Create GitHub Issues and PRs following standards. Use this when filing issues or opening PRs. Triggers on "Issue作成", "PR作成", "pull request", "create issue", "起票".
+```
+
+**Bad (first person):**
+```yaml
+description: I can help you create GitHub Issues and PRs.
 ```
 
 **Bad (missing English triggers):**
@@ -32,11 +42,9 @@ description: Create tasks in Vigilare. Use this when adding tasks. Triggers on "
 description: GitHub workflow helper.
 ```
 
-**Triggers must include BOTH English AND Japanese** for international accessibility.
-
 ## allowed-tools Patterns
 
-Use specific patterns, not generic tool names:
+Use specific patterns, not generic tool names. The Agent Skills Spec defines `allowed-tools` as space-delimited. Claude Code also accepts comma-separated and YAML list format.
 
 | Pattern | Use For |
 |---------|---------|
@@ -52,7 +60,7 @@ Use specific patterns, not generic tool names:
 
 **Good:**
 ```yaml
-allowed-tools: Read, Glob, Grep, Bash(git:*), Bash(gh:*)
+allowed-tools: Read Glob Grep Bash(git:*) Bash(gh:*)
 ```
 
 **Bad:**
@@ -218,24 +226,96 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 
 ## Frontmatter Fields
 
-Complete field reference combining Agent Skills Spec and Labee extensions.
+Two layers: the open standard (agentskills.io) and Claude Code extensions.
 
 ### Agent Skills Spec Fields
 
+Source: https://agentskills.io/specification
+
 | Field | Required | Type | Constraints | Description |
 |-------|:--------:|------|-------------|-------------|
-| name | Yes | string | 1-64 chars, `[a-z0-9-]`, no leading/trailing/consecutive hyphens | Skill identifier, must match folder name |
-| description | Yes | string | 1-1024 chars, no angle brackets | WHAT + WHEN + Triggers |
+| name | Yes | string | 1-64 chars, `[a-z0-9-]`, no leading/trailing/consecutive hyphens. Reserved words: `anthropic`, `claude` | Skill identifier, must match folder name |
+| description | Yes | string | 1-1024 chars, no angle brackets. First 250 chars shown in listing. Must be third person | WHAT + WHEN + Triggers |
 | license | No | string | SPDX identifier | License for the skill |
-| allowed-tools | No | string | Comma-separated | Tools the skill can use |
+| compatibility | No | string | 1-500 chars | Environment requirements (platform, packages, network) |
+| allowed-tools | No | string | Space-delimited (spec standard). Claude Code also accepts comma-separated and YAML list | Tools the skill can use |
 | metadata | No | object | Key-value pairs | Arbitrary metadata |
 
-### Labee Extension Fields
+### Claude Code Extension Fields
+
+Source: https://code.claude.com/docs/en/skills
 
 | Field | Required | Type | Default | Description |
 |-------|:--------:|------|---------|-------------|
 | model | No | enum | (inherited) | `haiku`, `sonnet`, or `opus` |
+| effort | No | enum | (inherited) | `low`, `medium`, `high`, `max` (max = Opus 4.6 only). Overrides session effort |
 | context | No | enum | (normal) | `fork` for isolated execution |
-| agent | No | string | - | Agent type (e.g., `general-purpose`) |
+| agent | No | string | - | Agent type when `context: fork` (e.g., `general-purpose`, `Explore`) |
+| paths | No | string | - | Glob patterns (comma-separated or YAML list). Skill auto-activates only when working with matching files |
+| argument-hint | No | string | - | Hint shown in `/` autocomplete (e.g., `[issue-number]`) |
 | disable-model-invocation | No | bool | false | Prevent auto-invocation by Claude |
 | user-invocable | No | bool | true | Show in `/` menu |
+| hooks | No | object | - | Hooks scoped to this skill's lifecycle |
+| shell | No | enum | bash | Shell for `` !`command` `` blocks. `bash` or `powershell` |
+
+### String Substitutions
+
+Available in SKILL.md body content:
+
+| Variable | Description |
+|----------|-------------|
+| `$ARGUMENTS` | All arguments passed when invoking the skill |
+| `$ARGUMENTS[N]` / `$N` | Specific argument by 0-based index |
+| `${CLAUDE_SESSION_ID}` | Current session ID |
+| `${CLAUDE_SKILL_DIR}` | Directory containing SKILL.md (use for referencing bundled scripts/files) |
+
+### Dynamic Context Injection
+
+`` !`command` `` in SKILL.md runs shell commands before content is sent to Claude. Output replaces the placeholder.
+
+```yaml
+## Context
+- Current branch: !`git branch --show-current`
+- Changed files: !`git diff --name-only`
+```
+
+## paths Decision
+
+**Skill auto-activation rate is below 20% even in relevant contexts.** Setting `paths` significantly improves activation for file-type-specific skills.
+
+| Condition | paths value | Example |
+|-----------|------------|---------|
+| Targets specific language files | `**/*.{ext}` | swift-core → `"**/*.swift"` |
+| Targets specific directory | `src/components/**` | component skill |
+| Universal skill (no file affinity) | Do not set | commit-message, today |
+
+`paths` accepts glob patterns as comma-separated string or YAML list. Same format as path-specific rules.
+
+```yaml
+# Single pattern
+paths: "**/*.swift"
+
+# Multiple patterns
+paths: "**/*.swift, **/Package.swift, **/Info.plist"
+
+# YAML list
+paths:
+  - "**/*.swift"
+  - "**/Package.swift"
+```
+
+## effort Decision
+
+| model | Recommended effort | Reason |
+|-------|-------------------|--------|
+| opus | `max` | Deep abstract reasoning benefits from maximum compute |
+| sonnet | (inherit or `high`) | Standard orchestration; override only if needed |
+| haiku | `low` | Guidance-only; minimize token usage |
+
+## argument-hint Decision
+
+| Condition | Set argument-hint | Example |
+|-----------|:--:|---------|
+| `disable-model-invocation: true` | Yes (strongly recommended) | `[target-environment]` |
+| Skill takes meaningful arguments | Yes | `[issue-number]` |
+| No arguments expected | No | - |

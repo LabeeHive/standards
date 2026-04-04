@@ -14,19 +14,27 @@ import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 
 const ALLOWED_PROPERTIES = new Set([
-  // Agent Skills Spec
+  // Agent Skills Spec (https://agentskills.io/specification)
   "name",
   "description",
   "license",
+  "compatibility",
   "allowed-tools",
   "metadata",
-  // Labee extensions
+  // Claude Code extensions (https://code.claude.com/docs/en/skills)
   "model",
+  "effort",
   "context",
   "agent",
+  "paths",
+  "argument-hint",
   "disable-model-invocation",
   "user-invocable",
+  "hooks",
+  "shell",
 ]);
+
+const RESERVED_NAME_WORDS = ["anthropic", "claude"];
 
 interface ValidationResult {
   valid: boolean;
@@ -99,6 +107,11 @@ export function validateSkill(skillPath: string): ValidationResult {
     }
     if (name.length > 64) {
       return { valid: false, message: `Name is too long (${name.length} characters). Maximum is 64 characters.` };
+    }
+    for (const word of RESERVED_NAME_WORDS) {
+      if (name.includes(word)) {
+        return { valid: false, message: `Name '${name}' contains reserved word '${word}'. Names cannot contain 'anthropic' or 'claude'.` };
+      }
     }
   }
 
