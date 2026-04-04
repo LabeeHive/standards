@@ -28,12 +28,14 @@ This repository provides skills for Claude Code. Use `/skill-name` to invoke.
 | `/today` | Show today's calendar events and tasks |
 | `/humanizer` | Remove AI writing patterns from text |
 | `/labee-llc-guide` | Labee brand voice, tone, and messaging context |
+| `/app-verb-theory` | Define app core experience through verbs for design consistency |
 | `/lp-review` | Review English LP copy (messaging, naturalness, SEO) |
 | `/aso-review` | Review App Store metadata across 14+ languages |
 | `/agent-creator` | Create Claude Code custom agents |
 | `/skill-creator` | Create and update Claude skills |
 | `/swift-workflow` | Swift development workflow (Vigilare to implementation) |
 | `/gemini-image` | Generate images using Gemini CLI with nanobanana extension |
+| `/obsidian-note` | Create and append notes in Obsidian vault via CLI |
 
 ---
 
@@ -87,12 +89,14 @@ skills/
 ├── today/               # Daily overview (calendar + tasks)
 ├── humanizer/           # Remove AI writing patterns
 ├── labee-llc-guide/     # Labee brand voice and messaging context
+├── app-verb-theory/     # App verb theory for design consistency
 ├── lp-review/           # English LP copy review (team-based)
 ├── aso-review/          # App Store metadata review (14+ languages)
 ├── agent-creator/       # Create Claude Code custom agents
 ├── skill-creator/       # Create and update Claude skills
 ├── swift-workflow/      # Swift development workflow
-└── gemini-image/        # Gemini image generation (nanobanana)
+├── gemini-image/        # Gemini image generation (nanobanana)
+└── obsidian-note/       # Obsidian vault note creation via CLI
 ```
 
 ---
