@@ -6,8 +6,7 @@ This document defines standards for file naming, directory structure, and versio
 
 ---
 
-## File naming - P1
-
+## File naming
 ### Snake_case convention
 
 **Rules:**
@@ -93,8 +92,7 @@ architecture (v2).md
 
 ---
 
-## Directory structure - P1
-
+## Directory structure
 ### Type-based organization
 
 **Rules:**
@@ -167,8 +165,7 @@ This directory contains coding standards applicable to all projects.
 
 ---
 
-## Version control - P2
-
+## Version control
 ### Git as source of truth
 
 **Rules:**
@@ -260,8 +257,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## File metadata - P3
-
+## File metadata
 ### YAML frontmatter
 
 **Rules:**
@@ -289,8 +285,7 @@ status: active
 
 ---
 
-## Directory naming - P1
-
+## Directory naming
 ### Snake_case for directories
 
 **Rules:**
@@ -342,8 +337,7 @@ docs/
 
 ---
 
-## Asset organization - P2
-
+## Asset organization
 ### Documentation assets
 
 **Rules:**
@@ -366,20 +360,19 @@ docs/architecture/
 
 ### Asset file size
 
-**P2 guidelines:**
+**Guidelines:**
 - Images: < 1 MB per file
 - Diagrams: Prefer SVG when possible
 - Screenshots: Optimize PNG compression
 
-**P3 guidelines:**
+**Additional guidelines:**
 - Use lossy compression for photos (JPEG 80-90% quality)
 - Use lossless compression for diagrams (PNG)
 - Consider WebP format for modern browsers
 
 ---
 
-## Cross-project reusability - P1
-
+## Cross-project reusability
 ### Shared documentation repositories
 
 **Rules:**
@@ -426,8 +419,7 @@ git clone --recursive https://github.com/your-org/project.git
 
 ---
 
-## Archiving and deprecation - P3
-
+## Archiving and deprecation
 ### Marking deprecated documents
 
 **Rules:**

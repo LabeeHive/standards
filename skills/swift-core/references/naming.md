@@ -6,7 +6,7 @@ This document defines naming conventions for Swift code. Consistent naming impro
 
 ---
 
-## Types - P1
+## Types
 
 ### Classes, structs, and enums
 
@@ -34,7 +34,7 @@ enum Wlvl { }               // Abbreviation
 
 ---
 
-### Protocols - P1
+### Protocols
 
 **Rules:**
 - Use `UpperCamelCase` with `Protocol` suffix
@@ -59,7 +59,7 @@ protocol IReminderService { }     // Hungarian notation
 
 ---
 
-## Functions and variables - P1
+## Functions and variables
 
 **Rules:**
 - Use `lowerCamelCase` for all function and variable names
@@ -87,7 +87,7 @@ var IsLoading = false        // UpperCamelCase
 
 ---
 
-## Booleans - P1
+## Booleans
 
 **Rules:**
 - Use `is`, `has`, `should`, or `can` prefix
@@ -114,7 +114,7 @@ var refresh: Bool     // Unclear meaning
 
 ---
 
-## Event handlers - P1
+## Event handlers
 
 **Rules:**
 - Use `did` or `will` prefix
@@ -139,7 +139,7 @@ func saveButtonPressed() { }     // No did/will prefix
 
 ---
 
-## UseCases - P1
+## UseCases
 
 **Rules:**
 - Start with a verb (describing the action)
@@ -165,7 +165,7 @@ class ReminderManager { }        // Missing UseCase suffix
 
 ---
 
-## Test methods - P1
+## Test methods
 
 **Rules:**
 - Format: `[method]_[condition]_[expected]`
@@ -191,7 +191,7 @@ class ReminderManager { }        // Missing UseCase suffix
 
 ---
 
-## Constants - P2
+## Constants
 
 **Rules:**
 - Use `lowerCamelCase` for constants
@@ -222,7 +222,7 @@ var TIMEOUT = 30                // SCREAMING_SNAKE_CASE, mutable
 
 ---
 
-## Abbreviations - P2
+## Abbreviations
 
 **Rules:**
 - Avoid abbreviations unless widely understood
@@ -248,7 +248,7 @@ let numberOfChars: Int      // Use characterCount instead
 
 ---
 
-## Localization keys - P1
+## Localization keys
 
 **Rules:**
 - Use hierarchical dot-notation (`screen.section.element`)

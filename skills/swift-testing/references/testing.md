@@ -6,7 +6,7 @@ This document defines testing conventions using Swift Testing framework. Followi
 
 ---
 
-## Basic structure - P1
+## Basic structure
 
 **Rules:**
 - Use `import Testing` instead of `XCTest`
@@ -52,7 +52,7 @@ struct ReminderUseCaseTests {
 
 ---
 
-## Test naming - P1
+## Test naming
 
 **Rules:**
 - Format: `[method]_[condition]_[expected]`
@@ -78,7 +78,7 @@ struct ReminderUseCaseTests {
 
 ---
 
-## Assertions - P1
+## Assertions
 
 ### #expect
 
@@ -120,7 +120,7 @@ let user = try #require(result.user)
 
 ---
 
-## AAA pattern - P1
+## AAA pattern
 
 **Rules:**
 - Structure all tests as Arrange-Act-Assert
@@ -151,7 +151,7 @@ let user = try #require(result.user)
 
 ---
 
-## Single assertion principle - P1
+## Single assertion principle
 
 **Rules:**
 - Each test verifies one behavior
@@ -194,7 +194,7 @@ let user = try #require(result.user)
 
 ---
 
-## Test organization with @Suite - P2
+## Test organization with @Suite
 
 **Rules:**
 - Use `@Suite` to group related tests
@@ -230,7 +230,7 @@ struct ReminderUseCaseTests {
 
 ---
 
-## Parameterized tests - P2
+## Parameterized tests
 
 **Rules:**
 - Use `arguments` parameter for testing multiple inputs
@@ -257,7 +257,7 @@ func setQuantity_WithInvalidValue_ThrowsError(quantity: Int) async {
 
 ---
 
-## Serial execution - P2
+## Serial execution
 
 **Rules:**
 - Tests run in parallel by default
@@ -277,7 +277,7 @@ struct DatabaseTests {
 
 ---
 
-## XCTest comparison - P2
+## XCTest comparison
 
 | XCTest | Swift Testing |
 |--------|---------------|
@@ -294,7 +294,7 @@ struct DatabaseTests {
 
 ---
 
-## Coverage goals - P2
+## Coverage goals
 
 **Targets:**
 - Unit tests: 80%+ coverage

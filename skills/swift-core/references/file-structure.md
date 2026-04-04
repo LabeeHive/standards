@@ -6,7 +6,7 @@ This document defines the standard structure for Swift source files. Consistent 
 
 ---
 
-## File organization - P1
+## File organization
 
 **Rules:**
 - Follow a consistent order within each file
@@ -61,7 +61,7 @@ extension ProjectNameService {
 
 ---
 
-## Import statements - P1
+## Import statements
 
 **Rules:**
 - Group imports by category
@@ -91,7 +91,7 @@ import SwiftUI
 
 ---
 
-## Type member order - P1
+## Type member order
 
 **Rules:**
 - Follow this order within types:
@@ -159,7 +159,7 @@ class LegacyViewModel: ObservableObject {
 
 ---
 
-## MARK comments - P1
+## MARK comments
 
 **Rules:**
 - Use `// MARK: -` for major sections (includes separator line)
@@ -197,7 +197,7 @@ private func process() { }
 
 ---
 
-## Extensions - P2
+## Extensions
 
 **Rules:**
 - Place extensions at the end of the file
@@ -234,7 +234,7 @@ extension ProjectNameViewController: UITableViewDelegate {
 
 ---
 
-## File naming - P1
+## File naming
 
 **Rules:**
 - File name should match the primary type name
@@ -260,7 +260,7 @@ Reminder-Service.swift        // Hyphenated
 
 ---
 
-## Directory structure - P2
+## Directory structure
 
 **Recommended structure:**
 

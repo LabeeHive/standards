@@ -2,7 +2,8 @@
 name: documentation
 description: Write and review documentation following Labee standards. Use this when creating or reviewing markdown files. Triggers on "ドキュメント", "README", "markdown", "docs", "文書作成", "ドキュメントレビュー".
 model: sonnet
-allowed-tools: Read, Glob, Grep, Edit, Write
+allowed-tools: Read Glob Grep Edit Write
+paths: "**/*.md"
 ---
 
 # Documentation Skill
@@ -32,9 +33,8 @@ Write and review documentation following Labee standards.
 
 ### Step 2b: Reviewing Documentation
 
-1. `_core-rules.md` is auto-loaded with P1 rules
+1. `_core-rules.md` is auto-loaded with core rules
 2. Check against rules, noting specific issues with line numbers
-3. Categorize issues by priority (P1 must fix, P2 should fix, P3 nice to have)
 
 ### Step 3: Provide Output
 
@@ -48,7 +48,7 @@ Write and review documentation following Labee standards.
 
 | File | Use When |
 |------|----------|
-| references/_core-rules.md | Auto-loaded: Essential P1 rules for all documentation |
+| references/_core-rules.md | Auto-loaded: Essential rules for all documentation |
 | references/writing-principles.md | Voice, tone, grammar, inclusive language |
 | references/document-structure.md | Structuring documents |
 | references/markdown-formatting.md | Markdown syntax questions |

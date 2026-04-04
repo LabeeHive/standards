@@ -2,7 +2,7 @@
 name: today
 description: Show today's calendar events and tasks at a glance. Use for daily overview. Triggers on "今日", "today", "daily summary", "今日の予定", "今日のタスク".
 model: sonnet
-allowed-tools: mcp__chimr__chimr_get_today_events, mcp__vigilare__vigilare_get_reminders
+allowed-tools: mcp__chimr__chimr_get_today_events mcp__vigilare__vigilare_get_reminders
 ---
 
 # Today Skill

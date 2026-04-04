@@ -6,8 +6,7 @@ This document defines standards for writing code examples in documentation. Clea
 
 ---
 
-## Placeholder names - P1
-
+## Placeholder names
 ### Use ProjectName as placeholder
 
 **Rules:**
@@ -60,8 +59,7 @@ projectname/
 
 ---
 
-## Code block formatting - P1
-
+## Code block formatting
 ### Syntax highlighting
 
 **Rules:**
@@ -119,8 +117,7 @@ The `UserService` class uses the `authenticate()` method to verify credentials. 
 
 ---
 
-## Good vs bad examples - P1
-
+## Good vs bad examples
 ### Use comparison format
 
 **Rules:**
@@ -163,8 +160,7 @@ class OrderService:
 
 ---
 
-## Code comments - P2
-
+## Code comments
 ### When to add comments
 
 **Add comments for:**
@@ -212,8 +208,7 @@ return user
 
 ---
 
-## Context provision - P1
-
+## Context provision
 ### Provide surrounding context
 
 **Rules:**
@@ -245,8 +240,7 @@ class OrderProcessor:
 
 ---
 
-## Complete examples - P1
-
+## Complete examples
 ### Ensure examples work
 
 **Rules:**
@@ -283,8 +277,7 @@ export class UserService {
 
 ---
 
-## Documentation comments - P2
-
+## Documentation comments
 ### Include doc comments for public APIs
 
 **Rules:**
@@ -334,8 +327,7 @@ function calculateShipping(weight: number, destination: string): number {
 
 ---
 
-## Example categories - P2
-
+## Example categories
 ### Full class/module examples
 
 Use for demonstrating complete patterns:
@@ -406,8 +398,7 @@ def get_user(user_id: str):
 
 ---
 
-## Multi-language examples - P2
-
+## Multi-language examples
 When documenting APIs or concepts that apply across languages, show examples in multiple languages:
 
 ````markdown

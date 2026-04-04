@@ -1,6 +1,6 @@
 # Core Documentation Rules
 
-Essential P1 rules that apply to all documentation. Auto-loaded with every skill invocation.
+Essential rules that apply to all documentation. Auto-loaded with every skill invocation.
 
 ---
 
@@ -69,24 +69,6 @@ Content...
 - Bullet lists for unordered items
 - Numbered lists only for sequences/steps
 - Max 3 levels of nesting
-
----
-
-## Priority Labels
-
-Use P1/P2/P3 in section headings for prioritization:
-
-| Label | Meaning | Action |
-|-------|---------|--------|
-| P1 | Critical | Must follow always |
-| P2 | Important | Follow when practical |
-| P3 | Nice to have | Consider for polish |
-
-**Example:**
-```markdown
-## Error handling - P1
-## Logging best practices - P2
-```
 
 ---
 

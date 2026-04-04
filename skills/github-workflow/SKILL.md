@@ -1,8 +1,9 @@
 ---
 name: github-workflow
-description: Create GitHub Issues and Pull Requests following Labee standards. Use this when filing issues or opening PRs. Triggers on "Issue作成", "PR作成", "pull request", "GitHub Issue", "起票".
+description: Create GitHub Issues and Pull Requests following Labee standards. Use when filing issues or opening PRs. Triggers on "Issue作成", "PR作成", "pull request", "GitHub Issue", "起票", "create issue", "create PR".
 model: sonnet
-allowed-tools: Read, Glob, Grep, Bash(git:*), Bash(gh:*)
+allowed-tools: Read Glob Grep Bash(git:*) Bash(gh:*)
+argument-hint: [issue or PR description]
 ---
 
 # GitHub Workflow Skill

@@ -3,6 +3,7 @@ name: obsidian-note
 description: Create and append notes in Obsidian vault using the official CLI. Use when saving ideas, research, or knowledge to Obsidian. Triggers on "メモして", "Obsidianに書いて", "ノート作成", "note to obsidian", "save note", "メモ追加", "書き留めて".
 model: sonnet
 allowed-tools: Bash(obsidian:*)
+argument-hint: [note content or topic]
 ---
 
 # Obsidian Note

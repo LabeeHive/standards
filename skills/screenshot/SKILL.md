@@ -2,7 +2,9 @@
 name: screenshot
 description: Capture macOS screen region and read as image. Use when terminal doesn't support image paste or user wants to show specific screen area. Triggers on "スクショ", "screenshot", "スクリーンショット", "画面キャプチャ", "screen capture".
 model: haiku
-allowed-tools: Bash(bun:*), Read
+effort: low
+allowed-tools: Bash(bun:*) Read
+argument-hint: [mode]
 ---
 
 # Screenshot

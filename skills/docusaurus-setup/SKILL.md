@@ -1,9 +1,12 @@
 ---
 name: docusaurus-setup
-description: Configure Docusaurus documentation sites. Use this when setting up or configuring Docusaurus projects. Triggers on "Docusaurus", "docusaurus.config", "ドキュメントサイト", "docs site setup".
+description: Configure Docusaurus documentation sites with SEO, i18n, and theme settings. Use when setting up new or modifying existing Docusaurus projects. Triggers on "Docusaurus", "docusaurus.config", "docs site setup", "ドキュメントサイト", "サイトセットアップ", "Docusaurus設定".
 model: sonnet
+effort: high
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Bash(npm:*), Bash(pnpm:*), Bash(bun:*), Bash(mkdir:*), Write, Edit
+argument-hint: [new|existing] [aspect]
+allowed-tools: Read Glob Grep Bash(npm:*) Bash(pnpm:*) Bash(bun:*) Bash(mkdir:*) Write Edit
+paths: "**/docusaurus.config.*"
 ---
 
 # Docusaurus Setup Skill

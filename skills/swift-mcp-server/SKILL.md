@@ -5,7 +5,9 @@ model: sonnet
 context: fork
 agent: general-purpose
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash(swift:*), Bash(mkdir:*)
+argument-hint: "[app-name]"
+paths: "**/*.swift"
+allowed-tools: Read Glob Grep Write Edit Bash(swift:*) Bash(mkdir:*)
 ---
 
 # Swift MCP Server Skill

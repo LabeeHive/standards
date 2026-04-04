@@ -1,9 +1,11 @@
 ---
 name: docusaurus-i18n
-description: Localize Docusaurus pages with Translate wrapping, skeleton generation, and translation. Use when internationalizing Docusaurus sites. Triggers on "i18n", "多言語化", "翻訳追加", "localize page", "internationalize", "ページの多言語化".
+description: Localize Docusaurus pages with Translate wrapping, skeleton generation, and translation. Use when internationalizing Docusaurus. Triggers on "i18n", "多言語化", "翻訳追加", "localize page", "internationalize", "ページの多言語化".
 model: sonnet
 context: fork
-allowed-tools: Read, Glob, Grep, Edit, Write, Bash(npx:*), Bash(pnpm:*), TaskCreate, TaskUpdate, TaskList
+allowed-tools: Read Glob Grep Edit Write Bash(npx:*) Bash(pnpm:*) TaskCreate TaskUpdate TaskList
+paths: "**/docusaurus.config.*, **/i18n/**/code.json"
+argument-hint: "[file-path]"
 ---
 
 # Docusaurus i18n

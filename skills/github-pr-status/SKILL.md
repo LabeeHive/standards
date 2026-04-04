@@ -1,10 +1,12 @@
 ---
 name: github-pr-status
-description: Show GitHub PR dashboard with your open PRs, review requests, and assignments. Use to check pending work. Triggers on "PR一覧", "PR status", "my PRs", "レビュー待ち", "open PRs".
+description: Show GitHub PR dashboard with open PRs, review requests, and assignments for the current user. Use to check pending work. Triggers on "PR一覧", "PR status", "my PRs", "レビュー待ち", "open PRs".
 model: haiku
+effort: low
 context: fork
 agent: general-purpose
 allowed-tools: Bash(gh:*)
+argument-hint: "[repo]"
 ---
 
 # GitHub PR Status

@@ -6,7 +6,7 @@ This document defines code formatting standards for Swift. Consistent formatting
 
 ---
 
-## Indentation - P1
+## Indentation
 
 **Rules:**
 - Use 2 spaces for indentation
@@ -42,7 +42,7 @@ struct ContentView: View {
 
 ---
 
-## Line length - P1
+## Line length
 
 **Rules:**
 - Maximum 100 characters per line
@@ -77,7 +77,7 @@ func createReminder(title: String, notes: String?, dueDate: Date?, listID: Strin
 
 ---
 
-## Braces - P1
+## Braces
 
 **Rules:**
 - Use K&R style (opening brace on same line)
@@ -118,7 +118,7 @@ if condition
 
 ---
 
-## Self usage - P1
+## Self usage
 
 **Rules:**
 - Omit `self` unless required
@@ -166,7 +166,7 @@ class ProjectNameService {
 
 ---
 
-## Comments - P1
+## Comments
 
 **Rules:**
 - Use `//` for single-line comments
@@ -198,7 +198,7 @@ func fetchReminders() { }
 
 ---
 
-## Trailing commas - P2
+## Trailing commas
 
 **Rules:**
 - Use trailing commas in multi-line arrays and dictionaries
@@ -232,7 +232,7 @@ let items = [
 
 ---
 
-## Blank lines - P2
+## Blank lines
 
 **Rules:**
 - One blank line between methods
@@ -277,7 +277,7 @@ struct ProjectNameViewModel {
 
 ---
 
-## Whitespace - P2
+## Whitespace
 
 **Rules:**
 - One space after colons in type declarations
@@ -302,7 +302,7 @@ func process(item : Item)     // Space before colon
 
 ---
 
-## Type inference - P2
+## Type inference
 
 **Rules:**
 - Prefer type inference when the type is obvious

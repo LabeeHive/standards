@@ -131,10 +131,3 @@ AI produces long sentences connected by commas where periods would be better.
 - [ ] Open Graph and Twitter Card meta tags present
 - [ ] Canonical URL is set correctly
 
-## Priority Classification
-
-| Priority | Definition | Example |
-|----------|-----------|---------|
-| P1 | Blocks conversion or damages trust | Broken CTA, misleading claim, wrong product name |
-| P2 | Reduces effectiveness | Weak hero copy, missing social proof, AI-sounding text |
-| P3 | Polish and optimization | Minor wording tweaks, heading hierarchy, alt text |

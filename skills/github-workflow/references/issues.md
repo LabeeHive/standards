@@ -6,7 +6,7 @@ This document defines standards for writing GitHub issues. Well-written issues i
 
 ---
 
-## Before creating an issue - P1
+## Before creating an issue
 
 ### Search for existing issues
 
@@ -25,7 +25,7 @@ Determine whether your issue is a:
 
 ---
 
-## Title - P1
+## Title
 
 ### Write clear, specific titles
 
@@ -55,7 +55,7 @@ Feature request
 
 ---
 
-## Description - P1
+## Description
 
 ### Bug reports
 
@@ -126,7 +126,7 @@ Add an "Export" button in Settings that generates a CSV file of user data.
 
 ---
 
-## Visual evidence - P2
+## Visual evidence
 
 ### Screenshots and recordings
 
@@ -150,7 +150,7 @@ The red outline shows where the error occurs.
 
 ---
 
-## Labels and metadata - P2
+## Labels and metadata
 
 ### Use labels consistently
 
@@ -159,7 +159,6 @@ Apply appropriate labels to help with triage and filtering:
 | Label category | Examples |
 |----------------|----------|
 | Type | `bug`, `feature`, `enhancement`, `question` |
-| Priority | `priority:high`, `priority:medium`, `priority:low` |
 | Status | `needs-triage`, `blocked`, `ready` |
 | Area | `frontend`, `backend`, `docs` |
 
@@ -175,7 +174,7 @@ Depends on #789
 
 ---
 
-## Scope - P2
+## Scope
 
 ### Keep issues focused
 
@@ -202,7 +201,7 @@ Issue 1: Improve signup form (add validation, password indicator, terms checkbox
 
 ---
 
-## Maintenance - P3
+## Maintenance
 
 ### Update issue status
 

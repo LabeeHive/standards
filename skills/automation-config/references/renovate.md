@@ -6,7 +6,7 @@ This document defines standards for using Renovate to automate dependency update
 
 ---
 
-## File placement - P1
+## File placement
 
 ### Use `.github/renovate.json5`
 
@@ -30,7 +30,7 @@ project/
 
 ---
 
-## Getting started - P1
+## Getting started
 
 ### Prerequisites
 
@@ -77,7 +77,7 @@ When Renovate first detects a repository without configuration, it creates an On
 
 ---
 
-## Basic principles - P1
+## Basic principles
 
 ### Enable Renovate on all repositories
 
@@ -124,7 +124,7 @@ Individual repositories do not need to configure this—it is inherited automati
 
 ---
 
-## Automerge - P1
+## Automerge
 
 ### Enable automerge for low-risk updates
 
@@ -175,7 +175,7 @@ Wait before automerging to allow time for the community to discover issues with 
 
 ---
 
-## Manual merge workflow - P1
+## Manual merge workflow
 
 ### Review major updates manually
 
@@ -224,7 +224,7 @@ Schedule regular reviews to prevent accumulation of pending updates.
 
 ---
 
-## Overriding shared configuration - P2
+## Overriding shared configuration
 
 ### Valid reasons to override
 
@@ -261,7 +261,7 @@ When adding project-specific overrides, include comments explaining why.
 
 ---
 
-## Noise reduction - P2
+## Noise reduction
 
 ### Group related packages
 
@@ -296,7 +296,7 @@ Schedule updates during low-activity periods to avoid disruption.
 
 ---
 
-## Troubleshooting - P3
+## Troubleshooting
 
 ### Common automerge issues
 

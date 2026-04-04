@@ -3,7 +3,7 @@ name: lp-review
 description: Review English LP copy for messaging, naturalness, and SEO using a 3-agent review team. Use when reviewing landing page content. Triggers on "LP review", "LPレビュー", "landing page review", "LP copy", "コピーレビュー".
 model: sonnet
 context: fork
-allowed-tools: Read, Glob, Grep, Edit, Write, Task, TeamCreate, TeamDelete, SendMessage, TaskCreate, TaskUpdate, TaskList, Bash(pnpm:*)
+allowed-tools: Read Glob Grep Edit Write Task TeamCreate TeamDelete SendMessage TaskCreate TaskUpdate TaskList Bash(pnpm:*)
 ---
 
 # LP Review
@@ -73,7 +73,7 @@ Then send the shared context to all 3 agents in parallel:
 **Each agent receives:**
 - The full LP copy
 - The checklist from `references/_checklist-lp.md` relevant to their role
-- Instructions to output findings as P1/P2/P3 prioritized items
+- Instructions to output findings as actionable items with suggested fixes
 
 **Agent instructions:**
 
@@ -115,18 +115,12 @@ Then send the shared context to all 3 agents in parallel:
 ### Phase 5: Synthesize Results
 
 1. Collect final feedback from all agents after cross-review
-2. Compile a **unified report** organized by priority:
+2. Compile a **unified report**:
 
 ```markdown
 ## LP Review Report
 
-### P1 -- Must Fix
-- [item]: [issue] -> [suggested fix]
-
-### P2 -- Should Fix
-- [item]: [issue] -> [suggested fix]
-
-### P3 -- Nice to Have
+### Findings
 - [item]: [issue] -> [suggested fix]
 
 ### Conflicts Resolved

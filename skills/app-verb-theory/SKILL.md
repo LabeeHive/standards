@@ -1,8 +1,9 @@
 ---
 name: app-verb-theory
-description: Define the core experience of an app through verbs to ensure design consistency. Use when designing a new product, auditing existing features, or evaluating feature proposals. Triggers on "動詞理論", "verb theory", "core verb", "コアアクション", "体験設計", "experience design", "コア動詞", "核となる動詞".
-model: opus
-allowed-tools: Read, Glob, Grep
+description: Defines the core experience of an app through verbs to ensure design consistency. Use when designing a new product, auditing existing features, or evaluating feature proposals. Triggers on "動詞理論", "verb theory", "core verb", "コアアクション", "体験設計", "experience design", "コア動詞", "核となる動詞".
+model: haiku
+effort: low
+allowed-tools: Read Glob Grep
 ---
 
 # App Verb Theory Skill

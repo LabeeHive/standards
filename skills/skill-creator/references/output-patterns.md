@@ -149,7 +149,7 @@ Otherwise → haiku
 | Skill | Steps | Writes | Services | MCP | → Model | Reason |
 |-------|:-----:|:------:|:--------:|:---:|:-------:|--------|
 | automation-config | 4 | 0 | 0 | No | haiku | Guidance-only, no writes |
-| documentation | 2 | 0 | 0 | No | haiku | Few steps, no writes |
+| documentation | 2 | 2 | 0 | No | sonnet | File writes (Edit, Write) |
 | today | 2 | 0 | 0 | Yes | sonnet | Simple MCP queries + formatting |
 | swift-development | 3 | 3 | 0 | No | sonnet | File writes |
 | repository-setup | 5 | 5 | 1 | No | sonnet | Writes + simple services |
@@ -157,6 +157,8 @@ Otherwise → haiku
 | vigilare-task | 6 | 0 | 0 | Yes | sonnet | MCP orchestration (no ARL needed) |
 | swift-workflow | 8 | 5 | 0 | Yes | sonnet | Multi-step workflow, standard orchestration |
 | skill-creator | 7 | 4 | 0 | No | opus | ARL-capable, architectural design decisions |
+| gemini-image | 2 | 0 | 1 | No | opus | CLI image generation, deep creative reasoning |
+| swift-localization | 4 | 2 | 0 | No | opus | ARL pattern (verify→translate→re-verify loop) |
 | aso-review | 3 | 3+ | 0 | No | sonnet | Multi-language ASO evaluation with file edits |
 
 ## Skill Type Matrix

@@ -6,8 +6,7 @@ This document defines the standard structure for technical documentation. Follow
 
 ---
 
-## Standard structure - P1
-
+## Standard structure
 All documentation should follow this basic structure:
 
 ```markdown
@@ -42,8 +41,7 @@ Content...
 
 ## Sections
 
-### Title (H1) - P1
-
+### Title (H1)
 **Rules:**
 - Single H1 heading at the document start
 - Use sentence case (e.g., "Error handling patterns" not "Error Handling Patterns")
@@ -58,8 +56,7 @@ Content...
 
 ---
 
-### Purpose - P1
-
+### Purpose
 **Rules:**
 - Always the first section after the title
 - Explain what the document covers and why it exists
@@ -78,8 +75,7 @@ This document does not cover client-side error handling or UI error messages.
 
 ---
 
-### Content sections - P1
-
+### Content sections
 **Rules:**
 - Use H2 (`##`) for main sections
 - Use H3 (`###`) for subsections
@@ -113,8 +109,7 @@ All errors should return a consistent JSON structure...
 
 ---
 
-### References - P2
-
+### References
 **Rules:**
 - Place at the end of the document
 - Use simple markdown links
@@ -134,8 +129,7 @@ All errors should return a consistent JSON structure...
 
 ---
 
-## Section separators - P1
-
+## Section separators
 **Rules:**
 - Use `---` to separate major H2 sections
 - Place exactly one blank line before and after `---`
@@ -157,8 +151,7 @@ Content...
 
 ---
 
-## YAML frontmatter - P3
-
+## YAML frontmatter
 For documents that require metadata (e.g., for static site generators or documentation tools):
 
 ```markdown
@@ -184,8 +177,7 @@ status: active
 
 ## Anti-patterns
 
-### Unnecessary decoration - P1
-
+### Unnecessary decoration
 **❌ Bad:**
 ```markdown
 ### 🔹 Core features
@@ -202,8 +194,7 @@ Use consistent naming.
 
 ---
 
-### Overuse of bold - P1
-
+### Overuse of bold
 **❌ Bad:**
 ```markdown
 Use **camelCase** for **variables** and **PascalCase** for **classes**.
@@ -218,8 +209,7 @@ Use bold sparingly, only for critical emphasis or UI element names.
 
 ---
 
-### Skipping heading levels - P1
-
+### Skipping heading levels
 **❌ Bad:**
 ```markdown
 # Title

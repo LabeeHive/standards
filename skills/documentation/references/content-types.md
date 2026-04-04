@@ -19,8 +19,7 @@ This guide uses the [Diátaxis framework](https://diataxis.fr/) to categorize do
 
 ---
 
-## README - P1
-
+## README
 README files introduce a project or directory. They should help readers quickly understand what the project does and how to get started.
 
 ### Template
@@ -72,8 +71,7 @@ Brief description of what this project does (1-2 sentences).
 
 ---
 
-## Changelog - P1
-
+## Changelog
 Changelogs document notable changes between versions. Follow the [Keep a Changelog](https://keepachangelog.com/) format.
 
 ### Template
@@ -129,8 +127,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## API reference - P1
-
+## API reference
 API reference documentation provides comprehensive information about APIs, endpoints, parameters, and responses.
 
 ### Template
@@ -236,8 +233,7 @@ POST /resources
 
 ---
 
-## How-to guide - P2
-
+## How-to guide
 How-to guides help users accomplish specific tasks. They are goal-oriented and practical.
 
 ### Template
@@ -317,8 +313,7 @@ To verify the task was completed successfully:
 
 ---
 
-## Tutorial - P2
-
+## Tutorial
 Tutorials guide users through a learning experience. They are learning-oriented and take users from start to finish.
 
 ### Template
@@ -404,8 +399,7 @@ In this tutorial, you learned:
 
 ---
 
-## Explanation - P2
-
+## Explanation
 Explanation documents help users understand concepts. They provide background and context.
 
 ### Template
@@ -480,8 +474,7 @@ This document explains [concept] and why it matters for [context].
 
 ---
 
-## Architecture Decision Record (ADR) - P3
-
+## Architecture Decision Record (ADR)
 ADRs document significant architecture decisions with their context and consequences.
 
 ### Template
@@ -538,8 +531,7 @@ ADRs document significant architecture decisions with their context and conseque
 
 ---
 
-## Troubleshooting guide - P3
-
+## Troubleshooting guide
 Troubleshooting guides help users diagnose and resolve problems.
 
 ### Template

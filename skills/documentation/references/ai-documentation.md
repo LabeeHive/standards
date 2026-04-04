@@ -6,8 +6,7 @@ This document defines standards for writing AI agent context files (AGENTS.md, C
 
 ---
 
-## File structure - P1
-
+## File structure
 ### AGENTS.md as single source of truth
 
 **Rules:**
@@ -52,8 +51,7 @@ project/
 
 ---
 
-## Content to include - P1
-
+## Content to include
 ### Project overview
 
 **Rules:**
@@ -175,8 +173,7 @@ patterns and architecture decisions.
 
 ---
 
-## Content NOT to include - P1
-
+## Content NOT to include
 ### What belongs elsewhere
 
 | Content | Where it belongs |
@@ -210,8 +207,7 @@ See `docs/01_architecture/architecture.md` for system design.
 
 ---
 
-## AI behavior rules - P1
-
+## AI behavior rules
 ### Language rules
 
 **Rules:**
@@ -254,8 +250,7 @@ If requirements are unclear, ask for clarification before proceeding.
 
 ---
 
-## Communication tools - P3
-
+## Communication tools
 If the project uses communication tools (Slack, Discord, etc.) with AI agents, define usage rules in AGENTS.md.
 
 **Rules:**
@@ -281,8 +276,7 @@ If the project uses communication tools (Slack, Discord, etc.) with AI agents, d
 
 ---
 
-## Template - P2
-
+## Template
 ### Basic template
 
 ```markdown

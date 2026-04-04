@@ -6,8 +6,7 @@ This document defines voice, tone, grammar, and style guidelines for technical d
 
 ---
 
-## Voice and tone - P1
-
+## Voice and tone
 ### Conversational and clear
 
 **Rules:**
@@ -52,8 +51,7 @@ Obviously, everyone knows async/await. If you don't, you shouldn't be reading th
 
 ---
 
-## Grammar and style - P1
-
+## Grammar and style
 ### Active voice
 
 **Rules:**
@@ -156,8 +154,7 @@ The system logs errors when validation fails.
 
 ---
 
-## Language and clarity - P1
-
+## Language and clarity
 ### English language
 
 **Rules:**
@@ -213,8 +210,7 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 
 ---
 
-## Accessibility - P2
-
+## Accessibility
 ### Heading hierarchy
 
 **Rules:**
@@ -271,8 +267,7 @@ Click [here](https://www.postgresql.org/docs/) for more information.
 
 ---
 
-### Color and contrast - P3
-
+### Color and contrast
 **Rules:**
 - Don't rely on color alone to convey meaning
 - Use symbols or text in addition to color
@@ -296,8 +291,7 @@ Click [here](https://www.postgresql.org/docs/) for more information.
 
 ---
 
-## Inclusive language - P1
-
+## Inclusive language
 ### Avoid ableist terms
 
 **Rules:**
@@ -357,8 +351,7 @@ The user can customize his settings in the preferences panel.
 
 ---
 
-## Formatting for readability - P2
-
+## Formatting for readability
 ### Short paragraphs
 
 **Rules:**
@@ -419,8 +412,7 @@ See [Code examples](code-examples.md) for detailed guidelines.
 
 ---
 
-## Word choice - P2
-
+## Word choice
 ### Be specific
 
 **Rules:**
@@ -474,8 +466,7 @@ Don't use global state. It's bad.
 
 ---
 
-## Numbers and units - P3
-
+## Numbers and units
 ### Numbers in text
 
 **Rules:**

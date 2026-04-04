@@ -3,7 +3,8 @@ name: aso-review
 description: Review App Store metadata (fastlane) across 14+ languages for ASO, naturalness, and messaging. Use when reviewing localized metadata before release. Triggers on "ASO review", "ASOレビュー", "ストアレビュー", "metadata review", "メタデータレビュー", "store review".
 model: sonnet
 context: fork
-allowed-tools: Read, Glob, Grep, Edit, Write, Task, TeamCreate, TeamDelete, SendMessage, TaskCreate, TaskUpdate, TaskList, Bash(pnpm:*), Bash(fastlane:*)
+allowed-tools: Read Glob Grep Edit Write Task TeamCreate TeamDelete SendMessage TaskCreate TaskUpdate TaskList Bash(pnpm:*) Bash(fastlane:*)
+argument-hint: "[path/to/fastlane/metadata]"
 ---
 
 # ASO Review
@@ -91,7 +92,7 @@ TeamCreate("aso-review-team")
 - Complete metadata text for all locales
 - The checklist from `references/_checklist-aso.md`
 - The localization principles from `references/_localization-principles.md`
-- Instruction to produce per-locale findings with P1/P2/P3 priority
+- Instruction to produce per-locale findings grouped by locale
 
 **CRITICAL:** Each agent MUST review EVERY detected locale independently. Not just JP and EN.
 
@@ -131,7 +132,7 @@ Each agent responds with agreements, disagreements, and proposed resolutions.
 ### Phase 5: Synthesize Results
 
 1. Collect final feedback from all agents after cross-review
-2. Produce a prioritized report per locale
+2. Produce a consolidated report per locale
 
 **Report format:**
 
@@ -144,18 +145,10 @@ Each agent responds with agreements, disagreements, and proposed resolutions.
 ## Per-Locale Findings
 
 ### ja (Japanese)
-#### P1 (Must Fix)
 - [Finding with specific before/after suggestion]
 
-#### P2 (Should Fix)
-- [Finding]
-
-#### P3 (Nice to Have)
-- [Finding]
-
 ### ko (Korean)
-#### P1 (Must Fix)
-...
+- [Finding with specific before/after suggestion]
 
 [Repeat for every detected locale]
 

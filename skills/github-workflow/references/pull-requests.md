@@ -6,7 +6,7 @@ This document defines standards for writing pull request descriptions. Clear PR 
 
 ---
 
-## Title - P1
+## Title
 
 ### Write descriptive titles
 
@@ -38,7 +38,7 @@ Changes
 
 ---
 
-## Description structure - P1
+## Description structure
 
 ### Start with the purpose
 
@@ -87,7 +87,7 @@ and ensures fair usage.
 
 ---
 
-## Linking issues - P1
+## Linking issues
 
 ### Connect PRs to issues
 
@@ -116,7 +116,7 @@ Part of #456
 
 ---
 
-## Visual changes - P1
+## Visual changes
 
 ### Include screenshots for UI changes
 
@@ -141,7 +141,7 @@ When the PR includes visual changes, screenshots or recordings help reviewers un
 
 ---
 
-## Testing - P1
+## Testing
 
 ### Describe how to test
 
@@ -170,7 +170,7 @@ Help reviewers verify the changes by providing clear testing instructions.
 
 ---
 
-## Review comments - P1
+## Review comments
 
 ### Use comment labels
 
@@ -251,7 +251,7 @@ Add a blank line after the badge, then write your comment.
 
 ---
 
-## Work in progress - P2
+## Work in progress
 
 ### Mark incomplete PRs clearly
 
@@ -281,7 +281,7 @@ This is a draft PR for early feedback on the approach.
 
 ---
 
-## Feedback requests - P2
+## Feedback requests
 
 ### Be explicit about what you need
 
@@ -308,7 +308,7 @@ Tell reviewers what kind of feedback you're looking for.
 
 ---
 
-## Size and scope - P2
+## Size and scope
 
 ### Keep PRs focused
 
@@ -334,7 +334,7 @@ Next: #125 (frontend integration)
 
 ---
 
-## Self-review checklist - P2
+## Self-review checklist
 
 ### Review before requesting review
 
@@ -350,7 +350,7 @@ Before requesting review, check your own PR:
 
 ---
 
-## After review - P3
+## After review
 
 ### Respond to all comments
 

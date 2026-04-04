@@ -6,7 +6,7 @@ This document provides a checklist for setting up new repositories. Use this as 
 
 ---
 
-## Repository creation - P1
+## Repository creation
 
 ### Initial setup
 
@@ -35,7 +35,7 @@ gh api repos/{owner}/{repo} --jq '{
 
 ---
 
-## Documentation structure - P1
+## Documentation structure
 
 ### Create docs directory
 
@@ -73,7 +73,7 @@ See [documentation/project_structure.md](../documentation/references/project-str
 
 ---
 
-## Dependency management - P1
+## Dependency management
 
 ### Configure Renovate
 
@@ -101,7 +101,7 @@ See [automation/renovate.md](../automation-config/references/renovate.md) for de
 
 ---
 
-## Collaboration - P2
+## Collaboration
 
 ### GitHub templates (optional)
 
@@ -128,7 +128,7 @@ See [github/pull_requests.md](../github-workflow/references/pull-requests.md#set
 
 ---
 
-## Public site (if applicable) - P2
+## Public site (if applicable)
 
 ### Docusaurus setup
 

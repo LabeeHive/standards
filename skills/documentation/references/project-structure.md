@@ -6,8 +6,7 @@ This document defines the standard directory structure for project documentation
 
 ---
 
-## Directory structure - P1
-
+## Directory structure
 ### Standard docs/ structure
 
 All projects should organize their documentation using numbered directories:
@@ -46,8 +45,7 @@ docs/
 
 ---
 
-## Directory descriptions - P1
-
+## Directory descriptions
 ### 00_overview/
 
 **Purpose:** Project introduction and foundational information.
@@ -155,8 +153,7 @@ git submodule add https://github.com/labee/coding-standards.git docs/05_standard
 
 ---
 
-## Shared standards integration - P1
-
+## Shared standards integration
 ### Mounting the standards submodule
 
 The shared coding standards repository should be mounted at `docs/05_standards/`:
@@ -212,8 +209,7 @@ For general coding standards, see `../05_standards/swift/`.
 
 ---
 
-## AGENTS.md integration - P2
-
+## AGENTS.md integration
 When using AI coding assistants, include the documentation structure in your AGENTS.md file:
 
 ```markdown

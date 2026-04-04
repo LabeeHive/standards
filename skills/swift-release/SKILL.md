@@ -5,7 +5,9 @@ model: sonnet
 context: fork
 agent: general-purpose
 disable-model-invocation: true
-allowed-tools: Read, Glob, Grep, Write, Bash(git:*), Bash(mise:*), Bash(bundle:*), Bash(fastlane:*), Bash(ls:*), Task
+allowed-tools: Read Glob Grep Write Bash(git:*) Bash(mise:*) Bash(bundle:*) Bash(fastlane:*) Bash(ls:*) Task
+paths: "**/*.swift"
+argument-hint: "[current-version previous-version]"
 ---
 
 # Swift Release Skill

@@ -8,7 +8,7 @@ This document defines conventions for ViewModels in SwiftUI applications. ViewMo
 
 ---
 
-## Basic pattern - P1
+## Basic pattern
 
 **Rules:**
 - Mark all ViewModels with `@MainActor`
@@ -126,7 +126,7 @@ class ProjectNameViewModel: ObservableObject {
 
 ---
 
-## @MainActor - P1
+## @MainActor
 
 **Rules:**
 - Apply `@MainActor` to all ViewModels
@@ -162,7 +162,7 @@ class SettingsViewModel: ObservableObject {
 
 ---
 
-## Dependency injection - P1
+## Dependency injection
 
 **Rules:**
 - Inject all dependencies through the initializer
@@ -203,7 +203,7 @@ class ReminderViewModel: ObservableObject {
 
 ---
 
-## Property observation - P1
+## Property observation
 
 ### With @Observable (Recommended)
 
@@ -272,7 +272,7 @@ class ProjectNameViewModel: ObservableObject {
 
 ---
 
-## Delegate to UseCases - P1
+## Delegate to UseCases
 
 **Rules:**
 - ViewModels should not contain business logic
@@ -321,7 +321,7 @@ class AddReminderViewModel: ObservableObject {
 
 ---
 
-## Anti-patterns - P1
+## Anti-patterns
 
 ### Massive ViewModels
 

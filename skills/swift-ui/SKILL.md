@@ -2,7 +2,8 @@
 name: swift-ui
 description: Build SwiftUI views following Labee standards. View implementation, layout, modifiers, components. Use when writing or reviewing SwiftUI views. Triggers on "SwiftUI", "View", "ビュー", "UI", "レイアウト", "layout", "modifier", "component".
 model: sonnet
-allowed-tools: Read, Glob, Grep, Edit, Write
+allowed-tools: Read Glob Grep Edit Write
+paths: "**/*.swift"
 ---
 
 # Swift UI Skill

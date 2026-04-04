@@ -6,7 +6,7 @@ This document defines patterns for creating and using mocks in tests. Proper moc
 
 ---
 
-## Critical rule - P1
+## Critical rule
 
 **All tests must use mocks. Tests must never affect real services or data.**
 
@@ -21,7 +21,7 @@ This document defines patterns for creating and using mocks in tests. Proper moc
 
 ---
 
-## Mock structure - P1
+## Mock structure
 
 **Rules:**
 - Include call tracking properties
@@ -92,7 +92,7 @@ class MockReminderRepository: ReminderRepositoryProtocol {
 
 ---
 
-## Call tracking - P1
+## Call tracking
 
 **Rules:**
 - Add a boolean `xxxCalled` property for each method
@@ -123,7 +123,7 @@ class MockFeedbackRepository: FeedbackRepositoryProtocol {
 
 ---
 
-## Return value control - P1
+## Return value control
 
 **Rules:**
 - Add properties to configure return values
@@ -159,7 +159,7 @@ class MockUserRepository: UserRepositoryProtocol {
 
 ---
 
-## Error control - P1
+## Error control
 
 **Rules:**
 - Add `shouldThrowError` boolean property
@@ -194,7 +194,7 @@ class MockReminderRepository: ReminderRepositoryProtocol {
 
 ---
 
-## Never mock UseCases - P1
+## Never mock UseCases
 
 **Rules:**
 - Mock Repositories, not UseCases
@@ -238,7 +238,7 @@ let viewModel = ReminderViewModel(useCase: useCase)
 
 ---
 
-## Test setup with mocks - P1
+## Test setup with mocks
 
 **Example:**
 
@@ -273,7 +273,7 @@ struct AddReminderUseCaseTests {
 
 ---
 
-## Reset helper - P2
+## Reset helper
 
 **Rules:**
 - Add a `reset()` method for tests that need multiple arrangements
@@ -301,7 +301,7 @@ class MockReminderRepository: ReminderRepositoryProtocol {
 
 ---
 
-## Test error enum - P2
+## Test error enum
 
 **Rules:**
 - Create a simple error enum for tests
@@ -321,7 +321,7 @@ enum TestError: Error {
 
 ---
 
-## Repository mocks with external systems - P2
+## Repository mocks with external systems
 
 **Example:**
 
@@ -364,7 +364,7 @@ class MockEventKitRepository: EventKitRepositoryProtocol {
 
 ---
 
-## Pre-test checklist - P2
+## Pre-test checklist
 
 Before running tests, verify:
 
@@ -377,7 +377,7 @@ Before running tests, verify:
 
 ---
 
-## System dependency abstraction - P1
+## System dependency abstraction
 
 Abstract system APIs (Timer, Date, UUID, etc.) to make code testable without real delays or non-deterministic values.
 

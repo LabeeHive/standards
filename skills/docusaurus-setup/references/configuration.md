@@ -6,7 +6,7 @@ This document defines standards for configuring Docusaurus projects, including S
 
 ---
 
-## Basic configuration - P1
+## Basic configuration
 
 ### Use TypeScript configuration
 
@@ -50,7 +50,7 @@ export default config;
 
 ---
 
-## SEO configuration - P1
+## SEO configuration
 
 ### Required headTags
 
@@ -200,7 +200,7 @@ themeConfig: {
 
 ---
 
-## Internationalization - P1
+## Internationalization
 
 ### Default locales
 
@@ -240,7 +240,7 @@ i18n/
 
 ---
 
-## Sitemap - P1
+## Sitemap
 
 ### Google-recommended settings
 
@@ -266,7 +266,7 @@ presets: [
 
 ---
 
-## Preset configuration - P1
+## Preset configuration
 
 ### Classic preset
 
@@ -296,7 +296,7 @@ presets: [
 
 ---
 
-## Theme configuration - P2
+## Theme configuration
 
 ### Navbar
 
@@ -400,7 +400,7 @@ themeConfig: {
 
 ---
 
-## Google Analytics - P2
+## Google Analytics
 
 ### Configure gtag
 

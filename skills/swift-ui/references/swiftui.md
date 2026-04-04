@@ -8,7 +8,7 @@ This document defines conventions for SwiftUI Views. Following these conventions
 
 ---
 
-## State management patterns - P1
+## State management patterns
 
 ### @Observable vs ObservableObject
 
@@ -50,7 +50,7 @@ struct ContentView: View {
 }
 ```
 
-### @Environment vs @EnvironmentObject - P1
+### @Environment vs @EnvironmentObject
 
 Use `@Environment` with `@Observable` for type-safe environment injection.
 
@@ -106,7 +106,7 @@ struct ChildView: View {
 }
 ```
 
-### @Bindable for two-way binding - P1
+### @Bindable for two-way binding
 
 Use `@Bindable` when you need bindings to an `@Observable` object's properties but don't own the instance.
 
@@ -122,7 +122,7 @@ struct EditView: View {
 
 ---
 
-## View structure - P1
+## View structure
 
 **Rules:**
 - Follow a consistent property order
@@ -187,7 +187,7 @@ struct ProjectNameView: View {
 
 ---
 
-## Property order - P1
+## Property order
 
 **Rules:**
 - Follow this order for properties:
@@ -247,7 +247,7 @@ struct ContentView: View {
 
 ---
 
-## View composition - P1
+## View composition
 
 **Rules:**
 - Extract complex subviews using `@ViewBuilder` computed properties
@@ -316,7 +316,7 @@ var body: some View {
 
 ---
 
-## No business logic in Views - P1
+## No business logic in Views
 
 **Rules:**
 - Views should only handle presentation logic
@@ -358,7 +358,7 @@ struct ReminderView: View {
 
 ---
 
-## No direct Repository access - P1
+## No direct Repository access
 
 **Rules:**
 - Never call Services or Repositories directly from Views
@@ -382,7 +382,7 @@ Button("Submit") {
 
 ---
 
-## Preview providers - P2
+## Preview providers
 
 **Rules:**
 - Provide previews for all Views
@@ -408,7 +408,7 @@ Button("Submit") {
 
 ---
 
-## Modifiers - P2
+## Modifiers
 
 **Rules:**
 - Apply modifiers in a logical order
@@ -454,11 +454,11 @@ Text("Content")
 
 ---
 
-## Localized strings - P1
+## Localized strings
 
 **Rules:**
 - Use `String(localized:defaultValue:)` for all user-facing text
-- See [Localization keys](naming.md#localization-keys---p1) for key naming format
+- See [Localization keys](naming.md#localization-keys) for key naming format
 
 ---
 

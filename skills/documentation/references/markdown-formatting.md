@@ -6,8 +6,7 @@ This document defines Markdown syntax and formatting standards for all technical
 
 ---
 
-## Headings - P1
-
+## Headings
 ### ATX-style headings
 
 **Rules:**
@@ -97,8 +96,7 @@ Second-Level Heading
 
 ---
 
-## Code formatting - P1
-
+## Code formatting
 ### Code blocks
 
 **Rules:**
@@ -166,8 +164,7 @@ The UserService class uses the authenticate() method. Use `important` for emphas
 
 ---
 
-## Lists - P1
-
+## Lists
 ### Unordered lists
 
 **Rules:**
@@ -257,8 +254,7 @@ This architecture uses controllers, services and repositories.
 
 ---
 
-## Links - P1
-
+## Links
 ### Descriptive link text
 
 **Rules:**
@@ -320,8 +316,7 @@ Read more [here](api-design.md).
 
 ---
 
-## Emphasis - P2
-
+## Emphasis
 ### Bold
 
 **Rules:**
@@ -373,8 +368,7 @@ The *singleton pattern* should be used sparingly.
 
 ---
 
-## Images and diagrams - P2
-
+## Images and diagrams
 ### Image syntax
 
 **Rules:**
@@ -399,13 +393,13 @@ The *singleton pattern* should be used sparingly.
 
 ### Image guidelines
 
-**P2 rules:**
+**Rules:**
 - Optimize image file size (< 1 MB recommended)
 - Use PNG for diagrams and screenshots
 - Use JPEG for photos
 - Use SVG for vector graphics when possible
 
-**P3 rules:**
+**Additional rules:**
 - Add captions below images using italic text
 - Specify image dimensions when layout matters
 
@@ -419,8 +413,7 @@ The *singleton pattern* should be used sparingly.
 
 ---
 
-## Tables - P2
-
+## Tables
 ### Basic table format
 
 **Rules:**
@@ -457,8 +450,7 @@ The *singleton pattern* should be used sparingly.
 
 ---
 
-## Horizontal rules - P1
-
+## Horizontal rules
 **Rules:**
 - Use `---` for horizontal rules (three hyphens)
 - Add blank lines before and after
@@ -489,8 +481,7 @@ Content.
 
 ---
 
-## Blockquotes - P2
-
+## Blockquotes
 **Rules:**
 - Use `>` for blockquotes
 - Add one space after `>`
@@ -504,8 +495,7 @@ Content.
 
 ---
 
-## Escaping characters - P3
-
+## Escaping characters
 **Rules:**
 - Use backslash (`\`) to escape Markdown syntax
 - Common escapes: `\*`, `\_`, `\#`, `\[`, `\]`
@@ -518,8 +508,7 @@ Use \*asterisks\* to create italic text.
 
 ---
 
-## Line length - P3
-
+## Line length
 **Rules:**
 - Soft limit: 80-100 characters per line
 - Hard limit: 120 characters per line
@@ -532,8 +521,7 @@ Use \*asterisks\* to create italic text.
 
 ---
 
-## Markdown linters - P3
-
+## Markdown linters
 **Recommended tools:**
 - `markdownlint` - Linting and style checking
 - `prettier` - Auto-formatting

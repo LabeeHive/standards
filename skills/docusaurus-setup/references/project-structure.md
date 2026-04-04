@@ -6,7 +6,7 @@ This document defines the standard directory structure for Docusaurus-based prod
 
 ---
 
-## Directory placement - P1
+## Directory placement
 
 ### Use `pages/` directory in monorepo
 
@@ -42,7 +42,7 @@ Place the Docusaurus project in a `pages/` directory at the root of the product 
 
 ---
 
-## Internal structure - P1
+## Internal structure
 
 ### Required directories and files
 
@@ -73,7 +73,7 @@ pages/
 
 ---
 
-## Static assets - P1
+## Static assets
 
 ### Required images
 
@@ -96,7 +96,7 @@ static/
 
 ---
 
-## Documentation content - P2
+## Documentation content
 
 ### Entry point
 

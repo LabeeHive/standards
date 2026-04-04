@@ -1,10 +1,12 @@
 ---
 name: swift-localization
 description: Manage Swift app localization with xckit. Use this when adding or checking translations. Triggers on "ローカライゼーション", "翻訳", "localization", "xcstrings", "多言語対応", "xckit".
-model: sonnet
+model: opus
+effort: max
 context: fork
 agent: general-purpose
-allowed-tools: Read, Glob, Grep, Bash(bun:*), Bash(xckit:*), Edit, Write
+paths: "**/*.xcstrings, **/*.swift"
+allowed-tools: Read Glob Grep Bash(bun:*) Bash(xckit:*) Edit Write
 ---
 
 # Swift Localization Skill

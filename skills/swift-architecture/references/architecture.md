@@ -8,7 +8,7 @@ This document defines the architecture pattern for Swift applications at Labee L
 
 ---
 
-## Layer structure - P1
+## Layer structure
 
 ```
 ┌─────────────────────────────────────┐
@@ -31,7 +31,7 @@ View → ViewModel → UseCase → Repository
 
 ---
 
-## View layer - P1
+## View layer
 
 **Responsibilities:**
 - Render UI using SwiftUI
@@ -61,7 +61,7 @@ struct ReminderListView: View {
 
 ---
 
-## ViewModel layer - P1
+## ViewModel layer
 
 **Responsibilities:**
 - Manage UI state with `@Observable`
@@ -107,7 +107,7 @@ class ReminderListViewModel {
 
 ---
 
-## UseCase layer - P1
+## UseCase layer
 
 **Responsibilities:**
 - Implement business logic
@@ -120,7 +120,7 @@ class ReminderListViewModel {
 - Direct framework access (EventKit, UserDefaults)
 - Presentation formatting
 
-### UseCase usage criteria - P1
+### UseCase usage criteria
 
 **UseCase required (any of these):**
 - Validation logic exists
@@ -182,7 +182,7 @@ class AddReminderUseCase: AddReminderUseCaseProtocol {
 
 ---
 
-## Repository layer - P1
+## Repository layer
 
 **Responsibilities:**
 - Abstract data access
@@ -249,14 +249,14 @@ class ReminderRepository: ReminderRepositoryProtocol {
 
 ---
 
-## Dependency injection - P1
+## Dependency injection
 
 **Rules:**
 - All dependencies are injected through initializers
 - Use protocol types for dependencies
 - Provide default values for production implementations
 
-### Injection patterns by layer - P1
+### Injection patterns by layer
 
 Different layers use different injection patterns:
 
@@ -333,7 +333,7 @@ class CacheManager {
 
 ---
 
-## Data flow - P1
+## Data flow
 
 ```
 User action
@@ -365,7 +365,7 @@ View update
 
 ---
 
-## Directory structure - P2
+## Directory structure
 
 ```
 ProjectName/
@@ -394,7 +394,7 @@ ProjectName/
 
 ---
 
-## Anti-patterns - P1
+## Anti-patterns
 
 ### Direct Repository access from View
 
