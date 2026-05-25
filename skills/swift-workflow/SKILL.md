@@ -2,7 +2,7 @@
 name: swift-workflow
 description: Orchestrate Swift development from Vigilare task to implementation. Use when starting a task or implementing end-to-end. Triggers on "タスクやって", "実装して", "開発開始", "start workflow", "implement task", "swift workflow".
 model: sonnet
-allowed-tools: Read Glob Grep Skill Task EnterPlanMode AskUserQuestion WebFetch WebSearch Bash(xcrun:*) Bash(swift:*) TaskCreate TaskUpdate TaskList mcp__vigilare__vigilare_get_reminders mcp__vigilare__vigilare_get_reminder mcp__vigilare__vigilare_add_comment
+allowed-tools: Read Glob Grep Skill Task EnterPlanMode AskUserQuestion WebFetch WebSearch Bash(xcrun:*) Bash(swift:*) TaskCreate TaskUpdate TaskList mcp__vigilare__vigilare_get_reminders mcp__vigilare__vigilare_get_reminder mcp__vigilare__vigilare_add_comment mcp__vigilare__vigilare_search_reminders mcp__vigilare__vigilare_get_lists
 paths: "**/*.swift"
 ---
 
@@ -18,6 +18,7 @@ Orchestrate Swift development from Vigilare task to completion.
 4. **Phase tracking** - Use TaskCreate at start to create phase checklist, TaskUpdate to mark progress
 5. **Skill invocation is mandatory** - Each phase lists required skills. You MUST call `Skill("name")` for every listed skill. Text references do NOT count as invocation.
 6. **Review gate is mandatory** - Phase 6 MUST pass before proceeding to Build & Test. Do NOT skip.
+7. **Related-work aware** - Before planning, search Vigilare for related/duplicate tasks and READ the design docs they reference (do not skim or assume). Assess overlap, dependencies, and correct sequencing — a task may need to be merged, deferred, or done after another decision.
 
 ## Phase Tracking
 
@@ -25,10 +26,11 @@ Orchestrate Swift development from Vigilare task to completion.
 
 ```
 TaskCreate: "Phase 1: Task Identification       | Skills: /vigilare-task (if no task exists)"
+TaskCreate: "Phase 1.5: Related Work Discovery   | Vigilare search + read related tasks & design docs"
 TaskCreate: "Phase 2: Project Context            | Skills: none"
 TaskCreate: "Phase 3: Research & Analysis        | Skills: /research"
-TaskCreate: "Phase 4: Planning                   | Skills: none"
-TaskCreate: "Phase 5: Implementation             | Skills: /swift-development"
+TaskCreate: "Phase 4: Planning                   | Skills: none (assess sequencing/dependencies)"
+TaskCreate: "Phase 5: Implementation             | Skills: /swift-core /swift-architecture (+/swift-ui if Views, /swift-testing for tests)"
 TaskCreate: "Phase 6: Review Gate                | Agents: labee-dev-tech-lead, labee-dev-apm"
 TaskCreate: "Phase 7: Build & Test               | Skills: none"
 TaskCreate: "Phase 8: Localization               | Skills: /swift-localization (if UI strings changed)"
@@ -44,8 +46,12 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 | Phase | Skill/Agent | Invocation | Condition |
 |-------|-------------|------------|-----------|
 | 1 | `/vigilare-task` | `Skill("vigilare-task")` | No task exists |
+| 1.5 | (no skill) | `vigilare_search_reminders` + read related tasks/comments + read referenced design docs | Always |
 | 3 | `/research` | `Skill("research")` | Always |
-| 5 | `/swift-development` | `Skill("swift-development")` | Always |
+| 5 | `/swift-core` | `Skill("swift-core")` | Always |
+| 5 | `/swift-architecture` | `Skill("swift-architecture")` | Always |
+| 5 | `/swift-ui` | `Skill("swift-ui")` | SwiftUI views added/changed |
+| 5 | `/swift-testing` | `Skill("swift-testing")` | Always (tests required by review gate) |
 | 6 | `labee-dev-tech-lead` | `Task(labee-dev-tech-lead)` | Always |
 | 6 | `labee-dev-apm` | `Task(labee-dev-apm)` | Always |
 | 8 | `/swift-localization` | `Skill("swift-localization")` | UI strings added/changed |
@@ -55,6 +61,7 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 
 | Item | Rule |
 |------|------|
+| Related work | Phase 1.5 is **mandatory**. MUST search related/duplicate tasks and READ referenced design docs (not skim) before Phase 4. |
 | vigilare_get_reminders | `filter: 'all'` is **FORBIDDEN**. Use `today` or `list_id` |
 | Commit | Generate message only. User commits (GPG required) |
 | Task completion | Do NOT call `vigilare_complete_reminder`. User decides |
@@ -71,6 +78,37 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 1. **Check conversation context** - Task already mentioned? Use it
 2. **Query Vigilare** - `vigilare_get_reminders(filter: 'today')` or by list
 3. **No task exists** - Ask user: "タスクを起票しますか？" → MUST call `Skill("vigilare-task")`
+
+### Phase 1.5: Related Work Discovery (MANDATORY)
+
+**Required skills:** None. **This phase is mandatory and must not be skipped.**
+
+A task rarely exists in isolation. Before researching or planning, find out what else in the backlog and docs touches the same area — otherwise you risk duplicating work, fixing the wrong layer, or building on a design that is about to change.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ PARALLEL: Discover related work                             │
+├─────────────────────────────────────────────────────────────┤
+│ 1. vigilare_search_reminders(query: <keywords>) for each    │
+│    key noun in the task (model names, file names, feature). │
+│    Run several searches — synonyms and Japanese/English.    │
+│ 2. For each related/duplicate hit: vigilare_get_reminder to │
+│    read its notes AND comments fully (tasks get re-defined   │
+│    in comments — do not trust the title alone).             │
+│ 3. READ every design doc / file referenced by those tasks   │
+│    (e.g. docs/**). Read the actual content — never assume    │
+│    relevance from the filename or skim the first section.   │
+│ 4. Glob/Grep the codebase for existing implementations of   │
+│    the same concern (a helper/adapter may already exist).   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Produce a short findings note covering:**
+- **Duplicates / overlap** — is another task the same or a superset of this one?
+- **Dependencies / sequencing** — must a decision or another task land first? Would implementing now be invalidated or redone by pending work (e.g. a schema redesign)?
+- **Existing assets** — code/docs already solving part of this.
+
+**Record findings** with `vigilare_add_comment`. If overlap/sequencing is significant, surface it to the user before planning — the right outcome may be to **merge, defer, or re-sequence** the task rather than implement it now.
 
 ### Phase 2: Project Context (PARALLEL)
 
@@ -124,21 +162,21 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 
 **Required skills:** None.
 
-1. Present implementation plan to user
-2. Include: files to modify, approach, potential risks
-3. **Include deployment target considerations**
-4. For complex tasks, use `EnterPlanMode`
-5. **Wait for user approval before proceeding**
+1. **Assess sequencing & dependencies FIRST (from Phase 1.5 findings)** - Before designing how, decide *whether to implement now*. If a related task or a pending design decision (e.g. schema/persistence redesign, identity scheme, CloudKit enablement) should land first, or if implementing now would be duplicated/redone by that work, **recommend deferring or re-sequencing** and record the dependency in Vigilare. Do not default to "implement now."
+2. Present implementation plan to user
+3. Include: files to modify, approach, potential risks
+4. **Include deployment target considerations**
+5. For complex tasks, use `EnterPlanMode`
+6. **Wait for user approval before proceeding**
 
 ### Phase 5: Implementation
 
-**Required skill:** MUST call `Skill("swift-development")` before writing any code.
+**Required skills:** MUST call the relevant `swift-*` skills before writing any code. There is **no** `swift-development` skill — it is split into:
 
-Call `Skill("swift-development")` which loads:
-- MVVM architecture standards
-- Naming conventions
-- Swift Testing (AAA pattern)
-- Code review aspects
+- `Skill("swift-core")` — naming, formatting, file organization (**always**)
+- `Skill("swift-architecture")` — MVVM, layering, ViewModel/UseCase/Repository, DI (**always**)
+- `Skill("swift-ui")` — SwiftUI views, layout, components (**if Views are added/changed**)
+- `Skill("swift-testing")` — unit tests, mock/stub, AAA pattern (**always** — tests are required by the Phase 6 review gate)
 
 **After every code change, run swift-format:**
 
@@ -221,6 +259,7 @@ swift test
 
 | Phase | Parallel Operations |
 |-------|---------------------|
+| 1.5 | vigilare_search_reminders (multiple queries) + design-doc reads + codebase Glob/Grep |
 | 2 | Project file reads (Package.swift, pbxproj, xcconfig) |
 | 3 | Skill("research") + WebSearch + WebFetch + codebase analysis |
 | 5 | Multiple file reads before editing |
@@ -235,9 +274,12 @@ swift test
 ```
 User: "このタスクやって" (with Vigilare task in context)
 
-[TaskCreate for all 9 phases with skill/agent annotations]
+[TaskCreate for all phases with skill/agent annotations]
 
 Phase 1: Task identified from context → No Skill needed
+Phase 1.5: [PARALLEL] vigilare_search_reminders("thumbnail", "サムネ", "loadBooks"...)
+         → Found related task #196C11EE (re-defined in its comments) + design doc
+         → Read the doc fully; flagged sequencing dependency → recorded to Vigilare
 Phase 2: [PARALLEL] Read Package.swift, project.pbxproj, task notes
          → Found: iOS 17+, macOS 14+, Swift 5.9
 Phase 3: [PARALLEL]
@@ -247,7 +289,8 @@ Phase 3: [PARALLEL]
          - Read existing code
          → Record findings to Vigilare comment
 Phase 4: Present plan with deployment target considerations
-Phase 5: Skill("swift-development") ← INVOKED
+Phase 5: Skill("swift-core") + Skill("swift-architecture") + Skill("swift-testing") ← INVOKED
+         (Skill("swift-ui") too if Views changed)
          Implement with standards + swift-format
 Phase 6: [PARALLEL] ← REVIEW GATE
          - Task(labee-dev-tech-lead): "テスト書いた？リファレンス読んだ？"
