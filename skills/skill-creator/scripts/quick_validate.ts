@@ -24,12 +24,15 @@ const ALLOWED_PROPERTIES = new Set([
   // Claude Code extensions (https://code.claude.com/docs/en/skills)
   "model",
   "effort",
+  "when_to_use",
+  "arguments",
   "context",
   "agent",
   "paths",
   "argument-hint",
   "disable-model-invocation",
   "user-invocable",
+  "disallowed-tools",
   "hooks",
   "shell",
 ]);
@@ -128,9 +131,10 @@ export function validateSkill(skillPath: string): ValidationResult {
 
   // --- Labee Standards ---
 
-  // Description must have Triggers
-  if (description && !description.includes("Triggers on")) {
-    return { valid: false, message: "Description missing 'Triggers on' section (Labee standard: WHAT + WHEN + Triggers)" };
+  // Trigger phrases must exist in when_to_use (recommended) or inline in description
+  const whenToUse = (frontmatter["when_to_use"] || "").trim();
+  if (description && !description.includes("Triggers on") && !whenToUse.includes("Triggers on")) {
+    return { valid: false, message: "Missing 'Triggers on' section (Labee standard: put triggers in when_to_use, or inline in description)" };
   }
 
   // allowed-tools must not contain bare "Bash" (must use specific patterns like Bash(git:*))

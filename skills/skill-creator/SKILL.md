@@ -65,6 +65,7 @@ skill-name/
 - **Agent Skills Specification**: https://agentskills.io/specification
 - **Claude Code Skills**: https://code.claude.com/docs/en/skills
 - **Best Practices**: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
+- **Official skill-creator**: https://github.com/anthropics/skills/tree/main/skills/skill-creator
 
 ## Workflow
 
@@ -200,11 +201,12 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 
 **Body guidelines:**
 
-1. Keep it concise — Claude is smart, don't over-explain
-2. Reference scripts by exact path: `` `bun scripts/validate.ts <input>` ``
-3. Reference files: "See `references/api.md` for details"
-4. Include step-by-step workflow if the skill has 3+ steps (see `references/workflows.md`)
-5. Add a **Reference Files** table at the bottom:
+1. Keep it concise — Claude is smart, don't over-explain. Skill content persists in context across turns, so every line is a recurring cost (see `references/output-patterns.md` Skill Content Lifecycle)
+2. Explain the *why* behind instructions instead of stacking ALL-CAPS MUSTs — models follow reasoning better than rigid commands. Repeated MUST/ALWAYS/NEVER is a yellow flag (official guidance)
+3. Reference scripts by exact path: `` `bun scripts/validate.ts <input>` ``
+4. Reference files: "See `references/api.md` for details"
+5. Include step-by-step workflow if the skill has 3+ steps (see `references/workflows.md`)
+6. Add a **Reference Files** table at the bottom:
 
 ```markdown
 ## Reference Files
@@ -264,13 +266,13 @@ Fix any errors and re-run.
 #### 8b: Checklist
 
 **Agent Skills Spec Compliance:**
-- [ ] name: 1-64 chars, lowercase + hyphens only, matches folder
+- [ ] name: 1-64 chars, lowercase + hyphens only, matches folder (spec requires it; Claude Code falls back to the directory name, but set it for portability)
 - [ ] name: no leading/trailing hyphens, no consecutive hyphens (`--`)
 - [ ] description: 1-1024 chars, non-empty
 
 **Labee Standards:**
-- [ ] description has WHAT + WHEN + Triggers (JP & EN), written in third person
-- [ ] description key info within first 250 characters (truncation boundary)
+- [ ] description has WHAT + WHEN, written in third person; trigger phrases (JP & EN) in `when_to_use` (or inline in description for cross-tool skills)
+- [ ] description key info front-loaded (`description` + `when_to_use` are capped at 1,536 chars in the skill listing)
 - [ ] name does not contain reserved words (`anthropic`, `claude`)
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
 - [ ] model selected by numeric criteria (see `references/output-patterns.md`)
@@ -296,6 +298,16 @@ Fix any errors and re-run.
 #### 8c: Package
 
 Add the skill to `.claude-plugin/marketplace.json` if applicable.
+
+## Improving Existing Skills
+
+Principles from the official skill-creator (anthropics/skills) for iterating on a skill that already exists:
+
+- **Test before and after.** Run 2-3 realistic prompts against the skill, ideally comparing old vs new versions (snapshot the old version first). Judge from real outputs, not from how the instructions read.
+- **Generalize from feedback.** A skill is used across many prompts — fixes that only patch the tested examples are overfitting. Prefer reframing the instruction over adding narrow special cases.
+- **Keep the prompt lean.** Read the transcripts, not just the outputs. If a section makes the model do unproductive work, removing it is an improvement.
+- **Bundle repeated work.** If test runs keep writing the same helper script or repeating the same multi-step sequence, ship it in `scripts/` so future invocations don't reinvent it.
+- **Strengthen triggering empirically.** If the skill undertriggers, make the description more concrete (and slightly "pushy") about when to use it; test with both should-trigger and tricky near-miss should-not-trigger phrasings.
 
 ## Reference Files
 
