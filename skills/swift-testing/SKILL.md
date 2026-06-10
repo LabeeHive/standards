@@ -1,6 +1,7 @@
 ---
 name: swift-testing
-description: Write and review Swift tests following Labee standards. Unit tests, mock/stub patterns, test doubles. Use when writing tests or reviewing test code. Triggers on "test", "テスト", "mock", "stub", "TDD", "テスト駆動", "XCTest", "Swift Testing".
+description: Write and review Swift tests following Labee standards. Unit tests, mock/stub patterns, test doubles. Use when writing tests or reviewing test code.
+when_to_use: Triggers on "test", "テスト", "mock", "stub", "TDD", "テスト駆動", "XCTest", "Swift Testing".
 model: sonnet
 allowed-tools: Read Glob Grep Edit Write
 paths: "**/*.swift"

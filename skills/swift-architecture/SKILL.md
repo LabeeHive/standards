@@ -1,6 +1,7 @@
 ---
 name: swift-architecture
-description: Design Swift app architecture following Labee standards. MVVM, ViewModel patterns, architectural decisions. Use when designing app structure or reviewing architecture. Triggers on "architecture", "MVVM", "ViewModel", "アーキテクチャ", "設計", "依存", "dependency".
+description: Design Swift app architecture following Labee standards. MVVM, ViewModel patterns, architectural decisions. Use when designing app structure or reviewing architecture.
+when_to_use: Triggers on "architecture", "MVVM", "ViewModel", "アーキテクチャ", "設計", "依存", "dependency".
 model: sonnet
 allowed-tools: Read Glob Grep Edit Write
 paths: "**/*.swift"

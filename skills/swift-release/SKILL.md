@@ -1,12 +1,12 @@
 ---
 name: swift-release
-description: Execute Swift app release workflow with fastlane. Use this when releasing apps to App Store. Triggers on "リリース", "release", "App Store", "fastlane", "リリースノート生成".
+description: Execute Swift app release workflow with fastlane. Use this when releasing apps to App Store.
+when_to_use: Triggers on "リリース", "release", "App Store", "fastlane", "リリースノート生成".
 model: sonnet
 context: fork
 agent: general-purpose
 disable-model-invocation: true
 allowed-tools: Read Glob Grep Write Bash(git:*) Bash(mise:*) Bash(bundle:*) Bash(fastlane:*) Bash(ls:*) Task
-paths: "**/*.swift"
 argument-hint: "[current-version previous-version]"
 ---
 

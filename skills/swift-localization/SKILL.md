@@ -1,6 +1,7 @@
 ---
 name: swift-localization
-description: Manage Swift app localization with xckit. Use this when adding or checking translations. Triggers on "ローカライゼーション", "翻訳", "localization", "xcstrings", "多言語対応", "xckit".
+description: Manage Swift app localization with xckit. Use this when adding or checking translations.
+when_to_use: Triggers on "localization", "xcstrings", "xckit", "ローカライゼーション", "翻訳", "多言語対応".
 model: opus
 effort: max
 context: fork
