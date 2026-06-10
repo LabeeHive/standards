@@ -1,6 +1,7 @@
 ---
 name: vigilare-task
-description: Create Vigilare tasks with proper structure. Use this when adding tasks or reminders to Vigilare. Triggers on "タスク作成", "起票して", "Vigilare", "create task", "add reminder", "TODO追加".
+description: Create Vigilare tasks with proper structure. Use this when adding tasks or reminders to Vigilare.
+when_to_use: Triggers on "タスク作成", "起票して", "Vigilare", "create task", "add reminder", "TODO追加".
 model: sonnet
 allowed-tools: Read Glob Grep mcp__vigilare__vigilare_get_lists mcp__vigilare__vigilare_create_reminder mcp__vigilare__vigilare_update_reminder mcp__vigilare__vigilare_add_comment
 ---
@@ -88,35 +89,11 @@ Ideas             → アイデア・将来検討
 
 ### Step 2: タイトル生成
 
-開発タスクの場合は `[カテゴリ]` を付与：
-```
-[MCP] リスト作成機能を追加
-[Bug] ログイン時にクラッシュする問題を修正
-```
-
-Operations タスクはシンプルに：
-```
-年金事業の確認書類の返送
-```
+「Task Title Format」に従う。開発タスクは `[カテゴリ]` を付与、Operations タスクはシンプルに。
 
 ### Step 3: Notes 作成
 
-開発タスクの場合、以下の構造で作成：
-```markdown
-## 概要
-何をするか、なぜ必要かを1-2文で説明
-
-## ゴール
-- 達成すべき具体的な項目
-- 完了条件が明確であること
-
-## 関連ファイル
-- path/to/file.swift
-
-## 技術メモ
-- 実装上の注意点
-- 現状の問題点
-```
+開発タスクは「Notes Structure」の構造（概要 / ゴール / 関連ファイル / 技術メモ）で作成。
 
 ### Step 4: タスク作成
 

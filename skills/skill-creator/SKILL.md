@@ -1,6 +1,7 @@
 ---
 name: skill-creator
-description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones. Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
+description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones.
+when_to_use: Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
 model: opus
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), Bash(bun:*), WebFetch, WebSearch, Task, TaskCreate, TaskUpdate, TaskList
 ---
