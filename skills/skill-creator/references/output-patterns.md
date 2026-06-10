@@ -310,13 +310,18 @@ Why SKILL.md conciseness matters beyond the initial load:
 
 ## paths Decision
 
-**Skill auto-activation rate is below 20% even in relevant contexts.** Setting `paths` significantly improves activation for file-type-specific skills.
+`paths` controls *automatic* loading only: "Claude loads the skill automatically only when working with files matching the patterns." It has no effect on manual `/name` invocation.
 
 | Condition | paths value | Example |
 |-----------|------------|---------|
 | Targets specific language files | `**/*.{ext}` | swift-core → `"**/*.swift"` |
 | Targets specific directory | `src/components/**` | component skill |
 | Universal skill (no file affinity) | Do not set | commit-message, today |
+| `disable-model-invocation: true` | Do not set | swift-release |
+
+**Why not with `disable-model-invocation: true`:** that flag disables automatic loading entirely (only the user can invoke), so `paths` can never fire — it is dead config.
+
+**Known issues (as of Claude Code 2.1.150, 2026-06):** the `paths` auto-load trigger reportedly does not fire at all ([#62049](https://github.com/anthropics/claude-code/issues/62049), verified at the API level), and a skill with `paths` but no `description` disappears from the skill listing entirely ([#49835](https://github.com/anthropics/claude-code/issues/49835)). Treat `paths` as forward-compatible metadata: always pair it with a strong `description`/`when_to_use`, which remain the primary trigger mechanism. Re-check these issues before relying on `paths` behavior.
 
 `paths` accepts glob patterns as comma-separated string or YAML list. Same format as path-specific rules.
 

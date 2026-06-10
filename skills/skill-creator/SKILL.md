@@ -277,7 +277,7 @@ Fix any errors and re-run.
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
 - [ ] model selected by numeric criteria (see `references/output-patterns.md`)
 - [ ] effort set appropriately for model (opus → max, haiku → low)
-- [ ] paths set for file-type-specific skills (glob patterns)
+- [ ] paths set for file-type-specific skills (glob patterns) — but NOT when `disable-model-invocation: true` (auto-activation is disabled, so paths can never fire)
 - [ ] argument-hint set for skills with `disable-model-invocation: true` or meaningful arguments
 - [ ] Invocation control set correctly for skill type
 - [ ] context: fork ONLY for self-contained tasks
