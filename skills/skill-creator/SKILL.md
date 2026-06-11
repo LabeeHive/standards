@@ -128,7 +128,7 @@ For **each scenario** from Phase 1, ask:
 1. **model** — See `references/output-patterns.md` Model Selection
 2. **effort** — See `references/output-patterns.md` effort Decision
 3. **allowed-tools** — List specific tool patterns needed (space-delimited)
-4. **paths** — See `references/output-patterns.md` paths Decision. Set for any file-type-specific skill
+4. **paths** — Do not set (deprecated; see `references/output-patterns.md` paths Decision). Express file affinity in `description`/`when_to_use` instead
 5. **argument-hint** — See `references/output-patterns.md` argument-hint Decision
 6. **Invocation control** — See `references/output-patterns.md` Invocation Control
 7. **context: fork** — See `references/output-patterns.md` context: fork Decision
@@ -278,7 +278,7 @@ Fix any errors and re-run.
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
 - [ ] model selected by numeric criteria (see `references/output-patterns.md`)
 - [ ] effort set appropriately for model (opus → max, haiku → low)
-- [ ] paths set for file-type-specific skills (glob patterns) — but NOT when `disable-model-invocation: true` (auto-activation is disabled, so paths can never fire)
+- [ ] paths NOT set — deprecated due to known Claude Code bugs (skill discovery breaks; see `references/output-patterns.md` paths Decision)
 - [ ] argument-hint set for skills with `disable-model-invocation: true` or meaningful arguments
 - [ ] Invocation control set correctly for skill type
 - [ ] context: fork ONLY for self-contained tasks

@@ -267,7 +267,7 @@ Source: https://code.claude.com/docs/en/skills
 | arguments | No | string/list | - | Named positional arguments for `$name` substitution. `arguments: [issue, branch]` → `$issue`, `$branch` map to positions in order |
 | context | No | enum | (normal) | `fork` for isolated execution |
 | agent | No | string | - | Agent type when `context: fork` (e.g., `general-purpose`, `Explore`) |
-| paths | No | string | - | Glob patterns (comma-separated or YAML list). Skill auto-activates only when working with matching files |
+| paths | No | string | - | **Deprecated — do not set** (see paths Decision). Glob patterns intended to limit auto-activation to matching files |
 | argument-hint | No | string | - | Hint shown in `/` autocomplete (e.g., `[issue-number]`) |
 | disable-model-invocation | No | bool | false | Prevent auto-invocation by Claude. The skill's description is removed from Claude's context entirely (still visible in the `/` menu) |
 | user-invocable | No | bool | true | Show in `/` menu |
@@ -310,33 +310,14 @@ Why SKILL.md conciseness matters beyond the initial load:
 
 ## paths Decision
 
-`paths` controls *automatic* loading only: "Claude loads the skill automatically only when working with files matching the patterns." It has no effect on manual `/name` invocation.
+**Deprecated in this repository — do not set `paths`.**
 
-| Condition | paths value | Example |
-|-----------|------------|---------|
-| Targets specific language files | `**/*.{ext}` | swift-core → `"**/*.swift"` |
-| Targets specific directory | `src/components/**` | component skill |
-| Universal skill (no file affinity) | Do not set | commit-message, today |
-| `disable-model-invocation: true` | Do not set | swift-release |
+The field is still in the official docs ("Claude loads the skill automatically only when working with files matching the patterns"), but it is broken in practice as of Claude Code 2.1.150 (2026-06):
 
-**Why not with `disable-model-invocation: true`:** that flag disables automatic loading entirely (only the user can invoke), so `paths` can never fire — it is dead config.
+- The auto-load trigger does not fire at all ([#62049](https://github.com/anthropics/claude-code/issues/62049), verified at the API level)
+- A skill carrying `paths` can become undiscoverable — missing from the skill listing and uninvocable via `/name` ([#49835](https://github.com/anthropics/claude-code/issues/49835), open)
 
-**Known issues (as of Claude Code 2.1.150, 2026-06):** the `paths` auto-load trigger reportedly does not fire at all ([#62049](https://github.com/anthropics/claude-code/issues/62049), verified at the API level), and a skill with `paths` but no `description` disappears from the skill listing entirely ([#49835](https://github.com/anthropics/claude-code/issues/49835)). Treat `paths` as forward-compatible metadata: always pair it with a strong `description`/`when_to_use`, which remain the primary trigger mechanism. Re-check these issues before relying on `paths` behavior.
-
-`paths` accepts glob patterns as comma-separated string or YAML list. Same format as path-specific rules.
-
-```yaml
-# Single pattern
-paths: "**/*.swift"
-
-# Multiple patterns
-paths: "**/*.swift, **/Package.swift, **/Info.plist"
-
-# YAML list
-paths:
-  - "**/*.swift"
-  - "**/Package.swift"
-```
+`description` + `when_to_use` are the actual trigger mechanism — express file affinity there instead (e.g., mention the file types in the description). Re-check the issues above before reintroducing `paths`; the intended syntax was glob patterns as a comma-separated string (`paths: "**/*.swift, **/Package.swift"`) or YAML list.
 
 ## effort Decision
 

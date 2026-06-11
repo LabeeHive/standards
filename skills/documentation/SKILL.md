@@ -4,7 +4,6 @@ description: Write and review documentation following Labee standards. Use this 
 when_to_use: Triggers on "ドキュメント", "README", "markdown", "docs", "文書作成", "ドキュメントレビュー".
 model: sonnet
 allowed-tools: Read Glob Grep Edit Write
-paths: "**/*.md"
 ---
 
 # Documentation Skill

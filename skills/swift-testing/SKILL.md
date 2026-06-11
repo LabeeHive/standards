@@ -4,7 +4,6 @@ description: Write and review Swift tests following Labee standards. Unit tests,
 when_to_use: Triggers on "test", "テスト", "mock", "stub", "TDD", "テスト駆動", "XCTest", "Swift Testing".
 model: sonnet
 allowed-tools: Read Glob Grep Edit Write
-paths: "**/*.swift"
 ---
 
 # Swift Testing Skill

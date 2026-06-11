@@ -4,7 +4,6 @@ description: Build SwiftUI views following Labee standards. View implementation,
 when_to_use: Triggers on "SwiftUI", "View", "ビュー", "UI", "レイアウト", "layout", "modifier", "component".
 model: sonnet
 allowed-tools: Read Glob Grep Edit Write
-paths: "**/*.swift"
 ---
 
 # Swift UI Skill

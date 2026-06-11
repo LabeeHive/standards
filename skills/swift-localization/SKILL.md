@@ -6,7 +6,6 @@ model: opus
 effort: max
 context: fork
 agent: general-purpose
-paths: "**/*.xcstrings, **/*.swift"
 allowed-tools: Read Glob Grep Bash(bun:*) Bash(xckit:*) Edit Write
 ---
 
