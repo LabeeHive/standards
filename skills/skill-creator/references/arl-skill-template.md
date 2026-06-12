@@ -33,13 +33,13 @@ This skill uses the **Autonomous Refinement Loop** pattern:
 Copy session scripts from skill-creator and run init:
 
 ```bash
-# Copy session helpers to your skill's scripts/ directory
-cp skills/skill-creator/scripts/init_session.ts scripts/
-cp skills/skill-creator/scripts/log_iteration.ts scripts/
-cp skills/skill-creator/scripts/finalize_session.ts scripts/
+# One-time setup at skill creation (run from the standards repo root):
+cp skills/skill-creator/scripts/init_session.ts skills/{skill-name}/scripts/
+cp skills/skill-creator/scripts/log_iteration.ts skills/{skill-name}/scripts/
+cp skills/skill-creator/scripts/finalize_session.ts skills/{skill-name}/scripts/
 
-# Initialize session
-bun scripts/init_session.ts {output-dir}
+# Initialize session (at skill runtime)
+bun ${CLAUDE_SKILL_DIR}/scripts/init_session.ts {output-dir}
 ```
 
 Store the returned `sessionFile` path for subsequent logging.
@@ -187,7 +187,7 @@ If the skill needs custom verification logic:
  * Verify {skill-name} output.
  *
  * Usage:
- *   bun scripts/verify.ts <output-path> [options]
+ *   bun <skill-dir>/scripts/verify.ts <output-path> [options]
  *
  * Exit codes:
  *   0 - All checks passed
@@ -259,7 +259,7 @@ function main() {
   });
 
   if (values.help || positionals.length < 1) {
-    console.error(`Usage: bun scripts/verify.ts <output-path> [--json]
+    console.error(`Usage: bun <skill-dir>/scripts/verify.ts <output-path> [--json]
 
 Arguments:
   output-path   Path to the output to verify

@@ -50,7 +50,7 @@ Avoid: [unwanted elements]
 Run the preflight script to verify prerequisites before the slow Gemini CLI startup:
 
 ```bash
-bun scripts/preflight.ts
+bun ${CLAUDE_SKILL_DIR}/scripts/preflight.ts
 ```
 
 If preflight fails, follow the error messages to install missing prerequisites.

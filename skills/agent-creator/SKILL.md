@@ -82,7 +82,7 @@ For persona agents, also design:
 Run the scaffolder:
 
 ```bash
-bun skills/agent-creator/scripts/init_agent.ts {agent-name} --path {target-dir}
+bun ${CLAUDE_SKILL_DIR}/scripts/init_agent.ts {agent-name} --path {target-dir}
 ```
 
 Options:
@@ -124,7 +124,7 @@ Fill in the generated scaffold following the appropriate pattern from `reference
 ### Phase 6: Validate
 
 ```bash
-bun skills/agent-creator/scripts/validate_agent.ts {agent-file.md}
+bun ${CLAUDE_SKILL_DIR}/scripts/validate_agent.ts {agent-file.md}
 ```
 
 Fix errors and re-run until valid.

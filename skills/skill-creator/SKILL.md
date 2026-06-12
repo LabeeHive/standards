@@ -20,11 +20,11 @@ Create effective skills that extend Claude's capabilities.
 TaskCreate: "Phase 1: Understand"
 TaskCreate: "Phase 2: Research              | WebFetch spec + guide, Task(Explore)"
 TaskCreate: "Phase 3: Plan Resources"
-TaskCreate: "Phase 4: Initialize            | MUST run: bun scripts/init_skill.ts"
+TaskCreate: "Phase 4: Initialize            | MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/init_skill.ts"
 TaskCreate: "Phase 5: Create Resources      | Test scripts against real project"
 TaskCreate: "Phase 6: Write SKILL.md"
 TaskCreate: "Phase 7: Review Gate           | Agents: labee-dev-tech-lead, labee-dev-apm"
-TaskCreate: "Phase 8: Validate & Package    | MUST run: bun scripts/quick_validate.ts"
+TaskCreate: "Phase 8: Validate & Package    | MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/quick_validate.ts"
 ```
 
 Update status as you progress: `in_progress` when starting, `completed` when done.
@@ -34,10 +34,10 @@ Update status as you progress: `in_progress` when starting, `completed` when don
 | Phase | Must Execute | Condition |
 |-------|-------------|-----------|
 | 2 | WebFetch spec + guide, Task(Explore) | Unless skip criteria met |
-| 4 | `bun scripts/init_skill.ts` | New skill only |
+| 4 | `bun ${CLAUDE_SKILL_DIR}/scripts/init_skill.ts` | New skill only |
 | 5 | Test scripts against real project | Scripts exist |
 | 7 | `Task(labee-dev-tech-lead)` + `Task(labee-dev-apm)` | Always |
-| 8 | `bun scripts/quick_validate.ts` | Always |
+| 8 | `bun ${CLAUDE_SKILL_DIR}/scripts/quick_validate.ts` | Always |
 
 ## Progressive Disclosure (3-Level Loading)
 
@@ -139,7 +139,7 @@ For **each scenario** from Phase 1, ask:
 
 1. Run the initializer:
    ```bash
-   bun skills/skill-creator/scripts/init_skill.ts {skill-name} --path skills
+   bun ${CLAUDE_SKILL_DIR}/scripts/init_skill.ts {skill-name} --path skills
    ```
 
 2. **Delete unused directories** from the generated scaffold:
@@ -167,8 +167,8 @@ For each script identified in Phase 3:
 
 2. **Test the script immediately:**
    ```bash
-   bun scripts/{script-name}.ts --help    # Verify it runs
-   bun scripts/{script-name}.ts {test-input}  # Verify with real input
+   bun skills/{skill-name}/scripts/{script-name}.ts --help    # Verify it runs
+   bun skills/{skill-name}/scripts/{script-name}.ts {test-input}  # Verify with real input
    ```
 
 3. **Test against a real project:** Run the script against an actual project that uses the target tool/format. Do not rely on `--help` alone.
@@ -204,7 +204,7 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 
 1. Keep it concise — Claude is smart, don't over-explain. Skill content persists in context across turns, so every line is a recurring cost (see `references/output-patterns.md` Skill Content Lifecycle)
 2. Explain the *why* behind instructions instead of stacking ALL-CAPS MUSTs — models follow reasoning better than rigid commands. Repeated MUST/ALWAYS/NEVER is a yellow flag (official guidance)
-3. Reference scripts by exact path: `` `bun scripts/validate.ts <input>` ``
+3. Reference scripts via the `CLAUDE_SKILL_DIR` substitution so paths resolve regardless of cwd — never write a cwd-relative `bun scripts/...` path. Exact syntax: see `references/resource-patterns.md` Referencing in SKILL.md
 4. Reference files: "See `references/api.md` for details"
 5. Include step-by-step workflow if the skill has 3+ steps (see `references/workflows.md`)
 6. Add a **Reference Files** table at the bottom:
@@ -259,7 +259,7 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 #### 8a: Quick Validate
 
 ```bash
-bun skills/skill-creator/scripts/quick_validate.ts skills/{skill-name}
+bun ${CLAUDE_SKILL_DIR}/scripts/quick_validate.ts skills/{skill-name}
 ```
 
 Fix any errors and re-run.
@@ -289,6 +289,7 @@ Fix any errors and re-run.
 - [ ] Detailed content moved to references/
 - [ ] No references to non-existent files
 - [ ] All scripts tested and working
+- [ ] Script invocations in SKILL.md use the `CLAUDE_SKILL_DIR` substitution, not cwd-relative paths
 
 **Resources:**
 - [ ] No unused directories (scripts/, references/, assets/)

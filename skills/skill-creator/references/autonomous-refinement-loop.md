@@ -69,7 +69,7 @@ Define clear, automatable success criteria:
 - [ ] Criterion 2 (automatable)
 
 **Verification Command:**
-`bun scripts/verify.ts <output>`
+`bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts <output>`
 ```
 
 **Verification Types:**
@@ -172,7 +172,7 @@ Record learnings for current session:
 ### Step 3: Verify (ARL Entry Point)
 
 Run verification:
-`bun scripts/verify.ts <output>`
+`bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts <output>`
 
 **If verification passes:** Continue to Step 6
 **If verification fails:** Continue to Step 4

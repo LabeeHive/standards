@@ -52,9 +52,9 @@ For skills with 3+ steps, use Phase Tracking to ensure progress visibility and m
 
     **At workflow start, create tasks for each phase:**
 
-    TaskCreate: "Step 1: Verify        | MUST run: bun scripts/verify.ts"
+    TaskCreate: "Step 1: Verify        | MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts"
     TaskCreate: "Step 2: Execute       | Skills: /some-skill"
-    TaskCreate: "Step 3: Re-verify     | MUST run: bun scripts/verify.ts"
+    TaskCreate: "Step 3: Re-verify     | MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts"
     TaskCreate: "Step 4: Report"
 
     Update status as you progress: `in_progress` when starting, `completed` when done.
@@ -63,7 +63,7 @@ For skills with 3+ steps, use Phase Tracking to ensure progress visibility and m
 
 | Annotation | Use When | Example |
 |------------|----------|---------|
-| `\| MUST run: {command}` | Script execution is required | `\| MUST run: bun scripts/verify.ts` |
+| `\| MUST run: {command}` | Script execution is required | `\| MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` |
 | `\| Skills: /name` | Skill invocation is required | `\| Skills: /swift-development` |
 | `\| Skills: /name (if condition)` | Conditional skill invocation | `\| Skills: /localization (if UI strings changed)` |
 | (no annotation) | No specific execution required | Phase is purely manual or analytical |
@@ -74,9 +74,9 @@ For skills with 3+ steps, use Phase Tracking to ensure progress visibility and m
 
     | Phase | Must Execute | Condition |
     |-------|-------------|-----------|
-    | 1 | `bun scripts/verify.ts` | Always |
+    | 1 | `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` | Always |
     | 2 | `Skill("some-skill")` | Always |
-    | 3 | `bun scripts/verify.ts` | Always |
+    | 3 | `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` | Always |
 
 **When to use Phase Tracking:**
 - Skill has 3+ sequential steps

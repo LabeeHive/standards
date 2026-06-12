@@ -32,7 +32,7 @@ Guidelines for organizing skill resources: scripts/, references/, assets/.
 Bun executes TypeScript natively without transpilation.
 
 ```bash
-bun scripts/validate.ts input.json
+bun ${CLAUDE_SKILL_DIR}/scripts/validate.ts input.json
 ```
 
 | Language | Use When |
@@ -45,8 +45,8 @@ bun scripts/validate.ts input.json
 
 **✓ Recommended:**
 ```bash
-bun scripts/example.ts        # Direct TypeScript execution
-bun scripts/example.ts --flag # With arguments
+bun ${CLAUDE_SKILL_DIR}/scripts/example.ts        # Direct TypeScript execution
+bun ${CLAUDE_SKILL_DIR}/scripts/example.ts --flag # With arguments
 ```
 
 **⚠ Use with caution:**
@@ -90,11 +90,11 @@ bunx some-cli-tool            # Exit code issues (GitHub #26674)
  * Brief description of what this script does.
  *
  * Usage:
- *   bun scripts/example.ts <input> [--option value]
+ *   bun <skill-dir>/scripts/example.ts <input> [--option value]
  *
  * Examples:
- *   bun scripts/example.ts data.json
- *   bun scripts/example.ts data.json --format pretty
+ *   bun <skill-dir>/scripts/example.ts data.json
+ *   bun <skill-dir>/scripts/example.ts data.json --format pretty
  */
 
 import { parseArgs } from "util";
@@ -109,7 +109,7 @@ function main() {
   });
 
   if (positionals.length < 1) {
-    console.error("Usage: bun scripts/example.ts <input>");
+    console.error("Usage: bun <skill-dir>/scripts/example.ts <input>");
     process.exit(1);
   }
 
@@ -131,12 +131,16 @@ main();
 
 ### Referencing in SKILL.md
 
+Always prefix script paths with `${CLAUDE_SKILL_DIR}` — Claude Code substitutes it with the skill's directory at invocation, so the command works regardless of the current working directory. A cwd-relative `bun scripts/...` breaks when the skill runs inside another project and invites improvised workarounds.
+
 ```markdown
 Run the validation script:
-`bun scripts/validate.ts <input.json>`
+`bun ${CLAUDE_SKILL_DIR}/scripts/validate.ts <input.json>`
 
 If validation fails, fix the errors and retry.
 ```
+
+Note: this works only in SKILL.md content (where substitution happens). Do not use it inside script source code or shell strings — write `<skill-dir>` as a plain placeholder there.
 
 ### Output Format
 
