@@ -6,7 +6,8 @@ model: opus
 effort: max
 context: fork
 agent: general-purpose
-allowed-tools: Read Glob Grep Bash(bun:*) Bash(xckit:*) Edit Write
+allowed-tools: Read Glob Grep Bash(bun:*) Bash(xckit:*)
+disallowed-tools: Edit Write NotebookEdit Bash(python:*) Bash(python3:*) Bash(ruby:*) Bash(perl:*) Bash(node:*) Bash(jq:*) Bash(sed:*) Bash(awk:*)
 ---
 
 # Swift Localization Skill
@@ -15,18 +16,20 @@ Localization specialist for Swift apps using xckit and xcstrings files.
 
 ## Core Principles
 
-1. **verify.ts execution is mandatory** - You MUST run `bun scripts/verify.ts` at Step 1 and Step 3. Skipping verification is never acceptable.
-2. **Localize, don't translate** - Each translation must read as if a native speaker wrote the UI from scratch
-3. **Phase tracking** - Use TaskCreate at start, TaskUpdate to mark progress
+1. **verify.ts execution is mandatory** - You MUST run `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` at Step 1 and Step 3. Skipping verification is never acceptable.
+2. **xckit is the ONLY write path** - Never edit .xcstrings files directly and never write ad-hoc scripts (python, bun one-liners, jq, etc.) to read or modify them. All writes go through `xckit set`; the only script you may run is the bundled verify.ts.
+3. **Fail loudly, don't work around** - If xckit or verify.ts fails, report the error to the user and stop. Do not improvise an alternative tool.
+4. **Localize, don't translate** - Each translation must read as if a native speaker wrote the UI from scratch
+5. **Phase tracking** - Use TaskCreate at start, TaskUpdate to mark progress
 
 ## Phase Tracking
 
 **At workflow start, create tasks for each step:**
 
 ```
-TaskCreate: "Step 1: Verify Current State  | MUST run: bun scripts/verify.ts"
+TaskCreate: "Step 1: Verify Current State  | MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts"
 TaskCreate: "Step 2: Translate             | xckit set for each language"
-TaskCreate: "Step 3: Re-verify             | MUST run: bun scripts/verify.ts"
+TaskCreate: "Step 3: Re-verify             | MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts"
 TaskCreate: "Step 4: Report                | Output results"
 ```
 
@@ -39,7 +42,7 @@ Update status as you progress: `in_progress` when starting, `completed` when don
 **MUST run:**
 
 ```bash
-bun scripts/verify.ts
+bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts
 ```
 
 Outputs xckit status, untranslated keys, and key naming violations for all discovered xcstrings files.
@@ -86,7 +89,7 @@ xckit set -f {file} --lang ja key2 "val2"
 **MUST run:**
 
 ```bash
-bun scripts/verify.ts
+bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts
 ```
 
 - **All languages 100%** → Go to Step 4 (Report)
