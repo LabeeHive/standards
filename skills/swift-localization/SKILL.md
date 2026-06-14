@@ -35,6 +35,12 @@ TaskCreate: "Step 4: Report                | Output results"
 
 Update status as you progress: `in_progress` when starting, `completed` when done.
 
+## Target xcstrings files
+
+The project's xcstrings files (discovered from the project root) are injected below. These are the files Step 1's verify.ts will operate on.
+
+!`find . -name '*.xcstrings' -not -path '*/.*'`
+
 ## Workflow
 
 ### Step 1: Verify Current State

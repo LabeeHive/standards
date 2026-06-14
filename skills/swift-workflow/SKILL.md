@@ -114,15 +114,19 @@ A task rarely exists in isolation. Before researching or planning, find out what
 
 **Required skills:** None.
 
+**Config files discovered from the project root are injected below** — use these paths instead of re-globbing, then Read the relevant ones:
+
+!`find . \( -name 'Package.swift' -o -name '*.xcconfig' -o -name 'project.pbxproj' \) -not -path '*/.*' -not -path '*/.build/*'`
+
 **Run these in parallel:**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ PARALLEL: Gather project context                            │
 ├─────────────────────────────────────────────────────────────┤
-│ 1. Glob("**/Package.swift") → Read deployment target        │
-│ 2. Glob("**/*.xcodeproj/project.pbxproj") → Read targets    │
-│ 3. Glob("**/*.xcconfig") → Read build settings              │
+│ 1. Read Package.swift (injected path) → deployment target   │
+│ 2. Read *.xcodeproj/project.pbxproj (injected) → targets     │
+│ 3. Read *.xcconfig (injected path) → build settings         │
 │ 4. Read task notes and comments thoroughly                  │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -221,6 +225,10 @@ xcrun swift-format --recursive . --in-place
 **Required skills:** None.
 
 **REQUIRED before proceeding to localization.**
+
+**Available simulators are injected below** — pick a destination from here when building/testing an app target with `xcodebuild` (SPM-only projects use `swift build`/`swift test` directly):
+
+!`xcrun simctl list devices available`
 
 ```bash
 # Build
