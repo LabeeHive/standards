@@ -226,9 +226,13 @@ xcrun swift-format --recursive . --in-place
 
 **REQUIRED before proceeding to localization.**
 
-**Available simulators are injected below** — pick a destination from here when building/testing an app target with `xcodebuild` (SPM-only projects use `swift build`/`swift test` directly):
+**For an app target built with `xcodebuild`**, list available simulators yourself and pick a destination (SPM-only projects use `swift build`/`swift test` directly and can skip this):
 
-!`xcrun simctl list devices available`
+```bash
+xcrun simctl list devices available
+```
+
+> Run this when you reach Phase 7, not earlier — `simctl` talks to CoreSimulatorService over XPC, which the command sandbox blocks. If it fails with a CoreSimulatorService/`Operation not permitted` error, re-run it with the sandbox disabled.
 
 ```bash
 # Build
