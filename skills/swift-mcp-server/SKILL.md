@@ -1,7 +1,7 @@
 ---
 name: swift-mcp-server
-description: Guides MCP server implementation for Swift apps. Use this when building Claude integrations in Swift.
-when_to_use: Triggers on "MCP server", "MCPサーバー", "Model Context Protocol", "Claude連携", "AI統合".
+description: Builds an MCP server in a macOS Swift app using NuntiusKit's forwarder + resident daemon architecture. Use this when adding Claude/MCP integration to a Swift app.
+when_to_use: Triggers on "MCP server", "MCPサーバー", "Model Context Protocol", "Claude連携", "AI統合", "NuntiusKit".
 model: sonnet
 context: fork
 agent: general-purpose
@@ -12,261 +12,275 @@ allowed-tools: Read Glob Grep Write Edit Bash(swift:*) Bash(mkdir:*)
 
 # Swift MCP Server Skill
 
-You are an MCP (Model Context Protocol) implementation specialist for Swift apps. Guide users through building MCP servers based on the patterns established in Vigilare and Chimr.
+You are an MCP (Model Context Protocol) implementation specialist for Swift apps. Guide users through embedding an MCP server with [NuntiusKit](https://github.com/LabeeHive/NuntiusKit), the pattern established and production-verified in Vigilare.
+
+## Architecture
+
+```
+AI Agent --MCP(stdio)--> YourApp --mcp (forwarder) --Unix socket--> YourApp --daemon (touches TCC)
+```
+
+Both processes run the same app binary with different flags. The `--mcp` process is a thin forwarder that owns stdin/stdout and never touches TCC-protected resources. The `--daemon` process is a LaunchAgent (registered via `SMAppService`) that owns all protected access — EventKit, microphone, and similar — and serves MCP sessions over a Unix domain socket. Each tool call opens a fresh connection, so daemon availability is re-evaluated per call and recovery is automatic.
+
+NuntiusKit provides the whole skeleton: `MCPAppSpec` (tool registry + handlers), `MCPAppServer` (both server builders and process bootstrap), the forwarder, the socket listener, and daemon lifecycle management. The app supplies only its tools, handlers, formatters, and error messages.
+
+## Anti-pattern: daemonless stdio server
+
+**Do not build a stdio MCP server that touches TCC-protected resources directly.** Some MCP hosts (Claude Desktop's Cowork / Claude Code feature) launch MCP server child processes through a helper that calls `responsibility_spawnattrs_setdisclaim()`, detaching the child's TCC responsible-process identity from the host app. TCC grants are recorded per bundle ID, so the disclaimed process silently works or fails depending on whether your app happened to have a prior grant — independent of anything the user opted into. Vigilare shipped this pattern first, hit the problem in production, and had to migrate off it; Chimr still runs the daemonless pattern (stdio server touching EventKit directly) and its migration to NuntiusKit is a planned task — do not copy Chimr's current MCP implementation.
+
+The rule: all TCC-protected access lives in the daemon; the `--mcp` process only forwards. Tools that touch nothing protected (ping, settings) are listed in `localTools` and answered by the forwarder directly. Background and rationale: NuntiusKit `docs/01_architecture/architecture.md`.
 
 ## Technology Stack
 
-- **SDK**: [modelcontextprotocol/swift-sdk](https://github.com/modelcontextprotocol/swift-sdk)
-- **Transport**: StdioTransport
+- **Scaffolding**: [LabeeHive/NuntiusKit](https://github.com/LabeeHive/NuntiusKit) — pin an exact version (0.x, APIs change without notice)
+- **SDK**: [modelcontextprotocol/swift-sdk](https://github.com/modelcontextprotocol/swift-sdk) (transitively via NuntiusKit; import `MCP` for `Tool`, `Value`, `CallTool.Result`)
+- **Requirements**: macOS 13+, Swift 6 toolchain
 
-## File Structure (Based on Vigilare/Chimr)
+## File Structure
 
 ```
 {App}/MCP/
-├── MCPServer.swift        # Server entry point and tool definitions
-├── MCPToolHandlers.swift  # Tool execution logic
-├── MCPServiceError.swift  # Error types
-└── MCPFormatters.swift    # Output formatting
+├── MCPAppSpecFactory.swift  # Builds the app's MCPAppSpec (tools + handlers wiring)
+├── MCPTools.swift           # buildTools() — the [Tool] registry
+├── MCPToolHandlers.swift    # Tool execution logic (talks to the app's stores/use cases)
+├── MCPServiceError.swift    # App error type, conforms to MCPUserFacingError
+└── MCPFormatters.swift      # Output formatting
 ```
+
+NuntiusKit replaces the hand-written `MCPServer.swift`, forwarder, socket listener, and daemon runner from the pre-NuntiusKit generation.
 
 ## When Invoked
 
-### Step 1: MCPServer.swift
+### Step 1: Add NuntiusKit
 
-Entry point with tool definitions:
+The app's own code uses swift-sdk types directly (`Tool`, `Value`, `CallTool.Result`), and SPM target dependencies are not transitive — add both packages and both products:
 
 ```swift
-import Foundation
-import MCP
-
-enum MCPServer {
-  static func run(store: StoreProtocol = Store.shared) async throws {
-    let server = Server(
-      name: "AppName",
-      version: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0",
-      capabilities: .init(tools: .init(listChanged: false))
-    )
-
-    let handlers = MCPToolHandlers(store: store)
-    let tools = buildTools()
-
-    await server.withMethodHandler(ListTools.self) { _ in
-      .init(tools: tools)
-    }
-
-    await server.withMethodHandler(CallTool.self) { params in
-      try await handleToolCall(params, handlers: handlers)
-    }
-
-    let transport = StdioTransport()
-    try await server.start(transport: transport)
-    await server.waitUntilCompleted()
-  }
-}
+dependencies: [
+  .package(url: "https://github.com/LabeeHive/NuntiusKit.git", exact: "0.1.0"),
+  .package(url: "https://github.com/modelcontextprotocol/swift-sdk.git", from: "0.10.0"),
+],
+targets: [
+  .target(
+    name: "AppName",
+    dependencies: [
+      "NuntiusKit",
+      .product(name: "MCP", package: "swift-sdk"),
+    ]
+  )
+]
 ```
 
-### Step 2: Tool Definition Pattern
+Replace `0.1.0` with the latest released NuntiusKit tag (0.x — pin exact, APIs change without notice). For `.xcodeproj`-based apps, add both packages in Xcode and link both the `NuntiusKit` and `MCP` products to the app target.
+
+### Step 2: Define tools
+
+Keep the registry as one function — it is the single source of truth for both processes, and Settings UIs can render it directly so the two never drift:
 
 ```swift
-private static func buildTools() -> [Tool] {
-  [
-    Tool(
-      name: "app_ping",
-      description: "Check if MCP server is running. Returns 'pong' with current timestamp.",
-      inputSchema: .object([
-        "type": .string("object"),
-        "properties": .object([:]),
-        "required": .array([])
-      ])
-    ),
-    Tool(
-      name: "app_get_items",
-      description: "Get items with optional filtering.",
-      inputSchema: .object([
-        "type": .string("object"),
-        "properties": .object([
-          "filter": .object([
-            "type": .string("string"),
-            "description": .string("Filter type: 'all', 'active'. Defaults to 'all'."),
-            "enum": .array([.string("all"), .string("active")])
+import MCP
+
+enum MCPTools {
+  static func buildTools() -> [Tool] {
+    [
+      Tool(
+        name: "app_ping",
+        description: "Check if AppName MCP server is running. Returns 'pong' with current timestamp.",
+        inputSchema: .object([
+          "type": .string("object"),
+          "properties": .object([:]),
+          "required": .array([]),
+        ])
+      ),
+      Tool(
+        name: "app_get_items",
+        description: "Get items to review what needs attention. Use filter='active' for current work only.",
+        inputSchema: .object([
+          "type": .string("object"),
+          "properties": .object([
+            "filter": .object([
+              "type": .string("string"),
+              "description": .string("Filter type: 'all', 'active'. Defaults to 'all'."),
+              "enum": .array([.string("all"), .string("active")]),
+            ])
           ]),
-          "include_archived": .object([
-            "type": .string("boolean"),
-            "description": .string("Include archived items. Defaults to false.")
-          ])
-        ]),
-        "required": .array([])
-      ])
-    ),
-    Tool(
-      name: "app_get_item",
-      description: "Get full details of a specific item.",
-      inputSchema: .object([
-        "type": .string("object"),
-        "properties": .object([
-          "id": .object([
-            "type": .string("string"),
-            "description": .string("The item ID to get details for.")
-          ])
-        ]),
-        "required": .array([.string("id")])
-      ])
-    )
-  ]
-}
-```
-
-### Step 3: Tool Dispatch
-
-```swift
-private static func handleToolCall(
-  _ params: CallTool.Parameters,
-  handlers: MCPToolHandlers
-) async throws -> CallTool.Result {
-  switch params.name {
-  case "app_ping":
-    return handlers.handlePing()
-  case "app_get_items":
-    return try await handlers.handleGetItems(params.arguments)
-  case "app_get_item":
-    return try await handlers.handleGetItem(params.arguments)
-  default:
-    throw MCPServiceError.unknownTool(name: params.name)
+          "required": .array([]),
+        ])
+      ),
+    ]
   }
 }
 ```
 
-### Step 4: MCPToolHandlers.swift
+### Step 3: Define the error type
+
+Conform the app's tool error type to `MCPUserFacingError`. NuntiusKit converts conforming errors into `isError: true` tool results whose message reaches the client; any other thrown error becomes a generic protocol-level "Tool execution failed" with no text. `LocalizedError` conformers get `guidanceText` for free from `errorDescription`:
+
+```swift
+import Foundation
+import NuntiusKit
+
+enum MCPServiceError: LocalizedError, MCPUserFacingError {
+  case unauthorized
+  case backgroundServiceRequired(daemonStatus: MCPDaemonStatus)
+  case itemNotFound(id: String)
+  case invalidParameter(name: String)
+
+  var errorDescription: String? {
+    switch self {
+    case .unauthorized:
+      return "Access not authorized. Launch AppName and allow access when prompted, or enable AppName in System Settings > Privacy & Security."
+    case .backgroundServiceRequired(let daemonStatus):
+      switch daemonStatus {
+      case .requiresApproval:
+        return "AppName's Background Service is waiting for approval — open System Settings > General > Login Items & Extensions, allow AppName, then try again."
+      case .enabled:
+        return "AppName's Background Service is enabled but not responding. Try restarting AppName, then try again."
+      case .notRegistered, .notFound:
+        return "AppName's Background Service isn't running. Open AppName > Settings and enable \"Background Service\", then try again."
+      }
+    case .itemNotFound(let id):
+      return "Item not found (id: \(id)). Use app_get_items to find valid IDs."
+    case .invalidParameter(let name):
+      return "Missing required parameter: \(name). Please provide it and try again."
+    }
+  }
+}
+```
+
+Write messages the user can act on — say what to open and what to click, not just what failed. The one deliberate exception: an unknown tool name is a client/integration bug and stays a protocol-level error (NuntiusKit handles this).
+
+### Step 4: Handlers
+
+Same shape as before — a class that talks to the app's stores/use cases and returns `CallTool.Result`. Throw `MCPServiceError` for user-actionable failures:
 
 ```swift
 import Foundation
 import MCP
 
-final class MCPToolHandlers {
+final class MCPToolHandlers: Sendable {
   private let store: StoreProtocol
 
   init(store: StoreProtocol) {
     self.store = store
   }
 
-  // MARK: - Authorization (for system APIs)
-
-  func ensureAuthorized() async throws {
-    let status = store.authorizationStatus()
-    switch status {
-    case .authorized, .fullAccess:
-      return
-    case .notDetermined:
-      let granted = try await store.requestAccess()
-      if !granted { throw MCPServiceError.unauthorized }
-    case .denied, .restricted:
-      throw MCPServiceError.accessDenied
-    @unknown default:
-      throw MCPServiceError.unauthorized
-    }
-  }
-
-  // MARK: - Handlers
-
-  func handlePing() -> CallTool.Result {
+  func ping() -> CallTool.Result {
     let timestamp = ISO8601DateFormatter().string(from: Date())
-    let response = "pong - AppName MCP is running! (\(timestamp))"
-    return .init(content: [.text(response)], isError: false)
+    return .init(
+      content: [
+        .text(text: "pong - AppName MCP is running! (\(timestamp))", annotations: nil, _meta: nil)
+      ],
+      isError: false)
   }
 
-  func handleGetItems(_ arguments: [String: Value]?) async throws -> CallTool.Result {
-    try await ensureAuthorized()
-
-    let filter = arguments?["filter"]?.stringValue ?? "all"
-    let includeArchived = arguments?["include_archived"]?.boolValue ?? false
-
+  func getItems(_ arguments: [String: Value]?) async throws -> CallTool.Result {
+    guard store.isAuthorized else { throw MCPServiceError.unauthorized }
     let items = await store.fetchItems()
-    let output = MCPFormatters.formatItems(items)
-
-    return .init(content: [.text(output)], isError: false)
-  }
-
-  func handleGetItem(_ arguments: [String: Value]?) async throws -> CallTool.Result {
-    try await ensureAuthorized()
-
-    guard let itemId = arguments?["id"]?.stringValue else {
-      throw MCPServiceError.invalidParameter(name: "id")
-    }
-
-    guard let item = store.item(withIdentifier: itemId) else {
-      throw MCPServiceError.itemNotFound(id: itemId)
-    }
-
-    let output = MCPFormatters.formatItemFull(item)
-    return .init(content: [.text(output)], isError: false)
+    return .init(
+      content: [.text(text: MCPFormatters.formatItems(items), annotations: nil, _meta: nil)],
+      isError: false)
   }
 }
 ```
 
-### Step 5: MCPServiceError.swift
+Handlers are stored in the spec as `@Sendable` closures and may run concurrently — keep `MCPToolHandlers` `Sendable` (immutable dependencies, or lock-guarded state). This requires `StoreProtocol` itself to be `Sendable`; if an existing store protocol isn't, either add `Sendable` to the protocol, isolate the store behind an actor, or fall back to `@unchecked Sendable` with lock-guarded state and a comment justifying it.
+
+### Step 5: Build the spec
 
 ```swift
 import Foundation
+import NuntiusKit
 
-enum MCPServiceError: LocalizedError {
-  case unauthorized
-  case accessDenied
-  case itemNotFound(id: String)
-  case invalidParameter(name: String)
-  case unknownTool(name: String)
-  case saveFailed(String)
-
-  var errorDescription: String? {
-    switch self {
-    case .unauthorized:
-      return "Access not authorized"
-    case .accessDenied:
-      return "Access denied. Please grant access in System Settings."
-    case .itemNotFound(let id):
-      return "Item not found: \(id)"
-    case .invalidParameter(let name):
-      return "Missing required parameter: \(name)"
-    case .unknownTool(let name):
-      return "Unknown tool: \(name)"
-    case .saveFailed(let reason):
-      return "Failed to save: \(reason)"
-    }
-  }
-}
-```
-
-### Step 6: MCPFormatters.swift
-
-```swift
-import Foundation
-
-enum MCPFormatters {
-  static func formatItems(_ items: [Item]) -> String {
-    var output = "# Items\n\n"
-
-    if items.isEmpty {
-      output += "No items found.\n"
-    } else {
-      output += "Total: \(items.count)\n\n"
-      for item in items {
-        output += "## \(item.title)\n"
-        output += "- ID: `\(item.id)`\n\n"
+enum MCPAppSpecFactory {
+  static func make() -> MCPAppSpec {
+    let handlers = MCPToolHandlers(store: Store.shared)
+    return MCPAppSpec(
+      serverName: "AppName",
+      socketName: ".appname-mcp.sock",
+      daemonPlistName: "com.example.appname.daemon.plist",
+      tools: MCPTools.buildTools(),
+      handlers: [
+        "app_ping": { _ in handlers.ping() },
+        "app_get_items": { try await handlers.getItems($0) },
+      ],
+      localTools: ["app_ping"],
+      daemonUnreachableGuidance: {
+        let status = MCPDaemonService(plistName: "com.example.appname.daemon.plist").status
+        return MCPServiceError.backgroundServiceRequired(daemonStatus: status)
+          .localizedDescription
       }
-    }
-
-    return output
-  }
-
-  static func formatItemFull(_ item: Item) -> String {
-    var output = "# \(item.title)\n\n"
-    output += "- ID: `\(item.id)`\n"
-    if let notes = item.notes {
-      output += "\n## Notes\n\(notes)\n"
-    }
-    return output
+    )
   }
 }
 ```
+
+`localTools` are answered by the forwarder without a daemon round-trip — only tools that touch nothing TCC-protected belong there (ping, settings). `daemonUnreachableGuidance` is returned as an `isError: true` result whenever the daemon can't be reached; make it tell the user exactly how to enable the Background Service (branch on `MCPDaemonStatus` for a status-specific message, as Vigilare does).
+
+### Step 6: main.swift
+
+The whole process bootstrap is two branches — `RunLoop.main.run()` and its non-obvious rationale live inside NuntiusKit:
+
+```swift
+import NuntiusKit
+
+let spec = MCPAppSpecFactory.make()
+
+if CommandLine.arguments.contains("--daemon") {
+  MCPAppServer.runDaemon(spec: spec)  // -> Never
+}
+if CommandLine.arguments.contains("--mcp") {
+  MCPAppServer.runForwarder(spec: spec)  // -> Never
+}
+
+AppNameApp.main()
+```
+
+### Step 7: LaunchAgent registration
+
+Ship the plist at `Contents/Library/LaunchAgents/{daemonPlistName}` (add a Copy Files build phase):
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.example.appname.daemon</string>
+  <key>BundleProgram</key>
+  <string>Contents/MacOS/AppName</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>AppName</string>
+    <string>--daemon</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>AssociatedBundleIdentifiers</key>
+  <array>
+    <string>com.example.appname</string>
+  </array>
+</dict>
+</plist>
+```
+
+`KeepAlive` must be an unconditional `true`: NuntiusKit's daemon runner self-restarts on binary updates by exiting 0 and letting launchd relaunch the new binary.
+
+The daemon is opt-in. Wire a "Background Service" toggle in Settings to:
+
+```swift
+let useCase = UpdateMCPDaemonRegistrationUseCase(
+  daemonService: MCPDaemonService(plistName: "com.example.appname.daemon.plist"))
+useCase.execute(enabled: isOn)  // .enabled / .requiresApproval / .disabled / .failed
+```
+
+Surface `.requiresApproval` in the UI — the user must allow the agent in System Settings > General > Login Items & Extensions.
+
+### Step 8: Verify manually
+
+Unit tests cannot cover the process-level run-loop property. After wiring a new app, verify the `--mcp` binary end-to-end with the daemon stopped and running (FIFO-driven recipe: Vigilare `docs/01_architecture/mcp_architecture.md`). A forwarded call must return the daemon's result when it is up, and the guidance text — not a hang — within the timeout when it is down.
 
 ## Tool Naming Convention
 
@@ -274,23 +288,8 @@ enum MCPFormatters {
 {app_prefix}_{action}_{resource}
 ```
 
-Examples from Vigilare:
-- `vigilare_ping`
-- `vigilare_get_lists`
-- `vigilare_get_reminders`
-- `vigilare_get_reminder`
-- `vigilare_create_reminder`
-- `vigilare_update_reminder`
-- `vigilare_complete_reminder`
-- `vigilare_add_comment`
-
-Examples from Chimr:
-- `chimr_ping`
-- `chimr_get_today_events`
-- `chimr_get_events`
-- `chimr_get_events_range`
-- `chimr_join_video_meeting`
-- `chimr_show_notification`
+Examples from Vigilare: `vigilare_ping`, `vigilare_get_lists`, `vigilare_get_reminders`, `vigilare_create_reminder`, `vigilare_add_comment`.
+Examples from Chimr: `chimr_ping`, `chimr_get_today_events`, `chimr_join_video_meeting`, `chimr_show_notification`.
 
 ## Tool Description Guidelines
 
@@ -307,4 +306,3 @@ Examples from Chimr:
 ```
 "Returns reminder array filtered by date"
 ```
-
