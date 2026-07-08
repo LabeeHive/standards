@@ -379,7 +379,7 @@ Before running tests, verify:
 
 ## System dependency abstraction
 
-Abstract system APIs (Timer, Date, UUID, etc.) to make code testable without real delays or non-deterministic values.
+Abstract system APIs (Timer, Task.sleep-based delay, Date, UUID, etc.) to make code testable without real delays or non-deterministic values.
 
 ### Timer abstraction
 
@@ -467,6 +467,187 @@ class MouseTracker {
 }
 ```
 
+### Task.sleep-based debounce abstraction (DebounceScheduler abstraction)
+
+Debounce/delay logic implemented as `Task { try? await Task.sleep(nanoseconds:) }` has the same testability problem as `Timer`: the test must wait for the real delay. Injecting a "shortened" duration does not fix this — real waiting still happens, so timing skews under parallel test execution (CPU contention) make the test flaky.
+
+**Determinism requires two things, not just the mock:** the owning type must be `@MainActor`-isolated (so `Task { [weak self] in ... }`, which captures a `@MainActor`-isolated `self`, is inferred `@MainActor` too, and cancelling a previous debounce task always happens on the same serial executor as the task body), **and** the mock must not resolve the delay until the test explicitly says so. A mock that returns immediately is not enough on its own: when a call site cancels a pending task and starts a replacement (the exact "rapid calls" scenario debounce exists for), resolving too early can race the replacement task before it has even reached its `sleep` call. Hold the delay as a suspended continuation and let the test resolve it once every expected call has actually started waiting.
+
+**Protocol definition:**
+
+```swift
+protocol DebounceSchedulerProtocol: Sendable {
+  func sleep(nanoseconds: UInt64) async throws
+}
+```
+
+**Default implementation:**
+
+```swift
+struct SystemDebounceScheduler: DebounceSchedulerProtocol {
+  func sleep(nanoseconds: UInt64) async throws {
+    try await Task.sleep(nanoseconds: nanoseconds)
+  }
+}
+```
+
+**Mock implementation:**
+
+A cancelled Task in a cancel-and-replace debounce still runs its body up to the cancellation check — it does reach `sleep(nanoseconds:)` and must still be counted. And a Task can be cancelled at any point relative to this mock's internal bookkeeping, including *before* its continuation is even registered. Get either of these wrong and a count-gated wait like `fireAll(afterSleepCallCount:)` can hang forever waiting for a call that will never be counted.
+
+```swift
+final class MockDebounceScheduler: DebounceSchedulerProtocol, @unchecked Sendable {
+  private let lock = NSLock()
+  private var nextID = 0
+  private var pendingContinuations: [Int: CheckedContinuation<Void, Error>] = [:]
+  private var cancelledIDs: Set<Int> = []
+  private var countWaiters: [(threshold: Int, continuation: CheckedContinuation<Void, Never>)] = []
+
+  private(set) var sleepCallCount = 0
+  private(set) var lastNanoseconds: UInt64?
+
+  func sleep(nanoseconds: UInt64) async throws {
+    // Count first, unconditionally — even a Task that is already cancelled
+    // still runs its body this far, and threshold waiters below must see it.
+    lock.lock()
+    sleepCallCount += 1
+    lastNanoseconds = nanoseconds
+    let id = nextID
+    nextID += 1
+    let readyWaiters = countWaiters.filter { sleepCallCount >= $0.threshold }
+    countWaiters.removeAll { sleepCallCount >= $0.threshold }
+    lock.unlock()
+    // Resume outside the lock: a continuation's resume can synchronously
+    // re-enter this class on another thread.
+    for waiter in readyWaiters { waiter.continuation.resume() }
+
+    try await withTaskCancellationHandler {
+      try await withCheckedThrowingContinuation { continuation in
+        lock.lock()
+        if cancelledIDs.remove(id) != nil {
+          // Cancelled before we got here (see onCancel below) — resolve now.
+          lock.unlock()
+          continuation.resume(throwing: CancellationError())
+        } else {
+          pendingContinuations[id] = continuation
+          lock.unlock()
+        }
+      }
+    } onCancel: {
+      lock.lock()
+      let pending = pendingContinuations.removeValue(forKey: id)
+      if pending == nil {
+        // Registration hasn't happened yet — leave a marker for it to see.
+        cancelledIDs.insert(id)
+      }
+      lock.unlock()
+      pending?.resume(throwing: CancellationError())
+    }
+  }
+
+  /// Resolves all pending sleeps, simulating debounce/timer completion.
+  func fireAll() {
+    lock.lock()
+    let continuations = pendingContinuations
+    pendingContinuations.removeAll()
+    lock.unlock()
+
+    for continuation in continuations.values {
+      continuation.resume()
+    }
+  }
+
+  /// Waits until `count` `sleep(nanoseconds:)` calls have been recorded —
+  /// including calls made by Tasks that were already cancelled before
+  /// reaching `sleep` — then fires. This uses a continuation-based waiter
+  /// registered under the same lock as the counter, never a `Task.yield()`
+  /// poll loop: polling has no forward-progress guarantee on the cooperative
+  /// thread pool and can hang indefinitely.
+  func fireAll(afterSleepCallCount count: Int) async {
+    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+      lock.lock()
+      if sleepCallCount >= count {
+        lock.unlock()
+        continuation.resume()
+      } else {
+        countWaiters.append((threshold: count, continuation: continuation))
+        lock.unlock()
+      }
+    }
+    fireAll()
+  }
+}
+```
+
+**Usage in production:**
+
+```swift
+@MainActor
+final class FloatingReminderViewModel {
+  private let debounceScheduler: DebounceSchedulerProtocol
+  private var colorUpdateTask: Task<Void, Never>?
+  private(set) var committedColor: Color?
+
+  init(debounceScheduler: DebounceSchedulerProtocol = SystemDebounceScheduler()) {
+    self.debounceScheduler = debounceScheduler
+  }
+
+  func updateListColor(_ color: Color) {
+    colorUpdateTask?.cancel()
+    let scheduler = debounceScheduler
+    colorUpdateTask = Task { [weak self] in
+      try? await scheduler.sleep(nanoseconds: 300_000_000)
+      guard !Task.isCancelled else { return }
+      self?.committedColor = color
+    }
+  }
+
+  // Test-only: wait for the current debounce cycle to finish without
+  // exposing the underlying Task itself.
+  func awaitPendingColorUpdate() async {
+    await colorUpdateTask?.value
+  }
+}
+```
+
+**Usage in tests:**
+
+```swift
+@MainActor
+@Test func updateListColor_DebouncesRapidCalls_OnlyCommitsLastColor() async {
+  let mockScheduler = MockDebounceScheduler()
+  let viewModel = FloatingReminderViewModel(debounceScheduler: mockScheduler)
+
+  viewModel.updateListColor(.red)
+  viewModel.updateListColor(.blue)
+
+  // Wait until both the cancelled first task and the active second task
+  // have reached `sleep`, then resolve both at once.
+  await mockScheduler.fireAll(afterSleepCallCount: 2)
+  await viewModel.awaitPendingColorUpdate()
+
+  #expect(viewModel.committedColor == .blue)  // No real sleep: deterministic
+}
+```
+
+**Rules:**
+- Isolate the owning type (and its tests) with `@MainActor` so cancellation and task execution share the same serial executor
+- Never resolve a mocked delay before every expected `sleep` call has been recorded — use a call-count gate like `fireAll(afterSleepCallCount:)`, not a bare `fireAll()`, whenever a call site cancels and replaces a pending task
+- Never wait for a call-count gate with a `Task.yield()` poll loop (`while condition { await Task.yield() }`) — it has no forward-progress guarantee and can hang indefinitely; use a continuation-based waiter instead
+- Count a `sleep` call *before* touching its cancellation state — a cancelled Task's body still runs far enough to call `sleep`, and it must still be counted, or a count-gated wait can hang forever
+- Mutate the call counter, the continuation registry, and the waiter list under one lock, and only resume continuations after releasing it — resuming while holding the lock risks reentrancy, and mutating outside the lock risks a registration racing a resolve
+- Handle cancellation with `withTaskCancellationHandler`, and account for the race where cancellation fires before the continuation is registered (mirror this with a "cancelled IDs" set, the same technique `TestClock` from `pointfreeco/swift-clocks` uses)
+- Check `Task.isCancelled` (or `try Task.checkCancellation()`) immediately after the delay resolves — cancellation correctness must not depend on timing
+- Never inject a shortened *real* duration to speed up tests; replace the delay mechanism itself so tests never wait on real time
+- Expose a dedicated `awaitPendingXxx()` test-support method instead of making the debounce `Task` itself `private(set)` — this keeps the property genuinely private and gives tests only "wait until settled" semantics
+
+**Timer vs. DebounceScheduler abstraction:**
+
+| Situation | Use |
+|-----------|-----|
+| Callback-based, repeating, or `Timer.scheduledTimer`-driven code | Timer abstraction (`TimerProviderProtocol`) |
+| Swift Concurrency delay (`Task.sleep`), one-shot debounce cancelled via `Task.cancel()` | DebounceScheduler abstraction (`DebounceSchedulerProtocol`) |
+
 ### Date abstraction (Closure injection)
 
 For simple cases, use closure injection instead of protocols:
@@ -539,6 +720,7 @@ class ItemFactory {
 |---------|----------|
 | Protocol abstraction | Timer, complex APIs with multiple methods |
 | Closure injection | Date, UUID, simple single-value generators |
+| DebounceScheduler abstraction | Task.sleep-based debounce/delay in async code |
 
 ---
 
