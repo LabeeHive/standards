@@ -186,27 +186,27 @@ When a workflow genuinely needs isolated work (a wide investigation, a parallel 
 subagents with the Task tool from inside the skill. Give each one a self-contained brief, since
 it cannot see the conversation, and have it report back to you rather than to the user.
 
-## Autonomous Refinement Loop (Advanced)
+## Bounded retry
 
-For skills that need self-correction capability:
+For a skill whose output can be checked mechanically, loop instead of hoping the first attempt
+lands:
 
 ```
-Execute → Verify → [Pass?] → Done
-                ↓ No
-           Diagnose → Refine → Re-verify (loop)
+Run → Verify → pass? → done
+             ↓ fail
+        Fix → re-verify
 ```
 
-**When to use:**
-- Output has automatable verification criteria
-- Failures can be diagnosed and fixed by agent
-- Multiple iterations may be needed
+Three things make it terminate rather than spin:
 
-**Key components:**
-1. Verification step with clear pass/fail criteria
-2. Diagnosis logic to categorize failures
-3. Refinement strategy based on diagnosis
-4. Session learning file for recording iterations
+- **A verification that is a command, not a judgement.** A script exiting non-zero, a build
+  failing, a linter reporting. If passing is a matter of opinion, this pattern does not apply.
+- **A hard iteration cap.** Three is usually right. State it in the skill.
+- **A stall condition.** If the same item fails twice running, stop and report it instead of
+  trying a third time — a repeat failure means the fix strategy is wrong, not unlucky.
 
-**See:** `references/autonomous-refinement-loop.md` for full pattern details.
+On giving up, say which items failed and why. A skill that silently stops at the cap looks the
+same as one that succeeded.
 
-**Template:** `references/arl-skill-template.md` for quick start.
+`swift-localization` is the worked example: `verify.ts` reports untranslated keys, the skill
+translates what is missing and re-verifies, capped at three passes.

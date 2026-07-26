@@ -2,7 +2,7 @@
 name: skill-creator
 description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones.
 when_to_use: Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), Bash(bun:*), WebFetch, WebSearch, Task, TaskCreate, TaskUpdate, TaskList
+allowed-tools: Read Glob Grep Write Edit Bash(mkdir:*) Bash(bun:*) WebFetch WebSearch Task TaskCreate TaskUpdate TaskList
 ---
 
 # Skill Creator
@@ -95,9 +95,7 @@ skill-name/
 | Target | Method |
 |--------|--------|
 | Agent Skills Spec | WebFetch agentskills.io/specification |
-| Building Skills Guide | WebFetch the PDF URL (if not recently read) |
 | Existing similar skills | Task(Explore) in skills/ directory |
-| Other marketplaces | WebSearch "claude code skills marketplace" |
 | Domain tools | WebSearch "{tool-name} CLI documentation" |
 
 **Skip when ALL of these are true:**
@@ -192,11 +190,8 @@ For each asset identified in Phase 3:
 
 Now write the SKILL.md body, referencing the resources created in Phase 5.
 
-**Frontmatter** — Use values decided in Phase 3. See `references/output-patterns.md` for:
-- Frontmatter field reference
-- Model selection criteria
-- Invocation control patterns
-- allowed-tools patterns
+**Frontmatter** — Use values decided in Phase 3. See `references/output-patterns.md` for the
+field reference, invocation control, and allowed-tools patterns.
 
 **Body guidelines:**
 
@@ -216,41 +211,41 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 | references/bar.md | When doing Y |
 ```
 
-**For ARL-enabled skills:** See `references/autonomous-refinement-loop.md` and `references/arl-skill-template.md`.
+**For skills that verify and retry:** see `references/workflows.md` Bounded retry.
 
 ### Phase 7: Review Gate (PARALLEL)
 
-**Required agents:** MUST spawn both `labee-dev-tech-lead` and `labee-dev-apm` via Task tool.
+**Spawn both `labee-dev-tech-lead` and `labee-dev-apm` in one message via the Task tool. This
+phase blocks Phase 8 until both approve.**
 
-**This phase is BLOCKING. Both reviewers must approve before proceeding to Phase 8.**
+A skill you just wrote reads correctly to you because you hold the intent that produced it. A
+reader who does not catches the two things that intent hides: instructions that only make sense
+if you already know what was meant, and steps left as prose that should have been a script.
+
+Not a process audit — do not ask whether references were read or TODOs remain.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ PARALLEL: Spawn 2 reviewers via Task                        │
 ├─────────────────────────────────────────────────────────────┤
-│ 1. Task(labee-dev-tech-lead) → Process compliance review    │
-│    - References were read before writing SKILL.md           │
-│    - Structure follows existing skill patterns              │
-│    - No TODO placeholders or incomplete sections            │
-│    - Frontmatter values are justified (model, tools, etc.)  │
+│ 1. Task(labee-dev-tech-lead) → Instructions as written      │
+│    - Steps that assume context the reader will not have     │
+│    - Claims about tool behaviour that are not true          │
+│    - Blocking questions on a path the user cannot reach     │
+│    - Drift from how existing skills in this repo are built  │
 │                                                             │
-│ 2. Task(labee-dev-apm) → Technical & automation review      │
+│ 2. Task(labee-dev-apm) → Scripts and automation             │
 │    - Script quality (error handling, exit codes, shebang)   │
 │    - Scripts tested against real projects, not just --help  │
-│    - Missed automation: repeated operations that SHOULD be  │
-│      scripts but were left as manual SKILL.md instructions  │
-│    - Deterministic steps that could be combined into one    │
-│      script                                                 │
+│    - Repeated manual steps that should have been a script   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Provide each reviewer with:**
-- The complete SKILL.md content
-- List of all resources created in Phase 5
-- The resource plan from Phase 3 (so reviewers can verify completeness)
+**Give each reviewer** the SKILL.md text, the resources created in Phase 5, and the plan from
+Phase 3. They run in fresh contexts and see nothing of this conversation.
 
-**On approval:** Both return LGTM → proceed to Phase 8.
-**On rejection:** Fix issues cited by reviewers → re-run Phase 7.
+**On approval:** both LGTM → Phase 8.
+**On rejection:** fix what they cite → re-run Phase 7.
 
 ### Phase 8: Validate & Package
 
@@ -313,18 +308,6 @@ Principles from the official skill-creator (anthropics/skills) for iterating on 
 
 | File | Load When |
 |------|-----------|
-| references/output-patterns.md | Defining frontmatter, description, allowed-tools, model, invocation control |
+| references/output-patterns.md | Defining frontmatter, description, allowed-tools, invocation control |
 | references/workflows.md | Creating skills with 3+ steps or conditional logic |
 | references/resource-patterns.md | Deciding scripts/ vs references/ vs assets/, implementing scripts |
-| references/autonomous-refinement-loop.md | Creating skills that need self-correction loops |
-| references/arl-skill-template.md | Quick-starting an ARL-enabled skill |
-
-## Session Learning Scripts
-
-For Autonomous Refinement Loop enabled skills:
-
-| Script | Purpose |
-|--------|---------|
-| `scripts/init_session.ts` | Initialize session learning file |
-| `scripts/log_iteration.ts` | Log each verification attempt |
-| `scripts/finalize_session.ts` | Finalize session with learnings |

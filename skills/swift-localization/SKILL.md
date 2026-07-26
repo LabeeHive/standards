@@ -86,7 +86,7 @@ xckit set -f {file} --lang ja key1 "val1" && \
 xckit set -f {file} --lang ja key2 "val2"
 ```
 
-### Step 3: Re-verify (ARL Entry Point)
+### Step 3: Re-verify
 
 **MUST run:**
 
