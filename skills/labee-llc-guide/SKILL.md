@@ -13,8 +13,15 @@ Shared brand and company context for all Labee agents and skills.
 
 - **Name:** ラビー合同会社 (Labee LLC)
 - **Location:** Yokohama, Japan (横浜線沿線)
-- **Vision:** 人間とAIが並んで働く未来へ (Toward a future where humans and AI work side by side)
-- **Values:** Proximity and speed (近さと速さ), direct engineer engagement, flexibility
+- **Vision:** もっと自由に、もっと楽しく。 (More freedom, more fun.)
+- **Mission:** テクノロジーとデザインの力で、あなたのビジネスに新しい価値を創造します。
+- **Values:** Freedom, sharing joy, simplicity, honesty in technology
+- **How Labee works:** proximity and speed (近さと速さ), direct engineer engagement, flexibility
+- **2026 goal:** 人間が使えるツールを、AIも使えるように — a target for this year, not the Vision
+
+The Vision and the yearly goal sit at different levels. When something needs the company's
+standing identity, that is the Vision; the AI goal is what Labee is working on right now and
+must not be quoted in its place. `agents/*.md` carry the same Vision — keep them in step.
 
 ## How to Apply
 
