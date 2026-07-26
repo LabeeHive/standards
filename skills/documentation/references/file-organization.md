@@ -8,26 +8,29 @@ This document defines standards for file naming, directory structure, and versio
 
 ## File naming
 
-### Snake_case convention
+### kebab-case convention
 
 **Rules:**
 
-- Use lowercase letters with underscores (`snake_case`)
-- No spaces, hyphens, or camelCase
-- Use descriptive names that indicate content
+- Lowercase letters with hyphens (`kebab-case`)
+- No spaces, underscores, or camelCase
+- Descriptive names that indicate content
+- A leading underscore is a prefix, not a separator: `_core-rules.md` marks a file read on every
+  invocation of its skill
 
 **✅ Good:**
 
 ```
-naming_conventions.md
-api_reference.md
-getting_started.md
-error_handling_patterns.md
+naming-conventions.md
+api-reference.md
+getting-started.md
+error-handling-patterns.md
 ```
 
 **❌ Bad:**
 
 ```
+naming_conventions.md
 Naming-Conventions.md
 apiReference.md
 Getting Started.md
@@ -304,11 +307,11 @@ status: active
 
 ## Directory naming
 
-### Snake_case for directories
+### kebab-case for directories
 
 **Rules:**
 
-- Use snake_case for directory names
+- Lowercase with hyphens, matching the file convention
 - Keep names short and descriptive
 - Use numbers for ordering when needed
 
@@ -316,7 +319,7 @@ status: active
 
 ```
 docs/
-├── getting_started/
+├── getting-started/
 ├── guides/
 ├── reference/
 │   ├── api/
@@ -328,8 +331,8 @@ docs/
 
 ```
 docs/
+├── getting_started/
 ├── GettingStarted/
-├── User-Guides/
 ├── technicalReference/
 └── Coding Standards/
 ```

@@ -85,10 +85,10 @@ text alone should tell a reader what they will get, because readers scan links o
 
 ### Internal links are relative paths with the extension
 
-Use `../core/naming_conventions.md`, not `/docs/core/naming-conventions` and not a full URL to
+Use `../core/naming-conventions.md`, not `/docs/core/naming-conventions` and not a full URL to
 the published site. Both alternatives break when the docs move or are read offline.
 
-File names are **snake_case** — see `file-organization.md` for the full naming convention.
+File names are **kebab-case** — see `file-organization.md` for the full convention.
 
 ### Images
 
