@@ -24,8 +24,31 @@ JavaDoc-style `/** */` documentation are both rejected in favour of `//` and `//
 that kind belong to the tool, not to a reviewer.
 
 Measured on a deliberately malformed file, `swift-format` reported 15 findings across those
-categories and `swiftlint` reported 11. Neither reported anything on a file whose only problems
-were the two below.
+categories. It reported nothing on a file whose only problems were the two below.
+
+### SwiftLint (optional)
+
+Not adopted across Labee projects yet — no project ships a `.swiftlint.yml` today. If the one
+you are working in has a config, run `swiftlint lint` alongside the formatter; if it does not,
+skip it rather than running with defaults.
+
+Disable `identifier_name` when adding a config. Labee names by shape, not by length — `is`/`has`
+prefixes on booleans, `did`/`will` on handlers, noun phrases for types — and SwiftLint's default
+rejects any identifier outside 3-40 characters as an error, which fails names `naming.md`
+allows. Everything `identifier_name` would catch is already covered there, by rules that
+actually match the standard.
+
+```yaml
+# .swiftlint.yml
+disabled_rules:
+  - identifier_name  # conflicts with naming.md; see swift-core
+```
+
+### Out of scope
+
+Safety and correctness — force unwraps, error handling, concurrency — are not formatting or
+naming concerns and are not defined here. Raise them as ordinary review comments, not as
+violations of this standard.
 
 ---
 
