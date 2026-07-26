@@ -12,12 +12,14 @@ everything. The rest load on demand.
 
 ## Workflow
 
-**Writing** — pick the document type from `references/content-types.md`, take its skeleton from
-`references/document-structure.md`, then draft against the core rules.
+**Writing** — pick the document type from `references/content-types.md` and use its template,
+which lives in the same file. `references/document-structure.md` covers how sections group
+inside the document and YAML frontmatter. Draft against the core rules.
 
 **Reviewing** — the core rules are the floor, not the whole standard. Read them, then pull in
 whichever references the document actually exercises: `references/writing-principles.md` for
-voice, tone, person and grammar, `references/markdown-formatting.md` for syntax and structure,
+word choice, jargon, inclusive language, numbers and units, `references/markdown-formatting.md`
+for markdown conventions and what the linter does not cover,
 `references/code-examples.md` where the document contains code. Report each issue as line
 number, what is wrong, and the suggested fix. Point at specific lines rather than summarizing.
 
@@ -28,11 +30,11 @@ number, what is wrong, and the suggested fix. Point at specific lines rather tha
 | File | Load When |
 |------|-----------|
 | references/_core-rules.md | Read first, every time — essential rules for all documentation |
-| references/writing-principles.md | Voice, tone, grammar, inclusive language |
-| references/document-structure.md | Structuring a document |
-| references/markdown-formatting.md | Markdown syntax questions |
+| references/writing-principles.md | Word choice, jargon, inclusive language, numbers and units |
+| references/document-structure.md | Grouping sections inside a document, YAML frontmatter |
+| references/markdown-formatting.md | Which rules the linter owns, and the conventions it cannot check |
 | references/file-organization.md | Organizing files and folders |
-| references/content-types.md | Choosing a document type |
+| references/content-types.md | Choosing a document type, and its template |
 | references/code-examples.md | Including code in docs |
 | references/ai-documentation.md | Writing AI context files (CLAUDE.md, AGENTS.md) |
 | references/project-structure.md | Project-level documentation layout |

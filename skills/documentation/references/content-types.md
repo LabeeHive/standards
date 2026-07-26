@@ -135,7 +135,7 @@ API reference documentation provides comprehensive information about APIs, endpo
 
 ### Template
 
-```markdown
+````markdown
 # API reference
 
 ## Purpose
@@ -225,7 +225,7 @@ POST /resources
 }
 ```
 
-```
+````
 
 ### Guidelines
 
@@ -238,11 +238,12 @@ POST /resources
 ---
 
 ## How-to guide
+
 How-to guides help users accomplish specific tasks. They are goal-oriented and practical.
 
 ### Template
 
-```markdown
+````markdown
 # How to [accomplish task]
 
 ## Purpose
@@ -306,7 +307,7 @@ To verify the task was completed successfully:
 - [Related guide 1](related_guide_1.md)
 - [Related guide 2](related_guide_2.md)
 
-```
+````
 
 ### Guidelines
 
@@ -319,11 +320,12 @@ To verify the task was completed successfully:
 ---
 
 ## Tutorial
+
 Tutorials guide users through a learning experience. They are learning-oriented and take users from start to finish.
 
 ### Template
 
-```markdown
+````markdown
 # Tutorial: [Learning goal]
 
 ## Purpose
@@ -392,7 +394,7 @@ In this tutorial, you learned:
 - [Advanced tutorial](advanced_tutorial.md)
 - [Related concept explanation](concept_explanation.md)
 
-```
+````
 
 ### Guidelines
 
@@ -406,6 +408,7 @@ In this tutorial, you learned:
 ---
 
 ## Explanation
+
 Explanation documents help users understand concepts. They provide background and context.
 
 ### Template

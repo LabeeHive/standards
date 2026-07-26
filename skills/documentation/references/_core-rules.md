@@ -3,8 +3,9 @@
 ## Purpose
 
 The rules that apply to every Labee document, and the only reference read on every invocation.
-Everything here is something a linter cannot judge — if `markdownlint-cli2` can decide it, it is
-not in this file. Run the linter for the rest; the repo config is `.markdownlint-cli2.jsonc`.
+Most of it is what a linter cannot judge; the skeleton below is the exception, stated because a
+reader needs the shape even though `markdownlint-cli2` also enforces parts of it. Run the linter
+rather than checking mechanical rules by eye — the config is `.markdownlint-cli2.jsonc`.
 
 ---
 
@@ -49,8 +50,8 @@ Stop at H3. Wanting an H4 usually means the document should be split, not nested
 that reads the same way: "the platform team decided" tells a reader no more than "we decided"
 does. Say what the system does, or what the reader should do.
 
-**Headings** — sentence case, no trailing period. See `markdown-formatting.md` for why this one
-needs a deliberate pass.
+**Headings** — sentence case. See `markdown-formatting.md` for why this one needs a deliberate
+pass rather than a linter.
 
 **Lists** — Oxford comma within sentences: "controllers, services, and repositories". Numbered
 lists only for real sequences; numbering unordered things implies an order that is not there.
@@ -62,8 +63,6 @@ where a thought ended is too long, whatever its line count.
 
 ## Anti-patterns
 
-- Walls of text with no structure
-- Passive voice used to avoid naming who acts
 - Emoji or decoration carrying no information — the ✅/❌ pair in examples is the one exception,
   and it is a convention, not decoration
 - A paragraph explaining what a three-line code example would show
@@ -72,6 +71,6 @@ where a thought ended is too long, whatever its line count.
 
 ## References
 
-- [markdown-formatting.md](markdown-formatting.md) — linter config, and the conventions it cannot check
+- [markdown-formatting.md](markdown-formatting.md) — which rules the linter owns, and the conventions it cannot check
 - [writing-principles.md](writing-principles.md) — word choice, inclusive language, numbers and units
 - [document-structure.md](document-structure.md) — organizing sections, YAML frontmatter
