@@ -2,9 +2,7 @@
 name: aso-review
 description: Review App Store metadata (fastlane) across 14+ languages for ASO, naturalness, and messaging. Use when reviewing localized metadata before release.
 when_to_use: Triggers on "ASO review", "ASOレビュー", "ストアレビュー", "metadata review", "メタデータレビュー", "store review".
-model: sonnet
-context: fork
-allowed-tools: Read Glob Grep Edit Write Task TeamCreate TeamDelete SendMessage TaskCreate TaskUpdate TaskList Bash(pnpm:*) Bash(fastlane:*)
+allowed-tools: Read Glob Grep Edit Write Task TaskCreate TaskUpdate TaskList Bash(pnpm:*) Bash(fastlane:*)
 argument-hint: "[path/to/fastlane/metadata]"
 ---
 
@@ -59,10 +57,10 @@ Glob("**/metadata/**")     → fastlane metadata
 ```
 
 - Read ALL discovered files
-- Build locale inventory (expect 14+ languages)
+- Build the locale inventory from what is actually on disk — the tree is the source of truth, not a fixed expected count
 - Log discovered locales: `ja, en, ko, zh-Hans, de, es, fr, ...`
 
-**If fewer than expected locales found:** Inform the user how many locales were detected and confirm whether to proceed or wait for missing locales.
+Report the locale count in your findings and review every locale you found. Do not block waiting for locales that may or may not be coming.
 
 ### Phase 2: Build Shared Context
 
@@ -73,21 +71,17 @@ Gather before dispatching to reviewers:
 3. Brand voice reference (see `references/_localization-principles.md`)
 4. App category and target audience
 
-### Phase 3: Form Review Team & Run Reviews
+### Phase 3: Run Reviews
 
-**MUST call TeamCreate to create the review team:**
+**Spawn all 3 reviewers in ONE message using the Task tool. Do NOT launch sequentially.**
 
-```
-TeamCreate("aso-review-team")
-```
+| Reviewer | subagent_type | Role |
+|----------|---------------|------|
+| ASO | labee-marketing-aso | ASO optimization |
+| Naturalness | general-purpose | Naturalness checking |
+| Messaging | labee-pmm-fujimoto-ren | Value proposition & tone |
 
-**Then spawn ALL 3 agents in ONE message using Task tool. Do NOT launch sequentially.**
-
-| Agent Name | subagent_type | Role |
-|------------|---------------|------|
-| aso-reviewer | labee-marketing-aso | **LEAD** — ASO optimization |
-| naturalness-reviewer | general-purpose | Naturalness checking |
-| messaging-reviewer | labee-pmm-fujimoto-ren | Value proposition & tone |
+Each reviewer works independently and returns its findings to you. Reviewers do not talk to each other — you reconcile their output in Phase 4.
 
 **Each agent receives:**
 - Complete metadata text for all locales
@@ -118,17 +112,15 @@ TeamCreate("aso-review-team")
 - Feature naming consistency (translated vs kept original)
 - Flag contradicting claims between locales
 
-### Phase 4: Cross-Review Discussion
+### Phase 4: Reconcile Findings
 
-**MUST use SendMessage between agents. Do NOT skip this phase.**
+The three reviewers optimize for different things, so their recommendations will collide. Work through the collisions yourself before writing the report:
 
-1. **SendMessage** aso-reviewer's keyword suggestions to naturalness-reviewer — "Are these keyword changes still natural?"
-2. **SendMessage** naturalness-reviewer's findings to aso-reviewer — "Can we preserve keywords while fixing naturalness?"
-3. **SendMessage** messaging consistency issues to all agents — "Locale X contradicts locale Y on value prop"
+1. **Keyword vs naturalness** — a keyword the ASO reviewer wants may be phrasing the naturalness reviewer rejects. Prefer the natural phrasing unless the keyword carries real search volume; say which you chose and why.
+2. **Per-locale vs cross-locale** — the messaging reviewer works across locales and may object to a rewrite that reads well in isolation. Cross-locale consistency of the value proposition wins over a locally nicer sentence.
+3. **Unsupported claims** — if a subtitle or keyword promises a capability no description mentions, flag it as an accuracy risk rather than silently keeping it.
 
-Each agent responds with agreements, disagreements, and proposed resolutions.
-
-**The aso-reviewer (LEAD) makes final call on conflicts** — especially ASO keyword vs naturalness trade-offs.
+If a reviewer's finding is thin or you need it re-checked against another's, spawn a follow-up Task rather than guessing.
 
 ### Phase 5: Synthesize Results
 
@@ -160,8 +152,7 @@ Each agent responds with agreements, disagreements, and proposed resolutions.
 - [Conflict]: [Resolution by lead reviewer]
 ```
 
-3. **MUST call TeamDelete("aso-review-team")** after synthesizing results.
-4. Present report to user and **wait for approval** before applying fixes.
+3. Present the report to the user and wait for approval before applying fixes.
 
 ### Phase 6: Apply Fixes
 
@@ -226,12 +217,12 @@ Each agent responds with agreements, disagreements, and proposed resolutions.
 ## Anti-Patterns
 
 1. **Do NOT launch agents sequentially** — all 3 in ONE Task call
-2. **Do NOT skip cross-review discussion** — Phase 4 is mandatory
+2. **Do NOT concatenate reviewer output** — Phase 4 is where their conflicts get resolved
 3. **Do NOT translate keywords** — research local search terms independently per locale
 4. **Do NOT review only JP and EN** — MUST review ALL detected locales
 5. **Do NOT merge results without discussion** — agents must cross-check findings
 6. **Do NOT review LP pages** — redirect user to `/lp-review`
-7. **Do NOT forget TeamDelete** — always clean up the review team after Phase 5
+7. **Do NOT block waiting for locales** — review what is on disk and report the count
 
 ## Reference Files
 

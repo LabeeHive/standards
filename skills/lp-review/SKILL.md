@@ -1,10 +1,8 @@
 ---
 name: lp-review
-description: Review English LP copy for messaging, naturalness, and SEO using a 3-agent review team. Use when reviewing landing page content.
+description: Review English LP copy for messaging, naturalness, and SEO using three parallel reviewers. Use when reviewing landing page content.
 when_to_use: Triggers on "LP review", "LPレビュー", "landing page review", "LP copy", "コピーレビュー".
-model: sonnet
-context: fork
-allowed-tools: Read Glob Grep Edit Write Task TeamCreate TeamDelete SendMessage TaskCreate TaskUpdate TaskList Bash(pnpm:*)
+allowed-tools: Read Glob Grep Edit Write Task TaskCreate TaskUpdate TaskList Bash(pnpm:*)
 ---
 
 # LP Review
@@ -22,7 +20,7 @@ TaskCreate: "Phase 0: Route"
 TaskCreate: "Phase 1: Discover Target Files"
 TaskCreate: "Phase 2: Build Shared Context"
 TaskCreate: "Phase 3: Form Review Team & Run Reviews"
-TaskCreate: "Phase 4: Cross-Review Discussion"
+TaskCreate: "Phase 4: Reconcile Findings"
 TaskCreate: "Phase 5: Synthesize Results"
 TaskCreate: "Phase 6: Apply Fixes"
 ```
@@ -54,22 +52,17 @@ Assemble a context package for the review team:
 
 This context package is passed to each agent in Phase 3.
 
-### Phase 3: Form Review Team & Run Reviews
+### Phase 3: Run Reviews
 
-**MUST call TeamCreate to create the review team.**
-**MUST spawn ALL 3 agents in ONE SendMessage block -- do NOT launch sequentially.**
+**Spawn all 3 reviewers in ONE message using the Task tool -- do NOT launch sequentially.**
 
-```
-TeamCreate("lp-review-team")
-```
+| Reviewer | subagent_type | Role |
+|----------|---------------|------|
+| Messaging | labee-pr-sns-ruka | Persuasion flow, audience resonance, CTA clarity, English-native copy quality |
+| Naturalness | general-purpose | English AI pattern detection, "translated from Japanese" detection |
+| SEO | labee-marketing-seo | Web SEO keyword alignment, meta tags, heading structure |
 
-Then send the shared context to all 3 agents in parallel:
-
-| Agent Name | subagent_type | Role |
-|------------|---------------|------|
-| messaging-reviewer | labee-pr-sns-ruka | **LEAD** -- Persuasion flow, audience resonance, CTA clarity, English-native copy quality |
-| naturalness-reviewer | general-purpose | English AI pattern detection, "translated from Japanese" detection |
-| seo-reviewer | labee-marketing-seo | Web SEO keyword alignment, meta tags, heading structure |
+Each reviewer works independently and returns findings to you. Reviewers do not talk to each other -- you reconcile their output in Phase 4.
 
 **Each agent receives:**
 - The full LP copy
@@ -78,7 +71,7 @@ Then send the shared context to all 3 agents in parallel:
 
 **Agent instructions:**
 
-**messaging-reviewer (LEAD):**
+**Messaging reviewer:**
 - Review persuasion flow: Hero -> Features -> CTA
 - Check CTA hierarchy (primary vs secondary, above-the-fold)
 - Evaluate audience resonance for each segment (developers, managers, remote workers)
@@ -98,25 +91,19 @@ Then send the shared context to all 3 agents in parallel:
 - Review internal linking and alt text
 - Evaluate keyword density (natural, not stuffed)
 
-### Phase 4: Cross-Review Discussion
+### Phase 4: Reconcile Findings
 
-**MUST use SendMessage to relay findings between agents.** Do NOT skip this phase.
+The three reviewers optimize for different things, so their recommendations will collide. Work through the collisions yourself before writing the report:
 
-1. Collect all 3 agents' findings
-2. **Send messaging-reviewer's findings to naturalness-reviewer and seo-reviewer**
-3. **Send naturalness-reviewer's findings to messaging-reviewer**
-4. **Send seo-reviewer's findings to messaging-reviewer**
-5. Each agent responds with:
-   - Agreements or disagreements with other reviewers
-   - Conflicts (e.g., SEO keyword vs natural phrasing) and proposed resolutions
-   - Any items they missed that another reviewer caught
+1. **SEO keyword vs natural phrasing** -- a keyword the SEO reviewer wants placed may be phrasing the naturalness reviewer rejects. Prefer copy a native speaker would actually write; say which you chose and why.
+2. **Persuasion vs accuracy** -- if the messaging reviewer's rewrite claims more than the product does, the claim loses.
+3. **Overlap** -- the same line will often be flagged by two reviewers for different reasons. Merge those into one finding with one fix, not two competing ones.
 
-**The messaging-reviewer (LEAD) makes final call on conflicts.**
+If a finding is thin or needs re-checking against another reviewer's angle, spawn a follow-up Task rather than guessing.
 
 ### Phase 5: Synthesize Results
 
-1. Collect final feedback from all agents after cross-review
-2. Compile a **unified report**:
+1. Compile a **unified report** from the reconciled findings:
 
 ```markdown
 ## LP Review Report
@@ -125,11 +112,10 @@ Then send the shared context to all 3 agents in parallel:
 - [item]: [issue] -> [suggested fix]
 
 ### Conflicts Resolved
-- [conflict]: [resolution by lead reviewer]
+- [conflict]: [how you resolved it and why]
 ```
 
-3. **MUST call TeamDelete("lp-review-team")** after synthesizing results.
-4. Present report to user and **wait for approval** before applying fixes.
+2. Present the report to the user and wait for approval before applying fixes.
 
 ### Phase 6: Apply Fixes
 
@@ -205,9 +191,9 @@ Then send the shared context to all 3 agents in parallel:
 ## Anti-Patterns
 
 1. **Do NOT launch agents sequentially** -- All 3 agents MUST be spawned in one message
-2. **Do NOT skip cross-review discussion** -- Phase 4 is where conflicts get resolved
+2. **Do NOT concatenate reviewer output** -- Phase 4 is where conflicts get resolved
 3. **Do NOT merge results without discussion** -- Raw concatenation misses contradictions
-4. **Do NOT forget TeamDelete** -- Always clean up the review team after Phase 5
+4. **Do NOT let reviewers talk to each other** -- you reconcile their findings in Phase 4
 5. **Do NOT review ASO metadata** -- Redirect to `/aso-review` instead
 
 ## Reference Files
