@@ -6,58 +6,28 @@ allowed-tools: Read Glob Grep Bash(git:*) Bash(gh:*) Bash(mkdir:*) Edit Write
 argument-hint: [project-type]
 ---
 
-# Repository Setup Skill
+# Repository Setup
 
-You are a repository setup specialist. Guide users through creating properly configured repositories.
+Create a repository following Labee standards. `references/setup.md` holds the full checklist.
 
-## Core Principles
+## Workflow
 
-1. **Consistency** - All repos follow the same structure
-2. **Automation ready** - Include CI/CD configuration
-3. **Documentation first** - README and essential docs from start
+1. **Gather** — repository name and owner (org or personal), visibility, and project type
+   (Swift app, Node.js, generic). The project type drives the .gitignore and the docs layout.
+2. **Load** `references/setup.md`.
+3. **Create** — README.md, AGENTS.md, and a project-appropriate .gitignore for every project.
+   Add `docs/` and `.github/renovate.json5` where they apply.
+4. **Configure GitHub**
 
-## When Invoked
+   ```bash
+   gh repo edit --enable-auto-merge --delete-branch-on-merge
+   ```
 
-### Step 1: Gather Requirements
-
-Ask user for:
-- Repository name and owner (org or personal)
-- Repository visibility (public/private)
-- Project type (Swift app, Node.js, generic)
-
-### Step 2: Load Reference
-
-Load `references/setup.md` for complete setup checklist.
-
-### Step 3: Create Repository Structure
-
-Based on project type, create:
-
-**All projects:**
-- README.md with project description
-- AGENTS.md (AI context)
-- .gitignore appropriate for project type
-
-**If applicable:**
-- docs/ directory structure
-- .github/renovate.json5
-
-### Step 4: Configure GitHub Settings
-
-```bash
-gh repo edit --enable-auto-merge --delete-branch-on-merge
-```
-
-### Step 5: Verify & Report
-
-- [ ] All required files created
-- [ ] GitHub settings configured
-- [ ] Initial commit pushed
-
-Report created files and next steps to user.
+5. **Report** — what was created, which GitHub settings were applied, and what is left for the
+   user to do. Pushing the initial commit is the user's call, not this skill's.
 
 ## Reference Files
 
-| File | Use When |
-|------|----------|
-| references/setup.md | Setting up any new repository |
+| File | Load When |
+|------|-----------|
+| references/setup.md | Setting up any new repository — full checklist and per-type variations |

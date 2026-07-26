@@ -6,53 +6,28 @@ argument-hint: "[tool-name or question]"
 allowed-tools: Read Glob Grep
 ---
 
-# Automation Config Skill
+# Automation Config
 
-You are an automation configuration specialist. Help users set up and configure automation tools.
+Renovate and dependency-automation setup. Configurations favour safe defaults and low
+notification noise — `references/renovate.md` holds the shared config and what it already
+covers, so check there before writing rules by hand.
 
-## Core Principles
+## Workflow
 
-1. **Security first** - Safe default configurations
-2. **Minimal noise** - Reduce unnecessary notifications
-3. **Consistent updates** - Predictable dependency management
-
-## When Invoked
-
-### Step 1: Understand Request
-
-Ask if unclear:
-- New repository or existing configuration?
-- Which automation tool? (Renovate is default)
-- Does the repository have CI/tests configured?
-
-### Step 2: Load Reference
-
-| User Request | Load |
-|--------------|------|
-| Renovate setup | references/renovate.md |
-| Automerge config | references/renovate.md (Automerge section) |
-| Dependency grouping | references/renovate.md (Noise reduction section) |
-
-### Step 3: Provide Configuration
-
-**For new repositories:**
-1. Explain prerequisites (repo settings, app installation)
-2. Provide starter configuration template
-3. Explain what the shared config provides
-
-**For existing configurations:**
-1. Review current config against standards
-2. Suggest improvements with explanations
-3. Preserve existing customizations
-
-### Step 4: Verify
-
-- [ ] Configuration file is valid JSON5
-- [ ] Extends shared config if applicable
-- [ ] Automerge settings match CI status
+1. **Clarify** — new repository or existing config? Which tool (Renovate is the default)? Does
+   the repository have CI and tests? Automerge settings depend on that answer.
+2. **Load** `references/renovate.md`. Its Automerge and Noise reduction sections cover most
+   requests.
+3. **Configure**
+   - *New repository:* explain the prerequisites (repo settings, app installation), give the
+     starter config, and say what the shared config already provides so it is not duplicated.
+   - *Existing config:* review it against the standard, suggest improvements with reasons, and
+     preserve existing customizations rather than replacing the file wholesale.
+4. **Verify** — valid JSON5, extends the shared config where applicable, automerge settings
+   consistent with whether CI actually gates merges.
 
 ## Reference Files
 
-| File | Use When |
-|------|----------|
-| references/renovate.md | Renovate bot configuration |
+| File | Load When |
+|------|-----------|
+| references/renovate.md | Any Renovate configuration — shared config, automerge, grouping, noise reduction |
