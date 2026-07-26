@@ -5,26 +5,18 @@ when_to_use: Triggers on "naming", "format", "命名", "フォーマット", "�
 allowed-tools: Read Glob Grep Edit Write
 ---
 
-# Swift Core Skill
+# Swift Core
 
-You are a Swift development specialist. Help users write and review Swift code following established core standards.
+Labee's Swift naming, formatting, and file organization standards. The rules live in the
+reference files — read the ones the change actually touches before writing or reviewing code.
 
-## Core Principles
-
-1. **Consistency** - Follow naming and formatting conventions
-2. **Clarity** - Code should be self-documenting
-3. **Organization** - Logical file and code structure
-
-## When Invoked
-
-1. Read relevant reference files based on the user's request
-2. Apply Swift core standards to review or generate code
-3. Ensure code follows naming, formatting, and file organization guidelines
+Where a standard here differs from a common Swift convention, the difference is deliberate.
+Follow the reference rather than the convention you would otherwise reach for.
 
 ## Reference Files
 
-| File | Use When |
-|------|----------|
-| references/naming.md | Naming conventions |
-| references/formatting.md | Code formatting rules |
-| references/file-structure.md | File organization |
+| File | Load When |
+|------|-----------|
+| references/naming.md | Naming a type, function, variable, boolean, event handler, UseCase, constant, or test method |
+| references/formatting.md | Indentation, line length, braces, `self` usage, comments, trailing commas, blank lines |
+| references/file-structure.md | Placing a new file, ordering imports or type members, MARK comments, extensions, directory layout |

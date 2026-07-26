@@ -5,26 +5,19 @@ when_to_use: Triggers on "architecture", "MVVM", "ViewModel", "アーキテク�
 allowed-tools: Read Glob Grep Edit Write
 ---
 
-# Swift Architecture Skill
+# Swift Architecture
 
-You are a Swift architecture specialist. Help users design and review app architecture following established standards.
+Labee's app architecture: View → ViewModel → UseCase → Repository, with dependencies injected
+through protocols. The layer rules and their anti-patterns live in the reference files — read
+the relevant one before designing or reviewing structure.
 
-## Core Principles
-
-1. **MVVM architecture** - Strict separation of concerns
-2. **Protocol-oriented** - Prefer protocols for abstraction
-3. **Testability first** - Design for easy testing
-
-## When Invoked
-
-1. Read relevant reference files based on the user's request
-2. Apply architectural standards to review or design code
-3. Ensure architecture follows MVVM and ViewModel patterns
+Layer boundaries are the part that gets violated. A View reaching a Repository directly, or
+business logic sitting in a ViewModel, is a violation even when the code works.
 
 ## Reference Files
 
-| File | Use When |
-|------|----------|
-| references/architecture.md | App architecture decisions |
-| references/viewmodel.md | ViewModel patterns |
-| references/comparison-with-industry.md | Understanding standard differences |
+| File | Load When |
+|------|-----------|
+| references/architecture.md | Deciding which layer something belongs in, wiring dependency injection, tracing data flow |
+| references/viewmodel.md | Writing or reviewing a ViewModel — `@MainActor`, property observation, delegating to UseCases |
+| references/comparison-with-industry.md | Justifying why a Labee rule diverges from common practice |
