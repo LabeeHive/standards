@@ -1,6 +1,6 @@
 ---
 name: swift-workflow
-description: Orchestrates Swift development from Vigilare task to implementation, running research, multi-skill implementation, review gate, build/test, localization, and wrap-up. Use when starting a task or implementing end-to-end.
+description: Orchestrates Swift development from Vigilare task to implementation, covering related-work discovery, multi-skill implementation, review gate, build/test, localization, and wrap-up. Use when starting a task or implementing end-to-end.
 when_to_use: Triggers on "タスクやって", "実装して", "開発開始", "start workflow", "implement task", "swift workflow".
 allowed-tools: Read Glob Grep Skill Task EnterPlanMode AskUserQuestion WebFetch WebSearch Bash(xcrun:*) Bash(swift:*) TaskCreate TaskUpdate TaskList mcp__vigilare__vigilare_get_reminders mcp__vigilare__vigilare_get_reminder mcp__vigilare__vigilare_add_comment mcp__vigilare__vigilare_search_reminders mcp__vigilare__vigilare_get_lists
 ---
@@ -16,7 +16,7 @@ Orchestrate Swift development from Vigilare task to completion.
 3. **Evidence-based** - Check project config and official docs before implementing
 4. **Phase tracking** - Use TaskCreate at start to create phase checklist, TaskUpdate to mark progress
 5. **Skill invocation is mandatory** - Each phase lists required skills. You MUST call `Skill("name")` for every listed skill. Text references do NOT count as invocation.
-6. **Review gate is mandatory** - Phase 6 MUST pass before proceeding to Build & Test. Do NOT skip.
+6. **Review gate** - Phase 6 blocks Build & Test. It exists to catch local optimization and reliance on rejected references, which the author cannot see from inside the change; it is not a process audit.
 7. **Related-work aware** - Before planning, search Vigilare for related/duplicate tasks and READ the design docs they reference (do not skim or assume). Assess overlap, dependencies, and correct sequencing — a task may need to be merged, deferred, or done after another decision.
 
 ## Phase Tracking
@@ -27,7 +27,7 @@ Orchestrate Swift development from Vigilare task to completion.
 TaskCreate: "Phase 1: Task Identification       | Skills: /vigilare-task (if no task exists)"
 TaskCreate: "Phase 1.5: Related Work Discovery   | Vigilare search + read related tasks & design docs"
 TaskCreate: "Phase 2: Project Context            | Skills: none"
-TaskCreate: "Phase 3: Research & Analysis        | Skills: /research"
+TaskCreate: "Phase 3: Check what you know        | Verify recalled APIs against Apple docs"
 TaskCreate: "Phase 4: Planning                   | Skills: none (assess sequencing/dependencies)"
 TaskCreate: "Phase 5: Implementation             | Skills: /swift-core /swift-architecture (+/swift-ui if Views, /swift-testing for tests)"
 TaskCreate: "Phase 6: Review Gate                | Agents: labee-dev-tech-lead, labee-dev-apm"
@@ -46,11 +46,11 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 |-------|-------------|------------|-----------|
 | 1 | `/vigilare-task` | `Skill("vigilare-task")` | No task exists |
 | 1.5 | (no skill) | `vigilare_search_reminders` + read related tasks/comments + read referenced design docs | Always |
-| 3 | `/research` | `Skill("research")` | Always |
+| 3 | `/research` | `Skill("research")` | Only for genuinely deep questions |
 | 5 | `/swift-core` | `Skill("swift-core")` | Always |
 | 5 | `/swift-architecture` | `Skill("swift-architecture")` | Always |
 | 5 | `/swift-ui` | `Skill("swift-ui")` | SwiftUI views added/changed |
-| 5 | `/swift-testing` | `Skill("swift-testing")` | Always (tests required by review gate) |
+| 5 | `/swift-testing` | `Skill("swift-testing")` | Always |
 | 6 | `labee-dev-tech-lead` | `Task(labee-dev-tech-lead)` | Always |
 | 6 | `labee-dev-apm` | `Task(labee-dev-apm)` | Always |
 | 8 | `/swift-localization` | `Skill("swift-localization")` | UI strings added/changed |
@@ -65,7 +65,7 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 | Commit | Generate message only. User commits (GPG required) |
 | Task completion | Do NOT call `vigilare_complete_reminder`. User decides |
 | Xcode build | Required for xcstrings update. Ask user to build in Xcode before Phase 8 |
-| Review gate | Do NOT skip Phase 6. Both reviewers must approve before Phase 7 |
+| Review gate | Both reviewers must approve before Phase 7. Send them the standards — a reviewer running in a fresh context cannot enforce what it has not read |
 
 ## Workflow
 
@@ -136,30 +136,24 @@ A task rarely exists in isolation. Before researching or planning, find out what
 - Swift version
 - Dependencies (SPM packages)
 
-### Phase 3: Research & Analysis (PARALLEL)
+### Phase 3: Check what you actually know
 
-**Required skill:** MUST call `Skill("research")` for technical investigation.
+There is no fixed research step. What there is, is a standing problem: **your Swift, SwiftUI and
+Xcode knowledge is frequently out of date.** Apple moves APIs, deprecates them, and changes
+platform behaviour faster than any training cutoff, so recalling an API confidently is not
+evidence that it exists, is still available, or behaves the way you remember on the deployment
+target found in Phase 2.
 
-**ALWAYS gather official documentation based on Phase 2 findings.**
+Before relying on a recalled fact, check it. Read the existing codebase first — it is the most
+reliable source for how this project already does things — then go to Apple's documentation for
+anything about API availability, deprecation, or platform behaviour. Search when the answer is
+uncertain, not on a schedule.
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ PARALLEL: Research from multiple sources                    │
-├─────────────────────────────────────────────────────────────┤
-│ 1. Skill("research") ← MUST invoke for technical analysis  │
-│ 2. WebSearch: Apple docs for relevant APIs + deployment ver │
-│    Example: "SwiftUI NavigationStack iOS 17 site:apple.com" │
-│ 3. WebFetch: Specific Apple documentation pages             │
-│ 4. Analyze existing codebase (related files, patterns)      │
-└─────────────────────────────────────────────────────────────┘
-```
+Reach for `Skill("research")` when the question is genuinely deep: conflicting sources, a bug
+with no obvious cause, or a comparison that has to hold up. A single API check does not need it.
 
-**Key searches:**
-- API availability for deployment target
-- Breaking changes between OS versions
-- Best practices for target platform
-
-**Record notable findings** with `vigilare_add_comment`.
+**Record anything a future reader would need** with `vigilare_add_comment` — a deprecation you
+worked around, a version constraint you discovered, a behaviour that contradicted the docs.
 
 ### Phase 4: Planning
 
@@ -179,7 +173,7 @@ A task rarely exists in isolation. Before researching or planning, find out what
 - `Skill("swift-core")` — naming, formatting, file organization (**always**)
 - `Skill("swift-architecture")` — MVVM, layering, ViewModel/UseCase/Repository, DI (**always**)
 - `Skill("swift-ui")` — SwiftUI views, layout, components (**if Views are added/changed**)
-- `Skill("swift-testing")` — unit tests, mock/stub, AAA pattern (**always** — tests are required by the Phase 6 review gate)
+- `Skill("swift-testing")` — unit tests, mock/stub, AAA pattern (**always**)
 
 **After every code change, run swift-format:**
 
@@ -189,35 +183,45 @@ xcrun swift-format --recursive . --in-place
 
 ### Phase 6: Review Gate (PARALLEL)
 
-**Required agents:** MUST spawn both `labee-dev-tech-lead` and `labee-dev-apm` via Task tool.
+**Spawn both `labee-dev-tech-lead` and `labee-dev-apm` in one message via the Task tool. This
+phase blocks Phase 7 until both approve.**
 
-**This phase is BLOCKING. Both reviewers must approve before proceeding to Phase 7.**
+Why a separate reviewer, when you have already checked your own work: the two failure modes this
+catches are ones the author structurally cannot see. **Local optimization** — a change that is
+right for the file in front of you and wrong for the codebase — looks correct from inside the
+change. And **building on the wrong reference** — a pattern lifted from a source this project
+has deliberately moved away from — looks well-researched from inside the change. A reader who
+did not write the code and holds the standards catches both. In practice this gate has measurably
+reduced defects here, which is why it stays.
+
+What it is *not* for: confirming that tests exist, that references were opened, or that no TODOs
+remain. Do not ask a reviewer to audit your process — you verify your own work as you go, and a
+second pass over the same checklist buys nothing.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ PARALLEL: Spawn 2 reviewers via Task                        │
 ├─────────────────────────────────────────────────────────────┤
-│ 1. Task(labee-dev-tech-lead) → Process compliance review    │
-│    - Tests exist and cover the changes                      │
-│    - swift-development references were read and followed    │
-│    - Implementation follows existing codebase patterns      │
-│    - No TODO placeholders or incomplete sections            │
+│ 1. Task(labee-dev-tech-lead) → Standards compliance         │
+│    - Violations of the swift-* standards, cited by rule     │
+│    - Local optimization: right here, wrong for the codebase │
+│    - Patterns copied from a source this project rejects     │
+│    - Layer boundaries: View→ViewModel→UseCase→Repository     │
 │                                                             │
-│ 2. Task(labee-dev-apm) → Technical quality review           │
-│    - Performance concerns (unnecessary allocations, N+1)    │
+│ 2. Task(labee-dev-apm) → Technical quality                  │
+│    - Performance (unnecessary allocations, N+1)             │
 │    - Crash-prone patterns (force unwraps, unhandled errors) │
 │    - Memory management (retain cycles, large allocations)   │
 │    - Thread safety (MainActor, Sendable compliance)         │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Provide each reviewer with:**
-- List of all files changed in Phase 5
-- The task description from Phase 1
-- Phase 3 research findings (so reviewers can verify references were used)
+**Give each reviewer:** the files changed in Phase 5, the task from Phase 1, and the paths to the
+relevant `swift-*` references. A reviewer that has not read the standards cannot enforce them,
+and it runs in a fresh context — it sees nothing of this conversation unless you send it.
 
-**On approval:** Both return LGTM → proceed to Phase 7.
-**On rejection:** Fix issues cited by reviewers → re-run Phase 6.
+**On approval:** both return LGTM → Phase 7.
+**On rejection:** fix what they cite → re-run Phase 6.
 
 ### Phase 7: Build & Test
 
@@ -272,7 +276,7 @@ swift test
 |-------|---------------------|
 | 1.5 | vigilare_search_reminders (multiple queries) + design-doc reads + codebase Glob/Grep |
 | 2 | Project file reads (Package.swift, pbxproj, xcconfig) |
-| 3 | Skill("research") + WebSearch + WebFetch + codebase analysis |
+| 3 | Codebase reads + Apple doc lookups for anything version-dependent |
 | 5 | Multiple file reads before editing |
 | 6 | Task(labee-dev-tech-lead) + Task(labee-dev-apm) |
 
@@ -293,12 +297,10 @@ Phase 1.5: [PARALLEL] vigilare_search_reminders("thumbnail", "サムネ", "loadB
          → Read the doc fully; flagged sequencing dependency → recorded to Vigilare
 Phase 2: [PARALLEL] Read Package.swift, project.pbxproj, task notes
          → Found: iOS 17+, macOS 14+, Swift 5.9
-Phase 3: [PARALLEL]
-         - Skill("research") ← INVOKED
-         - WebSearch "SwiftUI Observable iOS 17 site:apple.com"
-         - WebFetch Apple docs
-         - Read existing code
-         → Record findings to Vigilare comment
+Phase 3: Read the existing code first, then checked the two APIs the plan
+         depends on against Apple docs (availability on iOS 17). No /research
+         needed — nothing was in dispute.
+         → Recorded one deprecation note to Vigilare
 Phase 4: Present plan with deployment target considerations
 Phase 5: Skill("swift-core") + Skill("swift-architecture") + Skill("swift-testing") ← INVOKED
          (Skill("swift-ui") too if Views changed)
