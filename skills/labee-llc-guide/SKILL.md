@@ -32,12 +32,12 @@ Source: https://labee.jp/news/2026-02-09-vision-2026
 This skill provides context, not a workflow. When loaded:
 
 **Writing new copy:**
-1. `references/_brand-voice.md` is auto-loaded — match tone to context (LP, App Store, SNS, docs)
+1. Read `references/_brand-voice.md` — match tone to context (LP, App Store, SNS, docs)
 2. Read `references/products.md` — get accurate product descriptions and positioning
 3. Write content following the voice attributes: direct, confident, approachable, forward-looking
 
 **Reviewing existing content:**
-1. Use the Review Checklist in `references/_brand-voice.md` (auto-loaded)
+1. Read `references/_brand-voice.md` and work through its Review Checklist
 2. Flag any anti-patterns (corporate speak, startup hype, overly cute, empty confidence)
 3. Suggest rewrites that match Labee's voice
 
@@ -49,5 +49,5 @@ This skill provides context, not a workflow. When loaded:
 
 | File | Load When |
 |------|-----------|
-| references/_brand-voice.md | **Auto-loaded.** Tone spectrum, Good/Bad examples per context, anti-patterns, and review checklist. |
+| references/_brand-voice.md | **Read on every invocation.** Tone spectrum, Good/Bad examples per context, anti-patterns, and review checklist. |
 | references/products.md | Describing Labee services or products (Chimr, Vigilare). Contains target audiences, positioning, and messaging principles. |

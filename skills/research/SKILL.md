@@ -198,5 +198,5 @@ Do NOT use (will fail):
 
 | File | Load When |
 |------|-----------|
-| references/_source-patterns.md | Auto-loaded: gh/curl commands, source quality tiers |
+| references/_source-patterns.md | Read before Phase 3 — gh/curl commands, source quality tiers |
 | references/report-template.md | Structuring final research output |

@@ -134,7 +134,7 @@ Guide through decision points:
 
 | Indicator | Behavior | Example |
 |-----------|----------|---------|
-| `_filename.md` | Auto-load with skill | `_core-rules.md` |
+| `_filename.md` | Read every time — SKILL.md must say so | `_core-rules.md` |
 | `filename.md` | Load when task matches | `api.md` → API work |
 | Explicit instruction | Load when SKILL.md says | "See schemas.md for DB" |
 

@@ -29,8 +29,8 @@ The skill auto-discovers metadata files. No arguments needed if fastlane metadat
 TaskCreate: "Phase 0: Route — verify target is ASO metadata"
 TaskCreate: "Phase 1: Discover target files"
 TaskCreate: "Phase 2: Build shared context"
-TaskCreate: "Phase 3: Form review team & run reviews"
-TaskCreate: "Phase 4: Cross-review discussion"
+TaskCreate: "Phase 3: Run reviews"
+TaskCreate: "Phase 4: Reconcile findings"
 TaskCreate: "Phase 5: Synthesize results"
 TaskCreate: "Phase 6: Apply fixes (after user approval)"
 ```
@@ -93,20 +93,19 @@ Each reviewer works independently and returns its findings to you. Reviewers do 
 
 **Per-agent instructions:**
 
-**aso-reviewer (LEAD):**
+**ASO reviewer:**
 - Per-locale keyword research (keywords are NOT translated — research local search terms independently)
 - Subtitle optimization within character limits (CJK ~15, Latin ~30)
 - Competitive differentiation per market (competitors differ by region)
 - Search volume analysis for primary keywords
-- Makes final call on conflicts between ASO and naturalness
 
-**naturalness-reviewer:**
+**Naturalness reviewer:**
 - Detect "translated feel" per locale (source-language structure leaking through)
 - Check formality alignment (consumer app = casual register in most locales)
 - Flag literally translated idioms and keyword stuffing disguised as natural text
 - Suggest specific rewrites for every flagged item
 
-**messaging-reviewer:**
+**Messaging reviewer:**
 - Cross-locale value proposition consistency (core benefit must align)
 - Tone alignment with brand voice across all locales
 - Feature naming consistency (translated vs kept original)
@@ -124,8 +123,7 @@ If a reviewer's finding is thin or you need it re-checked against another's, spa
 
 ### Phase 5: Synthesize Results
 
-1. Collect final feedback from all agents after cross-review
-2. Produce a consolidated report per locale
+1. Produce a consolidated report per locale from the reconciled findings
 
 **Report format:**
 
@@ -149,7 +147,7 @@ If a reviewer's finding is thin or you need it re-checked against another's, spa
 - [Issues spanning multiple locales]
 
 ## Conflicts Resolved
-- [Conflict]: [Resolution by lead reviewer]
+- [Conflict]: [how you resolved it and why]
 ```
 
 3. Present the report to the user and wait for approval before applying fixes.
@@ -228,5 +226,5 @@ If a reviewer's finding is thin or you need it re-checked against another's, spa
 
 | File | Load When |
 |------|-----------|
-| `references/_checklist-aso.md` | Auto-loaded: ASO review checklist |
-| `references/_localization-principles.md` | Auto-loaded: Localization guidance and per-language red flags |
+| `references/_checklist-aso.md` | Read before Phase 3 — the ASO review checklist |
+| `references/_localization-principles.md` | Read before Phase 3 — localization guidance and per-language red flags |

@@ -146,4 +146,4 @@ Text("Welcome")
 
 | File | Load When |
 |------|-----------|
-| references/_translation-quality.md | Auto-loaded: per-language UI translation guidelines and anti-patterns |
+| references/_translation-quality.md | Read before Step 2 — per-language UI translation guidelines and anti-patterns |

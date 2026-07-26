@@ -1,6 +1,6 @@
 # Core Documentation Rules
 
-Essential rules that apply to all documentation. Auto-loaded with every skill invocation.
+Essential rules that apply to all documentation. Read this on every invocation of the skill.
 
 ---
 

@@ -177,22 +177,26 @@ Scripts execute **without loading code into context**. Only output consumes toke
 
 ### Naming Conventions
 
-| Pattern | Behavior |
-|---------|----------|
-| `_filename.md` | Auto-load with skill |
-| `filename.md` | Load on-demand |
+| Pattern | Meaning |
+|---------|---------|
+| `_filename.md` | Applies to every invocation — SKILL.md must tell Claude to read it |
+| `filename.md` | Situational — SKILL.md says when to read it |
 
-**Auto-load (`_` prefix) guidelines:**
-- Use sparingly
-- Keep under 200 lines
-- Only for rules that apply to ALL invocations
+**There is no auto-load mechanism.** Invoking a skill delivers `SKILL.md` and nothing else;
+reference content arrives only when Claude opens the file. Measured directly: a skill whose
+body claimed a `_`-prefixed file was "auto-loaded" delivered the body alone, and the reference
+content was unavailable until read explicitly.
+
+So the `_` prefix is a convention for humans, not a trigger. A `_` file still needs an explicit
+instruction in SKILL.md — "Read `references/_core-rules.md` first" — or it will not be read.
+Keep such files under 200 lines, since every invocation pays for them.
 
 ### Structure
 
 ```
 references/
-├── _core-rules.md    # Auto-load (small!)
-├── api.md            # On-demand
+├── _core-rules.md    # Read every time — SKILL.md must say so (keep it small)
+├── api.md            # Situational
 └── schemas.md        # On-demand
 ```
 

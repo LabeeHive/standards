@@ -7,7 +7,7 @@ allowed-tools: Read Glob Grep Edit Write Task TaskCreate TaskUpdate TaskList Bas
 
 # LP Review
 
-Review English-only landing page copy from messaging, naturalness, and SEO perspectives using a coordinated review team.
+Review English-only landing page copy from messaging, naturalness, and SEO perspectives using three parallel reviewers.
 
 > **English-authored copy only.** This skill reviews LP text written in English. It is NOT for reviewing translations from Japanese.
 
@@ -19,7 +19,7 @@ Review English-only landing page copy from messaging, naturalness, and SEO persp
 TaskCreate: "Phase 0: Route"
 TaskCreate: "Phase 1: Discover Target Files"
 TaskCreate: "Phase 2: Build Shared Context"
-TaskCreate: "Phase 3: Form Review Team & Run Reviews"
+TaskCreate: "Phase 3: Run Reviews"
 TaskCreate: "Phase 4: Reconcile Findings"
 TaskCreate: "Phase 5: Synthesize Results"
 TaskCreate: "Phase 6: Apply Fixes"
@@ -44,7 +44,7 @@ Verify the target is LP files:
 
 ### Phase 2: Build Shared Context
 
-Assemble a context package for the review team:
+Assemble a context package to hand to each reviewer:
 
 1. **Full target text** -- All copy from discovered files
 2. **Role descriptions** -- Each reviewer's focus area (see Phase 3 table)
@@ -78,13 +78,13 @@ Each reviewer works independently and returns findings to you. Reviewers do not 
 - Verify brand voice matches Labee values
 - Flag copy that sounds like a corporate brochure
 
-**naturalness-reviewer:**
+**Naturalness reviewer:**
 - Detect AI vocabulary and inflated phrasing
 - Detect "translated from Japanese" patterns (subject omission, feature-first, keigo leaks)
 - Check for comma-splice run-ons, forced rule-of-three, excessive hedging
 - Suggest specific rewrites for every flagged item
 
-**seo-reviewer:**
+**SEO reviewer:**
 - Check page title, meta description, H1 for primary keyword
 - Verify heading hierarchy (no skipped H levels)
 - Check Open Graph and Twitter Card meta tags
@@ -192,7 +192,7 @@ If a finding is thin or needs re-checking against another reviewer's angle, spaw
 
 1. **Do NOT launch agents sequentially** -- All 3 agents MUST be spawned in one message
 2. **Do NOT concatenate reviewer output** -- Phase 4 is where conflicts get resolved
-3. **Do NOT merge results without discussion** -- Raw concatenation misses contradictions
+3. **Do NOT merge results verbatim** -- Raw concatenation leaves contradictions in the report
 4. **Do NOT let reviewers talk to each other** -- you reconcile their findings in Phase 4
 5. **Do NOT review ASO metadata** -- Redirect to `/aso-review` instead
 
@@ -200,4 +200,4 @@ If a finding is thin or needs re-checking against another reviewer's angle, spaw
 
 | File | Load When |
 |------|-----------|
-| references/_checklist-lp.md | Always (auto-loaded) |
+| references/_checklist-lp.md | Read before Phase 3 — always |

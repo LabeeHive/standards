@@ -7,15 +7,15 @@ allowed-tools: Read Glob Grep Edit Write
 
 # Documentation
 
-Labee's documentation standards. `references/_core-rules.md` is auto-loaded and applies to
-everything; the rest load on demand.
+Labee's documentation standards. Read `references/_core-rules.md` first — it applies to
+everything. The rest load on demand.
 
 ## Workflow
 
 **Writing** — pick the document type from `references/content-types.md`, take its skeleton from
 `references/document-structure.md`, then draft against the core rules.
 
-**Reviewing** — check against the auto-loaded core rules and report each issue as line number,
+**Reviewing** — check against the core rules and report each issue as line number,
 what is wrong, and the suggested fix. Point at specific lines rather than summarizing.
 
 **A formatting question on its own** — go straight to `references/markdown-formatting.md`.
@@ -24,7 +24,7 @@ what is wrong, and the suggested fix. Point at specific lines rather than summar
 
 | File | Load When |
 |------|-----------|
-| references/_core-rules.md | Auto-loaded: essential rules for all documentation |
+| references/_core-rules.md | Read first, every time — essential rules for all documentation |
 | references/writing-principles.md | Voice, tone, grammar, inclusive language |
 | references/document-structure.md | Structuring a document |
 | references/markdown-formatting.md | Markdown syntax questions |

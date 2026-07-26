@@ -50,7 +50,7 @@ Update status as you progress: `in_progress` when starting, `completed` when don
 | Target | Method |
 |--------|--------|
 | Existing agents in project | `Glob .claude/agents/*.md` and `agents/*.md` |
-| Agent spec quick reference | Read `references/_agent-spec.md` (auto-loaded) |
+| Agent spec quick reference | Read `references/_agent-spec.md` |
 | Domain-specific knowledge | WebSearch for relevant tools/APIs |
 
 **Skip when:** Simple agent with clear requirements and no domain research needed.
