@@ -13,15 +13,19 @@ Shared brand and company context for all Labee agents and skills.
 
 - **Name:** ラビー合同会社 (Labee LLC)
 - **Location:** Yokohama, Japan (横浜線沿線)
-- **Vision:** もっと自由に、もっと楽しく。 (More freedom, more fun.)
+- **ビジョン:** もっと自由に、もっと楽しく。 (More freedom, more fun.)
+- **2026年のテーマ:** 人間もAIも使える、同じツール
 - **Mission:** テクノロジーとデザインの力で、あなたのビジネスに新しい価値を創造します。
 - **Values:** Freedom, sharing joy, simplicity, honesty in technology
 - **How Labee works:** proximity and speed (近さと速さ), direct engineer engagement, flexibility
-- **2026 goal:** 人間が使えるツールを、AIも使えるように — a target for this year, not the Vision
 
-The Vision and the yearly goal sit at different levels. When something needs the company's
-standing identity, that is the Vision; the AI goal is what Labee is working on right now and
-must not be quoted in its place. `agents/*.md` carry the same Vision — keep them in step.
+Three levels, often confused. The **Vision** is the standing identity and never changes with the
+calendar. The **2026 theme** is this year's work toward it: one tool that a human drives through
+a GUI and an AI drives through conversation, reaching the same data and the same functions.
+「人間とAIが並んで働く」 names the future that theme is aiming at — it describes the destination,
+not the Vision, so do not quote it as one.
+
+Source: https://labee.jp/news/2026-02-09-vision-2026
 
 ## How to Apply
 
