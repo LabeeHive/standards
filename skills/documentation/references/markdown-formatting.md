@@ -27,10 +27,21 @@ The config lives at [`.markdownlint-cli2.jsonc`](../../../.markdownlint-cli2.jso
 root, with a comment on each entry. It is not reproduced here — a second copy would drift from
 the one that actually runs, and the running one wins.
 
-Two entries are worth knowing without opening it. **MD060 is off**: table pipe padding is not
-policed, because the repo is split between both styles and neither is harder to read.
-**MD013 exempts code blocks and tables**, so a long line inside a fence is fine and a wide table
-does not have to be broken up.
+Four entries are worth knowing without opening it.
+
+**MD013 (line length) is off.** Wrapping changes nothing about how a document renders, and
+hard-wrapping makes a one-word edit re-flow every line after it, so the diff overstates the
+change. Wrap where it reads well.
+
+**MD060 (table padding) is off.** The repo is split between padded and compact tables and
+neither is harder to read; unifying them would be several hundred edits for no reader.
+
+**MD036 is off.** Bold lead-ins like `**Rules:**` are house style here, not headings pretending
+to be something else.
+
+**MD040 (code fence language) is off.** Label a fence when it holds code in a real language —
+the highlighting earns its keep. A directory tree or an ASCII diagram gains nothing from
+` ```text `, and forcing the label turns a useful rule into a ritual.
 
 ---
 

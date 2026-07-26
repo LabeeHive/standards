@@ -7,14 +7,19 @@
     "MD003": { "style": "atx" },       // # headings, never === / ---
     "MD004": { "style": "dash" },      // - for unordered lists, not * or +
     "MD007": { "indent": 2 },          // 2-space nesting
-    "MD013": { "line_length": 120, "code_blocks": false, "tables": false },
+    "MD013": false,                    // line length is a source-formatting taste, not a doc rule
     "MD035": { "style": "---" },       // horizontal rules
     "MD048": { "style": "backtick" },  // code fences
     "MD049": { "style": "asterisk" },  // *italic*, not _italic_
     "MD050": { "style": "asterisk" },  // **bold**, not __bold__
     "MD060": false,                    // table padding is not policed: both styles are readable
     "MD029": { "style": "ordered" },   // keep 1. 2. 3., never collapse to 1.
-    "MD041": false                     // agent and skill files open with frontmatter
+    "MD041": false,                    // agent and skill files open with frontmatter
+    "MD036": false,                    // bold lead-ins like **Rules:** are house style, not headings
+    "MD024": { "siblings_only": true }, // repeating "Template" under each type is correct structure
+    "MD040": false,                    // label real code; a diagram gains nothing from a text tag
+    "MD046": false,                    // indented blocks are how we show markdown inside markdown
+    "MD028": false                     // a blank line between two quotes is a paragraph break
   },
   "globs": ["**/*.md"],
   "ignores": ["node_modules/**", ".git/**"]
