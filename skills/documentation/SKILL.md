@@ -15,8 +15,11 @@ everything. The rest load on demand.
 **Writing** — pick the document type from `references/content-types.md`, take its skeleton from
 `references/document-structure.md`, then draft against the core rules.
 
-**Reviewing** — check against the core rules and report each issue as line number,
-what is wrong, and the suggested fix. Point at specific lines rather than summarizing.
+**Reviewing** — the core rules are the floor, not the whole standard. Read them, then pull in
+whichever references the document actually exercises: `references/writing-principles.md` for
+voice, tone, person and grammar, `references/markdown-formatting.md` for syntax and structure,
+`references/code-examples.md` where the document contains code. Report each issue as line
+number, what is wrong, and the suggested fix. Point at specific lines rather than summarizing.
 
 **A formatting question on its own** — go straight to `references/markdown-formatting.md`.
 
