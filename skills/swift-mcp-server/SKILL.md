@@ -1,10 +1,6 @@
 ---
 name: swift-mcp-server
-description: Builds an MCP server in a macOS Swift app using NuntiusKit's forwarder + resident daemon architecture. Use this when adding Claude/MCP integration to a Swift app.
-when_to_use: Triggers on "MCP server", "MCPサーバー", "Model Context Protocol", "Claude連携", "AI統合", "NuntiusKit".
-model: sonnet
-context: fork
-agent: general-purpose
+description: Builds an MCP server in a macOS Swift app using NuntiusKit's forwarder + resident daemon architecture. Use this when adding Claude/MCP integration to a Swift app. User-invoked only via /swift-mcp-server.
 disable-model-invocation: true
 argument-hint: "[app-name]"
 allowed-tools: Read Glob Grep Write Edit Bash(swift:*) Bash(mkdir:*)
