@@ -330,7 +330,7 @@ class SettingsViewModel: ObservableObject {
 }
 ```
 
-**System API abstraction (see [Mock patterns](mock-patterns.md)):**
+**System API abstraction (see [Mock patterns](../../swift-testing/references/mock-patterns.md)):**
 
 ```swift
 class CacheManager {

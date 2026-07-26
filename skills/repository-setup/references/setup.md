@@ -15,7 +15,7 @@ After creating a new repository, configure these settings immediately.
 **Checklist:**
 
 - [ ] Create README.md with project overview
-- [ ] Create AGENTS.md for AI context ([guide](../documentation/references/ai-documentation.md))
+- [ ] Create AGENTS.md for AI context ([guide](../../documentation/references/ai-documentation.md))
 - [ ] Add appropriate .gitignore
 
 **Repository settings (GitHub):**
@@ -69,7 +69,7 @@ project/
 └── README.md
 ```
 
-See [documentation/project_structure.md](../documentation/references/project-structure.md) for details.
+See [documentation/project_structure.md](../../documentation/references/project-structure.md) for details.
 
 ---
 
@@ -97,7 +97,7 @@ Set up automated dependency updates.
 }
 ```
 
-See [automation/renovate.md](../automation-config/references/renovate.md) for details.
+See [automation/renovate.md](../../automation-config/references/renovate.md) for details.
 
 ---
 
@@ -114,8 +114,8 @@ Create templates for issues and pull requests if needed.
 
 **Note:** Templates are optional. The important thing is following the standards in:
 
-- [github/issues.md](../github-workflow/references/issues.md)
-- [github/pull_requests.md](../github-workflow/references/pull-requests.md)
+Issue and pull request conventions are not covered by a skill; follow whatever the repository
+already does.
 
 ### Saved Replies
 
@@ -125,7 +125,7 @@ Set up review comment labels.
 
 - [ ] Configure [GitHub Saved Replies](https://github.com/settings/replies)
 
-See [github/pull_requests.md](../github-workflow/references/pull-requests.md#setting-up-saved-replies) for templates.
+Write replies that match the review comments this repository already uses.
 
 ---
 
@@ -142,7 +142,7 @@ If the project needs a public-facing website.
 - [ ] Configure SEO (headTags)
 - [ ] Configure Google Analytics
 
-See [docusaurus/](../docusaurus-setup/references/) for details.
+Docusaurus setup is not covered by a skill; copy the configuration from an existing Labee site.
 
 ---
 
@@ -171,13 +171,10 @@ gh api repos/{owner}/{repo} --jq '{
 
 | Topic | Document |
 |-------|----------|
-| Documentation writing | [documentation/](../documentation/references/) |
-| AI context files | [documentation/ai_documentation.md](../documentation/references/ai-documentation.md) |
-| Renovate | [automation/renovate.md](../automation-config/references/renovate.md) |
-| Issues | [github/issues.md](../github-workflow/references/issues.md) |
-| Pull requests | [github/pull_requests.md](../github-workflow/references/pull-requests.md) |
-| Docusaurus | [docusaurus/](../docusaurus-setup/references/) |
-| Swift | [swift/](../swift-development/references/) |
+| Documentation writing | [documentation/](../../documentation/references/) |
+| AI context files | [documentation/ai_documentation.md](../../documentation/references/ai-documentation.md) |
+| Renovate | [automation/renovate.md](../../automation-config/references/renovate.md) |
+| Swift | [swift-core](../../swift-core/), [swift-architecture](../../swift-architecture/), [swift-ui](../../swift-ui/), [swift-testing](../../swift-testing/) |
 
 ---
 

@@ -466,13 +466,13 @@ Text("Content")
 **Rules:**
 
 - Use `String(localized:defaultValue:)` for all user-facing text
-- See [Localization keys](naming.md#localization-keys) for key naming format
+- See [Localization keys](../../swift-core/references/naming.md#localization-keys) for key naming format
 
 ---
 
 ## References
 
-- [ViewModel conventions](viewmodel.md)
+- [ViewModel conventions](../../swift-architecture/references/viewmodel.md)
 - [Apple SwiftUI Documentation](https://developer.apple.com/documentation/swiftui)
 - [Apple Observation Framework](https://developer.apple.com/documentation/observation)
 - [Migrating to @Observable](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro)

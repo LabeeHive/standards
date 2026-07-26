@@ -412,8 +412,8 @@ class OrderViewModel: ObservableObject {
 ## References
 
 - [Architecture](architecture.md)
-- [SwiftUI conventions](swiftui.md)
-- [Testing](testing.md)
+- [SwiftUI conventions](../../swift-ui/references/swiftui.md)
+- [Testing](../../swift-testing/references/testing.md)
 - [Apple Observation Framework](https://developer.apple.com/documentation/observation)
 - [Migrating to @Observable](https://developer.apple.com/documentation/swiftui/migrating-from-the-observable-object-protocol-to-the-observable-macro)
 - [SwiftLee - @Observable Macro](https://www.avanderlee.com/swiftui/observable-macro-performance-increase-observableobject/)

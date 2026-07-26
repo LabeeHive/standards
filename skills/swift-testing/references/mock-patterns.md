@@ -736,6 +736,6 @@ class ItemFactory {
 ## References
 
 - [Testing](testing.md)
-- [Architecture](architecture.md)
+- [Architecture](../../swift-architecture/references/architecture.md)
 - [Swift by Sundell - Time Traveling in Tests](https://www.swiftbysundell.com/articles/time-traveling-in-swift-unit-tests/)
 - [Point-Free swift-dependencies](https://github.com/pointfreeco/swift-dependencies)

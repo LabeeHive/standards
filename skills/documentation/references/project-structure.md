@@ -249,6 +249,6 @@ docs/
 
 ## References
 
-- [File organization](file_organization.md)
-- [AI documentation](ai_documentation.md)
+- [File organization](file-organization.md)
+- [AI documentation](ai-documentation.md)
 - [Git Submodules documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
