@@ -2,88 +2,18 @@
 
 ## Purpose
 
-This document defines the standard structure for technical documentation. Following this structure ensures consistency, scannability, and maintainability across all projects.
+How to organize the inside of a document. The outer skeleton — H1, Purpose, `---` separators,
+References, sentence case, stopping at H3 — is in `_core-rules.md` and is not repeated here.
 
 ---
 
-## Standard structure
-All documentation should follow this basic structure:
+## Content sections
 
-```markdown
-# Title
+Name sections for what a reader is looking for, not for what the writer was thinking about.
+"Error handling" beats "Considerations around failures".
 
-## Purpose
-
-Brief explanation of what this document covers and why it matters.
-Optionally, state what is NOT covered (scope boundaries).
-
----
-
-## Section 1
-
-Content...
-
----
-
-## Section 2
-
-Content...
-
----
-
-## References
-
-- [Related Document 1](path/to/doc1.md)
-- [External Resource](https://example.com)
-```
-
----
-
-## Sections
-
-### Title (H1)
-**Rules:**
-- Single H1 heading at the document start
-- Use sentence case (e.g., "Error handling patterns" not "Error Handling Patterns")
-- Clear and descriptive
-- No emoji or decorations
-
-**Example:**
-
-```markdown
-# API authentication guide
-```
-
----
-
-### Purpose
-**Rules:**
-- Always the first section after the title
-- Explain what the document covers and why it exists
-- Optionally include what is NOT covered (scope boundaries)
-- Keep it brief (1-3 sentences)
-
-**Example:**
-
-```markdown
-## Purpose
-
-This document defines error handling patterns for backend services. It covers exception handling, logging standards, and error response formats.
-
-This document does not cover client-side error handling or UI error messages.
-```
-
----
-
-### Content sections
-**Rules:**
-- Use H2 (`##`) for main sections
-- Use H3 (`###`) for subsections
-- Separate major H2 sections with `---` horizontal rules
-- Keep hierarchy shallow (avoid H4 and deeper when possible)
-- Use descriptive section names
-
-**Example:**
+Group related subsections under one H2 rather than promoting each to its own section. A document
+with eleven H2s and no H3s has usually skipped a layer of grouping.
 
 ```markdown
 ---
@@ -109,50 +39,10 @@ All errors should return a consistent JSON structure...
 
 ---
 
-### References
-**Rules:**
-- Place at the end of the document
-- Use simple markdown links
-- Link to related documents and external resources
-- Separate with `---` horizontal rule before this section
-
-**Example:**
-
-```markdown
----
-
-## References
-
-- [Error codes reference](error_codes.md)
-- [REST API Guidelines](https://github.com/microsoft/api-guidelines)
-```
-
----
-
-## Section separators
-**Rules:**
-- Use `---` to separate major H2 sections
-- Place exactly one blank line before and after `---`
-- Do not overuse (only between major sections, not between every subsection)
-
-**Example:**
-
-```markdown
-## Section 1
-
-Content...
-
----
-
-## Section 2
-
-Content...
-```
-
----
-
 ## YAML frontmatter
-For documents that require metadata (e.g., for static site generators or documentation tools):
+
+Only when tooling requires it — a static site generator, a docs platform. Git history is the
+source of truth for authorship and dates, so never restate those in frontmatter.
 
 ```markdown
 ---
@@ -168,63 +58,9 @@ status: active
 ```
 
 **Common fields:**
-- `title`: Document title
+
+- `title`: document title
 - `status`: active, draft, deprecated, archived
-
-**Note:** Git history is the primary source of truth for authorship and dates. Only use frontmatter when required by tooling.
-
----
-
-## Anti-patterns
-
-### Unnecessary decoration
-**❌ Bad:**
-```markdown
-### 🔹 Core features
-
-**Important:** Use consistent naming.
-```
-
-**✅ Good:**
-```markdown
-### Core features
-
-Use consistent naming.
-```
-
----
-
-### Overuse of bold
-**❌ Bad:**
-```markdown
-Use **camelCase** for **variables** and **PascalCase** for **classes**.
-```
-
-**✅ Good:**
-```markdown
-Use camelCase for variables and PascalCase for classes.
-```
-
-Use bold sparingly, only for critical emphasis or UI element names.
-
----
-
-### Skipping heading levels
-**❌ Bad:**
-```markdown
-# Title
-
-### Subsection (skipped H2)
-```
-
-**✅ Good:**
-```markdown
-# Title
-
-## Section
-
-### Subsection
-```
 
 ---
 

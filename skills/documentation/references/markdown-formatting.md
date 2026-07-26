@@ -2,537 +2,113 @@
 
 ## Purpose
 
-This document defines Markdown syntax and formatting standards for all technical documentation. Consistent Markdown usage ensures readability, maintainability, and proper rendering across different platforms.
+Labee's Markdown conventions. Markdown syntax itself is not documented here — what follows is
+only the choices a writer could reasonably get wrong, split by whether a linter can catch them.
 
 ---
 
-## Headings
-### ATX-style headings
+## Enforced by markdownlint
 
-**Rules:**
-- Use ATX-style (`#`) headings, not Setext-style (`===` or `---`)
-- Add one space after `#` symbols
-- Limit heading depth to H3 (`###`) when possible
+Install `markdownlint-cli2` (available in nixpkgs) and run it rather than reviewing these by eye:
 
-**✅ Good:**
-
-```markdown
-# Top-level heading
-
-## Second-level heading
-
-### Third-level heading
+```bash
+markdownlint-cli2 "**/*.md"
 ```
 
-**❌ Bad:**
+**Every markdownlint rule is on by default.** The config below does not opt rules in — it only
+pins the ones that take an option to Labee's choice. Rules that are not listed, such as MD032
+(blank lines around lists) or MD047 (file ends with a newline), are still enforced. Treat the
+linter's whole default rule set as its territory, not just what appears here.
 
-```markdown
-Top-Level Heading
-=================
+If the linter cannot be run, say so in the review rather than checking its rules by eye. An
+unverified mechanical pass is worth stating; a hand-audited one is not worth the attention.
 
-Second-Level Heading
---------------------
-
-####Fourth-Level Heading (no space)
+```jsonc
+// .markdownlint-cli2.jsonc
+{
+  "config": {
+    "MD003": { "style": "atx" },        // # headings, never === / ---
+    "MD004": { "style": "dash" },       // - for unordered lists, not * or +
+    "MD007": { "indent": 2 },           // 2-space nesting
+    "MD013": { "line_length": 120 },    // hard limit; aim for 80-100
+    "MD035": { "style": "---" },        // horizontal rules
+    "MD048": { "style": "backtick" },   // code fences
+    "MD049": { "style": "asterisk" },   // *italic*, not _italic_
+    "MD050": { "style": "asterisk" },   // **bold**, not __bold__
+    "MD025": true,                       // one H1 per document
+    "MD001": true,                       // no skipped heading levels
+    "MD040": true,                       // code blocks declare a language
+    "MD045": true                        // images have alt text
+  }
+}
 ```
+
+Heading depth is a judgement the linter cannot make: stop at H3. Reaching for H4 usually means
+the document wants splitting, not another level.
 
 ---
 
-### Sentence case
+## Not enforced by anything
 
-**Rules:**
-- Use sentence case for headings (capitalize only the first word and proper nouns)
-- Exception: Technical terms that require specific capitalization (e.g., "PostgreSQL", "OAuth")
+These are the rules worth a reviewer's attention, because nothing else will catch them.
 
-**✅ Good:**
+### Sentence case in headings
 
-```markdown
-## Error handling patterns
-## PostgreSQL configuration
-## Using the API gateway
-```
-
-**❌ Bad:**
+Capitalize the first word and proper nouns only. This is the rule most often broken, and no
+linter checks it — MD044 only verifies the spelling of names you configure.
 
 ```markdown
-## Error Handling Patterns
-## POSTGRESQL CONFIGURATION
-## Using The API Gateway
+✅ ## Error handling patterns
+✅ ## PostgreSQL configuration
+❌ ## Error Handling Patterns
+❌ ## Using The API Gateway
 ```
 
----
+### Emphasis is a budget
 
-### Heading hierarchy
-
-**Rules:**
-- Don't skip heading levels (e.g., H1 → H3)
-- Use H1 (`#`) only once per document (for title)
-- Use H2 (`##`) for main sections
-- Use H3 (`###`) for subsections
-
-**✅ Good:**
+Bold marks the one thing a reader must not miss. Bolding every technical term spends the budget
+and leaves nothing marked.
 
 ```markdown
-# Document title
-
-## Main section
-
-### Subsection
-
-### Another subsection
-
-## Another main section
+✅ **Warning:** This operation is irreversible.
+❌ Use **camelCase** for **variables** and **PascalCase** for **classes**.
 ```
 
-**❌ Bad:**
+Italic introduces a term on first use. Inline code is for identifiers — `UserService`,
+`authenticate()`, `timeout` — and never for emphasis.
+
+### Link text says where it goes
+
+The text alone should tell a reader what they will get. "Click here" fails that test even when
+the surrounding sentence explains it, because readers scan links out of context.
 
 ```markdown
-# Document title
-
-### Subsection (skipped H2)
-
-## Main section (after H3)
+✅ See the [PostgreSQL documentation](https://www.postgresql.org/docs/) for details.
+❌ Click [here](https://www.postgresql.org/docs/) for details.
 ```
 
----
+### Internal links are relative paths with the extension
 
-## Code formatting
-### Code blocks
+Use `../core/naming_conventions.md`, not `/docs/core/naming-conventions` and not a full URL to
+the published site. Both alternatives break when the docs move or are read offline.
 
-**Rules:**
-- Use triple backticks (```) for code blocks
-- Always specify language identifier in lowercase
-- Add blank lines before and after code blocks
-
-**Common language identifiers:**
-- `python` - Python
-- `javascript` / `typescript` - JavaScript / TypeScript
-- `go` - Go
-- `rust` - Rust
-- `java` - Java
-- `csharp` - C#
-- `bash` / `shell` - Shell commands
-- `json` - JSON
-- `yaml` - YAML
-- `sql` - SQL
-- `markdown` - Markdown
-
-**✅ Good:**
-
-````markdown
-Use connection pooling for database connections:
-
-```python
-from sqlalchemy import create_engine
-
-engine = create_engine(
-    "postgresql://user:pass@localhost/db",
-    pool_size=5
-)
-```
-````
-
-**❌ Bad:**
-
-````markdown
-Use connection pooling:
-```
-engine = create_engine("postgresql://user:pass@localhost/db")
-```
-````
-
----
-
-### Inline code
-
-**Rules:**
-- Use single backticks for inline code, class names, methods, and variables
-- Use for technical terms and identifiers
-- Do not use for emphasis
-
-**✅ Good:**
-
-```markdown
-The `UserService` class uses the `authenticate()` method to verify credentials. Set the `timeout` parameter to control request duration.
-```
-
-**❌ Bad:**
-
-```markdown
-The UserService class uses the authenticate() method. Use `important` for emphasis.
-```
-
----
-
-## Lists
-### Unordered lists
-
-**Rules:**
-- Use `-` (hyphen) for unordered lists, not `*` or `+`
-- Add one space after the hyphen
-- Use consistent indentation (2 spaces for nested lists)
-
-**✅ Good:**
-
-```markdown
-- First item
-- Second item
-  - Nested item 1
-  - Nested item 2
-- Third item
-```
-
-**❌ Bad:**
-
-```markdown
-* First item
-+ Second item
-    * Nested (inconsistent indentation)
-```
-
----
-
-### Ordered lists
-
-**Rules:**
-- Use `1.`, `2.`, `3.` for ordered lists
-- Or use `1.` for all items (Markdown auto-numbers)
-- Add one space after the period
-
-**✅ Good:**
-
-```markdown
-1. First step
-2. Second step
-3. Third step
-```
-
-or
-
-```markdown
-1. First step
-1. Second step
-1. Third step
-```
-
----
+File names are **snake_case**.
 
 ### Serial comma
 
-**Rules:**
-- Use serial comma (Oxford comma) in lists within sentences
-- Example: "A, B, and C" not "A, B and C"
+"controllers, services, and repositories" — not "controllers, services and repositories".
 
-**✅ Good:**
+### Images
 
-```markdown
-This architecture uses controllers, services, and repositories.
-```
-
-**❌ Bad:**
-
-```markdown
-This architecture uses controllers, services and repositories.
-```
-
----
-
-### Task lists
-
-**Rules:**
-- Use GitHub-style task lists for checklists
-- Format: `- [ ]` for unchecked, `- [x]` for checked
-- One space after brackets
-
-**Example:**
-
-```markdown
-- [ ] Implement authentication
-- [x] Create database schema
-- [ ] Add API endpoints
-```
-
----
-
-## Links
-### Descriptive link text
-
-**Rules:**
-- Use descriptive text that explains the link destination
-- Avoid generic phrases like "click here", "this link", "read more"
-
-**✅ Good:**
-
-```markdown
-See the [PostgreSQL documentation](https://www.postgresql.org/docs/) for details.
-
-Read more about [RESTful API design patterns](api_design.md).
-```
-
-**❌ Bad:**
-
-```markdown
-Click [here](https://www.postgresql.org/docs/) for details.
-
-Read more [here](api-design.md).
-```
-
----
-
-### Internal links
-
-**Rules:**
-- Use relative paths for internal documentation links
-- Include `.md` extension
-- Use snake_case for file names
-
-**✅ Good:**
-
-```markdown
-- [Naming conventions](../core/naming_conventions.md)
-- [Error handling](../core/error_handling.md)
-```
-
-**❌ Bad:**
-
-```markdown
-- [Naming Conventions](/docs/core/naming-conventions)
-- [Error Handling](https://myproject.com/docs/error-handling)
-```
-
----
-
-### External links
-
-**Rules:**
-- Use full URLs for external links
-
-**✅ Good:**
-
-```markdown
-- [Python documentation](https://docs.python.org/)
-- [MDN Web Docs](https://developer.mozilla.org/)
-```
-
----
-
-## Emphasis
-### Bold
-
-**Rules:**
-- Use `**text**` for bold (not `__text__`)
-- Use sparingly for critical emphasis only
-- Do not overuse bold for every technical term
-
-**✅ Good:**
-
-```markdown
-**Warning:** This operation is irreversible.
-
-The `main()` function is the entry point.
-```
-
-**❌ Bad:**
-
-```markdown
-Use **camelCase** for **variables** and **PascalCase** for **classes**.
-```
-
----
-
-### Italic
-
-**Rules:**
-- Use `*text*` for italic (not `_text_`)
-- Use for introducing new terms or subtle emphasis
-
-**✅ Good:**
-
-```markdown
-The *singleton pattern* should be used sparingly.
-```
-
----
-
-### Strikethrough
-
-**Rules:**
-- Use `~~text~~` for strikethrough
-- Use to show deprecated or outdated information
-
-**Example:**
-
-```markdown
-~~Use global variables~~ → Use dependency injection instead.
-```
-
----
-
-## Images and diagrams
-### Image syntax
-
-**Rules:**
-- Use `![alt text](path/to/image.png)` format
-- Always provide descriptive alt text
-- Use relative paths for images
-- Store images in `images/` or `assets/` directory
-
-**✅ Good:**
+Alt text describes what the image shows, not that it is an image. Store under `images/` or
+`assets/`, keep files under 1 MB, and pick the format by content: PNG for diagrams and
+screenshots, JPEG for photos, SVG for vector art. Captions go below the image in italics.
 
 ```markdown
 ![Diagram showing request flow through API gateway](images/request_flow.png)
-```
-
-**❌ Bad:**
-
-```markdown
-![](image.png)
-```
-
----
-
-### Image guidelines
-
-**Rules:**
-- Optimize image file size (< 1 MB recommended)
-- Use PNG for diagrams and screenshots
-- Use JPEG for photos
-- Use SVG for vector graphics when possible
-
-**Additional rules:**
-- Add captions below images using italic text
-- Specify image dimensions when layout matters
-
-**Example:**
-
-```markdown
-![Architecture diagram](images/architecture.png)
 
 *Figure 1: System architecture overview*
 ```
-
----
-
-## Tables
-### Basic table format
-
-**Rules:**
-- Use pipe (`|`) for columns
-- Use hyphens (`-`) for header separator
-- Align columns for readability (optional but recommended)
-
-**✅ Good:**
-
-```markdown
-| Component     | Responsibility        | Dependencies     |
-|---------------|-----------------------|------------------|
-| AuthService   | User authentication   | UserRepository   |
-| UserService   | User management       | AuthService      |
-| APIGateway    | Request routing       | All services     |
-```
-
----
-
-### Table alignment
-
-**Rules:**
-- Use `:` for column alignment
-- `:---` (left), `:---:` (center), `---:` (right)
-
-**Example:**
-
-```markdown
-| Left-aligned | Center-aligned | Right-aligned |
-|:-------------|:--------------:|--------------:|
-| Text         | Text           | 123           |
-| Text         | Text           | 456           |
-```
-
----
-
-## Horizontal rules
-**Rules:**
-- Use `---` for horizontal rules (three hyphens)
-- Add blank lines before and after
-- Use to separate major sections
-
-**✅ Good:**
-
-```markdown
-## Section 1
-
-Content for section 1.
-
----
-
-## Section 2
-
-Content for section 2.
-```
-
-**❌ Bad:**
-
-```markdown
-## Section 1
-Content.
-***
-## Section 2
-```
-
----
-
-## Blockquotes
-**Rules:**
-- Use `>` for blockquotes
-- Add one space after `>`
-- Use for quotes, notes, or callouts
-
-**Example:**
-
-```markdown
-> **Note:** Configuration changes require a service restart.
-```
-
----
-
-## Escaping characters
-**Rules:**
-- Use backslash (`\`) to escape Markdown syntax
-- Common escapes: `\*`, `\_`, `\#`, `\[`, `\]`
-
-**Example:**
-
-```markdown
-Use \*asterisks\* to create italic text.
-```
-
----
-
-## Line length
-**Rules:**
-- Soft limit: 80-100 characters per line
-- Hard limit: 120 characters per line
-- Break long sentences at natural points
-
-**Benefits:**
-- Easier to review in diff tools
-- Better readability in side-by-side views
-- Cleaner Git diffs
-
----
-
-## Markdown linters
-**Recommended tools:**
-- `markdownlint` - Linting and style checking
-- `prettier` - Auto-formatting
-- `remark` - Markdown processor
-
-**Common rules:**
-- MD001: Heading levels should only increment by one
-- MD003: Heading style (ATX)
-- MD004: Unordered list style (dash)
-- MD022: Headings should be surrounded by blank lines
-- MD031: Fenced code blocks should be surrounded by blank lines
 
 ---
 
@@ -540,6 +116,5 @@ Use \*asterisks\* to create italic text.
 
 - [CommonMark specification](https://commonmark.org/)
 - [GitHub Flavored Markdown](https://github.github.com/gfm/)
-- [Markdown guide](https://www.markdownguide.org/)
+- [markdownlint rules](https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md)
 - [Google Markdown style guide](https://google.github.io/styleguide/docguide/style.html)
-- [GitLab Markdown guide](https://docs.gitlab.com/ee/user/markdown.html)

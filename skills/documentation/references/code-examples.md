@@ -67,21 +67,8 @@ projectname/
 - Use lowercase language identifiers
 - Use the most specific identifier available
 
-**Common language identifiers:**
-
-| Language | Identifier |
-|----------|------------|
-| Python | `python` |
-| TypeScript | `typescript` |
-| JavaScript | `javascript` |
-| Go | `go` |
-| Rust | `rust` |
-| Java | `java` |
-| C# | `csharp` |
-| Shell | `bash` or `shell` |
-| SQL | `sql` |
-| JSON | `json` |
-| YAML | `yaml` |
+Labee code is mostly `swift`; `bash`, `json`, `yaml`, `jsonc` and `markdown` cover the rest.
+Use the most specific identifier the fence supports — `swift`, not `text`.
 
 **✅ Good:**
 
