@@ -28,12 +28,9 @@ const SKILL_TEMPLATE = (name: string, title: string) => `---
 name: ${name}
 description: [TODO: WHAT it does]. [WHEN to use].
 when_to_use: Triggers on "english-trigger", "日本語トリガー".
-model: sonnet
 allowed-tools: Read Glob Grep
-# effort: high                # low | medium | high | xhigh | max (availability depends on model)
 # argument-hint: "[input]"   # Hint shown in / autocomplete
-# context: fork              # Uncomment for isolated execution
-# agent: general-purpose     # Agent type when context: fork
+# Do not add model / effort / context / agent — see references/output-patterns.md
 ---
 
 # ${title}

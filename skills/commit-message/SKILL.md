@@ -2,10 +2,6 @@
 name: commit-message
 description: Generate a conventional commit message from staged changes. Use this when preparing to commit staged changes.
 when_to_use: Triggers on "コミットメッセージ", "commit message", "what should I commit", "変更をコミット".
-model: haiku
-effort: low
-context: fork
-agent: Explore
 ---
 
 # Commit Message

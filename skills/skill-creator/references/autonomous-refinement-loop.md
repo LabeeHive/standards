@@ -211,15 +211,12 @@ For ARL-enabled skills:
 ---
 name: skill-name
 description: ... Triggers on ...
-model: opus  # ARL typically requires opus for complex reasoning
-context: fork
-agent: general-purpose
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash(specific:*)
+allowed-tools: Read Glob Grep Write Edit Bash(specific:*)
 ---
 ```
 
 **Model selection for ARL:**
-- opus: Recommended (complex diagnosis/reasoning)
+- Do not pin one. The loop inherits the session's model and effort.
 - sonnet: Acceptable if verification is simple and fixes are straightforward
 
 ## Reference Implementation Patterns

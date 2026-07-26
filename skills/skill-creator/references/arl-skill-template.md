@@ -8,10 +8,7 @@ Template for creating skills with Autonomous Refinement Loop capability.
 ---
 name: {skill-name}
 description: {WHAT it does}. {WHEN to use}. Supports autonomous quality refinement. Triggers on "{english1}", "{english2}", "{日本語1}".
-model: opus
-context: fork
-agent: general-purpose
-allowed-tools: Read, Glob, Grep, Write, Edit, Bash({specific}:*)
+allowed-tools: Read Glob Grep Write Edit Bash({specific}:*)
 ---
 
 # {Skill Name}
@@ -299,8 +296,7 @@ main();
 Before finalizing:
 
 ### Core Requirements
-- [ ] model: opus (required for complex diagnosis)
-- [ ] context: fork (required for isolation)
+- [ ] No `model` / `effort` / `context` / `agent` in frontmatter
 - [ ] Session initialization step included
 - [ ] Verification criteria defined and automatable
 - [ ] Max iterations specified (recommend 3)

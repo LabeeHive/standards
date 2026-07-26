@@ -2,7 +2,6 @@
 name: skill-creator
 description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones.
 when_to_use: Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
-model: opus
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash(mkdir:*), Bash(bun:*), WebFetch, WebSearch, Task, TaskCreate, TaskUpdate, TaskList
 ---
 
@@ -125,13 +124,12 @@ For **each scenario** from Phase 1, ask:
 
 **Then decide frontmatter:**
 
-1. **model** — See `references/output-patterns.md` Model Selection
-2. **effort** — See `references/output-patterns.md` effort Decision
-3. **allowed-tools** — List specific tool patterns needed (space-delimited)
+1. **allowed-tools** — List specific tool patterns needed (space-delimited)
+2. **argument-hint** — See `references/output-patterns.md` argument-hint Decision
+3. **Invocation control** — See `references/output-patterns.md` Invocation Control
 4. **paths** — Do not set (deprecated; see `references/output-patterns.md` paths Decision). Express file affinity in `description`/`when_to_use` instead
-5. **argument-hint** — See `references/output-patterns.md` argument-hint Decision
-6. **Invocation control** — See `references/output-patterns.md` Invocation Control
-7. **context: fork** — See `references/output-patterns.md` context: fork Decision
+
+**Do not set** `model`, `effort`, `context: fork`, or `agent`. These were removed from every Labee skill: `context: fork` runs the skill in an isolated background process where the caller sees nothing but a launch notice, so any instruction to ask the user or wait for approval hangs silently forever, and the `model`/`effort` pinning existed mainly to configure those forked runs. Skills inherit the session's model and effort.
 
 **Present the resource plan to the user for approval before proceeding.**
 
@@ -276,12 +274,12 @@ Fix any errors and re-run.
 - [ ] description key info front-loaded (`description` + `when_to_use` are capped at 1,536 chars in the skill listing)
 - [ ] name does not contain reserved words (`anthropic`, `claude`)
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
-- [ ] model selected by numeric criteria (see `references/output-patterns.md`)
-- [ ] effort set appropriately for model (opus → max, haiku → low)
+- [ ] `model`, `effort`, `context`, `agent` NOT set
+- [ ] No instruction that blocks on user input sits in a code path the user cannot reach
 - [ ] paths NOT set — deprecated due to known Claude Code bugs (skill discovery breaks; see `references/output-patterns.md` paths Decision)
 - [ ] argument-hint set for skills with `disable-model-invocation: true` or meaningful arguments
 - [ ] Invocation control set correctly for skill type
-- [ ] context: fork ONLY for self-contained tasks
+- [ ] `disable-model-invocation: true` skills carry no `when_to_use` trigger list — the model cannot see or invoke them, so trigger phrases there are dead text
 
 **Context Efficiency:**
 - [ ] SKILL.md body under 500 lines

@@ -131,57 +131,21 @@ Input: Fixed crash on startup
 Output: `fix: resolve null pointer on app launch`
 ```
 
-## Model Selection
 
-> **Context (Feb 2026):** Sonnet 4.6 matches Opus 4.5 on most practical tasks (SWE-bench 79.6%, OSWorld 72.5%) and exceeds it on office/finance benchmarks. Opus 4.6 leads only in abstract reasoning (ARC-AGI-2), terminal operations (Terminal-Bench), and complex web autonomy (BrowseComp). Haiku 4.5 is Anthropic's official recommendation for sub-agent tasks.
+## Model, effort, and execution context
 
-**Numeric Decision Criteria:**
+Do not set `model`, `effort`, `context`, or `agent` on a skill. Every Labee skill had these
+removed; a skill inherits the session's model and effort.
 
-| Model | When to Use | Price (in/out per MTok) |
-|-------|-------------|:-----------------------:|
-| haiku | No file writes, no complex reasoning, sub-agent tasks | $1 / $5 |
-| sonnet | File writes, MCP tools, multi-step workflows, standard orchestration | $3 / $15 |
-| opus | Autonomous self-correction loops (ARL), architectural design decisions, deep abstract reasoning | $5 / $25 |
+`context: fork` runs the skill in an isolated background process. Measured behaviour: the
+caller receives only `Skill "<name>" launched (forked execution, running in the background).`
+— no instructions, no phase progress, no errors, and in one trial no completion notification
+at all. The forked run cannot reach the user, so any instruction to ask a question or wait for
+approval leaves it stalled indefinitely while appearing to work. That is what the `model` and
+`effort` pinning mostly existed to configure, so all four fields went together.
 
-**Decision Tree:**
-```
-Does skill require autonomous self-correction (ARL pattern)? → Yes → opus
-Does skill make architectural design decisions requiring deep abstract reasoning? → Yes → opus
-Does skill write files OR use MCP tools? → Yes → sonnet
-Otherwise → haiku
-```
-
-**Exceptions:**
-- Guidance-only skills (no Write/Edit in allowed-tools) can use haiku regardless of step count
-- Simple MCP query skills (read-only queries + formatting) can use sonnet
-- Skills with many steps but only standard orchestration (no ARL, no architectural decisions) → sonnet
-
-**Examples:**
-
-| Skill | Steps | Writes | Services | MCP | → Model | Reason |
-|-------|:-----:|:------:|:--------:|:---:|:-------:|--------|
-| automation-config | 4 | 0 | 0 | No | haiku | Guidance-only, no writes |
-| documentation | 2 | 2 | 0 | No | sonnet | File writes (Edit, Write) |
-| today | 2 | 0 | 0 | Yes | sonnet | Simple MCP queries + formatting |
-| swift-development | 3 | 3 | 0 | No | sonnet | File writes |
-| repository-setup | 5 | 5 | 1 | No | sonnet | Writes + simple services |
-| github-workflow | 5 | 0 | 1 | No | sonnet | Analyzes code, writes PR body |
-| vigilare-task | 6 | 0 | 0 | Yes | sonnet | MCP orchestration (no ARL needed) |
-| swift-workflow | 8 | 5 | 0 | Yes | sonnet | Multi-step workflow, standard orchestration |
-| skill-creator | 7 | 4 | 0 | No | opus | ARL-capable, architectural design decisions |
-| gemini-image | 2 | 0 | 1 | No | opus | CLI image generation, deep creative reasoning |
-| swift-localization | 4 | 2 | 0 | No | opus | ARL pattern (verify→translate→re-verify loop) |
-| aso-review | 3 | 3+ | 0 | No | sonnet | Multi-language ASO evaluation with file edits |
-
-## Skill Type Matrix
-
-| Type | context: fork | agent | allowed-tools |
-|------|:-------------:|-------|---------------|
-| Guidance | Optional | - | Read, Glob, Grep |
-| Code Gen | Yes | general-purpose | + Edit, Write, Bash(specific:*) |
-| Workflow | Yes | general-purpose | + MCP tools, Task |
-
-**Note:** `context: fork` isolates the skill's context from the main conversation. Use it even for Guidance skills when you want to avoid polluting the conversation context.
+If a skill genuinely needs isolation, spawn a subagent with the Task tool from inside the
+skill instead — the result comes back to the caller.
 
 ## Invocation Control
 
@@ -214,30 +178,6 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 | Helper sub-skill | Internal validation | Only called by other skills |
 | Background automation | Session cleanup | Claude decides when to run |
 
-## context: fork Decision
-
-**IMPORTANT:** `context: fork` runs in **isolation with NO conversation history** (not a true fork). See [Issue #20492](https://github.com/anthropics/claude-code/issues/20492).
-
-### Use `context: fork`
-
-| Condition | Example |
-|-----------|---------|
-| Self-contained task with explicit instructions | Release workflow |
-| Final report is sufficient | Code generation |
-| Long-running automation | Deploy pipeline |
-| Orchestration that calls other skills (no conversation context needed) | swift-release |
-
-### Do NOT use `context: fork`
-
-| Condition | Example |
-|-----------|---------|
-| Needs conversation context | Answering questions about prior discussion |
-| User wants to see process | Interactive guidance |
-| Interactive/dialogue-based | Requirements gathering |
-| Guidance/reference content | Documentation standards |
-
-**Most skills should NOT use `context: fork`.**
-
 ## Frontmatter Fields
 
 Two layers: the open standard (agentskills.io) and Claude Code extensions.
@@ -261,12 +201,12 @@ Source: https://code.claude.com/docs/en/skills
 
 | Field | Required | Type | Default | Description |
 |-------|:--------:|------|---------|-------------|
-| model | No | string | (inherited) | Same values as `/model`, or `inherit`. Override applies for the rest of the current turn only; the session model resumes on the next prompt |
-| effort | No | enum | (inherited) | `low`, `medium`, `high`, `xhigh`, `max`. Available levels depend on the model. Overrides session effort while the skill is active |
+| model | No | string | (inherited) | **Do not set.** Same values as `/model`, or `inherit`. Override applies for the rest of the current turn only; the session model resumes on the next prompt |
+| effort | No | enum | (inherited) | **Do not set.** `low`, `medium`, `high`, `xhigh`, `max`. Available levels depend on the model. Overrides session effort while the skill is active |
 | when_to_use | No | string | - | Additional triggering context (trigger phrases, example requests). Appended to `description` in the skill listing; counts toward the 1,536-char cap |
 | arguments | No | string/list | - | Named positional arguments for `$name` substitution. `arguments: [issue, branch]` → `$issue`, `$branch` map to positions in order |
-| context | No | enum | (normal) | `fork` for isolated execution |
-| agent | No | string | - | Agent type when `context: fork` (e.g., `general-purpose`, `Explore`) |
+| context | No | enum | (normal) | `fork` for isolated execution. **Do not set** — see Model, effort, and execution context |
+| agent | No | string | - | Agent type when `context: fork`. **Do not set** |
 | paths | No | string | - | **Deprecated — do not set** (see paths Decision). Glob patterns intended to limit auto-activation to matching files |
 | argument-hint | No | string | - | Hint shown in `/` autocomplete (e.g., `[issue-number]`) |
 | disable-model-invocation | No | bool | false | Prevent auto-invocation by Claude. The skill's description is removed from Claude's context entirely (still visible in the `/` menu) |
@@ -318,16 +258,6 @@ The field is still in the official docs ("Claude loads the skill automatically o
 - A skill carrying `paths` can become undiscoverable — missing from the skill listing and uninvocable via `/name` ([#49835](https://github.com/anthropics/claude-code/issues/49835), open)
 
 `description` + `when_to_use` are the actual trigger mechanism — express file affinity there instead (e.g., mention the file types in the description). Re-check the issues above before reintroducing `paths`; the intended syntax was glob patterns as a comma-separated string (`paths: "**/*.swift, **/Package.swift"`) or YAML list.
-
-## effort Decision
-
-Levels: `low`, `medium`, `high`, `xhigh`, `max` (availability depends on the model).
-
-| model | Recommended effort | Reason |
-|-------|-------------------|--------|
-| opus | `max` | Deep abstract reasoning benefits from maximum compute |
-| sonnet | (inherit or `high`) | Standard orchestration; override only if needed |
-| haiku | `low` | Guidance-only; minimize token usage |
 
 ## argument-hint Decision
 
