@@ -37,6 +37,7 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 ```
 
 **Update status as you progress:**
+
 - `in_progress` when starting a phase
 - `completed` when done
 
@@ -74,6 +75,7 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 **Required skill:** `Skill("vigilare-task")` if no task exists.
 
 **Priority order:**
+
 1. **Check conversation context** - Task already mentioned? Use it
 2. **Query Vigilare** - `vigilare_get_reminders(filter: 'today')` or by list
 3. **No task exists** - Ask user: "タスクを起票しますか？" → MUST call `Skill("vigilare-task")`
@@ -103,6 +105,7 @@ A task rarely exists in isolation. Before researching or planning, find out what
 ```
 
 **Produce a short findings note covering:**
+
 - **Duplicates / overlap** — is another task the same or a superset of this one?
 - **Dependencies / sequencing** — must a decision or another task land first? Would implementing now be invalidated or redone by pending work (e.g. a schema redesign)?
 - **Existing assets** — code/docs already solving part of this.
@@ -131,6 +134,7 @@ A task rarely exists in isolation. Before researching or planning, find out what
 ```
 
 **Extract:**
+
 - Deployment target (iOS 17, macOS 14, etc.)
 - Target platforms (iOS, macOS, watchOS, etc.)
 - Swift version
@@ -281,6 +285,7 @@ swift test
 | 6 | Task(labee-dev-tech-lead) + Task(labee-dev-apm) |
 
 **How to parallelize:**
+
 - Use multiple tool calls in a single message
 - Use Task tool with multiple subagents for heavy operations
 

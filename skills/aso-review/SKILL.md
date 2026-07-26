@@ -44,6 +44,7 @@ Update status as you progress: `in_progress` when starting, `completed` when don
 Verify the review target is ASO metadata.
 
 **Valid targets:**
+
 - `**/metadata/**` — fastlane metadata (subtitle, keywords, description per locale)
 
 **Redirect:** If `.tsx` LP files or `docusaurus.config.*` detected, tell user: "LP pages should use `/lp-review` instead."
@@ -84,6 +85,7 @@ Gather before dispatching to reviewers:
 Each reviewer works independently and returns its findings to you. Reviewers do not talk to each other — you reconcile their output in Phase 4.
 
 **Each agent receives:**
+
 - Complete metadata text for all locales
 - The checklist from `references/_checklist-aso.md`
 - The localization principles from `references/_localization-principles.md`
@@ -94,18 +96,21 @@ Each reviewer works independently and returns its findings to you. Reviewers do 
 **Per-agent instructions:**
 
 **ASO reviewer:**
+
 - Per-locale keyword research (keywords are NOT translated — research local search terms independently)
 - Subtitle optimization within character limits (CJK ~15, Latin ~30)
 - Competitive differentiation per market (competitors differ by region)
 - Search volume analysis for primary keywords
 
 **Naturalness reviewer:**
+
 - Detect "translated feel" per locale (source-language structure leaking through)
 - Check formality alignment (consumer app = casual register in most locales)
 - Flag literally translated idioms and keyword stuffing disguised as natural text
 - Suggest specific rewrites for every flagged item
 
 **Messaging reviewer:**
+
 - Cross-locale value proposition consistency (core benefit must align)
 - Tone alignment with brand voice across all locales
 - Feature naming consistency (translated vs kept original)
@@ -123,7 +128,7 @@ If a reviewer's finding is thin or you need it re-checked against another's, spa
 
 ### Phase 5: Synthesize Results
 
-1. Produce a consolidated report per locale from the reconciled findings
+Produce a consolidated report per locale from the reconciled findings
 
 **Report format:**
 
@@ -150,7 +155,7 @@ If a reviewer's finding is thin or you need it re-checked against another's, spa
 - [Conflict]: [how you resolved it and why]
 ```
 
-3. Present the report to the user and wait for approval before applying fixes.
+Then present it to the user and wait for approval before applying fixes.
 
 ### Phase 6: Apply Fixes
 

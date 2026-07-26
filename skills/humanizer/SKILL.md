@@ -56,6 +56,7 @@ AI uses "main clause + comma + -ing phrase" at 2-5x human rate ([arXiv:2412.1138
 **Watch for:** Additionally, Moreover, Furthermore, crucial, delve, intricate, multifaceted, comprehensive, landscape (abstract), tapestry (abstract), realm, era, groundbreaking, advancements, garnered, comprehending, ever-evolving, underscores
 
 **High-frequency markers** (per [arXiv:2412.11385](https://arxiv.org/abs/2412.11385)):
+
 - aligns (16x), aims to explore (50x), today's fast-paced world (107x), notable works include (120x+)
 
 **Before:**
@@ -193,9 +194,11 @@ Capitalizing every major word in headings (English-style title case).
 **Watch for:** "Strategic Negotiations And Global Partnerships" instead of sentence case
 
 **Before:**
+
 > ## Building Effective Communication Skills For Modern Teams
 
 **After:**
+
 > ## Building effective communication skills for modern teams
 
 Sentence case is more natural in most contexts except proper titles.
@@ -219,6 +222,7 @@ Every list item starts with bold text followed by a colon.
 **Watch for:** Repeated `**Header:** description` pattern in lists
 
 **Before:**
+>
 > - **Speed:** The system processes requests quickly
 > - **Reliability:** Uptime exceeds 99.9%
 > - **Security:** End-to-end encryption protects data
@@ -235,6 +239,7 @@ Every list item starts with bold text followed by a colon.
 > In today's fast-paced world, remote work has become increasingly crucial for organizations seeking to remain competitive. This comprehensive guide delves into the multifaceted landscape of distributed teams.
 >
 > Remote work offers numerous benefits:
+>
 > - **Flexibility:** Employees can work from anywhere
 > - **Productivity:** Studies show remote workers are more productive
 > - **Cost Savings:** Organizations can reduce overhead expenses
@@ -258,6 +263,7 @@ Every list item starts with bold text followed by a colon.
 > Our setup now: Slack for quick stuff, Notion for decisions, one weekly sync. Office costs went from $8k/month to zero.
 
 **Changes made:**
+
 - Title case → sentence case, generic → specific
 - Removed: "comprehensive", "delves", "multifaceted landscape", "crucial"
 - Removed: inline-header list format, negative parallelism ("It's not just...")
@@ -270,12 +276,14 @@ Every list item starts with bold text followed by a colon.
 Sterile text is also AI-like. Good writing has personality.
 
 **Signs of soulless writing:**
+
 - Every sentence same length
 - No opinions, just neutral reporting
 - No first-person when appropriate
 - No humor or edge
 
 **How to add voice:**
+
 - Have opinions: "I don't know how to feel about this" > neutral pros/cons
 - Vary rhythm: Short. Then longer sentences that take their time.
 - Be specific: Not "concerning" but "unsettling that agents work at 3am"
@@ -286,28 +294,33 @@ Sterile text is also AI-like. Good writing has personality.
 Quick verification for English text:
 
 ### Vocabulary
+
 - [ ] No "delve", "crucial", "multifaceted", "landscape", "tapestry"
 - [ ] No "Additionally", "Moreover", "Furthermore" at sentence start
 - [ ] No "serves as", "stands as", "functions as" (use "is")
 - [ ] No "in today's fast-paced world", "notable works include"
 
 ### Structure
+
 - [ ] No title case in headings (unless proper title)
 - [ ] No forced rule-of-three lists
 - [ ] No inline-header pattern (`**Bold:** text`) repeated
 - [ ] Varying sentence lengths
 
 ### Attribution
+
 - [ ] No "Experts say" / "Studies show" without citation
 - [ ] Specific numbers over "many" / "various" / "significant"
 
 ### Tone
+
 - [ ] No "I hope this helps" / "Great question!"
 - [ ] No generic conclusions ("The future looks bright")
 - [ ] No negative parallelism ("It's not X, it's Y")
 - [ ] Clear opinion/stance when appropriate
 
 ### Formatting
+
 - [ ] Straight quotes (" ") not curly (" ")
 - [ ] Reasonable em dash usage (not 3+ per paragraph)
 - [ ] No excessive hedging ("could potentially possibly")
@@ -315,6 +328,7 @@ Quick verification for English text:
 ## Output
 
 Provide:
+
 1. Rewritten text
 2. Brief list of changes (optional)
 

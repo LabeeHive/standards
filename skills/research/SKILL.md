@@ -36,6 +36,7 @@ Conduct thorough, multi-source investigation with verification.
 **After searching, you MUST WebFetch at least 3 relevant results to actually read content.**
 
 **DO NOT:**
+
 - Do only 2-3 searches and call it done
 - Skip Japanese sources
 - Skip reading actual content
@@ -45,6 +46,7 @@ Conduct thorough, multi-source investigation with verification.
 ### Phase 1: Scope
 
 Ask user (if unclear):
+
 - What specifically needs to be investigated?
 - What decision will this inform?
 - Any known constraints (time range, sources to include/exclude)?
@@ -95,6 +97,7 @@ Ask user (if unclear):
 ```
 
 **For each result:**
+
 1. Extract specific information, not summaries
 2. Note contradictions between sources
 3. Follow references to related issues/articles
@@ -102,19 +105,23 @@ Ask user (if unclear):
 ### Phase 4: Deep Verification
 
 **Level 1: Claim verification**
+
 - Find the claim in multiple sources
 
 **Level 2: Source verification**
+
 - Who wrote it? What's their expertise?
 - Is it official documentation or blog speculation?
 - Do other experts cite this source?
 
 **Level 3: Origin verification**
+
 - Where did this information originate?
 - Is the blog just paraphrasing official docs?
 - If sources cite the same origin → count as 1 source
 
 **Example:**
+
 ```
 Claim: "SwiftUI @Observable is better than @ObservableObject"
   ↓ Level 1: Found in Zenn article
@@ -135,11 +142,13 @@ Claim: "SwiftUI @Observable is better than @ObservableObject"
 | > 2 years | Assume outdated unless confirmed current |
 
 **For each source, note:**
+
 - Publication date
 - Last updated date (if available)
 - iOS/macOS version it refers to
 
 **Red flags:**
+
 - No date on the article
 - References deprecated APIs
 - Uses old syntax (e.g., SwiftUI 1.0 patterns)
@@ -147,6 +156,7 @@ Claim: "SwiftUI @Observable is better than @ObservableObject"
 ### Phase 5: Synthesize
 
 Structure findings:
+
 1. **Summary** - Key findings in 3-5 bullets
 2. **Evidence** - Detailed findings with sources and dates
 3. **Verification chain** - How each critical claim was verified (origin traced)
@@ -158,6 +168,7 @@ Structure findings:
 ## Blocked Sources
 
 Do NOT use (will fail):
+
 - Medium (authentication required)
 - Authenticated services (Google Docs, Confluence, Jira)
 
@@ -166,6 +177,7 @@ Do NOT use (will fail):
 **Before marking research complete, verify ALL:**
 
 ### Search Coverage
+
 - [ ] Performed 7+ parallel searches in single message
 - [ ] Included official docs (Apple/Google/etc.)
 - [ ] Included Japanese sources (Zenn, Qiita)
@@ -173,22 +185,26 @@ Do NOT use (will fail):
 - [ ] Used gh command for GitHub Issues
 
 ### Deep Reading
+
 - [ ] WebFetch'd at least 3 results to actually read
 - [ ] Extracted specific quotes/code, not just summaries
 - [ ] Followed reference chains
 
 ### Verification Depth
+
 - [ ] Traced critical claims to their origin
 - [ ] Verified source credibility (who wrote it, their expertise)
 - [ ] Checked if multiple sources share same origin
 
 ### Freshness
+
 - [ ] Noted publication dates for all sources
 - [ ] Flagged information older than 1 year
 - [ ] Searched for more recent alternatives to old info
 - [ ] Verified old info still applies to current OS/API versions
 
 ### Documentation
+
 - [ ] Documented contradictions if any
 - [ ] Noted confidence level for each finding
 

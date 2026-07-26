@@ -44,6 +44,7 @@ Claude uses `description` to decide when to delegate. Format:
 ```
 
 Examples from official docs:
+
 - `"Expert code review specialist. Proactively reviews code for quality, security, and maintainability. Use immediately after writing or modifying code."`
 - `"Debugging specialist for errors, test failures, and unexpected behavior. Use proactively when encountering any issues."`
 - `"Data analysis expert for SQL queries, BigQuery operations, and data insights. Use proactively for data analysis tasks and queries."`

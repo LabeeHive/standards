@@ -24,6 +24,7 @@ This document defines patterns for creating and using mocks in tests. Proper moc
 ## Mock structure
 
 **Rules:**
+
 - Include call tracking properties
 - Include return value control properties
 - Include error control properties
@@ -95,6 +96,7 @@ class MockReminderRepository: ReminderRepositoryProtocol {
 ## Call tracking
 
 **Rules:**
+
 - Add a boolean `xxxCalled` property for each method
 - Add a `xxxParameters` property to capture arguments
 
@@ -126,6 +128,7 @@ class MockFeedbackRepository: FeedbackRepositoryProtocol {
 ## Return value control
 
 **Rules:**
+
 - Add properties to configure return values
 - Use optionals when the return value might not be set
 - Provide sensible defaults
@@ -162,6 +165,7 @@ class MockUserRepository: UserRepositoryProtocol {
 ## Error control
 
 **Rules:**
+
 - Add `shouldThrowError` boolean property
 - Add `errorToThrow` property with a default value
 - Check error condition at the start of methods
@@ -197,6 +201,7 @@ class MockReminderRepository: ReminderRepositoryProtocol {
 ## Never mock UseCases
 
 **Rules:**
+
 - Mock Repositories, not UseCases
 - Use real UseCases with mocked dependencies
 - This ensures business logic is tested
@@ -231,6 +236,7 @@ let viewModel = ReminderViewModel(useCase: useCase)
 ```
 
 **Why avoid UseCase mocks?**
+
 1. Skips business logic testing
 2. Repository mocks already provide test data control
 3. More mocks means more maintenance
@@ -276,6 +282,7 @@ struct AddReminderUseCaseTests {
 ## Reset helper
 
 **Rules:**
+
 - Add a `reset()` method for tests that need multiple arrangements
 - Reset all tracking and configuration properties
 
@@ -304,6 +311,7 @@ class MockReminderRepository: ReminderRepositoryProtocol {
 ## Test error enum
 
 **Rules:**
+
 - Create a simple error enum for tests
 - Use descriptive case names
 
@@ -631,6 +639,7 @@ final class FloatingReminderViewModel {
 ```
 
 **Rules:**
+
 - Isolate the owning type (and its tests) with `@MainActor` so cancellation and task execution share the same serial executor
 - Never resolve a mocked delay before every expected `sleep` call has been recorded — use a call-count gate like `fireAll(afterSleepCallCount:)`, not a bare `fireAll()`, whenever a call site cancels and replaces a pending task
 - Never wait for a call-count gate with a `Task.yield()` poll loop (`while condition { await Task.yield() }`) — it has no forward-progress guarantee and can hang indefinitely; use a continuation-based waiter instead

@@ -11,10 +11,12 @@ This document defines standards for using Renovate to automate dependency update
 ### Use `.github/renovate.json5`
 
 **Rules:**
+
 - Place configuration file at `.github/renovate.json5`
 - Use JSON5 format to allow comments
 
 **Rationale:**
+
 - Keeps GitHub-related configuration in `.github/` directory
 - JSON5 allows inline comments for documenting overrides
 
@@ -41,6 +43,7 @@ The organization's Renovate GitHub App is already installed. Individual reposito
 Ensure the following repository settings are configured for automerge to work:
 
 **Required settings:**
+
 - Allow auto-merge: enabled
 - Automatically delete head branches: enabled (recommended)
 

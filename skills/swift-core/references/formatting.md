@@ -57,6 +57,7 @@ violations of this standard.
 `swift-format` does not check this.
 
 **Rules:**
+
 - Omit `self` unless required
 - Required cases: initializer disambiguation, closures capturing `self`
 
@@ -107,6 +108,7 @@ class ProjectNameService {
 `swift-format` does not check this either — a redundant `: Bool = true` passes the tool cleanly.
 
 **Rules:**
+
 - Prefer type inference when the type is obvious
 - Specify types when it improves clarity or is required
 

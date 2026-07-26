@@ -4,9 +4,9 @@
 
 Language and word-choice standards for Labee documentation.
 
-Structure, headings, active voice, second person, the serial comma, paragraph length, link text
-and alt text live in `_core-rules.md` — they apply to every document and are not repeated here.
-This file covers the choices that come up while writing sentences.
+Structure, headings, active voice, second person, the serial comma and paragraph length live in
+`_core-rules.md`. Link text and alt text live in `markdown-formatting.md`. Neither is repeated
+here — this file covers the choices that come up while writing individual sentences.
 
 ---
 
@@ -15,6 +15,7 @@ This file covers the choices that come up while writing sentences.
 ### Present tense
 
 **Rules:**
+
 - Use present tense for describing behavior
 - Use imperative mood for instructions
 - Use future tense sparingly
@@ -32,14 +33,17 @@ The system logs errors when validation fails.
 ---
 
 ## Language and clarity
+
 ### English language
 
 **Rules:**
+
 - Write all documentation in English
 - Use American English spelling (e.g., "color" not "colour")
 - Exception: Proper nouns and brand names
 
 **Examples:**
+
 - `color`, `center`, `optimize` (American English)
 - Kubernetes, PostgreSQL, macOS (proper nouns)
 
@@ -48,9 +52,9 @@ The system logs errors when validation fails.
 ### Clear and concise
 
 **Rules:**
+
 - Avoid unnecessary words
 - Break long sentences into shorter ones
-- One main idea per sentence
 
 **✅ Good:**
 
@@ -69,6 +73,7 @@ It is generally considered a best practice to cache database connections at star
 ### Avoid jargon
 
 **Rules:**
+
 - Define technical terms on first use
 - Link to glossary or detailed explanations
 - Use common terminology when possible
@@ -90,7 +95,9 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 ## Accessibility
 
 ### Color and contrast
+
 **Rules:**
+
 - Don't rely on color alone to convey meaning
 - Use symbols or text in addition to color
 - Ensure sufficient contrast for readability
@@ -114,9 +121,11 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 ---
 
 ## Inclusive language
+
 ### Avoid ableist terms
 
 **Rules:**
+
 - Avoid terms that reference disabilities in a negative way
 - Use neutral alternatives
 
@@ -135,6 +144,7 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 ### Inclusive technical terms
 
 **Rules:**
+
 - Use inclusive alternatives for loaded terms
 - Industry is moving toward these standards
 
@@ -152,6 +162,7 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 ### Gender-neutral language
 
 **Rules:**
+
 - Use "they/their" for singular indefinite pronouns
 - Avoid gendered assumptions
 
@@ -174,9 +185,11 @@ The user can customize his settings in the preferences panel.
 ---
 
 ## Word choice
+
 ### Be specific
 
 **Rules:**
+
 - Use precise technical terms
 - Avoid vague words like "thing", "stuff", "very"
 
@@ -197,6 +210,7 @@ Save the thing at startup to avoid calling the method a lot.
 ### Use positive language
 
 **Rules:**
+
 - Focus on what to do, not just what to avoid
 - Provide alternatives when showing anti-patterns
 
@@ -217,10 +231,12 @@ Don't use global state. It's bad.
 ### Consistent terminology
 
 **Rules:**
+
 - Use the same term for the same concept throughout documentation
 - Follow official terminology for third-party tools and frameworks
 
 **Examples:**
+
 - Kubernetes (not "k8s" in formal docs)
 - PostgreSQL (not "Postgres" or "postgres")
 - macOS (not "MacOS" or "OSX")
@@ -228,9 +244,11 @@ Don't use global state. It's bad.
 ---
 
 ## Numbers and units
+
 ### Numbers in text
 
 **Rules:**
+
 - Spell out numbers one through nine
 - Use numerals for 10 and above
 - Use numerals for technical values (e.g., versions, measurements)
@@ -250,6 +268,7 @@ Version 2.1.0 includes five new features.
 ### Units of measurement
 
 **Rules:**
+
 - Include units with numerical values
 - Use standard abbreviations (MB, KB, ms, s)
 - Add space between number and unit

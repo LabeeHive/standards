@@ -294,11 +294,13 @@ Examples from Chimr: `chimr_ping`, `chimr_get_today_events`, `chimr_join_video_m
 - Use natural language, not technical jargon
 
 **Good:**
+
 ```
 "Get tasks to review what needs to be done. Use filter='today' to see urgent items (today + overdue), or 'all' for everything."
 ```
 
 **Bad:**
+
 ```
 "Returns reminder array filtered by date"
 ```

@@ -65,6 +65,7 @@ This context package is passed to each agent in Phase 3.
 Each reviewer works independently and returns findings to you. Reviewers do not talk to each other -- you reconcile their output in Phase 4.
 
 **Each agent receives:**
+
 - The full LP copy
 - The checklist from `references/_checklist-lp.md` relevant to their role
 - Instructions to output findings as actionable items with suggested fixes
@@ -72,6 +73,7 @@ Each reviewer works independently and returns findings to you. Reviewers do not 
 **Agent instructions:**
 
 **Messaging reviewer:**
+
 - Review persuasion flow: Hero -> Features -> CTA
 - Check CTA hierarchy (primary vs secondary, above-the-fold)
 - Evaluate audience resonance for each segment (developers, managers, remote workers)
@@ -79,12 +81,14 @@ Each reviewer works independently and returns findings to you. Reviewers do not 
 - Flag copy that sounds like a corporate brochure
 
 **Naturalness reviewer:**
+
 - Detect AI vocabulary and inflated phrasing
 - Detect "translated from Japanese" patterns (subject omission, feature-first, keigo leaks)
 - Check for comma-splice run-ons, forced rule-of-three, excessive hedging
 - Suggest specific rewrites for every flagged item
 
 **SEO reviewer:**
+
 - Check page title, meta description, H1 for primary keyword
 - Verify heading hierarchy (no skipped H levels)
 - Check Open Graph and Twitter Card meta tags
@@ -103,7 +107,7 @@ If a finding is thin or needs re-checking against another reviewer's angle, spaw
 
 ### Phase 5: Synthesize Results
 
-1. Compile a **unified report** from the reconciled findings:
+Compile a **unified report** from the reconciled findings:
 
 ```markdown
 ## LP Review Report
@@ -115,7 +119,7 @@ If a finding is thin or needs re-checking against another reviewer's angle, spaw
 - [conflict]: [how you resolved it and why]
 ```
 
-2. Present the report to the user and wait for approval before applying fixes.
+Then present it to the user and wait for approval before applying fixes.
 
 ### Phase 6: Apply Fixes
 

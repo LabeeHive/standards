@@ -12,11 +12,13 @@ Create well-structured Vigilare tasks following established patterns.
 ## Task Title Format
 
 ### Development Tasks
+
 ```
 [カテゴリ] 具体的なタスク名
 ```
 
 **カテゴリ例:**
+
 - `[MCP]` - MCP server関連
 - `[UI]` - ユーザーインターフェース
 - `[API]` - API関連
@@ -26,6 +28,7 @@ Create well-structured Vigilare tasks following established patterns.
 - `[Docs]` - ドキュメント
 
 ### Operations Tasks
+
 シンプルなタスク名（カテゴリ不要）
 
 ## Notes Structure (Development Tasks)
@@ -97,6 +100,7 @@ Ideas             → アイデア・将来検討
 ### Step 4: タスク作成
 
 `vigilare_create_reminder` を呼び出し：
+
 - `title`: 生成したタイトル
 - `list_id`: 選択したリストのID
 - `notes`: 構造化した Notes
@@ -106,6 +110,7 @@ Ideas             → アイデア・将来検討
 ### Step 5: 補足追加（任意）
 
 追加情報があれば `vigilare_add_comment` で記録：
+
 - 背景情報
 - 参考リンク
 - 懸念事項
@@ -113,6 +118,7 @@ Ideas             → アイデア・将来検討
 ### Step 6: 完了報告
 
 作成したタスクの内容をユーザーに報告：
+
 - タスク名
 - 登録先リスト
 - 設定した優先度・期限

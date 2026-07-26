@@ -7,6 +7,7 @@ This document defines the standard directory structure for project documentation
 ---
 
 ## Directory structure
+
 ### Standard docs/ structure
 
 All projects should organize their documentation using numbered directories:
@@ -29,6 +30,7 @@ docs/
 ### Numbering convention
 
 **Rules:**
+
 - Use two-digit prefixes with underscore separator (e.g., `00_`, `01_`)
 - Core directories use `00-09` range
 - Auxiliary directories use `98-99` range
@@ -46,11 +48,13 @@ docs/
 ---
 
 ## Directory descriptions
+
 ### 00_overview/
 
 **Purpose:** Project introduction and foundational information.
 
 **Contents:**
+
 - `README.md` - Project overview and navigation
 - `terminology.md` - Project-specific terms and definitions
 - `product_identity.md` - Product vision and identity (optional)
@@ -64,6 +68,7 @@ docs/
 **Purpose:** System architecture and technical design decisions.
 
 **Contents:**
+
 - `architecture.md` - System architecture overview
 - `adr/` - Architecture Decision Records (optional)
 - Component-specific documentation
@@ -77,6 +82,7 @@ docs/
 **Purpose:** Business-related documentation.
 
 **Contents:**
+
 - Monetization strategies
 - Competitive analysis
 - Business requirements
@@ -90,6 +96,7 @@ docs/
 **Purpose:** Development processes and guidelines.
 
 **Contents:**
+
 - `testing/` - Testing guidelines and patterns
 - Project-specific development guides
 - Build and deployment documentation
@@ -103,6 +110,7 @@ docs/
 **Purpose:** UI/UX designs and visual documentation.
 
 **Contents:**
+
 - `ui_mockup.md` - UI design documentation
 - `mockups/` - Design files and screenshots
 - Design system documentation
@@ -132,6 +140,7 @@ git submodule add https://github.com/labee/coding-standards.git docs/05_standard
 **Purpose:** Implementation plans and roadmaps.
 
 **Contents:**
+
 - Feature implementation plans
 - Migration plans
 - Release roadmaps
@@ -145,6 +154,7 @@ git submodule add https://github.com/labee/coding-standards.git docs/05_standard
 **Purpose:** Ideas, research, and exploration.
 
 **Contents:**
+
 - Feature ideas and proposals
 - Research notes
 - Technology exploration
@@ -154,6 +164,7 @@ git submodule add https://github.com/labee/coding-standards.git docs/05_standard
 ---
 
 ## Shared standards integration
+
 ### Mounting the standards submodule
 
 The shared coding standards repository should be mounted at `docs/05_standards/`:
@@ -210,18 +221,21 @@ For general coding standards, see `../05_standards/swift/`.
 ---
 
 ## AGENTS.md integration
+
 When using AI coding assistants, include the documentation structure in your AGENTS.md file:
 
 ```markdown
 ## Documentation structure
 
 ```
+
 docs/
 ├── 00_overview/        # Project overview
 ├── 01_architecture/    # System architecture
 ├── 03_development/     # Development guides
 ├── 04_designs/         # UI/UX designs
 └── 05_standards/       # Shared coding standards (submodule)
+
 ```
 
 ## Before starting work

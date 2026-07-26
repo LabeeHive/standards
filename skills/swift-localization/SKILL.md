@@ -63,12 +63,14 @@ Outputs xckit status, untranslated keys, and key naming violations for all disco
 **Good/Bad examples:**
 
 Button label "Delete":
+
 - **Bad** (ko): "작업을 삭제하시겠습니까?" (verbose, overly formal)
 - **Good** (ko): "삭제할까요?" (casual, native)
 - **Bad** (de): "Möchten Sie diese Aufgabe wirklich löschen?" (Sie form, verbose)
 - **Good** (de): "Aufgabe löschen?" (concise, du-implied)
 
 Tab label "Settings":
+
 - **Bad** (zh-Hans): "管理您的设置" (verbose, formal)
 - **Good** (zh-Hans): "设置" (native, scannable)
 - **Bad** (ja): "設定を管理する" (verb form, translated feel)
@@ -81,6 +83,7 @@ xckit set -f {file} --lang {lang} {key} "{value}"
 ```
 
 Batch example:
+
 ```bash
 xckit set -f {file} --lang ja key1 "val1" && \
 xckit set -f {file} --lang ja key2 "val2"
@@ -98,6 +101,7 @@ bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts
 - **Any language < 100%** → Translate remaining keys, then re-verify
 
 **Exit conditions:**
+
 - Max iterations: 3
 - Same keys fail 2 consecutive times
 
@@ -105,16 +109,19 @@ bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts
 
 **On success (all 100%):**
 > All translations complete.
+>
 > - {file}: {N} languages at 100%
 
 **On failure (max iterations or stuck):**
 > Translation incomplete.
+>
 > - {file}: {key}: {reason}
 > Suggested action: {action}
 
 ## Key Naming Convention
 
 Use hierarchical dot-notation:
+
 ```
 settings.general.title
 reminder.detail.notes

@@ -125,6 +125,7 @@ struct EditView: View {
 ## View structure
 
 **Rules:**
+
 - Follow a consistent property order
 - Extract complex subviews using `@ViewBuilder`
 - Keep `body` concise and readable
@@ -190,6 +191,7 @@ struct ProjectNameView: View {
 ## Property order
 
 **Rules:**
+
 - Follow this order for properties:
   1. `@Environment` properties
   2. `@State` properties
@@ -250,6 +252,7 @@ struct ContentView: View {
 ## View composition
 
 **Rules:**
+
 - Extract complex subviews using `@ViewBuilder` computed properties
 - Keep `body` clean by delegating to subviews
 - Avoid deeply nested view hierarchies in `body`
@@ -319,6 +322,7 @@ var body: some View {
 ## No business logic in Views
 
 **Rules:**
+
 - Views should only handle presentation logic
 - Delegate business logic to ViewModels
 - Delegate complex operations to UseCases
@@ -361,6 +365,7 @@ struct ReminderView: View {
 ## No direct Repository access
 
 **Rules:**
+
 - Never call Services or Repositories directly from Views
 - Always go through ViewModel
 
@@ -385,6 +390,7 @@ Button("Submit") {
 ## Preview providers
 
 **Rules:**
+
 - Provide previews for all Views
 - Include multiple preview configurations when useful
 - Use mock data for previews
@@ -411,6 +417,7 @@ Button("Submit") {
 ## Modifiers
 
 **Rules:**
+
 - Apply modifiers in a logical order
 - Group related modifiers together
 - Extract repeated modifier combinations into custom view modifiers
@@ -457,6 +464,7 @@ Text("Content")
 ## Localized strings
 
 **Rules:**
+
 - Use `String(localized:defaultValue:)` for all user-facing text
 - See [Localization keys](naming.md#localization-keys) for key naming format
 

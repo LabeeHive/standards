@@ -11,6 +11,7 @@ This document defines conventions for ViewModels in SwiftUI applications. ViewMo
 ## Basic pattern
 
 **Rules:**
+
 - Mark all ViewModels with `@MainActor`
 - Use `@Observable` macro (recommended) or conform to `ObservableObject` (legacy)
 - Inject dependencies through the initializer
@@ -85,6 +86,7 @@ class ProjectNameViewModel {
 ```
 
 **Key points for @Observable:**
+
 - Use `@ObservationIgnored` for dependencies (they don't need observation)
 - No `@Published` needed - all properties are automatically observed
 - Use `@State` in View to own the ViewModel
@@ -121,6 +123,7 @@ class ProjectNameViewModel: ObservableObject {
 ```
 
 **When to use ObservableObject:**
+
 - Targeting macOS 13 / iOS 16 or earlier
 - Gradual migration from existing codebase
 
@@ -129,6 +132,7 @@ class ProjectNameViewModel: ObservableObject {
 ## @MainActor
 
 **Rules:**
+
 - Apply `@MainActor` to all ViewModels
 - This ensures UI updates happen on the main thread
 - Required for Swift 6 strict concurrency compliance
@@ -165,6 +169,7 @@ class SettingsViewModel: ObservableObject {
 ## Dependency injection
 
 **Rules:**
+
 - Inject all dependencies through the initializer
 - Use protocol types for dependencies
 - Provide default values for production implementations
@@ -208,6 +213,7 @@ class ReminderViewModel: ObservableObject {
 ### With @Observable (Recommended)
 
 **Rules:**
+
 - All properties are automatically observed
 - Use `@ObservationIgnored` for properties that should not trigger updates
 - Dependencies should always be `@ObservationIgnored`
@@ -239,6 +245,7 @@ class ProjectNameViewModel {
 ### With ObservableObject (Legacy)
 
 **Rules:**
+
 - Use `@Published` only for properties that drive UI updates
 - Do not use `@Published` for internal state or caches
 - Keep the number of `@Published` properties minimal
@@ -275,6 +282,7 @@ class ProjectNameViewModel: ObservableObject {
 ## Delegate to UseCases
 
 **Rules:**
+
 - ViewModels should not contain business logic
 - Delegate business rules to UseCases
 - ViewModels only handle presentation logic

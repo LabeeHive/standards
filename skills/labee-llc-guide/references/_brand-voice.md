@@ -123,15 +123,19 @@ Casual ◄───────────────────────�
 ## Anti-Patterns
 
 ### Corporate Speak
+>
 > 弊社は、お客様のデジタルトランスフォーメーションを包括的にサポートする統合ソリューションプロバイダーとして...
 
 ### Startup Hype
+>
 > We're disrupting the productivity space with our AI-powered, cloud-native, enterprise-grade platform!
 
 ### Overly Cute
+>
 > Hey there, friend! Ready to make your tasks super duper organized? Let's gooo!
 
 ### Empty Confidence
+>
 > We are the leading provider of innovative solutions in the Yokohama corridor region.
 
 ## Good Voice Examples

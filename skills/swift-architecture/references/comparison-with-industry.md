@@ -3,6 +3,7 @@
 ## Purpose
 
 This document compares Labee LLC's Swift coding standards with industry-wide best practices from:
+
 - [Apple Swift API Design Guidelines](https://www.swift.org/documentation/api-design-guidelines/)
 - [Google Swift Style Guide](https://google.github.io/swift/)
 - [Kodeco Swift Style Guide](https://github.com/kodecocodes/swift-style-guide)
@@ -47,6 +48,7 @@ This document compares Labee LLC's Swift coding standards with industry-wide bes
 ```
 
 **Key Principles:**
+
 - **Dependency Rule**: Source code dependencies only point inward
 - **Entities**: Contain enterprise-wide critical business rules
 - **Use Cases**: Application-specific business rules
@@ -68,6 +70,7 @@ This document compares Labee LLC's Swift coding standards with industry-wide bes
 ```
 
 **Key Characteristics:**
+
 - Domain Layer has NO dependencies on other layers
 - Repository Protocol defined in Domain, implemented in Data
 - Entity contains business rules, not just data
@@ -89,6 +92,7 @@ This document compares Labee LLC's Swift coding standards with industry-wide bes
 ```
 
 **UseCase is conditional:**
+
 - Required if: validation, data transformation, multi-Repository coordination, reusable
 - ViewModel can call Repository directly for pure CRUD operations
 
@@ -138,6 +142,7 @@ This document compares Labee LLC's Swift coding standards with industry-wide bes
    - This is a subtle but important difference
 
 3. **Repository Contains Framework Dependencies**
+
    ```swift
    // Repository example (has EventKit import)
    import EventKit  // Framework dependency in Repository
@@ -146,6 +151,7 @@ This document compares Labee LLC's Swift coding standards with industry-wide bes
        // Uses EKCalendar directly
    }
    ```
+
    - In strict Clean Architecture, Repository would not import frameworks
    - Repository Protocol would be in Domain layer, implementation in Data layer
 
@@ -159,10 +165,12 @@ This document compares Labee LLC's Swift coding standards with industry-wide bes
 ### Architecture Naming
 
 **Accurate names for this pattern:**
+
 - **Layered MVVM**
 - **MVVM + UseCase Pattern**
 
 **This is a practical adaptation that:**
+
 - Provides clear separation of concerns
 - Enables testability through DI
 - Works well with SwiftUI/Combine
@@ -278,12 +286,14 @@ struct DatabaseTests {
 ### Protocol Naming
 
 **Labee LLC:**
+
 ```swift
 protocol FeedbackRepositoryProtocol { }
 protocol ReminderRepositoryProtocol { }
 ```
 
 **Industry (Apple):**
+
 ```swift
 // Capability protocols: -able/-ible/-ing
 protocol Equatable { }
@@ -294,6 +304,7 @@ protocol Collection { }
 ```
 
 **Analysis:**
+
 - Labee LLC uses "Protocol" suffix for all protocols
 - Apple recommends different approaches based on protocol purpose
 - "Protocol" suffix is common in enterprise codebases for clarity
@@ -302,6 +313,7 @@ protocol Collection { }
 ### Boolean Naming
 
 **Labee LLC:**
+
 ```swift
 var isEmpty: Bool
 var hasChildren: Bool
@@ -310,6 +322,7 @@ var shouldRefresh: Bool
 ```
 
 **Industry (Apple, Airbnb):**
+
 ```swift
 var isEmpty: Bool
 var hasChildren: Bool
@@ -321,6 +334,7 @@ var isEnabled: Bool
 ### Event Handler Naming
 
 **Labee LLC:**
+
 ```swift
 func didTapSaveButton()
 func didSelectRow(at indexPath: IndexPath)
@@ -328,6 +342,7 @@ func willAppear()
 ```
 
 **Industry (Airbnb):**
+
 ```swift
 func didTapBookButton()
 func didSelectRow(at indexPath: IndexPath)
@@ -352,6 +367,7 @@ func didSelectRow(at indexPath: IndexPath)
 **Labee LLC:** 100 characters maximum
 
 **Industry:**
+
 - Google: 100 characters
 - Airbnb: 100 characters (strict 130)
 - Kodeco: ~70 characters (for print readability)

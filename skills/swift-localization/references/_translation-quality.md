@@ -21,6 +21,7 @@ Different string types have different rules:
 ## Per-Language Guidelines
 
 ### Japanese (ja)
+
 - Casual tone for consumer apps — avoid keigo
 - Noun-ending sentences are natural
 - Keep UI labels short (2-4 characters ideal)
@@ -30,6 +31,7 @@ Different string types have different rules:
 - **Good:** "設定" (noun form, native)
 
 ### Korean (ko)
+
 - Casual/friendly register for consumer apps (-해요 or noun endings)
 - Avoid formal -습니다 in UI labels
 - 할 일 (casual) over 작업 (formal/technical)
@@ -39,6 +41,7 @@ Different string types have different rules:
 - **Good:** "삭제할까요?" (casual confirmation)
 
 ### Chinese Simplified (zh-Hans)
+
 - Short punchy labels preferred
 - Avoid written/formal register (书面语) in consumer apps
 - Four-character phrases add rhythm when appropriate
@@ -48,6 +51,7 @@ Different string types have different rules:
 - **Good:** "添加任务" (direct)
 
 ### German (de)
+
 - "du" form for consumer apps (dein/deine, not Ihr/Ihre)
 - Direct and concise — avoid unnecessary compound nouns
 - Address user directly
@@ -57,6 +61,7 @@ Different string types have different rules:
 - **Good:** "Aufgabe löschen?" (du-implied, concise)
 
 ### Spanish (es)
+
 - Tu form for consumer apps (avoid usted)
 - Warm but concise
 - **Bad:** "Gestione sus tareas de manera eficiente" (usted, verbose)
@@ -65,6 +70,7 @@ Different string types have different rules:
 - **Good:** "Eliminar" (button label, imperative)
 
 ### French (fr)
+
 - Tu form for consumer apps (ton/ta, not votre)
 - Slightly more formal than EN, but not stiff
 - Avoid anglicisms where French equivalents exist

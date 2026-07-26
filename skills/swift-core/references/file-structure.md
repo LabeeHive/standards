@@ -9,6 +9,7 @@ This document defines the standard structure for Swift source files. Consistent 
 ## File organization
 
 **Rules:**
+
 - Follow a consistent order within each file
 - Group related elements together
 - Use `// MARK:` comments to separate sections
@@ -64,6 +65,7 @@ extension ProjectNameService {
 ## Import statements
 
 **Rules:**
+
 - Group imports by category
 - Order: Standard library → Apple frameworks → Third-party → Local modules
 - Separate groups with blank lines
@@ -94,6 +96,7 @@ import SwiftUI
 ## Type member order
 
 **Rules:**
+
 - Follow this order within types:
   1. Type aliases and nested types
   2. Static properties
@@ -162,6 +165,7 @@ class LegacyViewModel: ObservableObject {
 ## MARK comments
 
 **Rules:**
+
 - Use `// MARK: -` for major sections (includes separator line)
 - Use `// MARK:` for subsections (no separator line)
 - Keep section names concise and consistent
@@ -200,6 +204,7 @@ private func process() { }
 ## Extensions
 
 **Rules:**
+
 - Place extensions at the end of the file
 - Use extensions to group protocol conformances
 - One protocol conformance per extension when it adds significant functionality
@@ -237,6 +242,7 @@ extension ProjectNameViewController: UITableViewDelegate {
 ## File naming
 
 **Rules:**
+
 - File name should match the primary type name
 - Use `.swift` extension
 - One primary type per file

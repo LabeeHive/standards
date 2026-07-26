@@ -113,6 +113,7 @@ Create templates for issues and pull requests if needed.
 - [ ] Create `.github/PULL_REQUEST_TEMPLATE.md` (optional)
 
 **Note:** Templates are optional. The important thing is following the standards in:
+
 - [github/issues.md](../github-workflow/references/issues.md)
 - [github/pull_requests.md](../github-workflow/references/pull-requests.md)
 

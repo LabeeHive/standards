@@ -68,6 +68,7 @@ Based on evidence:
 ## Anti-Patterns (AVOID)
 
 ### Bad: URL dump
+
 ```
 Found these results:
 - https://example.com/1
@@ -76,6 +77,7 @@ Found these results:
 ```
 
 ### Good: Extracted evidence
+
 ```
 **Finding:** The `skills` array in marketplace.json is ignored.
 
@@ -86,11 +88,13 @@ Found these results:
 ```
 
 ### Bad: Surface summary
+
 ```
 This article talks about Claude Code skills and how to set them up.
 ```
 
 ### Good: Specific extraction
+
 ```
 From [Zenn article by @username](url):
 - Workaround: Use `source: "./skills/[name]"` instead of `source: "./"`

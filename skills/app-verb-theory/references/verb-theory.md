@@ -27,6 +27,7 @@ Users have an **impulse** — a recurring frustration or need. The app resolves 
 The core verb is NOT the surface-level action (tap, scroll, type). It is the **fundamental desire** the user fulfills repeatedly.
 
 **Example:**
+
 - Surface action: "look at the widget" → Core verb: **confirm** (resolve uncertainty about Japanese era dates)
 - Surface action: "type a year and see the result" → Still **confirm** (same impulse, different method)
 
@@ -35,14 +36,17 @@ The core verb is NOT the surface-level action (tap, scroll, type). It is the **f
 The feeling of "now I get it." Presenting a single correct answer does not produce this feeling. Comparing multiple candidates does.
 
 **Structure:**
+
 - Single answer → User trusts the source but does not feel they understand
 - Multiple candidates with comparison → User sees the differences and arrives at "ah, that's what it means"
 
 **Where it applies:**
+
 - Domains where the answer is not unique: translation, writing, decision support, rephrasing
 - Domains where the user must choose a nuance
 
 **Where it does NOT apply:**
+
 - Domains where the answer is unique: calculation, address lookup, inventory check
 - In these domains, multiple candidates create confusion rather than understanding
 
@@ -103,6 +107,7 @@ Ask for each feature: "Does this verb serve the core verb?" If a feature introdu
 ### Step 6: Evaluate new features through the verb lens
 
 For any proposed feature, ask:
+
 1. What verb does it introduce?
 2. Does that verb serve the core verb, or is it a new, independent verb?
 3. If independent: will it eventually become the dominant verb and change the app's identity?
@@ -162,12 +167,14 @@ Design the emotional state the user needs BEFORE implementing the core verb's fe
 Find the gap between a competitor's surface verb and their users' underlying impulse. Place your core verb directly on the impulse.
 
 **Process:**
+
 1. List the competitor's surface verb
 2. Describe what their users actually want (the underlying impulse)
 3. Check if the surface verb fully satisfies the impulse
 4. If there is a gap, that is your entry point
 
 **Examples:**
+
 - DeepL "translate" ← User impulse is "understand" = "deeply grasp" → Nani !?'s entry point
 - Qiita "share" ← User impulse is "create a lasting work" = "author" → Zenn's entry point
 - SNS "connect" ← User impulse is "write without pressure" = "write quietly" → しずかなインターネット's entry point
@@ -244,6 +251,7 @@ These cases demonstrate exploiting the gap between a competitor's surface verb a
 | RESUME | Prove (証明する) | Manual coding: Build (作る) | Trust presentation without effort |
 
 **Zenn vs Qiita in detail:**
+
 - Qiita "Share": Community-centered. LGTM counts for approval. Fragmented tips. Content belongs to the platform
 - Zenn "Author": Individual-centered. Revenue for compensation. Systematic books. Content owned via GitHub integration
 
@@ -290,6 +298,7 @@ Core verb → What the user fears without it → Positive framing
 ```
 
 **Example:**
+
 ```
 Confirm → "I'll write the wrong year" → "Fill forms with confidence"
 Capture → "I'll forget this idea" → "Never lose a thought"

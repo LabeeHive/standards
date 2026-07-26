@@ -11,6 +11,7 @@ This document defines naming conventions for Swift code. Consistent naming impro
 ### Classes, structs, and enums
 
 **Rules:**
+
 - Use `UpperCamelCase` for all type names
 - Use nouns or noun phrases
 - Avoid abbreviations unless widely understood
@@ -37,6 +38,7 @@ enum Wlvl { }               // Abbreviation
 ### Protocols
 
 **Rules:**
+
 - Use `UpperCamelCase` with `Protocol` suffix
 - This distinguishes protocols from concrete types
 
@@ -62,6 +64,7 @@ protocol IReminderService { }     // Hungarian notation
 ## Functions and variables
 
 **Rules:**
+
 - Use `lowerCamelCase` for all function and variable names
 - Use verb phrases for functions
 - Use nouns for variables
@@ -90,6 +93,7 @@ var IsLoading = false        // UpperCamelCase
 ## Booleans
 
 **Rules:**
+
 - Use `is`, `has`, `should`, or `can` prefix
 - Name should read as an assertion
 
@@ -117,6 +121,7 @@ var refresh: Bool     // Unclear meaning
 ## Event handlers
 
 **Rules:**
+
 - Use `did` or `will` prefix
 - Follow with action verb
 
@@ -142,6 +147,7 @@ func saveButtonPressed() { }     // No did/will prefix
 ## UseCases
 
 **Rules:**
+
 - Start with a verb (describing the action)
 - End with `UseCase` suffix
 - Be specific and descriptive
@@ -168,6 +174,7 @@ class ReminderManager { }        // Missing UseCase suffix
 ## Test methods
 
 **Rules:**
+
 - Format: `[method]_[condition]_[expected]`
 - No `test` prefix (Swift Testing uses `@Test` macro)
 - Use underscores to separate parts
@@ -194,6 +201,7 @@ class ReminderManager { }        // Missing UseCase suffix
 ## Constants
 
 **Rules:**
+
 - Use `lowerCamelCase` for constants
 - Avoid global constants (prefer static properties)
 - Use descriptive names
@@ -225,6 +233,7 @@ var TIMEOUT = 30                // SCREAMING_SNAKE_CASE, mutable
 ## Abbreviations
 
 **Rules:**
+
 - Avoid abbreviations unless widely understood
 - When used, follow Swift conventions (URL, ID, HTTP)
 
@@ -251,6 +260,7 @@ let numberOfChars: Int      // Use characterCount instead
 ## Localization keys
 
 **Rules:**
+
 - Use hierarchical dot-notation (`screen.section.element`)
 - Use `lowerCamelCase` for each segment
 - Use `String(localized:defaultValue:)` initializer

@@ -1,0 +1,21 @@
+// Labee documentation lint configuration.
+// Every markdownlint rule is enabled by default; the entries below only pin the
+// ones that take an option. Rationale lives in
+// skills/documentation/references/markdown-formatting.md
+{
+  "config": {
+    "MD003": { "style": "atx" },       // # headings, never === / ---
+    "MD004": { "style": "dash" },      // - for unordered lists, not * or +
+    "MD007": { "indent": 2 },          // 2-space nesting
+    "MD013": { "line_length": 120, "code_blocks": false, "tables": false },
+    "MD035": { "style": "---" },       // horizontal rules
+    "MD048": { "style": "backtick" },  // code fences
+    "MD049": { "style": "asterisk" },  // *italic*, not _italic_
+    "MD050": { "style": "asterisk" },  // **bold**, not __bold__
+    "MD060": false,                    // table padding is not policed: both styles are readable
+    "MD029": { "style": "ordered" },   // keep 1. 2. 3., never collapse to 1.
+    "MD041": false                     // agent and skill files open with frontmatter
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**", ".git/**"]
+}

@@ -44,23 +44,27 @@ bun ${CLAUDE_SKILL_DIR}/scripts/validate.ts input.json
 ### Bun Usage Guidelines
 
 **✓ Recommended:**
+
 ```bash
 bun ${CLAUDE_SKILL_DIR}/scripts/example.ts        # Direct TypeScript execution
 bun ${CLAUDE_SKILL_DIR}/scripts/example.ts --flag # With arguments
 ```
 
 **⚠ Use with caution:**
+
 ```bash
 bunx tsc --noEmit             # Type checking (acceptable)
 bunx prettier --write .       # Dev tools (acceptable)
 ```
 
 **✗ Avoid in CI/production scripts:**
+
 ```bash
 bunx some-cli-tool            # Exit code issues (GitHub #26674)
 ```
 
 **Known bunx issues:**
+
 - May silently swallow exit codes (CI failures go undetected)
 - Requires network even for cached packages
 - Use `bun` direct execution instead when possible
@@ -68,16 +72,19 @@ bunx some-cli-tool            # Exit code issues (GitHub #26674)
 ### Security: Dependency Policy
 
 **Prefer self-contained scripts** using only:
+
 - Language built-ins
 - Bun standard APIs
 
 **If external dependencies required:**
+
 1. Include `package.json` with **exact versions**
 2. Include `bun.lock` (lockfile)
 3. Document why the dependency is needed
 4. Prefer established packages (>1M weekly downloads)
 
 **Never:**
+
 - Dynamic package installation at runtime
 - Unpinned dependency versions
 - Packages from unknown sources
@@ -124,6 +131,7 @@ main();
 ```
 
 **Requirements:**
+
 - Shebang: `#!/usr/bin/env bun`
 - Usage documentation at top
 - Exit codes: 0 = success, 1 = failure
@@ -207,6 +215,7 @@ references/
 ### When to Use
 
 Files used **in output**, not for Claude's understanding:
+
 - Templates (pptx, docx)
 - Images, icons, fonts
 - Boilerplate code/projects

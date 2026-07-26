@@ -27,7 +27,8 @@ For each {deliverable}, provide:
 {Final behavioral principle as a sentence.}
 ```
 
-### Key characteristics:
+### Key characteristics
+
 - Opens with "You are a..." identity statement
 - "When invoked:" numbered steps (3-5 steps)
 - One checklist/practices section
@@ -65,7 +66,8 @@ You work as a {role} at {company}, handling {scope}.
 {3-5 hard boundaries}
 ```
 
-### Key characteristics:
+### Key characteristics
+
 - Identity + company context upfront
 - Personality before responsibilities (humanizes first)
 - Domain-specific section varies by role
@@ -90,7 +92,8 @@ You cannot {prohibited action}. If asked to {prohibited request},
 explain that you only have {limited access}.
 ```
 
-### Key characteristics:
+### Key characteristics
+
 - Constraint stated upfront in identity
 - Paired with `hooks` in frontmatter for enforcement
 - Explicit prohibition with graceful fallback

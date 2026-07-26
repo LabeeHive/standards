@@ -20,6 +20,7 @@ This guide uses the [Diátaxis framework](https://diataxis.fr/) to categorize do
 ---
 
 ## README
+
 README files introduce a project or directory. They should help readers quickly understand what the project does and how to get started.
 
 ### Template
@@ -72,6 +73,7 @@ Brief description of what this project does (1-2 sentences).
 ---
 
 ## Changelog
+
 Changelogs document notable changes between versions. Follow the [Keep a Changelog](https://keepachangelog.com/) format.
 
 ### Template
@@ -128,6 +130,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 ## API reference
+
 API reference documentation provides comprehensive information about APIs, endpoints, parameters, and responses.
 
 ### Template
@@ -221,6 +224,7 @@ POST /resources
   "created_at": "2025-01-15T10:30:00Z"
 }
 ```
+
 ```
 
 ### Guidelines
@@ -301,6 +305,7 @@ To verify the task was completed successfully:
 
 - [Related guide 1](related_guide_1.md)
 - [Related guide 2](related_guide_2.md)
+
 ```
 
 ### Guidelines
@@ -386,6 +391,7 @@ In this tutorial, you learned:
 
 - [Advanced tutorial](advanced_tutorial.md)
 - [Related concept explanation](concept_explanation.md)
+
 ```
 
 ### Guidelines
@@ -475,6 +481,7 @@ This document explains [concept] and why it matters for [context].
 ---
 
 ## Architecture Decision Record (ADR)
+
 ADRs document significant architecture decisions with their context and consequences.
 
 ### Template
@@ -532,6 +539,7 @@ ADRs document significant architecture decisions with their context and conseque
 ---
 
 ## Troubleshooting guide
+
 Troubleshooting guides help users diagnose and resolve problems.
 
 ### Template

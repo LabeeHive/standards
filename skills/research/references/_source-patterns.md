@@ -3,26 +3,31 @@
 ## GitHub Investigation
 
 ### Search Issues
+
 ```bash
 gh search issues "keyword" --repo owner/repo --limit 20 --json number,title,state
 ```
 
 ### Read Issue with Comments
+
 ```bash
 gh issue view 12345 --repo owner/repo --comments
 ```
 
 ### Search PRs
+
 ```bash
 gh pr list --repo owner/repo --search "keyword" --state merged --json number,title,mergedAt
 ```
 
 ### Fetch Raw Files
+
 ```bash
 curl -s "https://raw.githubusercontent.com/owner/repo/main/path/to/file"
 ```
 
 ### List Directory Contents
+
 ```bash
 gh api repos/owner/repo/contents/path | jq '.[].name'
 ```
@@ -30,37 +35,46 @@ gh api repos/owner/repo/contents/path | jq '.[].name'
 ## Japanese Tech Blogs
 
 ### Zenn
+
 ```
 WebSearch(query="keyword site:zenn.dev")
 ```
+
 - Articles: zenn.dev/username/articles/slug
 - Books: zenn.dev/username/books/slug
 
 ### Qiita
+
 ```
 WebSearch(query="keyword site:qiita.com")
 ```
+
 - Articles: qiita.com/username/items/id
 
 ### note.com
+
 ```
 WebSearch(query="keyword site:note.com")
 ```
+
 - Articles: note.com/username/n/slug
 
 ## English Resources
 
 ### Reddit
+
 ```
 WebSearch(query="keyword site:reddit.com")
 ```
 
 ### Stack Overflow
+
 ```
 WebSearch(query="keyword site:stackoverflow.com")
 ```
 
 ### Official Docs
+
 ```
 WebSearch(query="keyword site:docs.example.com")
 ```

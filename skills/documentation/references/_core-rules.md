@@ -1,21 +1,21 @@
-# Core Documentation Rules
+# Core documentation rules
 
-The rules that apply to every Labee document. Read this on every invocation of the skill.
+## Purpose
 
-Anything mechanically checkable is left to `markdownlint-cli2` — heading levels, one H1, code
-block languages, list markers, emphasis style, line length. Run it rather than reviewing those
-by eye; the config is in `markdown-formatting.md`. What follows is what the linter cannot judge.
+The rules that apply to every Labee document, and the only reference read on every invocation.
+Everything here is something a linter cannot judge — if `markdownlint-cli2` can decide it, it is
+not in this file. Run the linter for the rest; the repo config is `.markdownlint-cli2.jsonc`.
 
 ---
 
-## Document Structure
+## Document skeleton
 
-**Every document must have:**
+Every document has, in order:
 
-1. Single H1 title, in sentence case
-2. Purpose section immediately after the title
-3. Horizontal rules (`---`) between major sections
-4. References section at the end, if applicable
+1. A single H1 title
+2. A `## Purpose` section immediately after it
+3. `---` between major sections
+4. A `## References` section at the end, where there is anything to link
 
 ```markdown
 # Document title
@@ -41,38 +41,37 @@ Stop at H3. Wanting an H4 usually means the document should be split, not nested
 
 ---
 
-## Writing Style
+## Writing
 
-**Voice** — conversational but professional, direct, active. "The engine retries the request",
-not "the request is retried by the engine".
+**Voice** — active. "The engine retries the request", not "the request is retried by the engine".
 
-**Person** — address the reader as "you". Avoid "I" and "we" outside genuinely collaborative
-context; "our team designed" tells the reader nothing they can act on.
+**Person** — address the reader as "you". Avoid "I" and "we", and avoid third-party attribution
+that reads the same way: "the platform team decided" tells a reader no more than "we decided"
+does. Say what the system does, or what the reader should do.
 
-**Headings** — sentence case, no trailing period. Sentence case is the rule most often broken
-and no linter checks it, so it is worth a deliberate pass.
+**Headings** — sentence case, no trailing period. See `markdown-formatting.md` for why this one
+needs a deliberate pass.
 
-**Lists** — Oxford comma within sentences. Numbered lists only for real sequences; a numbered
-list of unordered things implies an order that is not there.
+**Lists** — Oxford comma within sentences: "controllers, services, and repositories". Numbered
+lists only for real sequences; numbering unordered things implies an order that is not there.
 
-**Paragraphs** — 3-5 sentences. One idea per sentence. A paragraph that has to be re-read to
-find where a thought ended is too long regardless of its line count.
+**Paragraphs** — 3-5 sentences, one idea per sentence. A paragraph you have to re-read to find
+where a thought ended is too long, whatever its line count.
 
 ---
 
-## Anti-Patterns
+## Anti-patterns
 
-❌ **Don't:**
+- Walls of text with no structure
+- Passive voice used to avoid naming who acts
+- Emoji or decoration carrying no information — the ✅/❌ pair in examples is the one exception,
+  and it is a convention, not decoration
+- A paragraph explaining what a three-line code example would show
 
-- Write walls of text with no structure
-- Use passive voice to avoid naming who acts
-- Use Title Case For Every Heading
-- Add emoji or decoration that carries no information
-- Explain at length what a short code example would show
+---
 
-✅ **Do:**
+## References
 
-- Start with Purpose
-- Break content into scannable chunks
-- Prefer a code example to a paragraph about the code
-- Use tables when comparing options
+- [markdown-formatting.md](markdown-formatting.md) — linter config, and the conventions it cannot check
+- [writing-principles.md](writing-principles.md) — word choice, inclusive language, numbers and units
+- [document-structure.md](document-structure.md) — organizing sections, YAML frontmatter

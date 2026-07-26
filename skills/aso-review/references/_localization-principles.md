@@ -28,6 +28,7 @@ Detect these regardless of language:
 ## Per-Language Red Flags
 
 ### Japanese (ja)
+
 - Casual tone OK for consumer apps
 - Noun-ending sentences are natural (体言止め)
 - Avoid keigo (敬語) in consumer app metadata
@@ -35,6 +36,7 @@ Detect these regardless of language:
 - Unnatural: 「タスクを管理することができます」
 
 ### Korean (ko)
+
 - Avoid overly formal -습니다 endings for consumer apps
 - Use casual/friendly register: -해요 or noun endings
 - 할 일 (casual) preferred over 작업 (formal/technical)
@@ -42,6 +44,7 @@ Detect these regardless of language:
 - Unnatural: 「작업을 관리할 수 있습니다」
 
 ### Chinese Simplified (zh-Hans)
+
 - Short punchy phrases preferred
 - Four-character idioms (成语) add punch when appropriate
 - Avoid 书面语 (written/formal register) in consumer apps
@@ -49,6 +52,7 @@ Detect these regardless of language:
 - Unnatural: 「任务管理和时间跟踪」
 
 ### German (de)
+
 - Direct and precise, avoid marketing fluff
 - "du" form for consumer apps (Deine, not Ihre)
 - Address user directly
@@ -56,12 +60,14 @@ Detect these regardless of language:
 - Unnatural: 「Verwaltet Aufgaben und Zeit」
 
 ### Spanish (es)
+
 - Tu form for consumer apps (avoid usted)
 - Warm but not excessive
 - Natural: 「Organiza tus tareas a tu manera」
 - Unnatural: 「Gestione sus tareas de manera eficiente」
 
 ### French (fr)
+
 - Slightly more formal than EN, but not stiff
 - Avoid heavy anglicisms where French equivalents exist
 - Natural: 「Tes tâches, bien organisées」

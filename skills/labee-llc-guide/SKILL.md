@@ -25,23 +25,26 @@ a GUI and an AI drives through conversation, reaching the same data and the same
 「人間とAIが並んで働く」 names the future that theme is aiming at — it describes the destination,
 not the Vision, so do not quote it as one.
 
-Source: https://labee.jp/news/2026-02-09-vision-2026
+Source: <https://labee.jp/news/2026-02-09-vision-2026>
 
 ## How to Apply
 
 This skill provides context, not a workflow. When loaded:
 
 **Writing new copy:**
+
 1. Read `references/_brand-voice.md` — match tone to context (LP, App Store, SNS, docs)
 2. Read `references/products.md` — get accurate product descriptions and positioning
 3. Write content following the voice attributes: direct, confident, approachable, forward-looking
 
 **Reviewing existing content:**
+
 1. Read `references/_brand-voice.md` and work through its Review Checklist
 2. Flag any anti-patterns (corporate speak, startup hype, overly cute, empty confidence)
 3. Suggest rewrites that match Labee's voice
 
 **Providing company context:**
+
 1. Use Company Identity above for basic facts
 2. Read `references/products.md` for service/product details and messaging principles
 

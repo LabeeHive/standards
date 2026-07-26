@@ -16,11 +16,13 @@
 **Positioning:** Partner, not vendor. We build with you, not for you.
 
 **Key differentiators:**
+
 - Engineer-direct communication (エンジニアが直接対応)
 - Proximity — Yokohama Line corridor, face-to-face available
 - Speed and flexibility of a small team
 
 **Service areas:**
+
 - Web / Mobile (Swift/SwiftUI) / Desktop (macOS) development
 - AI/LLM implementation and consulting
 - System architecture and technical consulting
@@ -34,6 +36,7 @@
 **Positioning:** Your day at a glance — meetings, events, and video calls without opening a full calendar app.
 
 **Key features:**
+
 - Today's events in a clean, minimal interface
 - One-click join for video meetings (Zoom, Google Meet, Teams)
 - Menu bar accessible — always visible, never in the way
@@ -48,6 +51,7 @@
 **Positioning:** Tasks that stay visible. Not buried in an app you forget to open.
 
 **Key features:**
+
 - Apple Reminders integration (syncs with existing tasks)
 - Desktop-native — always present, lightweight
 - List management with archiving

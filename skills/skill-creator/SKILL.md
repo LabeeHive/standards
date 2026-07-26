@@ -62,10 +62,10 @@ skill-name/
 
 ## Official Documentation
 
-- **Agent Skills Specification**: https://agentskills.io/specification
-- **Claude Code Skills**: https://code.claude.com/docs/en/skills
-- **Best Practices**: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices
-- **Official skill-creator**: https://github.com/anthropics/skills/tree/main/skills/skill-creator
+- **Agent Skills Specification**: <https://agentskills.io/specification>
+- **Claude Code Skills**: <https://code.claude.com/docs/en/skills>
+- **Best Practices**: <https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices>
+- **Official skill-creator**: <https://github.com/anthropics/skills/tree/main/skills/skill-creator>
 
 ## Workflow
 
@@ -99,6 +99,7 @@ skill-name/
 | Domain tools | WebSearch "{tool-name} CLI documentation" |
 
 **Skip when ALL of these are true:**
+
 - Change is limited to existing SKILL.md body (no new resources needed)
 - No workflow steps are being added, removed, or restructured
 - No new tools or external commands are introduced
@@ -109,6 +110,7 @@ skill-name/
 **Goal:** From the concrete examples in Phase 1, reverse-engineer what resources the skill needs.
 
 For **each scenario** from Phase 1, ask:
+
 - "What operations repeat across scenarios?" → **scripts/**
 - "Can consecutive deterministic steps be combined into one script?" → **scripts/**
 - "What domain knowledge does Claude need?" → **references/**
@@ -134,6 +136,7 @@ For **each scenario** from Phase 1, ask:
 ### Phase 4: Initialize
 
 1. Run the initializer:
+
    ```bash
    bun ${CLAUDE_SKILL_DIR}/scripts/init_skill.ts {skill-name} --path skills
    ```
@@ -162,6 +165,7 @@ For each script identified in Phase 3:
    - Errors to stderr, results to stdout
 
 2. **Test the script immediately:**
+
    ```bash
    bun skills/{skill-name}/scripts/{script-name}.ts --help    # Verify it runs
    bun skills/{skill-name}/scripts/{script-name}.ts {test-input}  # Verify with real input
@@ -260,11 +264,13 @@ Fix any errors and re-run.
 #### 8b: Checklist
 
 **Agent Skills Spec Compliance:**
+
 - [ ] name: 1-64 chars, lowercase + hyphens only, matches folder (spec requires it; Claude Code falls back to the directory name, but set it for portability)
 - [ ] name: no leading/trailing hyphens, no consecutive hyphens (`--`)
 - [ ] description: 1-1024 chars, non-empty
 
 **Labee Standards:**
+
 - [ ] description has WHAT + WHEN, written in third person; trigger phrases (JP & EN) in `when_to_use` (or inline in description for cross-tool skills)
 - [ ] description key info front-loaded (`description` + `when_to_use` are capped at 1,536 chars in the skill listing)
 - [ ] name does not contain reserved words (`anthropic`, `claude`)
@@ -277,6 +283,7 @@ Fix any errors and re-run.
 - [ ] `disable-model-invocation: true` skills carry no `when_to_use` trigger list — the model cannot see or invoke them, so trigger phrases there are dead text
 
 **Context Efficiency:**
+
 - [ ] SKILL.md body under 500 lines
 - [ ] No redundant explanations
 - [ ] Detailed content moved to references/
@@ -285,6 +292,7 @@ Fix any errors and re-run.
 - [ ] Script invocations in SKILL.md use the `CLAUDE_SKILL_DIR` substitution, not cwd-relative paths
 
 **Resources:**
+
 - [ ] No unused directories (scripts/, references/, assets/)
 - [ ] No placeholder files from init_skill.ts
 - [ ] Scripts have shebang, usage docs, proper exit codes

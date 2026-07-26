@@ -7,9 +7,11 @@ This document defines standards for writing AI agent context files (AGENTS.md, C
 ---
 
 ## File structure
+
 ### AGENTS.md as single source of truth
 
 **Rules:**
+
 - Use `AGENTS.md` as the primary context file
 - Create symlinks for tool-specific files (CLAUDE.md, GEMINI.md, etc.)
 - Place at the repository root
@@ -24,6 +26,7 @@ ln -s AGENTS.md GEMINI.md
 ```
 
 **Rationale:**
+
 - AGENTS.md is a vendor-neutral standard supported by Cursor, Zed, GitHub Copilot, JetBrains, and others
 - Single source of truth avoids duplication and maintenance burden
 - Symlinks ensure all AI tools read the same instructions
@@ -33,6 +36,7 @@ ln -s AGENTS.md GEMINI.md
 ### Monorepo structure
 
 **Rules:**
+
 - Place root-level AGENTS.md for global rules
 - Add subdirectory AGENTS.md for component-specific rules
 - AI reads the closest file to the working context
@@ -52,9 +56,11 @@ project/
 ---
 
 ## Content to include
+
 ### Project overview
 
 **Rules:**
+
 - Provide 1-2 paragraphs describing what the project does
 - Keep it minimal (enough for AI to understand context)
 - Do not duplicate README content
@@ -73,6 +79,7 @@ a side-tab widget interface for launching mini applications.
 ### Terminology
 
 **Rules:**
+
 - Define project-specific terms when code and UI use different names
 - Link to detailed terminology docs if available
 - Use a table for clarity
@@ -95,6 +102,7 @@ See `docs/terminology.md` for details.
 ### Documentation structure
 
 **Rules:**
+
 - Show the docs/ hierarchy
 - Help AI navigate to relevant documentation
 - Do not include the content itself
@@ -105,12 +113,14 @@ See `docs/terminology.md` for details.
 ## Documentation structure
 
 ```
+
 docs/
 ├── 00_overview/        # Project overview
 ├── 01_architecture/    # System architecture
 ├── 03_development/     # Development guides
 ├── 04_designs/         # UI/UX designs
 └── 05_standards/       # Shared coding standards (submodule)
+
 ```
 ```
 
@@ -119,6 +129,7 @@ docs/
 ### Development workflow
 
 **Rules:**
+
 - List documents AI must read before starting work
 - Provide scenario-based references
 - Use tables for quick lookup
@@ -150,6 +161,7 @@ Read these documents first:
 ### Critical rules
 
 **Rules:**
+
 - Define AI-specific behavioral rules
 - Keep rules actionable and clear
 - Focus on what makes this project different
@@ -174,6 +186,7 @@ patterns and architecture decisions.
 ---
 
 ## Content NOT to include
+
 ### What belongs elsewhere
 
 | Content | Where it belongs |
@@ -184,6 +197,7 @@ patterns and architecture decisions.
 | General programming knowledge | (AI already knows) |
 
 **Rules:**
+
 - Do not duplicate content that exists in docs/
 - Reference existing documentation instead of copying
 - AI does not need general programming advice
@@ -208,9 +222,11 @@ See `docs/01_architecture/architecture.md` for system design.
 ---
 
 ## AI behavior rules
+
 ### Language rules
 
 **Rules:**
+
 - Respond in the user's language
 - Think in English (internal reasoning)
 - Use English for code, comments, and technical terms
@@ -251,9 +267,11 @@ If requirements are unclear, ask for clarification before proceeding.
 ---
 
 ## Communication tools
+
 If the project uses communication tools (Slack, Discord, etc.) with AI agents, define usage rules in AGENTS.md.
 
 **Rules:**
+
 - Specify which channels AI agents can post to
 - Define when to post (progress updates, errors, and completions)
 - Clarify what requires human approval vs. autonomous action
@@ -270,6 +288,7 @@ If the project uses communication tools (Slack, Discord, etc.) with AI agents, d
 ```
 
 **Rationale:**
+
 - AI agents need clear boundaries for autonomous communication
 - Prevents unexpected messages in inappropriate channels
 - Enables collaboration between AI agents and team members
@@ -277,6 +296,7 @@ If the project uses communication tools (Slack, Discord, etc.) with AI agents, d
 ---
 
 ## Template
+
 ### Basic template
 
 ```markdown
@@ -297,12 +317,14 @@ Brief description of the project (1-2 sentences).
 ## Documentation
 
 ```
+
 docs/
 ├── 00_overview/
 ├── 01_architecture/
 ├── 03_development/
 ├── 04_designs/
 └── 05_standards/
+
 ```
 
 ---

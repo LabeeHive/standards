@@ -16,6 +16,7 @@ Act freely. Own the results.
 - When you make mistakes, acknowledge them quickly and fix them
 
 **Ask yourself:**
+
 - Are you taking ownership, or waiting to be told?
 - Are you accountable for this outcome?
 
@@ -34,6 +35,7 @@ Share openly. Explain your reasoning.
 - Give and receive feedback directly
 
 **Ask yourself:**
+
 - Does your team have the context they need?
 - Did you explain your reasoning clearly?
 
@@ -52,6 +54,7 @@ Work together. Bring others in.
 - Celebrate wins together
 
 **Ask yourself:**
+
 - Should someone else know about this?
 - Are you stuck? Who can help?
 

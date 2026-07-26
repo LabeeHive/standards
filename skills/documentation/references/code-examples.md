@@ -7,9 +7,11 @@ This document defines standards for writing code examples in documentation. Clea
 ---
 
 ## Placeholder names
+
 ### Use ProjectName as placeholder
 
 **Rules:**
+
 - Use `ProjectName` as the placeholder namespace/package in code examples
 - Never use real project names in shared documentation
 - This ensures documentation is project-agnostic and reusable
@@ -60,9 +62,11 @@ projectname/
 ---
 
 ## Code block formatting
+
 ### Syntax highlighting
 
 **Rules:**
+
 - Always specify language in code blocks
 - Use lowercase language identifiers
 - Use the most specific identifier available
@@ -93,6 +97,7 @@ def calculate_total(items):
 ### Inline code formatting
 
 **Rules:**
+
 - Use backticks for class names, methods, variables, and technical terms
 - Use inline code for identifiers that appear in code
 
@@ -105,9 +110,11 @@ The `UserService` class uses the `authenticate()` method to verify credentials. 
 ---
 
 ## Good vs bad examples
+
 ### Use comparison format
 
 **Rules:**
+
 - Show bad examples before good examples (or side by side)
 - Use ❌ emoji for bad examples
 - Use ✅ emoji for good examples
@@ -148,9 +155,11 @@ class OrderService:
 ---
 
 ## Code comments
+
 ### When to add comments
 
 **Add comments for:**
+
 - Non-obvious logic or algorithms
 - Design decisions or tradeoffs
 - Performance optimizations
@@ -196,9 +205,11 @@ return user
 ---
 
 ## Context provision
+
 ### Provide surrounding context
 
 **Rules:**
+
 - Don't show isolated snippets without context
 - Include imports and class/function declarations
 - Show enough code for the example to make sense
@@ -228,9 +239,11 @@ class OrderProcessor:
 ---
 
 ## Complete examples
+
 ### Ensure examples work
 
 **Rules:**
+
 - All code examples should be correct and runnable
 - Include necessary imports
 - Follow the coding standards of the language
@@ -265,9 +278,11 @@ export class UserService {
 ---
 
 ## Documentation comments
+
 ### Include doc comments for public APIs
 
 **Rules:**
+
 - Use the documentation comment style for each language
 - Provide description, parameters, and return values
 - Keep descriptions concise (1-2 sentences)
@@ -315,6 +330,7 @@ function calculateShipping(weight: number, destination: string): number {
 ---
 
 ## Example categories
+
 ### Full class/module examples
 
 Use for demonstrating complete patterns:
@@ -386,6 +402,7 @@ def get_user(user_id: str):
 ---
 
 ## Multi-language examples
+
 When documenting APIs or concepts that apply across languages, show examples in multiple languages:
 
 ````markdown

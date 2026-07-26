@@ -7,9 +7,11 @@ This document defines standards for file naming, directory structure, and versio
 ---
 
 ## File naming
+
 ### Snake_case convention
 
 **Rules:**
+
 - Use lowercase letters with underscores (`snake_case`)
 - No spaces, hyphens, or camelCase
 - Use descriptive names that indicate content
@@ -37,6 +39,7 @@ error-handling-patterns.MD
 ### File name length
 
 **Rules:**
+
 - Keep file names under 30 characters (excluding extension)
 - Use abbreviations sparingly and only when widely understood
 - Prioritize clarity over brevity
@@ -61,6 +64,7 @@ err_hdl.md                                           (7 chars - unclear)
 ### Special characters
 
 **Rules:**
+
 - Avoid spaces, hyphens, and special characters
 - Do not use: `!@#$%^&*()+=[]{}|;:'",<>?/\-`
 - Exception: Use `_` (underscore) as word separator
@@ -85,6 +89,7 @@ architecture (v2).md
 ### File extensions
 
 **Rules:**
+
 - Use `.md` for Markdown documentation
 - Use `.json` for JSON configuration
 - Use `.yaml` or `.yml` for YAML configuration
@@ -93,9 +98,11 @@ architecture (v2).md
 ---
 
 ## Directory structure
+
 ### Type-based organization
 
 **Rules:**
+
 - Organize files by type or topic
 - Keep related files together
 - Use clear, descriptive directory names
@@ -120,6 +127,7 @@ docs/
 ### Shallow hierarchy
 
 **Rules:**
+
 - Limit directory depth to 3-4 levels maximum
 - Avoid deeply nested structures
 - Use flat structures when possible
@@ -141,6 +149,7 @@ docs/technical/standards/coding/languages/python/core/naming/conventions.md  (9 
 ### Index files
 
 **Rules:**
+
 - Use `README.md` as the index for top-level `docs/` directories (e.g., `00_overview/`, `01_architecture/`)
 - Do NOT create README.md for subdirectories (e.g., `mockups/`, `images/`, `test/`)
 - README should provide overview and navigation
@@ -166,9 +175,11 @@ This directory contains coding standards applicable to all projects.
 ---
 
 ## Version control
+
 ### Git as source of truth
 
 **Rules:**
+
 - Use Git commit history for tracking changes
 - Avoid "Last Updated" or "Version" sections in documents
 - Exception: YAML frontmatter for publishing systems
@@ -200,6 +211,7 @@ git diff HEAD~1 docs/05_standards/swift/naming.md
 ### CHANGELOG.md
 
 **Rules:**
+
 - Maintain `CHANGELOG.md` at project root for significant updates
 - Follow [Keep a Changelog](https://keepachangelog.com/) format
 - Use semantic versioning for releases
@@ -244,12 +256,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Semantic versioning
 
 **Rules:**
+
 - Use `MAJOR.MINOR.PATCH` format
 - MAJOR: Breaking changes or major restructuring
 - MINOR: New content or non-breaking additions
 - PATCH: Fixes, typos, minor clarifications
 
 **Examples:**
+
 - `1.0.0` - Initial release
 - `1.1.0` - Added new documentation section
 - `1.1.1` - Fixed typos and broken links
@@ -258,9 +272,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 ## File metadata
+
 ### YAML frontmatter
 
 **Rules:**
+
 - Use YAML frontmatter for metadata when needed by publishing tools
 - Place at the very beginning of the document
 - Keep minimal and relevant
@@ -280,15 +296,18 @@ status: active
 ```
 
 **Common fields:**
+
 - `title`: Document title
 - `status`: active, draft, deprecated, archived
 
 ---
 
 ## Directory naming
+
 ### Snake_case for directories
 
 **Rules:**
+
 - Use snake_case for directory names
 - Keep names short and descriptive
 - Use numbers for ordering when needed
@@ -320,6 +339,7 @@ docs/
 ### Numbered prefixes
 
 **Rules:**
+
 - Use numbered prefixes for enforcing order
 - Format: `00_`, `01_`, `02_`, etc. (two digits with underscore)
 - Use for sequential or priority-based organization
@@ -338,9 +358,11 @@ docs/
 ---
 
 ## Asset organization
+
 ### Documentation assets
 
 **Rules:**
+
 - Store images in `images/` or `assets/` subdirectory
 - Use descriptive file names for assets
 - Keep asset files close to referencing documents
@@ -361,11 +383,13 @@ docs/architecture/
 ### Asset file size
 
 **Guidelines:**
+
 - Images: < 1 MB per file
 - Diagrams: Prefer SVG when possible
 - Screenshots: Optimize PNG compression
 
 **Additional guidelines:**
+
 - Use lossy compression for photos (JPEG 80-90% quality)
 - Use lossless compression for diagrams (PNG)
 - Consider WebP format for modern browsers
@@ -373,9 +397,11 @@ docs/architecture/
 ---
 
 ## Cross-project reusability
+
 ### Shared documentation repositories
 
 **Rules:**
+
 - Use Git submodules for shared documentation
 - Keep shared content project-agnostic
 - Use `ProjectName` placeholder in examples
@@ -420,9 +446,11 @@ git clone --recursive https://github.com/your-org/project.git
 ---
 
 ## Archiving and deprecation
+
 ### Marking deprecated documents
 
 **Rules:**
+
 - Add deprecation notice at the top
 - Link to replacement document
 - Keep file accessible for reference
@@ -444,6 +472,7 @@ This document describes the legacy authentication pattern...
 ### Moving to archive
 
 **Rules:**
+
 - Create `archive/` directory for old documents
 - Move deprecated files instead of deleting
 - Update links to archived files

@@ -34,12 +34,14 @@ View → ViewModel → UseCase → Repository
 ## View layer
 
 **Responsibilities:**
+
 - Render UI using SwiftUI
 - Handle user input
 - Display ViewModel state
 - Trigger ViewModel actions
 
 **Prohibited:**
+
 - Business logic
 - Data transformation
 - Direct Repository access
@@ -64,12 +66,14 @@ struct ReminderListView: View {
 ## ViewModel layer
 
 **Responsibilities:**
+
 - Manage UI state with `@Observable`
 - Call UseCases to execute business logic
 - Transform errors into user-friendly messages
 - Handle presentation logic
 
 **Prohibited:**
+
 - Business rules (validation, transformation)
 - Data persistence logic
 
@@ -110,12 +114,14 @@ class ReminderListViewModel {
 ## UseCase layer
 
 **Responsibilities:**
+
 - Implement business logic
 - Validate business rules
 - Coordinate multiple Repositories
 - Manage transactions
 
 **Prohibited:**
+
 - UI logic
 - Direct framework access (EventKit, UserDefaults)
 - Presentation formatting
@@ -123,12 +129,14 @@ class ReminderListViewModel {
 ### UseCase usage criteria
 
 **UseCase required (any of these):**
+
 - Validation logic exists
 - Data transformation required
 - Multiple Repositories coordinated
 - Reused across multiple ViewModels
 
 **Repository direct allowed (all of these):**
+
 - Pure CRUD operation
 - No validation
 - No data transformation
@@ -185,6 +193,7 @@ class AddReminderUseCase: AddReminderUseCaseProtocol {
 ## Repository layer
 
 **Responsibilities:**
+
 - Abstract data access
 - Integrate with external systems (EventKit, APIs, UserDefaults)
 - Implement caching strategies
@@ -192,6 +201,7 @@ class AddReminderUseCase: AddReminderUseCaseProtocol {
 - Hide persistence and external system details
 
 **Prohibited:**
+
 - Business logic
 - UI logic
 
@@ -252,6 +262,7 @@ class ReminderRepository: ReminderRepositoryProtocol {
 ## Dependency injection
 
 **Rules:**
+
 - All dependencies are injected through initializers
 - Use protocol types for dependencies
 - Provide default values for production implementations

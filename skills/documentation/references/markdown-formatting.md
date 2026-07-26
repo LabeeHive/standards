@@ -23,28 +23,14 @@ linter's whole default rule set as its territory, not just what appears here.
 If the linter cannot be run, say so in the review rather than checking its rules by eye. An
 unverified mechanical pass is worth stating; a hand-audited one is not worth the attention.
 
-```jsonc
-// .markdownlint-cli2.jsonc
-{
-  "config": {
-    "MD003": { "style": "atx" },        // # headings, never === / ---
-    "MD004": { "style": "dash" },       // - for unordered lists, not * or +
-    "MD007": { "indent": 2 },           // 2-space nesting
-    "MD013": { "line_length": 120 },    // hard limit; aim for 80-100
-    "MD035": { "style": "---" },        // horizontal rules
-    "MD048": { "style": "backtick" },   // code fences
-    "MD049": { "style": "asterisk" },   // *italic*, not _italic_
-    "MD050": { "style": "asterisk" },   // **bold**, not __bold__
-    "MD025": true,                       // one H1 per document
-    "MD001": true,                       // no skipped heading levels
-    "MD040": true,                       // code blocks declare a language
-    "MD045": true                        // images have alt text
-  }
-}
-```
+The config lives at [`.markdownlint-cli2.jsonc`](../../../.markdownlint-cli2.jsonc) in the repo
+root, with a comment on each entry. It is not reproduced here — a second copy would drift from
+the one that actually runs, and the running one wins.
 
-Heading depth is a judgement the linter cannot make: stop at H3. Reaching for H4 usually means
-the document wants splitting, not another level.
+Two entries are worth knowing without opening it. **MD060 is off**: table pipe padding is not
+policed, because the repo is split between both styles and neither is harder to read.
+**MD013 exempts code blocks and tables**, so a long line inside a fence is fine and a wide table
+does not have to be broken up.
 
 ---
 
@@ -93,10 +79,6 @@ Use `../core/naming_conventions.md`, not `/docs/core/naming-conventions` and not
 the published site. Both alternatives break when the docs move or are read offline.
 
 File names are **snake_case**.
-
-### Serial comma
-
-"controllers, services, and repositories" — not "controllers, services and repositories".
 
 ### Images
 

@@ -22,11 +22,13 @@ Match specificity to task fragility:
 | Is output format critical? | Lower freedom | Higher freedom |
 
 **Example - High freedom:**
+
 ```markdown
 Analyze the code and suggest improvements based on the project's style.
 ```
 
 **Example - Medium freedom:**
+
 ```markdown
 Create commit message following conventional commits:
 - type: feat|fix|refactor|docs|test
@@ -35,6 +37,7 @@ Create commit message following conventional commits:
 ```
 
 **Example - Low freedom:**
+
 ```markdown
 Run exactly:
 1. `git fetch origin`
@@ -79,6 +82,7 @@ For skills with 3+ steps, use Phase Tracking to ensure progress visibility and m
     | 3 | `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` | Always |
 
 **When to use Phase Tracking:**
+
 - Skill has 3+ sequential steps
 - Steps include mandatory script runs or skill invocations
 - Skipping a step could produce incorrect output
@@ -139,16 +143,19 @@ Guide through decision points:
 | Explicit instruction | Load when SKILL.md says | "See schemas.md for DB" |
 
 **When to load a reference (Claude's decision):**
+
 - Task explicitly mentions the reference topic
 - SKILL.md instruction points to it
 - Current step requires domain-specific knowledge
 
 **When NOT to load:**
+
 - General task that doesn't need specifics
 - Information already in SKILL.md body
 - Reference would duplicate context
 
 **Pattern: Domain-specific organization**
+
 ```
 skill/
 ├── SKILL.md (workflow + navigation)

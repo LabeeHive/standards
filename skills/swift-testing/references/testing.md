@@ -9,6 +9,7 @@ This document defines testing conventions using Swift Testing framework. Followi
 ## Basic structure
 
 **Rules:**
+
 - Use `import Testing` instead of `XCTest`
 - Use `struct` for test suites (not `class`)
 - Use `@Test` macro for test methods
@@ -55,6 +56,7 @@ struct ReminderUseCaseTests {
 ## Test naming
 
 **Rules:**
+
 - Format: `[method]_[condition]_[expected]`
 - No `test` prefix (Swift Testing uses `@Test` macro)
 - Use underscores to separate parts
@@ -123,6 +125,7 @@ let user = try #require(result.user)
 ## AAA pattern
 
 **Rules:**
+
 - Structure all tests as Arrange-Act-Assert
 - Separate sections with blank lines
 - Keep each section focused
@@ -154,6 +157,7 @@ let user = try #require(result.user)
 ## Single assertion principle
 
 **Rules:**
+
 - Each test verifies one behavior
 - Multiple `#expect` calls are acceptable if they verify the same behavior
 - Split tests if verifying different behaviors
@@ -197,6 +201,7 @@ let user = try #require(result.user)
 ## Test organization with @Suite
 
 **Rules:**
+
 - Use `@Suite` to group related tests
 - Nest suites for hierarchical organization
 - Use descriptive suite names
@@ -233,6 +238,7 @@ struct ReminderUseCaseTests {
 ## Parameterized tests
 
 **Rules:**
+
 - Use `arguments` parameter for testing multiple inputs
 - Reduces test duplication
 - Each argument creates a separate test case
@@ -260,6 +266,7 @@ func setQuantity_WithInvalidValue_ThrowsError(quantity: Int) async {
 ## Serial execution
 
 **Rules:**
+
 - Tests run in parallel by default
 - Use `.serialized` when tests must run sequentially
 - Required for tests that share state or resources
@@ -297,11 +304,13 @@ struct DatabaseTests {
 ## Coverage goals
 
 **Targets:**
+
 - Unit tests: 80%+ coverage
 - Integration tests: Main use cases
 - UI tests: Critical user paths
 
 **Exclusions:**
+
 - SwiftUI View layer
 - Auto-generated code
 - Debug-only code

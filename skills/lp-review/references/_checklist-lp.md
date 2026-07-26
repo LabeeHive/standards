@@ -130,4 +130,3 @@ AI produces long sentences connected by commas where periods would be better.
 - [ ] Internal links to relevant pages exist
 - [ ] Open Graph and Twitter Card meta tags present
 - [ ] Canonical URL is set correctly
-

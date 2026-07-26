@@ -19,16 +19,19 @@ when_to_use: Triggers on "english-trigger", "日本語トリガー", "another ph
 ```
 
 Why this split:
+
 - `description` has a 1,024-char spec limit; `when_to_use` adds room for trigger phrases beyond it.
 - Claude Code appends `when_to_use` to `description` in the skill listing, so triggering behavior is the same as inlining the triggers.
 - `when_to_use` is a Claude Code extension (snake_case, unlike other fields). Spec-compliant tools ignore it — so `description` must stand alone: keep the WHEN summary in `description`, not only in `when_to_use`.
 
 **Constraints:**
+
 - **1,536-char listing cap**: The combined `description` + `when_to_use` text is truncated at 1,536 characters in the skill listing (configurable via `maxSkillDescriptionChars`). `when_to_use` is appended after `description`, so it is trimmed first — front-load the key use case in `description`. The total listing budget for all skills is 1% of the context window (`skillListingBudgetFraction`), and least-used skills lose their descriptions first.
 - **Third person only**: Description is injected into the system prompt. Inconsistent point-of-view causes discovery problems.
 - **Triggers must include BOTH English AND Japanese** for international accessibility.
 
 **Good:**
+
 ```yaml
 description: Create GitHub Issues and PRs following standards. Use this when filing issues or opening PRs.
 when_to_use: Triggers on "Issue作成", "PR作成", "pull request", "create issue", "起票".
@@ -37,17 +40,20 @@ when_to_use: Triggers on "Issue作成", "PR作成", "pull request", "create issu
 Inlining triggers in `description` (the previous Labee pattern) remains valid — prefer it only when the skill must work in non-Claude-Code agents that should still see the trigger phrases.
 
 **Bad (first person):**
+
 ```yaml
 description: I can help you create GitHub Issues and PRs.
 ```
 
 **Bad (missing English triggers):**
+
 ```yaml
 description: Create tasks in Vigilare. Use this when adding tasks.
 when_to_use: Triggers on "タスク作成", "起票して".
 ```
 
 **Bad (missing description):**
+
 ```yaml
 description: GitHub workflow helper.
 ```
@@ -71,11 +77,13 @@ Use specific patterns, not generic tool names. The Agent Skills Spec defines `al
 | `mcp__app__tool_name` | Specific MCP tools |
 
 **Good:**
+
 ```yaml
 allowed-tools: Read Glob Grep Bash(git:*) Bash(gh:*)
 ```
 
 **Bad:**
+
 ```yaml
 allowed-tools: Read, Glob, Grep, Bash
 ```
@@ -131,7 +139,6 @@ Input: Fixed crash on startup
 Output: `fix: resolve null pointer on app launch`
 ```
 
-
 ## Model, effort, and execution context
 
 Do not set `model`, `effort`, `context`, or `agent` on a skill. Every Labee skill had these
@@ -184,7 +191,7 @@ Two layers: the open standard (agentskills.io) and Claude Code extensions.
 
 ### Agent Skills Spec Fields
 
-Source: https://agentskills.io/specification
+Source: <https://agentskills.io/specification>
 
 | Field | Required | Type | Constraints | Description |
 |-------|:--------:|------|-------------|-------------|
@@ -197,7 +204,7 @@ Source: https://agentskills.io/specification
 
 ### Claude Code Extension Fields
 
-Source: https://code.claude.com/docs/en/skills
+Source: <https://code.claude.com/docs/en/skills>
 
 | Field | Required | Type | Default | Description |
 |-------|:--------:|------|---------|-------------|

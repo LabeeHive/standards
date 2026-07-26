@@ -14,6 +14,7 @@ Display today's calendar events and tasks in a combined summary.
 ### Step 1: Fetch Data (Parallel)
 
 Call both in parallel:
+
 - `chimr_get_today_events` → Calendar events
 - `vigilare_get_reminders` with `filter: "today"` → Today's tasks + overdue
 

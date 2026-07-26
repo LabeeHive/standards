@@ -17,6 +17,7 @@ We value: **もっと自由に、もっと楽しく** (More freedom, more fun)
 3. **Involve others** - Work together. Bring others in.
 
 For AI agents:
+
 - When uncertain, ask before proceeding
 - Always explain your reasoning
 - One question is cheaper than one wrong assumption

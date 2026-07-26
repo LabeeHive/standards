@@ -68,6 +68,7 @@ Decide these configuration values:
 7. **Hooks** — Only if the agent needs operational constraints (e.g., read-only DB)
 
 For persona agents, also design:
+
 - Name (Japanese + English)
 - Background and personality
 - Communication style and catchphrases
@@ -84,6 +85,7 @@ bun ${CLAUDE_SKILL_DIR}/scripts/init_agent.ts {agent-name} --path {target-dir}
 ```
 
 Options:
+
 - `--path .claude/agents` — Project scope (default)
 - `--path agents` — Plugin scope
 - `--scope user` — User scope (`~/.claude/agents/`)
@@ -97,6 +99,7 @@ Options:
 Fill in the generated scaffold following the appropriate pattern from `references/system-prompt-patterns.md`:
 
 **For utility agents:**
+
 1. "You are a {role}." opening
 2. "When invoked:" numbered steps (3-5)
 3. Checklist or key practices
@@ -104,6 +107,7 @@ Fill in the generated scaffold following the appropriate pattern from `reference
 5. Closing behavioral principle
 
 **For persona agents:**
+
 1. Identity + company context
 2. About You (personality, background, hobbies)
 3. Company info
@@ -114,6 +118,7 @@ Fill in the generated scaffold following the appropriate pattern from `reference
 8. Prohibited (3-5 hard boundaries)
 
 **For improving existing agents:**
+
 1. Read the current agent file
 2. Identify issues (vague description, missing sections, tool mismatch)
 3. Propose specific improvements
@@ -128,6 +133,7 @@ bun ${CLAUDE_SKILL_DIR}/scripts/validate_agent.ts {agent-file.md}
 Fix errors and re-run until valid.
 
 **Checklist:**
+
 - [ ] `name`: lowercase, hyphens, 1-64 chars, no `--`, no leading/trailing `-`
 - [ ] `description`: specific expertise + when to use, under 1024 chars
 - [ ] `tools`: minimal set for the agent's role
