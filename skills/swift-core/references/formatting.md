@@ -2,123 +2,36 @@
 
 ## Purpose
 
-This document defines code formatting standards for Swift. Consistent formatting improves readability and reduces cognitive load during code reviews.
+Swift formatting standards for Labee projects. Most of them are enforced by `swift-format`, so
+this file covers only what the tool cannot decide for you.
 
 ---
 
-## Indentation
+## Run the formatter
 
-**Rules:**
-- Use 2 spaces for indentation
-- Never use tabs
-- Configure your editor to insert spaces when pressing Tab
-
-**✅ Good:**
-
-```swift
-struct ContentView: View {
-  var body: some View {
-    VStack {
-      Text("Hello")
-      Button("Action") {
-        performAction()
-      }
-    }
-  }
-}
+```bash
+xcrun swift-format lint --recursive .        # report
+xcrun swift-format --recursive . --in-place  # fix
 ```
 
-**❌ Bad:**
+Each project's `.swift-format` is authoritative. Labee projects currently agree on 2-space
+indentation, a 100-character line length, and at most one consecutive blank line, which also
+match the tool's defaults — so do not restate those numbers in a review comment, run the tool.
 
-```swift
-struct ContentView: View {
-    var body: some View {  // 4 spaces
-        VStack {
-            Text("Hello")
-        }
-    }
-}
-```
+`swift-format` decides indentation, line length, brace placement and spacing, trailing commas in
+multi-line literals, blank-line runs, whitespace, and comment style: `/* */` block comments and
+JavaDoc-style `/** */` documentation are both rejected in favour of `//` and `///`. Findings of
+that kind belong to the tool, not to a reviewer.
 
----
-
-## Line length
-
-**Rules:**
-- Maximum 100 characters per line
-- Break long lines at logical points
-- Align continuation lines appropriately
-
-**✅ Good:**
-
-```swift
-func createReminder(
-  title: String,
-  notes: String?,
-  dueDate: Date?,
-  listID: String?
-) async throws -> ReminderModel {
-  // Implementation
-}
-
-let description = """
-  This is a long description that would exceed the line limit \
-  if written on a single line.
-  """
-```
-
-**❌ Bad:**
-
-```swift
-func createReminder(title: String, notes: String?, dueDate: Date?, listID: String?) async throws -> ReminderModel {
-  // Line exceeds 100 characters
-}
-```
-
----
-
-## Braces
-
-**Rules:**
-- Use K&R style (opening brace on same line)
-- Closing brace on its own line
-- Always use braces for control flow, even for single statements
-
-**✅ Good:**
-
-```swift
-if condition {
-  doSomething()
-} else {
-  doSomethingElse()
-}
-
-guard let value = optional else {
-  return
-}
-
-for item in items {
-  process(item)
-}
-```
-
-**❌ Bad:**
-
-```swift
-if condition
-{
-  doSomething()
-}
-
-if condition { doSomething() }  // Single line
-
-if condition
-  doSomething()  // Missing braces
-```
+Measured on a deliberately malformed file, `swift-format` reported 15 findings across those
+categories and `swiftlint` reported 11. Neither reported anything on a file whose only problems
+were the two below.
 
 ---
 
 ## Self usage
+
+`swift-format` does not check this.
 
 **Rules:**
 - Omit `self` unless required
@@ -166,143 +79,9 @@ class ProjectNameService {
 
 ---
 
-## Comments
-
-**Rules:**
-- Use `//` for single-line comments
-- Use `///` for documentation comments
-- Never use `/* */` block comments
-
-**✅ Good:**
-
-```swift
-// This is a single-line comment
-
-/// Fetches all reminders from the repository.
-/// - Returns: Array of reminder models
-/// - Throws: `RepositoryError` if fetch fails
-func fetchReminders() async throws -> [ReminderModel]
-```
-
-**❌ Bad:**
-
-```swift
-/* This is a block comment
-   that spans multiple lines */
-
-/**
- * JavaDoc style comment
- */
-func fetchReminders() { }
-```
-
----
-
-## Trailing commas
-
-**Rules:**
-- Use trailing commas in multi-line arrays and dictionaries
-- This simplifies diffs when adding items
-
-**✅ Good:**
-
-```swift
-let items = [
-  "apple",
-  "banana",
-  "cherry",
-]
-
-let config: [String: Any] = [
-  "timeout": 30,
-  "retryCount": 3,
-  "debug": true,
-]
-```
-
-**❌ Bad:**
-
-```swift
-let items = [
-  "apple",
-  "banana",
-  "cherry"  // Missing trailing comma
-]
-```
-
----
-
-## Blank lines
-
-**Rules:**
-- One blank line between methods
-- One blank line between logical sections within a method
-- No blank line at the start or end of a type body
-
-**✅ Good:**
-
-```swift
-struct ProjectNameViewModel {
-  let name: String
-
-  func methodA() {
-    // Implementation
-  }
-
-  func methodB() {
-    // Step 1
-    prepare()
-
-    // Step 2
-    execute()
-  }
-}
-```
-
-**❌ Bad:**
-
-```swift
-struct ProjectNameViewModel {
-
-  let name: String  // Unnecessary blank line at start
-  func methodA() {
-    // Implementation
-  }
-  func methodB() {  // Missing blank line between methods
-    // Implementation
-  }
-
-}  // Unnecessary blank line at end
-```
-
----
-
-## Whitespace
-
-**Rules:**
-- One space after colons in type declarations
-- One space around operators
-- No trailing whitespace
-
-**✅ Good:**
-
-```swift
-let name: String = "value"
-let count = items.count + 1
-func process(item: Item) -> Result
-```
-
-**❌ Bad:**
-
-```swift
-let name:String = "value"     // No space after colon
-let count = items.count+1     // No spaces around operator
-func process(item : Item)     // Space before colon
-```
-
----
-
 ## Type inference
+
+`swift-format` does not check this either — a redundant `: Bool = true` passes the tool cleanly.
 
 **Rules:**
 - Prefer type inference when the type is obvious
