@@ -2,7 +2,6 @@
 name: swift-ui
 description: Build SwiftUI views following Labee standards. View implementation, layout, modifiers, components. Use when writing or reviewing SwiftUI views.
 when_to_use: Triggers on "SwiftUI", "View", "ビュー", "UI", "レイアウト", "layout", "modifier", "component".
-allowed-tools: Read Glob Grep Edit Write
 ---
 
 # Swift UI

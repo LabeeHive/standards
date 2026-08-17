@@ -2,7 +2,6 @@
 name: skill-creator
 description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones.
 when_to_use: Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
-allowed-tools: Read Glob Grep Write Edit Bash(mkdir:*) Bash(bun:*) WebFetch WebSearch Agent SendMessage TaskCreate TaskUpdate TaskList
 ---
 
 # Skill Creator
@@ -126,7 +125,7 @@ For **each scenario** from Phase 1, ask:
 
 **Then decide frontmatter:**
 
-1. **allowed-tools** — List specific tool patterns needed (space-delimited)
+1. **allowed-tools** — Do not set (see `references/output-patterns.md` allowed-tools Decision). It grants, never restricts, so a checked-in grant buys nothing here. Use `disallowed-tools` when a skill must lose access to a tool
 2. **argument-hint** — See `references/output-patterns.md` argument-hint Decision
 3. **Invocation control** — See `references/output-patterns.md` Invocation Control
 4. **paths** — Do not set (see `references/output-patterns.md` paths Decision). Express file affinity in `description`/`when_to_use` instead
@@ -182,7 +181,7 @@ For each script identified in Phase 3:
 For each reference file identified in Phase 3:
 
 - Write focused markdown files
-- Use `_` prefix only for files that apply to ALL invocations (keep <200 lines), and inject them into SKILL.md with a `` ```! `` `cat` block plus `Bash(cat:*)` in `allowed-tools` — see `references/resource-patterns.md` Naming Conventions
+- Use `_` prefix only for files that apply to ALL invocations (keep <200 lines), and inject them into SKILL.md with a `` ```! `` `cat` block — the injection runs without any allowed-tools entry, see `references/resource-patterns.md` Naming Conventions
 - Load on-demand by default
 
 #### 5c: Assets
@@ -196,7 +195,7 @@ For each asset identified in Phase 3:
 
 Now write the SKILL.md body, referencing the resources created in Phase 5.
 
-**Frontmatter** — Use values decided in Phase 3. See `references/output-patterns.md` for the field reference, invocation control, and allowed-tools patterns.
+**Frontmatter** — Use values decided in Phase 3. See `references/output-patterns.md` for the field reference and invocation control.
 
 **Body guidelines:**
 
@@ -281,7 +280,7 @@ Fix any errors and re-run.
 - [ ] description has WHAT + WHEN, written in third person; trigger phrases (JP & EN) in `when_to_use` (or inline in description for cross-tool skills)
 - [ ] description key info front-loaded (`description` + `when_to_use` are capped at 1,536 chars in the skill listing)
 - [ ] name does not contain reserved words (`anthropic`, `claude`)
-- [ ] allowed-tools uses specific patterns (not generic `Bash`)
+- [ ] allowed-tools NOT set — the validator enforces it
 - [ ] `model`, `effort`, `context`, `agent`, `background`, `paths` NOT set — `quick_validate.ts` now fails the skill if any of them appears
 - [ ] No instruction that blocks on user input sits in a code path the user cannot reach
 - [ ] paths NOT set — removed from this repository over Claude Code bugs that break skill discovery (see `references/output-patterns.md` paths Decision)
@@ -324,6 +323,6 @@ Principles from the official skill-creator (anthropics/skills) for iterating on 
 
 | File | Load When |
 |------|-----------|
-| references/output-patterns.md | Defining frontmatter, description, allowed-tools, invocation control |
+| references/output-patterns.md | Defining frontmatter, description, invocation control |
 | references/workflows.md | Creating skills with 3+ steps or conditional logic |
 | references/resource-patterns.md | Deciding scripts/ vs references/ vs assets/, implementing scripts |

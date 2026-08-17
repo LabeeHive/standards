@@ -2,7 +2,6 @@
 name: lp-review
 description: Review English LP copy for messaging, naturalness, and SEO using three parallel reviewers. Use when reviewing landing page content.
 when_to_use: Triggers on "LP review", "LPレビュー", "landing page review", "LP copy", "コピーレビュー".
-allowed-tools: Read Glob Grep Edit Write Agent SendMessage TaskCreate TaskUpdate TaskList Bash(cat:*) Bash(pnpm:*)
 ---
 
 # LP Review

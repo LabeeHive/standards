@@ -2,7 +2,6 @@
 name: research
 description: Conduct deep research with multi-source verification and parallel investigation. Use for technical investigation, root cause analysis, and comprehensive comparison.
 when_to_use: Triggers on "調査して", "深掘りして", "research", "investigate", "徹底的に調べて".
-allowed-tools: Read Glob Grep WebSearch WebFetch Bash(cat:*) Bash(gh:*) Bash(curl:*) Agent SendMessage
 argument-hint: "[research topic]"
 ---
 

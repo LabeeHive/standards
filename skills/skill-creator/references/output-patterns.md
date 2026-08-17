@@ -58,34 +58,24 @@ when_to_use: Triggers on "タスク作成", "起票して".
 description: GitHub workflow helper.
 ```
 
-## allowed-tools Patterns
+## allowed-tools Decision
 
-Use specific patterns, not generic tool names. The Agent Skills Spec defines `allowed-tools` as space-delimited. Claude Code also accepts comma-separated and YAML list format.
+**Not used in this repository — do not set `allowed-tools`.** `quick_validate.ts` fails a skill that carries it.
 
-**Semantics (Claude Code):** `allowed-tools` *pre-approves* the listed tools while the skill is active, so they run without permission prompts. It does NOT restrict the tool pool — every other tool remains callable under normal permission settings. To remove tools from the pool, use `disallowed-tools` instead. For project skills, pre-approval takes effect only after the workspace trust dialog is accepted.
+The field exists and is valid in the Agent Skills Spec, so it is worth knowing what it does before deciding not to use it. `allowed-tools` *pre-approves* the listed tools while the skill is active — it grants, it never restricts. Every tool left off the list remains callable under the session's normal permission settings, so the field cannot be used to keep a skill away from anything. `disallowed-tools` is the field that removes tools from the pool, and it stays.
 
-| Pattern | Use For |
-|---------|---------|
-| `Bash(git:*)` | Git operations |
-| `Bash(gh:*)` | GitHub CLI |
-| `Bash(npm:*)` | Node.js package management |
-| `Bash(mkdir:*)` | Directory creation |
-| `Bash(xckit:*)` | Xcode localization |
-| `Bash(fastlane:*)` | iOS/macOS deployment |
-| `Bash(swift:*)` | Swift CLI (build, test, package) |
-| `Bash(xcodebuild:*)` | Xcode builds |
-| `mcp__app__tool_name` | Specific MCP tools |
+The grant is also worth very little here, and costs something. Labee sessions run in auto mode, where deny and ask rules are applied before the classifier, a narrow `Bash(...)` grant only skips the classifier, a broad one is suspended outright, and non-Bash tools go to the classifier regardless — so most of a typical list changes nothing. Dynamic injection (`` ```! `` and `` !`command` `` blocks) runs without any `allowed-tools` entry in both default and auto modes, measured on Claude Code 2.1.233, so injecting a `_reference.md` with `cat` needs no grant either. What the field does do is apply without the workspace trust dialog, which makes a checked-in pre-approval an exposure that buys nothing.
 
-**Good:**
+**Bad — do not add this to a skill:**
 
 ```yaml
 allowed-tools: Read Glob Grep Bash(git:*) Bash(gh:*)
 ```
 
-**Bad:**
+**Fine — restricting a skill still works:**
 
 ```yaml
-allowed-tools: Read, Glob, Grep, Bash
+disallowed-tools: Edit Write Bash(sed:*) Bash(awk:*)
 ```
 
 ## Template Pattern
@@ -200,7 +190,7 @@ Source: <https://agentskills.io/specification>
 | description | Yes | string | 1-1024 chars, no angle brackets. Listing shows `description` + `when_to_use` up to 1,536 chars. Must be third person | WHAT + WHEN + Triggers |
 | license | No | string | SPDX identifier | License for the skill |
 | compatibility | No | string | 1-500 chars | Environment requirements (platform, packages, network) |
-| allowed-tools | No | string | Space-delimited (spec standard). Claude Code also accepts comma-separated and YAML list | Tools the skill can use |
+| allowed-tools | No | string | **Do not set in this repository** (see allowed-tools Decision). Space-delimited (spec standard); Claude Code also accepts comma-separated and YAML list | Pre-approves the listed tools while the skill is active. It grants, never restricts, and applies without the workspace trust dialog — use `disallowed-tools` to take tools away |
 | metadata | No | object | Key-value pairs | Arbitrary metadata |
 
 ### Claude Code Extension Fields

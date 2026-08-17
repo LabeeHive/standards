@@ -2,7 +2,6 @@
 name: gemini-image
 description: Generate images using Gemini CLI with nanobanana extension. Use when creating illustrations, icons, textures, or visual assets.
 when_to_use: Triggers on "画像生成", "image generation", "Gemini画像", "generate image", "イラスト生成".
-allowed-tools: Bash(gemini:*) Bash(bun:*) Read Glob
 ---
 
 # Gemini Image Generation

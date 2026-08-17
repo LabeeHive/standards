@@ -2,7 +2,6 @@
 name: humanizer
 description: Remove AI-generated writing patterns from text. Use when reviewing or editing text to make it sound more natural.
 when_to_use: Triggers on "AI臭", "humanize", "自然にして", "AI-like", "AIっぽい", "人間らしく".
-allowed-tools: Read Edit Write Glob Grep
 argument-hint: [text or file path]
 ---
 

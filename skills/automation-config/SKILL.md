@@ -3,7 +3,6 @@ name: automation-config
 description: Configure Renovate and automation tools. Use this when setting up dependency automation. User-invoked only via /automation-config.
 disable-model-invocation: true
 argument-hint: "[tool-name or question]"
-allowed-tools: Read Glob Grep
 ---
 
 # Automation Config

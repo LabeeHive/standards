@@ -2,7 +2,6 @@
 name: swift-localization
 description: Manage Swift app localization with xckit. Use this when adding or checking translations.
 when_to_use: Triggers on "localization", "xcstrings", "xckit", "ローカライゼーション", "翻訳", "多言語対応".
-allowed-tools: Read Glob Grep TaskCreate TaskUpdate TaskList Bash(cat:*) Bash(bun:*) Bash(xckit:*)
 disallowed-tools: Edit Write NotebookEdit Bash(python:*) Bash(python3:*) Bash(ruby:*) Bash(perl:*) Bash(node:*) Bash(jq:*) Bash(sed:*) Bash(awk:*)
 ---
 

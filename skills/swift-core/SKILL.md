@@ -2,7 +2,6 @@
 name: swift-core
 description: Write Swift code following Labee core standards. Naming conventions, code formatting, file organization. Use when writing or reviewing Swift code structure.
 when_to_use: Triggers on "naming", "format", "命名", "フォーマット", "ファイル構成", "code style", "file structure".
-allowed-tools: Read Glob Grep Edit Write
 ---
 
 # Swift Core

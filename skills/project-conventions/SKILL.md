@@ -2,7 +2,6 @@
 name: project-conventions
 description: Apply Labee project operating conventions — commit messages that record verification and known gaps, numbered docs/ namespaces, decision records (ADR) and their propagation, keeping progress tracking out of docs, task tracker integration, backlog granularity (Story-sized tickets and landing verification), and resuming interrupted work. Use when writing a commit message body, structuring or reviewing docs/, filing or superseding an ADR, wiring up a task tracker, filing or auditing a backlog, or resuming work after an interruption, in any Labee project.
 when_to_use: Triggers on "commit body", "コミット本文", "docs構造", "docs structure", "運用規約", "known gaps", "既知の制約", "進捗管理", "task tracker", "再開", "resume", "resumption", "backlog", "バックログ", "起票", "粒度", "granularity", "Story", "Epic", "milestone", "マイルストーン", "ロードマップ", "roadmap", "ADR", "決定記録", "設計決定", "decision record", "波及先", "propagation", "superseded", "撤回", "withdrawn".
-allowed-tools: Read Glob Grep Edit Write TaskCreate TaskUpdate TaskList
 ---
 
 # Project Conventions

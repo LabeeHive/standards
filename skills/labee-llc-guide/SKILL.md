@@ -2,7 +2,6 @@
 name: labee-llc-guide
 description: Labee LLC brand guide with voice, tone, and messaging context. Use when writing marketing copy, reviewing brand consistency, or providing company context.
 when_to_use: Triggers on "brand voice", "ブランド", "Labee", "ラビー", "トーン", "brand guide".
-allowed-tools: Read Glob Grep Bash(cat:*)
 ---
 
 # Labee LLC Guide

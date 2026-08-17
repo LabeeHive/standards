@@ -2,7 +2,6 @@
 name: vigilare-task
 description: Create Vigilare tasks with proper structure. Use this when adding tasks or reminders to Vigilare.
 when_to_use: Triggers on "タスク作成", "起票して", "Vigilare", "create task", "add reminder", "TODO追加".
-allowed-tools: Read Glob Grep mcp__vigilare__vigilare_get_lists mcp__vigilare__vigilare_create_reminder mcp__vigilare__vigilare_update_reminder mcp__vigilare__vigilare_add_comment
 ---
 
 # Vigilare Task Skill

@@ -200,7 +200,7 @@ cat "${CLAUDE_SKILL_DIR}/references/_core-rules.md" 2>/dev/null || echo "(refere
 ```
 ````
 
-Add `Bash(cat:*)` to `allowed-tools` so the injection's command is permitted, and put the block near the top of the body, right after the intro.
+Put the block near the top of the body, right after the intro. The injected command needs no `allowed-tools` entry — injection runs before the body reaches the model and does not go through the tool-permission path at all (measured on Claude Code 2.1.233, in both default and auto mode), and this repository does not set `allowed-tools` on any skill.
 
 **Why injection instead of an instruction.** "Read `references/_core-rules.md` first" is a request the model may or may not act on, and content that applies to every invocation cannot depend on that. Injection puts the content in front of the model before it starts, so there is nothing to skip.
 

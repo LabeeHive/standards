@@ -1,7 +1,6 @@
 ---
 name: swift-release
 description: Execute a Labee app's App Store release notes handoff — generates What's New text for every configured locale from the commit diff between two versions and stages it into App Store Connect's editable version via the Portus MCP server. App-specific values (ASC app id, locale title lines, product context) come from the repo's .claude/release-config.md.
-allowed-tools: Read Glob Bash(git:*) Agent SendMessage mcp__portus__portus_list_apps mcp__portus__portus_get_metadata mcp__portus__portus_set_metadata mcp__portus__portus_get_diff mcp__portus__portus_push
 argument-hint: "<current_version> <previous_version>"
 disable-model-invocation: true
 ---

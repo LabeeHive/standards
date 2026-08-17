@@ -2,7 +2,6 @@
 name: agent-creator
 description: Create and improve Claude Code custom agents (subagents) following official best practices. Use when building new agents or improving existing ones.
 when_to_use: Triggers on "エージェント作成", "agent作成", "create agent", "new agent", "エージェント改善".
-allowed-tools: Read Write Edit Glob Grep Bash(cat:*) Bash(bun:*) WebSearch WebFetch Agent(Explore) TaskCreate TaskUpdate TaskList
 ---
 
 # Agent Creator
