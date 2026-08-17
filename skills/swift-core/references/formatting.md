@@ -2,8 +2,7 @@
 
 ## Purpose
 
-Swift formatting standards for Labee projects. Most of them are enforced by `swift-format`, so
-this file covers only what the tool cannot decide for you.
+Swift formatting standards for Labee projects. Most of them are enforced by `swift-format`, so this file covers only what the tool cannot decide for you.
 
 ---
 
@@ -14,29 +13,17 @@ xcrun swift-format lint --recursive .        # report
 xcrun swift-format --recursive . --in-place  # fix
 ```
 
-Each project's `.swift-format` is authoritative. Labee projects currently agree on 2-space
-indentation, a 100-character line length, and at most one consecutive blank line, which also
-match the tool's defaults — so do not restate those numbers in a review comment, run the tool.
+Each project's `.swift-format` is authoritative. Labee projects currently agree on 2-space indentation, a 100-character line length, and at most one consecutive blank line, which also match the tool's defaults — so do not restate those numbers in a review comment, run the tool.
 
-`swift-format` decides indentation, line length, brace placement and spacing, trailing commas in
-multi-line literals, blank-line runs, whitespace, and comment style: `/* */` block comments and
-JavaDoc-style `/** */` documentation are both rejected in favour of `//` and `///`. Findings of
-that kind belong to the tool, not to a reviewer.
+`swift-format` decides indentation, line length, brace placement and spacing, trailing commas in multi-line literals, blank-line runs, whitespace, and comment style: `/* */` block comments and JavaDoc-style `/** */` documentation are both rejected in favour of `//` and `///`. Findings of that kind belong to the tool, not to a reviewer.
 
-Measured on a deliberately malformed file, `swift-format` reported 15 findings across those
-categories. It reported nothing on a file whose only problems were the two below.
+Measured on a deliberately malformed file, `swift-format` reported 15 findings across those categories. It reported nothing on a file whose only problems were the two below.
 
 ### SwiftLint (optional)
 
-Not adopted across Labee projects yet — no project ships a `.swiftlint.yml` today. If the one
-you are working in has a config, run `swiftlint lint` alongside the formatter; if it does not,
-skip it rather than running with defaults.
+Not adopted across Labee projects yet — no project ships a `.swiftlint.yml` today. If the one you are working in has a config, run `swiftlint lint` alongside the formatter; if it does not, skip it rather than running with defaults.
 
-Disable `identifier_name` when adding a config. Labee names by shape, not by length — `is`/`has`
-prefixes on booleans, `did`/`will` on handlers, noun phrases for types — and SwiftLint's default
-rejects any identifier outside 3-40 characters as an error, which fails names `naming.md`
-allows. Everything `identifier_name` would catch is already covered there, by rules that
-actually match the standard.
+Disable `identifier_name` when adding a config. Labee names by shape, not by length — `is`/`has` prefixes on booleans, `did`/`will` on handlers, noun phrases for types — and SwiftLint's default rejects any identifier outside 3-40 characters as an error, which fails names `naming.md` allows. Everything `identifier_name` would catch is already covered there, by rules that actually match the standard.
 
 ```yaml
 # .swiftlint.yml
@@ -46,9 +33,7 @@ disabled_rules:
 
 ### Out of scope
 
-Safety and correctness — force unwraps, error handling, concurrency — are not formatting or
-naming concerns and are not defined here. Raise them as ordinary review comments, not as
-violations of this standard.
+Safety and correctness — force unwraps, error handling, concurrency — are not formatting or naming concerns and are not defined here. Raise them as ordinary review comments, not as violations of this standard.
 
 ---
 

@@ -7,12 +7,9 @@ allowed-tools: Read Glob Grep Edit Write
 
 # Swift Architecture
 
-Labee's app architecture: View → ViewModel → UseCase → Repository, with dependencies injected
-through protocols. The layer rules and their anti-patterns live in the reference files — read
-the relevant one before designing or reviewing structure.
+Labee's app architecture: View → ViewModel → UseCase → Repository, with dependencies injected through protocols. The layer rules and their anti-patterns live in the reference files — read the relevant one before designing or reviewing structure.
 
-Layer boundaries are the part that gets violated. A View reaching a Repository directly, or
-business logic sitting in a ViewModel, is a violation even when the code works.
+Layer boundaries are the part that gets violated. A View reaching a Repository directly, or business logic sitting in a ViewModel, is a violation even when the code works.
 
 ## Reference Files
 

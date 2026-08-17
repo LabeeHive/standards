@@ -7,14 +7,11 @@ allowed-tools: Read Glob Grep Edit Write
 
 # Swift Core
 
-Labee's Swift naming, formatting, and file organization standards. The rules live in the
-reference files — read the ones the change actually touches before writing or reviewing code.
+Labee's Swift naming, formatting, and file organization standards. The rules live in the reference files — read the ones the change actually touches before writing or reviewing code.
 
-Where a standard here differs from a common Swift convention, the difference is deliberate.
-Follow the reference rather than the convention you would otherwise reach for.
+Where a standard here differs from a common Swift convention, the difference is deliberate. Follow the reference rather than the convention you would otherwise reach for.
 
-Formatting is enforced by the tool, not by reading. Run it rather than reviewing indentation,
-line length, braces, spacing, trailing commas, blank lines, or comment style by eye:
+Formatting is enforced by the tool, not by reading. Run it rather than reviewing indentation, line length, braces, spacing, trailing commas, blank lines, or comment style by eye:
 
 ```bash
 xcrun swift-format lint --recursive .        # report

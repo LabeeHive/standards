@@ -7,11 +7,9 @@ allowed-tools: Read Glob Grep Edit Write
 
 # Swift UI
 
-Labee's SwiftUI standards: state management, view composition, and property order. Read the
-reference before writing or reviewing a View.
+Labee's SwiftUI standards: state management, view composition, and property order. Read the reference before writing or reviewing a View.
 
-Two rules cause most review rejections: a View holds no business logic, and a View never
-touches a Repository directly — both go through the ViewModel.
+Two rules cause most review rejections: a View holds no business logic, and a View never touches a Repository directly — both go through the ViewModel.
 
 ## Reference Files
 
