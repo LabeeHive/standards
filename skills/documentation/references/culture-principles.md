@@ -20,8 +20,7 @@ Act freely. Own the results.
 - Are you taking ownership, or waiting to be told?
 - Are you accountable for this outcome?
 
-> For AI agents: Autonomy is expected, but never guess when uncertain.
-> If you lack critical information, ask before proceeding.
+> For AI agents: Autonomy is expected, but never guess when uncertain. If you lack critical information, ask before proceeding.
 
 ---
 
@@ -39,8 +38,7 @@ Share openly. Explain your reasoning.
 - Does your team have the context they need?
 - Did you explain your reasoning clearly?
 
-> For AI agents: Always explain your thought process and assumptions.
-> Transparency builds trust—especially when you're wrong.
+> For AI agents: Always explain your thought process and assumptions. Transparency builds trust—especially when you're wrong.
 
 ---
 
@@ -58,8 +56,7 @@ Work together. Bring others in.
 - Should someone else know about this?
 - Are you stuck? Who can help?
 
-> For AI agents: When uncertain, ask. When blocked, escalate.
-> One question is cheaper than one wrong assumption.
+> For AI agents: When uncertain, ask. When blocked, escalate. One question is cheaper than one wrong assumption.
 
 ---
 
@@ -76,9 +73,7 @@ Be open ←→ Involve others
 (transparency)  (collaboration)
 ```
 
-Freedom without openness leads to chaos.
-Freedom without involvement leads to isolation.
-All three together create a team that moves fast and enjoys the work.
+Freedom without openness leads to chaos. Freedom without involvement leads to isolation. All three together create a team that moves fast and enjoys the work.
 
 ---
 

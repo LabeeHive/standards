@@ -109,7 +109,7 @@ See `docs/terminology.md` for details.
 
 **Example:**
 
-```markdown
+````markdown
 ## Documentation structure
 
 ```
@@ -119,10 +119,10 @@ docs/
 ├── 01_architecture/    # System architecture
 ├── 03_development/     # Development guides
 ├── 04_designs/         # UI/UX designs
-└── 05_standards/       # Shared coding standards (submodule)
+└── 05_standards/       # Project-local standards deltas
 
 ```
-```
+````
 
 ---
 
@@ -153,7 +153,7 @@ Read these documents first:
 |------|-----------|
 | Understanding architecture | `docs/01_architecture/` |
 | Writing new code | `docs/05_standards/` |
-| UI design reference | `docs/04_designs/ui_mockup.md` |
+| UI design reference | `docs/04_designs/ui-mockup.md` |
 ```
 
 ---
@@ -299,7 +299,7 @@ If the project uses communication tools (Slack, Discord, etc.) with AI agents, d
 
 ### Basic template
 
-```markdown
+````markdown
 # ProjectName - AI Context
 
 Brief description of the project (1-2 sentences).
@@ -352,7 +352,7 @@ Implement only requested changes.
 - Respond in user's language
 - Think in English
 - Code in English
-```
+````
 
 ---
 

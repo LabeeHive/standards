@@ -485,59 +485,7 @@ This document explains [concept] and why it matters for [context].
 
 ## Architecture Decision Record (ADR)
 
-ADRs document significant architecture decisions with their context and consequences.
-
-### Template
-
-```markdown
-# ADR-[number]: [Decision title]
-
-## Status
-
-[Proposed | Accepted | Deprecated | Superseded by ADR-XXX]
-
-## Context
-
-[What is the issue that we're seeing that is motivating this decision or change?]
-
-## Decision
-
-[What is the change that we're proposing and/or doing?]
-
-## Consequences
-
-### Positive
-
-- [Positive consequence 1]
-- [Positive consequence 2]
-
-### Negative
-
-- [Negative consequence 1]
-- [Negative consequence 2]
-
-### Neutral
-
-- [Neutral consequence]
-
-## Alternatives considered
-
-### [Alternative 1]
-
-[Description and why it was not chosen]
-
-### [Alternative 2]
-
-[Description and why it was not chosen]
-```
-
-### Guidelines
-
-- Document the decision while context is fresh
-- Include rejected alternatives
-- Be honest about trade-offs
-- Link to related ADRs
-- Update status when decisions change
+ADRs record a design decision that was made, narrowed, reversed or withdrawn, and every place that decision reaches. The template, the required sections, the append-only rule, the `Decided:` header forms and the Propagation table procedure live in one place — `/project-conventions` (`references/adr-conventions.md`). Use that; this file does not carry a second copy of the template.
 
 ---
 

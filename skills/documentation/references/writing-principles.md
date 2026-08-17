@@ -4,9 +4,7 @@
 
 Language and word-choice standards for Labee documentation.
 
-Structure, headings, active voice, second person, the serial comma and paragraph length live in
-`_core-rules.md`. Link text and alt text live in `markdown-formatting.md`. Neither is repeated
-here — this file covers the choices that come up while writing individual sentences.
+Structure, headings, active voice, second person, the serial comma and paragraph length live in `_core-rules.md`. Link text and alt text live in `markdown-formatting.md`. Neither is repeated here — this file covers the choices that come up while writing individual sentences.
 
 ---
 

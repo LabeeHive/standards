@@ -15,8 +15,7 @@ This document defines standards for file naming, directory structure, and versio
 - Lowercase letters with hyphens (`kebab-case`)
 - No spaces, underscores, or camelCase
 - Descriptive names that indicate content
-- A leading underscore is a prefix, not a separator: `_core-rules.md` marks a file read on every
-  invocation of its skill
+- A leading underscore is a prefix, not a separator: `_core-rules.md` marks a file injected on every invocation of its skill
 
 **✅ Good:**
 
@@ -50,16 +49,16 @@ error-handling-patterns.MD
 **✅ Good:**
 
 ```
-error_handling.md           (14 chars)
-dependency_management.md    (21 chars)
-api_authentication.md       (18 chars)
+error-handling.md           (14 chars)
+dependency-management.md    (21 chars)
+api-authentication.md       (18 chars)
 ```
 
 **❌ Bad:**
 
 ```
-error_handling_patterns_and_best_practices_guide.md  (50 chars - too long)
-err_hdl.md                                           (7 chars - unclear)
+error-handling-patterns-and-best-practices-guide.md  (48 chars - too long)
+err-hdl.md                                           (7 chars - unclear)
 ```
 
 ---
@@ -68,21 +67,22 @@ err_hdl.md                                           (7 chars - unclear)
 
 **Rules:**
 
-- Avoid spaces, hyphens, and special characters
-- Do not use: `!@#$%^&*()+=[]{}|;:'",<>?/\-`
-- Exception: Use `_` (underscore) as word separator
+- Avoid spaces and special characters
+- Do not use: `!@#$%^&*()+=[]{}|;:'",<>?/\`
+- Use `-` (hyphen) as the word separator
+- `_` (underscore) is never a separator; it appears only as the leading marker on a reference injected on every invocation of its skill, as in `_core-rules.md`
 
 **✅ Good:**
 
 ```
-database_design.md
-event_driven_architecture.md
+database-design.md
+event-driven-architecture.md
 ```
 
 **❌ Bad:**
 
 ```
-database-design.md
+database_design.md
 event & messaging.md
 architecture (v2).md
 ```
@@ -110,20 +110,7 @@ architecture (v2).md
 - Keep related files together
 - Use clear, descriptive directory names
 
-**Example structure:**
-
-```
-docs/
-├── 00_overview/           # Project overview and terminology
-├── 01_architecture/       # Architecture decisions
-├── 02_business/           # Business-related (optional)
-├── 03_development/        # Development guides
-│   └── testing/           # Testing guidelines
-├── 04_designs/            # UI/UX designs (optional)
-├── 05_standards/          # Shared coding standards (Git submodule)
-├── 98_plans/              # Implementation plans (optional)
-└── 99_ideas/              # Ideas and exploration (optional)
-```
+The `docs/` tree itself — which numbered namespaces exist, what each holds, and which document belongs in which — is defined in `/project-conventions` (`references/docs-structure.md`). The rules here apply to organizing files inside whichever directory a document lands in.
 
 ---
 
@@ -169,10 +156,10 @@ This directory contains coding standards applicable to all projects.
 
 ## Contents
 
-- [Naming conventions](naming_conventions.md)
-- [Code organization](code_organization.md)
-- [Error handling](error_handling.md)
-- [Testing guidelines](testing_guidelines.md)
+- [Naming conventions](naming-conventions.md)
+- [Code organization](code-organization.md)
+- [Error handling](error-handling.md)
+- [Testing guidelines](testing-guidelines.md)
 ```
 
 ---
@@ -235,7 +222,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Documentation writing guide with 5 core documents
 
 ### Changed
-- Restructured coding standards into shared submodule
+- Restructured coding standards into per-topic guides
 
 ### Deprecated
 - Legacy authentication patterns
@@ -346,6 +333,7 @@ docs/
 - Use numbered prefixes for enforcing order
 - Format: `00_`, `01_`, `02_`, etc. (two digits with underscore)
 - Use for sequential or priority-based organization
+- The numbers assigned to `docs/` namespaces are not chosen per project — they come from `/project-conventions` (`references/docs-structure.md`)
 
 **Example:**
 
@@ -376,9 +364,9 @@ docs/
 docs/architecture/
 ├── microservices.md
 ├── images/
-│   ├── service_flow.png
-│   ├── database_schema.png
-│   └── deployment_diagram.png
+│   ├── service-flow.png
+│   ├── database-schema.png
+│   └── deployment-diagram.png
 ```
 
 ---
@@ -401,50 +389,7 @@ docs/architecture/
 
 ## Cross-project reusability
 
-### Shared documentation repositories
-
-**Rules:**
-
-- Use Git submodules for shared documentation
-- Keep shared content project-agnostic
-- Use `ProjectName` placeholder in examples
-
-**Example:**
-
-```
-project_a/
-└── docs/
-    └── 05_standards/  (Git submodule)
-
-project_b/
-└── docs/
-    └── 05_standards/  (Same submodule)
-```
-
----
-
-### Submodule configuration
-
-**`.gitmodules` example:**
-
-```ini
-[submodule "docs/05_standards"]
-    path = docs/05_standards
-    url = https://github.com/your-org/coding-standards.git
-```
-
-**Commands:**
-
-```bash
-# Add submodule
-git submodule add https://github.com/your-org/coding-standards.git docs/05_standards
-
-# Update submodule
-git submodule update --remote docs/05_standards
-
-# Clone project with submodules
-git clone --recursive https://github.com/your-org/project.git
-```
+Where shared standards sit in a project's `docs/` tree, and how a project takes them in, is a layout question — see `/project-conventions` (`references/docs-structure.md`). What belongs here is the writing side: keep content that is meant to be shared project-agnostic, and use a `ProjectName` placeholder in its examples rather than one project's name.
 
 ---
 
@@ -463,7 +408,7 @@ git clone --recursive https://github.com/your-org/project.git
 ```markdown
 # Legacy authentication
 
-> **Deprecated:** This document is deprecated as of 2025-01-15. See [OAuth 2.0 guide](oauth2_guide.md) for the current approach.
+> **Deprecated:** This document is deprecated as of 2025-01-15. See [OAuth 2.0 guide](oauth2-guide.md) for the current approach.
 
 ## Purpose
 
@@ -487,8 +432,8 @@ docs/
 ├── guides/
 ├── reference/
 ├── archive/
-│   ├── legacy_auth.md
-│   └── old_api_v1.md
+│   ├── legacy-auth.md
+│   └── old-api-v1.md
 ```
 
 ---
@@ -497,5 +442,4 @@ docs/
 
 - [Keep a Changelog](https://keepachangelog.com/)
 - [Semantic Versioning](https://semver.org/)
-- [Git Submodules documentation](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
 - [GitHub repository structure best practices](https://github.blog/2021-11-18-repository-structure-best-practices/)

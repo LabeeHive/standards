@@ -2,18 +2,15 @@
 
 ## Purpose
 
-How to organize the inside of a document. The outer skeleton — H1, Purpose, `---` separators,
-References, sentence case, stopping at H3 — is in `_core-rules.md` and is not repeated here.
+How to organize the inside of a document. The outer skeleton — H1, Purpose, `---` separators, References, sentence case, stopping at H3 — is in `_core-rules.md` and is not repeated here.
 
 ---
 
 ## Content sections
 
-Name sections for what a reader is looking for, not for what the writer was thinking about.
-"Error handling" beats "Considerations around failures".
+Name sections for what a reader is looking for, not for what the writer was thinking about. "Error handling" beats "Considerations around failures".
 
-Group related subsections under one H2 rather than promoting each to its own section. A document
-with eleven H2s and no H3s has usually skipped a layer of grouping.
+Group related subsections under one H2 rather than promoting each to its own section. A document with eleven H2s and no H3s has usually skipped a layer of grouping.
 
 ```markdown
 ---
@@ -41,8 +38,7 @@ All errors should return a consistent JSON structure...
 
 ## YAML frontmatter
 
-Only when tooling requires it — a static site generator, a docs platform. Git history is the
-source of truth for authorship and dates, so never restate those in frontmatter.
+Only when tooling requires it — a static site generator, a docs platform. Git history is the source of truth for authorship and dates, so never restate those in frontmatter.
 
 ```markdown
 ---
