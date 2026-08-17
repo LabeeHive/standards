@@ -2,7 +2,7 @@
 name: swift-workflow
 description: Orchestrates Swift development from Vigilare task to implementation, covering related-work discovery, multi-skill implementation, review gate, build/test, localization, and wrap-up. Use when starting a task or implementing end-to-end.
 when_to_use: Triggers on "タスクやって", "実装して", "開発開始", "start workflow", "implement task", "swift workflow".
-allowed-tools: Read Glob Grep Skill Agent EnterPlanMode AskUserQuestion WebFetch WebSearch Bash(xcrun:*) Bash(swift:*) SendMessage TaskCreate TaskUpdate TaskList mcp__vigilare__vigilare_get_reminders mcp__vigilare__vigilare_get_reminder mcp__vigilare__vigilare_add_comment mcp__vigilare__vigilare_search_reminders mcp__vigilare__vigilare_get_lists
+allowed-tools: Read Glob Grep Skill Agent EnterPlanMode AskUserQuestion WebFetch WebSearch Bash(xcrun:*) Bash(swift:*) Bash(git status:*) Bash(git diff:*) Bash(git add:*) SendMessage TaskCreate TaskUpdate TaskList mcp__vigilare__vigilare_get_reminders mcp__vigilare__vigilare_get_reminder mcp__vigilare__vigilare_add_comment mcp__vigilare__vigilare_search_reminders mcp__vigilare__vigilare_get_lists
 ---
 
 # Swift Workflow
@@ -65,7 +65,7 @@ The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`
 |------|------|
 | Related work | Phase 1.5 is **mandatory**. MUST search related/duplicate tasks and READ referenced design docs (not skim) before Phase 4. |
 | vigilare_get_reminders | `filter: 'all'` returns every reminder and floods the context, and the work after it gets sloppy — list with `today` or `list_id`, then narrow |
-| Commit | Generate message only. User commits (GPG required) |
+| Commit | Commit in the workflow: subject from `/commit-message`, body written by this session (see `/project-conventions` for the commit shape). The permission prompt on `git commit` is the gate |
 | Task completion | Do NOT call `vigilare_complete_reminder`. User decides |
 | Xcode build | Required for xcstrings update. Ask user to build in Xcode before Phase 8 |
 | Review gate | Both reviewers must approve before Phase 7. Send them the standards — a reviewer running in a fresh context cannot enforce what it has not read |
@@ -254,9 +254,10 @@ swift test
 
 **Required skill:** MUST call `Skill("commit-message")`.
 
-1. **Generate commit message** - MUST call `Skill("commit-message")`
-2. **Record work** - `vigilare_add_comment` with summary of changes
-3. **Inform user** - "コミットとタスク完了はお願いします"
+1. **Generate commit message** - MUST call `Skill("commit-message")` for the subject line, then write the body from what this session changed, verified, and left undone (see `/project-conventions` for the shape)
+2. **Commit** - stage the change and `git commit` with that message. The permission prompt is the gate; if it is declined, hand the message to the user instead
+3. **Record work** - `vigilare_add_comment` with summary of changes
+4. **Inform user** - タスク完了は user が行う。Do NOT call `vigilare_complete_reminder`
 
 ## Parallelization Rules
 
@@ -304,6 +305,7 @@ Phase 7: swift build → swift test → All green
 Phase 8: Ask user to build in Xcode
          Skill("swift-localization") ← INVOKED
 Phase 9: Skill("commit-message") ← INVOKED
+         Write the body, then git commit (permission prompt = the gate)
          Record progress to Vigilare
-         → "コミットとタスク完了はお願いします"
+         → "タスク完了はお願いします"
 ```

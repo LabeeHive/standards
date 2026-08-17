@@ -41,3 +41,15 @@ Then run the install command again to pick up the refreshed version:
 ```bash
 /plugin install labee-standards@labee-standards
 ```
+
+---
+
+## Ideas not shipped
+
+Mechanisms that were measured or discussed and deliberately left out. Each is worth revisiting under the condition named.
+
+- **`SubagentStop` hook that refuses the stop (exit 2) until the final message names a result file.** Verified to work. Consider it if briefs keep coming back without the file they were told to write.
+- **Plan approval by an advisor pass instead of the user, in swift-workflow Phase 4.** Consider it once the advisor is enabled and reliable here — it needs the Anthropic API and the Fable/Opus pairing.
+- **A markdownlint custom rule against hard-wrapped paragraphs.** Consider it if wrapped prose keeps reappearing despite the written rule.
+- **Skill evals via the official skill-creator plugin.** Consider it when a skill's triggering or output needs a measured before/after comparison rather than a judgement call.
+- **A Stop-time verification gate that requires tests or a build to have run.** Consider it per project, where the build command is known and stable — not plugin-wide.
