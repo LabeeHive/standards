@@ -2,7 +2,7 @@
 name: swift-workflow
 description: Orchestrates Swift development from Vigilare task to implementation, covering related-work discovery, multi-skill implementation, review gate, build/test, localization, and wrap-up. Use when starting a task or implementing end-to-end.
 when_to_use: Triggers on "タスクやって", "実装して", "開発開始", "start workflow", "implement task", "swift workflow".
-allowed-tools: Read Glob Grep Skill Task EnterPlanMode AskUserQuestion WebFetch WebSearch Bash(xcrun:*) Bash(swift:*) TaskCreate TaskUpdate TaskList mcp__vigilare__vigilare_get_reminders mcp__vigilare__vigilare_get_reminder mcp__vigilare__vigilare_add_comment mcp__vigilare__vigilare_search_reminders mcp__vigilare__vigilare_get_lists
+allowed-tools: Read Glob Grep Skill Agent EnterPlanMode AskUserQuestion WebFetch WebSearch Bash(xcrun:*) Bash(swift:*) SendMessage TaskCreate TaskUpdate TaskList mcp__vigilare__vigilare_get_reminders mcp__vigilare__vigilare_get_reminder mcp__vigilare__vigilare_add_comment mcp__vigilare__vigilare_search_reminders mcp__vigilare__vigilare_get_lists
 ---
 
 # Swift Workflow
@@ -36,6 +36,8 @@ TaskCreate: "Phase 8: Localization               | Skills: /swift-localization (
 TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 ```
 
+The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`TaskList` are not available, keep the same phases as a checklist in your response instead. The phases are the contract; the tool is one way to hold it.
+
 **Update status as you progress:**
 
 - `in_progress` when starting a phase
@@ -52,8 +54,8 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 | 5 | `/swift-architecture` | `Skill("swift-architecture")` | Always |
 | 5 | `/swift-ui` | `Skill("swift-ui")` | SwiftUI views added/changed |
 | 5 | `/swift-testing` | `Skill("swift-testing")` | Always |
-| 6 | `labee-dev-tech-lead` | `Task(labee-dev-tech-lead)` | Always |
-| 6 | `labee-dev-apm` | `Task(labee-dev-apm)` | Always |
+| 6 | `labee-dev-tech-lead` | `Agent(labee-dev-tech-lead)` | Always |
+| 6 | `labee-dev-apm` | `Agent(labee-dev-apm)` | Always |
 | 8 | `/swift-localization` | `Skill("swift-localization")` | UI strings added/changed |
 | 9 | `/commit-message` | `Skill("commit-message")` | Always |
 
@@ -62,7 +64,7 @@ TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
 | Item | Rule |
 |------|------|
 | Related work | Phase 1.5 is **mandatory**. MUST search related/duplicate tasks and READ referenced design docs (not skim) before Phase 4. |
-| vigilare_get_reminders | `filter: 'all'` is **FORBIDDEN**. Use `today` or `list_id` |
+| vigilare_get_reminders | `filter: 'all'` returns every reminder and floods the context, and the work after it gets sloppy — list with `today` or `list_id`, then narrow |
 | Commit | Generate message only. User commits (GPG required) |
 | Task completion | Do NOT call `vigilare_complete_reminder`. User decides |
 | Xcode build | Required for xcstrings update. Ask user to build in Xcode before Phase 8 |
@@ -94,10 +96,10 @@ A task rarely exists in isolation. Before researching or planning, find out what
 │    key noun in the task (model names, file names, feature). │
 │    Run several searches — synonyms and Japanese/English.    │
 │ 2. For each related/duplicate hit: vigilare_get_reminder to │
-│    read its notes AND comments fully (tasks get re-defined   │
+│    read its notes AND comments fully (tasks get re-defined  │
 │    in comments — do not trust the title alone).             │
 │ 3. READ every design doc / file referenced by those tasks   │
-│    (e.g. docs/**). Read the actual content — never assume    │
+│    (e.g. docs/**). Read the actual content — never assume   │
 │    relevance from the filename or skim the first section.   │
 │ 4. Glob/Grep the codebase for existing implementations of   │
 │    the same concern (a helper/adapter may already exist).   │
@@ -127,7 +129,7 @@ A task rarely exists in isolation. Before researching or planning, find out what
 │ PARALLEL: Gather project context                            │
 ├─────────────────────────────────────────────────────────────┤
 │ 1. Read Package.swift (injected path) → deployment target   │
-│ 2. Read *.xcodeproj/project.pbxproj (injected) → targets     │
+│ 2. Read *.xcodeproj/project.pbxproj (injected) → targets    │
 │ 3. Read *.xcconfig (injected path) → build settings         │
 │ 4. Read task notes and comments thoroughly                  │
 └─────────────────────────────────────────────────────────────┘
@@ -142,22 +144,13 @@ A task rarely exists in isolation. Before researching or planning, find out what
 
 ### Phase 3: Check what you actually know
 
-There is no fixed research step. What there is, is a standing problem: **your Swift, SwiftUI and
-Xcode knowledge is frequently out of date.** Apple moves APIs, deprecates them, and changes
-platform behaviour faster than any training cutoff, so recalling an API confidently is not
-evidence that it exists, is still available, or behaves the way you remember on the deployment
-target found in Phase 2.
+There is no fixed research step. What there is, is a standing problem: **your Swift, SwiftUI and Xcode knowledge is frequently out of date.** Apple moves APIs, deprecates them, and changes platform behaviour faster than any training cutoff, so recalling an API confidently is not evidence that it exists, is still available, or behaves the way you remember on the deployment target found in Phase 2.
 
-Before relying on a recalled fact, check it. Read the existing codebase first — it is the most
-reliable source for how this project already does things — then go to Apple's documentation for
-anything about API availability, deprecation, or platform behaviour. Search when the answer is
-uncertain, not on a schedule.
+Before relying on a recalled fact, check it. Read the existing codebase first — it is the most reliable source for how this project already does things — then go to Apple's documentation for anything about API availability, deprecation, or platform behaviour. Search when the answer is uncertain, not on a schedule.
 
-Reach for `Skill("research")` when the question is genuinely deep: conflicting sources, a bug
-with no obvious cause, or a comparison that has to hold up. A single API check does not need it.
+Reach for `Skill("research")` when the question is genuinely deep: conflicting sources, a bug with no obvious cause, or a comparison that has to hold up. A single API check does not need it.
 
-**Record anything a future reader would need** with `vigilare_add_comment` — a deprecation you
-worked around, a version constraint you discovered, a behaviour that contradicted the docs.
+**Record anything a future reader would need** with `vigilare_add_comment` — a deprecation you worked around, a version constraint you discovered, a behaviour that contradicted the docs.
 
 ### Phase 4: Planning
 
@@ -187,32 +180,23 @@ xcrun swift-format --recursive . --in-place
 
 ### Phase 6: Review Gate (PARALLEL)
 
-**Spawn both `labee-dev-tech-lead` and `labee-dev-apm` in one message via the Task tool. This
-phase blocks Phase 7 until both approve.**
+**Spawn both `labee-dev-tech-lead` and `labee-dev-apm` in one message via the Agent tool. This phase blocks Phase 7 until both approve.**
 
-Why a separate reviewer, when you have already checked your own work: the two failure modes this
-catches are ones the author structurally cannot see. **Local optimization** — a change that is
-right for the file in front of you and wrong for the codebase — looks correct from inside the
-change. And **building on the wrong reference** — a pattern lifted from a source this project
-has deliberately moved away from — looks well-researched from inside the change. A reader who
-did not write the code and holds the standards catches both. In practice this gate has measurably
-reduced defects here, which is why it stays.
+Why a separate reviewer, when you have already checked your own work: the two failure modes this catches are ones the author structurally cannot see. **Local optimization** — a change that is right for the file in front of you and wrong for the codebase — looks correct from inside the change. And **building on the wrong reference** — a pattern lifted from a source this project has deliberately moved away from — looks well-researched from inside the change. A reader who did not write the code and holds the standards catches both. In practice this gate has measurably reduced defects here, which is why it stays.
 
-What it is *not* for: confirming that tests exist, that references were opened, or that no TODOs
-remain. Do not ask a reviewer to audit your process — you verify your own work as you go, and a
-second pass over the same checklist buys nothing.
+What it is *not* for: confirming that tests exist, that references were opened, or that no TODOs remain. Do not ask a reviewer to audit your process — you verify your own work as you go, and a second pass over the same checklist buys nothing.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ PARALLEL: Spawn 2 reviewers via Task                        │
+│ PARALLEL: Spawn 2 reviewers via Agent                       │
 ├─────────────────────────────────────────────────────────────┤
-│ 1. Task(labee-dev-tech-lead) → Standards compliance         │
+│ 1. Agent(labee-dev-tech-lead) → Standards compliance        │
 │    - Violations of the swift-* standards, cited by rule     │
 │    - Local optimization: right here, wrong for the codebase │
 │    - Patterns copied from a source this project rejects     │
-│    - Layer boundaries: View→ViewModel→UseCase→Repository     │
+│    - Layer boundaries: View→ViewModel→UseCase→Repository    │
 │                                                             │
-│ 2. Task(labee-dev-apm) → Technical quality                  │
+│ 2. Agent(labee-dev-apm) → Technical quality                 │
 │    - Performance (unnecessary allocations, N+1)             │
 │    - Crash-prone patterns (force unwraps, unhandled errors) │
 │    - Memory management (retain cycles, large allocations)   │
@@ -220,12 +204,14 @@ second pass over the same checklist buys nothing.
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Give each reviewer:** the files changed in Phase 5, the task from Phase 1, and the paths to the
-relevant `swift-*` references. A reviewer that has not read the standards cannot enforce them,
-and it runs in a fresh context — it sees nothing of this conversation unless you send it.
+**Give each reviewer:** the files changed in Phase 5, the task from Phase 1, and the paths to the relevant `swift-*` references. A reviewer that has not read the standards cannot enforce them, and it runs in a fresh context — a named agent type like `labee-dev-tech-lead` starts from zero and sees nothing of this conversation unless you send it (only `subagent_type: "fork"` inherits the conversation, and these reviewers are not forks).
+
+**Brief contents (both reviewers):** where to put the result (a file path once it runs past a few lines), the format you want it in, what counts as approval, and what is out of scope (process auditing — see above); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
+
+**Name the reviewers when you spawn them** (the Agent tool's `name` parameter, e.g. `tech-lead-review` and `apm-review`) so a rejection can go back to the same reviewer.
 
 **On approval:** both return LGTM → Phase 7.
-**On rejection:** fix what they cite → re-run Phase 6.
+**On rejection:** fix what they cite, then send the fix to the *same* reviewer with `SendMessage(to: <name>)` — what changed and where — and ask it to re-check its own findings. Do not spawn a fresh reviewer for the re-review: a new one has not seen the findings it would be verifying, and re-reads everything from zero. Repeat until it returns LGTM; a fresh spawn is only for a reviewer that has died or lost its context.
 
 ### Phase 7: Build & Test
 
@@ -274,7 +260,7 @@ swift test
 
 ## Parallelization Rules
 
-**CRITICAL: Always parallelize independent operations.**
+Run independent operations in parallel:
 
 | Phase | Parallel Operations |
 |-------|---------------------|
@@ -282,12 +268,12 @@ swift test
 | 2 | Project file reads (Package.swift, pbxproj, xcconfig) |
 | 3 | Codebase reads + Apple doc lookups for anything version-dependent |
 | 5 | Multiple file reads before editing |
-| 6 | Task(labee-dev-tech-lead) + Task(labee-dev-apm) |
+| 6 | Agent(labee-dev-tech-lead) + Agent(labee-dev-apm) |
 
 **How to parallelize:**
 
 - Use multiple tool calls in a single message
-- Use Task tool with multiple subagents for heavy operations
+- Use Agent tool with multiple subagents for heavy operations
 
 ## Example Session
 
@@ -311,8 +297,8 @@ Phase 5: Skill("swift-core") + Skill("swift-architecture") + Skill("swift-testin
          (Skill("swift-ui") too if Views changed)
          Implement with standards + swift-format
 Phase 6: [PARALLEL] ← REVIEW GATE
-         - Task(labee-dev-tech-lead): "テスト書いた？リファレンス読んだ？"
-         - Task(labee-dev-apm): "パフォーマンス問題ないか？クラッシュしないか？"
+         - Agent(labee-dev-tech-lead): "標準に沿ってる？レイヤー境界は？局所最適では？"
+         - Agent(labee-dev-apm): "パフォーマンス問題ないか？クラッシュしないか？"
          → Both LGTM → proceed
 Phase 7: swift build → swift test → All green
 Phase 8: Ask user to build in Xcode

@@ -2,7 +2,7 @@
 name: aso-review
 description: Review App Store metadata (fastlane) across 14+ languages for ASO, naturalness, and messaging. Use when reviewing localized metadata before release.
 when_to_use: Triggers on "ASO review", "ASOレビュー", "ストアレビュー", "metadata review", "メタデータレビュー", "store review".
-allowed-tools: Read Glob Grep Edit Write Task TaskCreate TaskUpdate TaskList Bash(pnpm:*) Bash(fastlane:*)
+allowed-tools: Read Glob Grep Edit Write Agent SendMessage TaskCreate TaskUpdate TaskList Bash(cat:*) Bash(pnpm:*) Bash(fastlane:*)
 argument-hint: "[path/to/fastlane/metadata]"
 ---
 
@@ -11,6 +11,18 @@ argument-hint: "[path/to/fastlane/metadata]"
 Review App Store metadata across all locales from three perspectives: ASO optimization, naturalness, and messaging consistency.
 
 Core principle: **Localize, don't translate.** Metadata must read as if a native speaker wrote it from scratch.
+
+## Review Checklist (injected on every invocation)
+
+```!
+cat "${CLAUDE_SKILL_DIR}/references/_checklist-aso.md" 2>/dev/null || echo "(reference missing: _checklist-aso.md)"
+```
+
+## Localization Principles (injected on every invocation)
+
+```!
+cat "${CLAUDE_SKILL_DIR}/references/_localization-principles.md" 2>/dev/null || echo "(reference missing: _localization-principles.md)"
+```
 
 ## How to Invoke
 
@@ -35,7 +47,7 @@ TaskCreate: "Phase 5: Synthesize results"
 TaskCreate: "Phase 6: Apply fixes (after user approval)"
 ```
 
-Update status as you progress: `in_progress` when starting, `completed` when done.
+Update status as you progress: `in_progress` when starting, `completed` when done. The task tools are opt-in on current models — when they are not available, keep the same phases as a checklist in your response instead. The phases are the contract; the tool is one way to hold it.
 
 ## Workflow
 
@@ -69,12 +81,12 @@ Gather before dispatching to reviewers:
 
 1. Full metadata text per locale (subtitle, keywords, description)
 2. Locale inventory with file paths
-3. Brand voice reference (see `references/_localization-principles.md`)
+3. Brand voice reference (the injected localization principles above)
 4. App category and target audience
 
 ### Phase 3: Run Reviews
 
-**Spawn all 3 reviewers in ONE message using the Task tool. Do NOT launch sequentially.**
+**Spawn all 3 reviewers in ONE message using the Agent tool. Do NOT launch sequentially.**
 
 | Reviewer | subagent_type | Role |
 |----------|---------------|------|
@@ -84,6 +96,10 @@ Gather before dispatching to reviewers:
 
 Each reviewer works independently and returns its findings to you. Reviewers do not talk to each other — you reconcile their output in Phase 4.
 
+**Name each reviewer when you spawn it** (the Agent tool's `name` parameter, e.g. `aso-review-agent`, `naturalness-review`, `messaging-review`) so Phase 4 can go back to the one that raised a finding.
+
+**Brief contents (every reviewer):** where to put the result (a file path once it runs past a few lines — per-locale findings usually do), the output format, what a complete review covers (every detected locale), and what is out of scope (another reviewer's angle — you reconcile in Phase 4); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
+
 **Each agent receives:**
 
 - Complete metadata text for all locales
@@ -91,7 +107,7 @@ Each reviewer works independently and returns its findings to you. Reviewers do 
 - The localization principles from `references/_localization-principles.md`
 - Instruction to produce per-locale findings grouped by locale
 
-**CRITICAL:** Each agent MUST review EVERY detected locale independently. Not just JP and EN.
+Each reviewer covers every detected locale independently — a locale reviewed by inference from its neighbour is not reviewed.
 
 **Per-agent instructions:**
 
@@ -124,7 +140,7 @@ The three reviewers optimize for different things, so their recommendations will
 2. **Per-locale vs cross-locale** — the messaging reviewer works across locales and may object to a rewrite that reads well in isolation. Cross-locale consistency of the value proposition wins over a locally nicer sentence.
 3. **Unsupported claims** — if a subtitle or keyword promises a capability no description mentions, flag it as an accuracy risk rather than silently keeping it.
 
-If a reviewer's finding is thin or you need it re-checked against another's, spawn a follow-up Task rather than guessing.
+If a reviewer's finding is thin or you need it re-checked against another's, go back to the reviewer that raised it with `SendMessage(to: <name>)` — say what you need re-checked and why — rather than guessing. Do not spawn a fresh reviewer for a re-check: a new one has not seen the findings it would be verifying and re-reads everything from zero. A fresh spawn is only for a reviewer that has died or lost its context.
 
 ### Phase 5: Synthesize Results
 
@@ -219,17 +235,13 @@ Then present it to the user and wait for approval before applying fixes.
 
 ## Anti-Patterns
 
-1. **Do NOT launch agents sequentially** — all 3 in ONE Task call
-2. **Do NOT concatenate reviewer output** — Phase 4 is where their conflicts get resolved
-3. **Do NOT translate keywords** — research local search terms independently per locale
-4. **Do NOT review only JP and EN** — MUST review ALL detected locales
-5. **Do NOT merge results without discussion** — agents must cross-check findings
-6. **Do NOT review LP pages** — redirect user to `/lp-review`
-7. **Do NOT block waiting for locales** — review what is on disk and report the count
+1. Keywords are researched per market, never translated from the source locale — a translated keyword is a keyword nobody searches for.
+2. Reviewer output is reconciled in Phase 4, not concatenated — raw concatenation leaves their conflicts in the report for the reader to resolve.
+3. LP pages belong to `/lp-review`. Redirect rather than reviewing them here.
 
 ## Reference Files
 
 | File | Load When |
 |------|-----------|
-| `references/_checklist-aso.md` | Read before Phase 3 — the ASO review checklist |
-| `references/_localization-principles.md` | Read before Phase 3 — localization guidance and per-language red flags |
+| `references/_checklist-aso.md` | Injected on every invocation (above) — the ASO review checklist |
+| `references/_localization-principles.md` | Injected on every invocation (above) — localization guidance and per-language red flags |

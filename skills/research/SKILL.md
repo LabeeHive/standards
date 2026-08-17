@@ -2,13 +2,19 @@
 name: research
 description: Conduct deep research with multi-source verification and parallel investigation. Use for technical investigation, root cause analysis, and comprehensive comparison.
 when_to_use: Triggers on "調査して", "深掘りして", "research", "investigate", "徹底的に調べて".
-allowed-tools: Read Glob Grep WebSearch WebFetch Bash(gh:*) Bash(curl:*) Task
+allowed-tools: Read Glob Grep WebSearch WebFetch Bash(cat:*) Bash(gh:*) Bash(curl:*) Agent SendMessage
 argument-hint: "[research topic]"
 ---
 
 # Deep Research
 
 Conduct thorough, multi-source investigation with verification.
+
+## Source Patterns (injected on every invocation)
+
+```!
+cat "${CLAUDE_SKILL_DIR}/references/_source-patterns.md" 2>/dev/null || echo "(reference missing: _source-patterns.md)"
+```
 
 ## Core Principles
 
@@ -19,9 +25,9 @@ Conduct thorough, multi-source investigation with verification.
 5. **Actually read content** - Don't just list URLs, extract information
 6. **Follow the chain** - Issues reference other issues, follow them
 
-## CRITICAL: Minimum Search Requirements
+## Source coverage
 
-**You MUST perform at least 7+ parallel searches covering these source types:**
+Cover these source types, running the searches in parallel in a single message. Japanese sources are part of the sweep, not an optional extra:
 
 | Source Type | Required | Example Query |
 |-------------|:--------:|---------------|
@@ -33,13 +39,9 @@ Conduct thorough, multi-source investigation with verification.
 | Reddit | ○ | `site:reddit.com` |
 | note.com | ○ | `site:note.com` |
 
-**After searching, you MUST WebFetch at least 3 relevant results to actually read content.**
+Then WebFetch and read at least three of the substantive results — a list of URLs is not research, and a search result page is not content.
 
-**DO NOT:**
-
-- Do only 2-3 searches and call it done
-- Skip Japanese sources
-- Skip reading actual content
+WebSearch has a per-session cap (200 by default), so scale the sweep to the question and budget across the whole session rather than re-running every source for each sub-question.
 
 ## Execution Protocol
 
@@ -77,9 +79,11 @@ Ask user (if unclear):
 │ WebSearch(query="topic site:stackoverflow.com")                     │
 │ WebSearch(query="topic site:reddit.com")                            │
 │ Bash(gh search issues "topic" --limit 10)                           │
-│ Task(subagent_type="Explore", prompt="Find related code patterns")  │
+│ Agent(subagent_type="Explore", prompt="Find related code patterns") │
 └─────────────────────────────────────────────────────────────────────┘
 ```
+
+**Brief contents for the `Explore` agent:** where to put the result (a file path once it runs past a few lines), the output format, what a complete answer covers, and what is out of scope; the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
 
 ### Phase 3.5: Deep Read (PARALLEL)
 
@@ -172,13 +176,13 @@ Do NOT use (will fail):
 - Medium (authentication required)
 - Authenticated services (Google Docs, Confluence, Jira)
 
-## Quality Checklist (MANDATORY)
+## Quality checklist
 
-**Before marking research complete, verify ALL:**
+Before reporting, check:
 
 ### Search Coverage
 
-- [ ] Performed 7+ parallel searches in single message
+- [ ] Searches ran in parallel in one message and covered the source types above
 - [ ] Included official docs (Apple/Google/etc.)
 - [ ] Included Japanese sources (Zenn, Qiita)
 - [ ] Included community sources (SO, Reddit)
@@ -186,7 +190,7 @@ Do NOT use (will fail):
 
 ### Deep Reading
 
-- [ ] WebFetch'd at least 3 results to actually read
+- [ ] Fetched and read at least three substantive results
 - [ ] Extracted specific quotes/code, not just summaries
 - [ ] Followed reference chains
 
@@ -208,11 +212,9 @@ Do NOT use (will fail):
 - [ ] Documented contradictions if any
 - [ ] Noted confidence level for each finding
 
-**If any checkbox is unchecked, GO BACK and complete it.**
-
 ## Reference Files
 
 | File | Load When |
 |------|-----------|
-| references/_source-patterns.md | Read before Phase 3 — gh/curl commands, source quality tiers |
+| references/_source-patterns.md | Injected on every invocation (above) — gh/curl commands, source quality tiers |
 | references/report-template.md | Structuring final research output |

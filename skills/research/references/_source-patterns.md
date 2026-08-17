@@ -88,7 +88,7 @@ WebSearch(query="Claude Code スキル site:zenn.dev")
 WebSearch(query="Claude Code スキル site:qiita.com")
 WebSearch(query="Claude Code skills problem reddit")
 Bash(command="gh search issues 'plugin skills' --repo anthropics/claude-code --limit 10 --json number,title,state")
-Task(subagent_type="Explore", description="Analyze official docs", prompt="Read Claude Code official documentation about skills and plugins...")
+Agent(subagent_type="Explore", description="Analyze official docs", prompt="Read Claude Code official documentation about skills and plugins...")
 ```
 
 ## Source Quality Tiers

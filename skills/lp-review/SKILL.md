@@ -2,7 +2,7 @@
 name: lp-review
 description: Review English LP copy for messaging, naturalness, and SEO using three parallel reviewers. Use when reviewing landing page content.
 when_to_use: Triggers on "LP review", "LPレビュー", "landing page review", "LP copy", "コピーレビュー".
-allowed-tools: Read Glob Grep Edit Write Task TaskCreate TaskUpdate TaskList Bash(pnpm:*)
+allowed-tools: Read Glob Grep Edit Write Agent SendMessage TaskCreate TaskUpdate TaskList Bash(cat:*) Bash(pnpm:*)
 ---
 
 # LP Review
@@ -11,9 +11,15 @@ Review English-only landing page copy from messaging, naturalness, and SEO persp
 
 > **English-authored copy only.** This skill reviews LP text written in English. It is NOT for reviewing translations from Japanese.
 
+## Review Checklist (injected on every invocation)
+
+```!
+cat "${CLAUDE_SKILL_DIR}/references/_checklist-lp.md" 2>/dev/null || echo "(reference missing: _checklist-lp.md)"
+```
+
 ## Phase Tracking
 
-**At workflow start, MUST create tasks for each phase:**
+**At workflow start, create tasks for each phase:**
 
 ```
 TaskCreate: "Phase 0: Route"
@@ -25,7 +31,7 @@ TaskCreate: "Phase 5: Synthesize Results"
 TaskCreate: "Phase 6: Apply Fixes"
 ```
 
-Update status as you progress: `in_progress` when starting, `completed` when done.
+Update status as you progress: `in_progress` when starting, `completed` when done. The task tools are opt-in on current models — when they are not available, keep the same phases as a checklist in your response instead. The phases are the contract; the tool is one way to hold it.
 
 ## Workflow
 
@@ -40,7 +46,7 @@ Verify the target is LP files:
 
 1. `Glob("**/*.tsx")` -- LP and Docusaurus page components
 2. `Glob("docusaurus.config.*")` -- SEO headTags and site metadata
-3. **MUST Read ALL discovered files** -- Do not skip any. Full text is needed for context.
+3. Read every discovered file in full — copy is judged in context, and a partial read produces findings that contradict the surrounding page.
 
 ### Phase 2: Build Shared Context
 
@@ -54,7 +60,7 @@ This context package is passed to each agent in Phase 3.
 
 ### Phase 3: Run Reviews
 
-**Spawn all 3 reviewers in ONE message using the Task tool -- do NOT launch sequentially.**
+**Spawn all 3 reviewers in ONE message using the Agent tool -- do NOT launch sequentially.**
 
 | Reviewer | subagent_type | Role |
 |----------|---------------|------|
@@ -63,6 +69,10 @@ This context package is passed to each agent in Phase 3.
 | SEO | labee-marketing-seo | Web SEO keyword alignment, meta tags, heading structure |
 
 Each reviewer works independently and returns findings to you. Reviewers do not talk to each other -- you reconcile their output in Phase 4.
+
+**Name each reviewer when you spawn it** (the Agent tool's `name` parameter, e.g. `messaging-review`, `naturalness-review`, `seo-review`) so Phase 4 can go back to the one that raised a finding.
+
+**Brief contents (every reviewer):** where to put the result (a file path once it runs past a few lines), the output format, what a complete review covers, and what is out of scope (another reviewer's angle -- you reconcile in Phase 4); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
 
 **Each agent receives:**
 
@@ -103,7 +113,7 @@ The three reviewers optimize for different things, so their recommendations will
 2. **Persuasion vs accuracy** -- if the messaging reviewer's rewrite claims more than the product does, the claim loses.
 3. **Overlap** -- the same line will often be flagged by two reviewers for different reasons. Merge those into one finding with one fix, not two competing ones.
 
-If a finding is thin or needs re-checking against another reviewer's angle, spawn a follow-up Task rather than guessing.
+If a finding is thin or needs re-checking against another reviewer's angle, go back to the reviewer that raised it with `SendMessage(to: <name>)` -- say what you need re-checked and why -- rather than guessing. Do not spawn a fresh reviewer for a re-check: a new one has not seen the findings it would be verifying and re-reads everything from zero. A fresh spawn is only for a reviewer that has died or lost its context.
 
 ### Phase 5: Synthesize Results
 
@@ -194,14 +204,12 @@ Then present it to the user and wait for approval before applying fixes.
 
 ## Anti-Patterns
 
-1. **Do NOT launch agents sequentially** -- All 3 agents MUST be spawned in one message
-2. **Do NOT concatenate reviewer output** -- Phase 4 is where conflicts get resolved
-3. **Do NOT merge results verbatim** -- Raw concatenation leaves contradictions in the report
-4. **Do NOT let reviewers talk to each other** -- you reconcile their findings in Phase 4
-5. **Do NOT review ASO metadata** -- Redirect to `/aso-review` instead
+1. Reviewer output is reconciled in Phase 4, not concatenated — raw concatenation leaves contradictions in the report.
+2. Reviewers do not talk to each other; you hold the reconciliation.
+3. ASO metadata belongs to `/aso-review`. Redirect rather than reviewing it here.
 
 ## Reference Files
 
 | File | Load When |
 |------|-----------|
-| references/_checklist-lp.md | Read before Phase 3 — always |
+| references/_checklist-lp.md | Injected on every invocation (above) |

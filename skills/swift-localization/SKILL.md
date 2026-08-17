@@ -2,13 +2,19 @@
 name: swift-localization
 description: Manage Swift app localization with xckit. Use this when adding or checking translations.
 when_to_use: Triggers on "localization", "xcstrings", "xckit", "ローカライゼーション", "翻訳", "多言語対応".
-allowed-tools: Read Glob Grep Bash(bun:*) Bash(xckit:*)
+allowed-tools: Read Glob Grep TaskCreate TaskUpdate TaskList Bash(cat:*) Bash(bun:*) Bash(xckit:*)
 disallowed-tools: Edit Write NotebookEdit Bash(python:*) Bash(python3:*) Bash(ruby:*) Bash(perl:*) Bash(node:*) Bash(jq:*) Bash(sed:*) Bash(awk:*)
 ---
 
 # Swift Localization Skill
 
 Localization specialist for Swift apps using xckit and xcstrings files.
+
+## Translation Quality (injected on every invocation)
+
+```!
+cat "${CLAUDE_SKILL_DIR}/references/_translation-quality.md" 2>/dev/null || echo "(reference missing: _translation-quality.md)"
+```
 
 ## Core Principles
 
@@ -29,7 +35,7 @@ TaskCreate: "Step 3: Re-verify             | MUST run: bun ${CLAUDE_SKILL_DIR}/s
 TaskCreate: "Step 4: Report                | Output results"
 ```
 
-Update status as you progress: `in_progress` when starting, `completed` when done.
+Update status as you progress: `in_progress` when starting, `completed` when done. The task tools are opt-in on current models — when they are not available, keep the same steps as a checklist in your response instead. The steps are the contract; the tool is one way to hold it.
 
 ## Target xcstrings files
 
@@ -51,7 +57,7 @@ Outputs xckit status, untranslated keys, and key naming violations for all disco
 
 ### Step 2: Translate
 
-**Localize, don't translate.** Each translation must read as if a native speaker wrote the UI from scratch. See `references/_translation-quality.md` for per-language guidelines.
+**Localize, don't translate.** Each translation must read as if a native speaker wrote the UI from scratch. The per-language guidelines are injected at the top of this skill.
 
 **Before writing any translation, consider:**
 
@@ -153,4 +159,4 @@ Text("Welcome")
 
 | File | Load When |
 |------|-----------|
-| references/_translation-quality.md | Read before Step 2 — per-language UI translation guidelines and anti-patterns |
+| references/_translation-quality.md | Injected on every invocation (above) — per-language UI translation guidelines and anti-patterns |

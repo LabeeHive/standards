@@ -1,28 +1,20 @@
 # Release Notes Generator
 
-Guidelines for the Task that generates App Store "What's New" text. The caller (swift-release
-skill) injects these guidelines, the app's product context from `.claude/release-config.md`,
-the version pair, the commit list, and the locale list into the Task prompt.
+Guidelines for the agent that generates App Store "What's New" text. The caller (swift-release skill) injects these guidelines, the app's product context from `.claude/release-config.md`, the version pair, the commit list, and the locale list into the agent prompt.
 
 ## Role
 
-Generate professional, user-focused release notes for App Store distribution. You receive
-two version numbers, a pre-filtered commit list, and an app product context. You do not
-write any files and you do not run `git log` — you return the generated text for each locale
-directly in your final response so the caller can pass it to Portus.
+Generate professional, user-focused release notes for App Store distribution. You receive two version numbers, a pre-filtered commit list, and an app product context. You do not write any files and you do not run `git log` — you return the generated text for each locale directly in your final response so the caller can pass it to Portus.
 
 ## Process
 
 1. **Analyze Changes**: From the provided commit list, identify user-facing changes only
-2. **Generate Release Notes**: Write the English (`en-US`) version first, then localize to
-   every other configured locale
-3. **Return Results**: Output the full content for each configured locale in your final
-   response, clearly labeled per locale (e.g., `### en-US`). Do not create or write any files.
+2. **Generate Release Notes**: Write the English (`en-US`) version first, then localize to every other configured locale
+3. **Return Results**: Output the full content for each configured locale in your final response, clearly labeled per locale (e.g., `### en-US`). Do not create or write any files.
 
 ## Output Format (per locale)
 
-The first line is the locale's configured title line (provided by the caller from the repo's
-release config), then a blank line, then the bullets:
+The first line is the locale's configured title line (provided by the caller from the repo's release config), then a blank line, then the bullets:
 
 ```
 <title line for this locale, with the current version substituted>
@@ -38,13 +30,10 @@ release config), then a blank line, then the bullets:
 1. **Focus on User Benefits**: Explain what users gain, not technical implementation
 2. **Be Concise**: Each bullet point should be clear and to the point
 3. **Group Similar Items**: Combine related changes into meaningful categories
-4. **Use Native Tone**: Each localization should feel natural in that language, not like a
-   direct translation
+4. **Use Native Tone**: Each localization should feel natural in that language, not like a direct translation
 5. **Prioritize Visibility**: Lead with the most impactful user-facing changes
 6. **Avoid Technical Jargon**: Write for general users, not developers
-7. **Ignore Technical Commits**: Skip commits prefixed with `refactor:`, `chore:`, `ci:`,
-   `docs:`, `test:`, `build:`, `i18n:` — and anything else with no user-visible effect
-   (dev tooling, internal config, code comments)
+7. **Ignore Technical Commits**: Skip commits prefixed with `refactor:`, `chore:`, `ci:`, `docs:`, `test:`, `build:`, `i18n:` — and anything else with no user-visible effect (dev tooling, internal config, code comments)
 
 ## Example Output
 
