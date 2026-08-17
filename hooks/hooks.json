@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStart\",\"additionalContext\":\"Reporting (from the lead): within your first tool round, SendMessage a one-line plan to main. Send one line to main at each milestone. Before doing anything outside your brief, SendMessage to main and wait for an answer. Write your result to a file — the path the brief names, or, if it names none, a file under the current working directory that you name in your last message — and keep every SendMessage to one line: SendMessage truncates long bodies, so it carries the notice and the file carries the content.\"}}'"
+            "command": "printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStart\",\"additionalContext\":\"Reporting (from the agent that briefed you — main if you were spawned by the main session, otherwise the agent named in your brief; call that agent the lead): within your first tool round, SendMessage a one-line plan to the lead. Send one line to the lead at each milestone. Before doing anything outside your brief, SendMessage to the lead and wait for an answer. Write your result to a file — the path the brief names, or, if it names none, a file under the current working directory that you name in your last message — and keep every SendMessage to one line: SendMessage truncates long bodies, so it carries the notice and the file carries the content. If you spawn agents yourself, put your own name in their brief so they can reach you.\"}}'"
           }
         ]
       }
