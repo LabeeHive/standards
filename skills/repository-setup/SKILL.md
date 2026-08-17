@@ -12,19 +12,16 @@ Create a repository following Labee standards. `references/setup.md` holds the f
 
 ## Workflow
 
-1. **Gather** — repository name and owner (org or personal), visibility, and project type
-   (Swift app, Node.js, generic). The project type drives the .gitignore and the docs layout.
+1. **Gather** — repository name and owner (org or personal), visibility, and project type (Swift app, Node.js, generic). The project type drives the .gitignore and the docs layout.
 2. **Load** `references/setup.md`.
-3. **Create** — README.md, AGENTS.md, and a project-appropriate .gitignore for every project.
-   Add `docs/` and `.github/renovate.json5` where they apply.
+3. **Create** — README.md, AGENTS.md, and a project-appropriate .gitignore for every project. Add `docs/` and `.github/renovate.json5` where they apply.
 4. **Configure GitHub**
 
    ```bash
    gh repo edit --enable-auto-merge --delete-branch-on-merge
    ```
 
-5. **Report** — what was created, which GitHub settings were applied, and what is left for the
-   user to do. Pushing the initial commit is the user's call, not this skill's.
+5. **Report** — what was created, which GitHub settings were applied, and what is left for the user to do. Pushing the initial commit is the user's call, not this skill's.
 
 ## Reference Files
 

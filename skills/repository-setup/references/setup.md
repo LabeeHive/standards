@@ -44,17 +44,6 @@ Set up internal documentation structure.
 **Checklist:**
 
 - [ ] Create `docs/` directory
-- [ ] Add coding-standards as submodule
-
-**Commands:**
-
-```bash
-# Add coding-standards submodule
-git submodule add https://github.com/LabeeHive/coding-standards.git docs/standards
-
-# Verify submodule
-git submodule status
-```
 
 **Recommended structure:**
 
@@ -63,13 +52,12 @@ project/
 ├── docs/
 │   ├── 00_overview/
 │   │   └── README.md
-│   ├── 01_architecture/
-│   └── standards/        # coding-standards submodule
+│   └── 01_architecture/
 ├── src/
 └── README.md
 ```
 
-See [documentation/project_structure.md](../../documentation/references/project-structure.md) for details.
+See [project-conventions/docs-structure.md](../../project-conventions/references/docs-structure.md) for details.
 
 ---
 
@@ -112,10 +100,7 @@ Create templates for issues and pull requests if needed.
 - [ ] Create `.github/ISSUE_TEMPLATE/` (optional)
 - [ ] Create `.github/PULL_REQUEST_TEMPLATE.md` (optional)
 
-**Note:** Templates are optional. The important thing is following the standards in:
-
-Issue and pull request conventions are not covered by a skill; follow whatever the repository
-already does.
+**Note:** Templates are optional. Issue and pull request conventions are not covered by a skill; follow whatever the repository already does.
 
 ### Saved Replies
 
@@ -151,15 +136,6 @@ Docusaurus setup is not covered by a skill; copy the configuration from an exist
 ### Essential commands
 
 ```bash
-# Clone with submodules
-git clone --recurse-submodules <repository-url>
-
-# Initialize submodules in existing clone
-git submodule update --init --recursive
-
-# Update coding-standards submodule
-git submodule update --remote docs/standards
-
 # Check repository settings
 gh api repos/{owner}/{repo} --jq '{
   allow_auto_merge: .allow_auto_merge,
@@ -182,4 +158,3 @@ gh api repos/{owner}/{repo} --jq '{
 
 - [GitHub Docs - Creating a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-new-repository)
 - [GitHub Docs - Repository Settings](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features)
-- [Git Submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
