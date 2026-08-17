@@ -10,9 +10,10 @@
  *   --scope <scope>    project | user | plugin (default: project)
  *   --labee            Use Labee team agent template with persona sections
  *   --description <d>  Agent description
- *   --model <model>    sonnet | opus | haiku | inherit (default: sonnet)
+ *   --model <model>    sonnet | opus | haiku | inherit (default: omit the field, which inherits)
  *   --tools <tools>    Comma-separated tool list (default: "Read, Grep, Glob, Bash")
- *   --memory <scope>   user | project | local | none (default: user)
+ *   --memory <scope>   user | project | local | none (default: omit the field — auto memory
+ *                      is off in Labee's environment, CLAUDE_CODE_DISABLE_AUTO_MEMORY=1)
  *
  * Exit codes:
  *   0 - Success
@@ -23,6 +24,21 @@ import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 import { parseArgs } from "util";
 
+/**
+ * The reporting convention every agent in this repository carries.
+ * Keep these bullets identical to references/system-prompt-patterns.md and to
+ * agents/*.md. Reviewing and scanning agents add their own extras by hand —
+ * the "0 findings after scanning" vs "not scanned" distinction, false-positive
+ * marking, and re-review handling — which is why they are not in this template.
+ */
+const REPORTING_SECTION = `## Reporting
+
+- Within your first tool round, \`SendMessage\` a one-line plan to \`"main"\`.
+- Send one line to \`"main"\` at each milestone.
+- Before doing anything outside the brief you were given, \`SendMessage\` to \`"main"\` and wait for an answer.
+- When the result runs longer than a few lines, write it to the file path the brief names, and state that path in your last message.
+- Never claim a check you did not run.`;
+
 const AGENT_TEMPLATE = (opts: {
   name: string;
   description: string;
@@ -31,11 +47,11 @@ const AGENT_TEMPLATE = (opts: {
   memory: string;
   role: string;
 }) => {
+  const modelLine = opts.model ? `\nmodel: ${opts.model}` : "";
   const memoryLine = opts.memory && opts.memory !== "none" ? `\nmemory: ${opts.memory}` : "";
   return `---
 name: ${opts.name}
-description: "${opts.description}"
-model: ${opts.model}
+description: "${opts.description}"${modelLine}
 tools: ${opts.tools}${memoryLine}
 ---
 
@@ -61,6 +77,8 @@ When invoked:
 
 - TODO: Important guidelines
 
+${REPORTING_SECTION}
+
 ## Communication Style
 
 - TODO: How the agent communicates
@@ -74,13 +92,12 @@ When invoked:
 const LABEE_TEMPLATE = (opts: {
   name: string;
   description: string;
+  model: string;
   tools: string;
 }) => `---
 name: ${opts.name}
-description: "${opts.description}"
-model: sonnet
+description: "${opts.description}"${opts.model ? `\nmodel: ${opts.model}` : ""}
 tools: ${opts.tools}
-memory: user
 ---
 
 You are TODO: 日本名 (TODO: English Name).
@@ -113,6 +130,8 @@ You receive requests as a team member. Respond in your own words, not with templ
 2. TODO: How to process work
 3. TODO: How to present results
 4. TODO: How to confirm and finalize
+
+${REPORTING_SECTION}
 
 ## Communication Style
 
@@ -172,9 +191,9 @@ function main() {
       scope: { type: "string", default: "project" },
       labee: { type: "boolean", default: false },
       description: { type: "string", default: "TODO: Describe what this agent does and when to use it" },
-      model: { type: "string", default: "sonnet" },
+      model: { type: "string" },
       tools: { type: "string", default: "Read, Grep, Glob, Bash" },
-      memory: { type: "string", default: "user" },
+      memory: { type: "string" },
       help: { type: "boolean", short: "h", default: false },
     },
     allowPositionals: true,
@@ -188,9 +207,12 @@ Options:
   --scope <scope>      project | user | plugin (default: project)
   --labee              Use Labee team agent template
   --description <d>    Agent description
-  --model <model>      sonnet | opus | haiku | inherit (default: sonnet)
+  --model <model>      sonnet | opus | haiku | fable | inherit
+                       (default: omit the field, so the agent inherits the session model)
   --tools <tools>      Comma-separated tool list (default: "Read, Grep, Glob, Bash")
-  --memory <scope>     user | project | local | none (default: user)
+  --memory <scope>     user | project | local | none
+                       (default: omit the field, since auto memory is off in Labee's
+                       environment via CLAUDE_CODE_DISABLE_AUTO_MEMORY=1)
   -h, --help           Show this help`);
     process.exit(positionals.length === 0 && !values.help ? 1 : 0);
   }
@@ -206,16 +228,16 @@ Options:
     process.exit(1);
   }
 
-  // Validate model
-  const validModels = ["sonnet", "opus", "haiku", "inherit"];
-  if (!validModels.includes(values.model!)) {
+  // Validate model (optional: omitted means the agent inherits the session model)
+  const validModels = ["sonnet", "opus", "haiku", "fable", "inherit"];
+  if (values.model !== undefined && !validModels.includes(values.model)) {
     console.error(`Error: Invalid model "${values.model}". Must be one of: ${validModels.join(", ")}`);
     process.exit(1);
   }
 
-  // Validate memory
+  // Validate memory (optional: omitted means no memory field, the Labee default)
   const validMemory = ["user", "project", "local", "none"];
-  if (!validMemory.includes(values.memory!)) {
+  if (values.memory !== undefined && !validMemory.includes(values.memory)) {
     console.error(`Error: Invalid memory "${values.memory}". Must be one of: ${validMemory.join(", ")}`);
     process.exit(1);
   }
@@ -244,15 +266,16 @@ Options:
     content = LABEE_TEMPLATE({
       name,
       description: values.description!,
+      model: values.model ?? "",
       tools: values.tools!,
     });
   } else {
     content = AGENT_TEMPLATE({
       name,
       description: values.description!,
-      model: values.model!,
+      model: values.model ?? "",
       tools: values.tools!,
-      memory: values.memory!,
+      memory: values.memory ?? "",
       role: titleCase(name).toLowerCase() + " specialist",
     });
   }

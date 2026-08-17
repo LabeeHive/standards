@@ -34,8 +34,10 @@ Match tools to the agent's role:
    Yes → Add SendMessage
 
 6. Can it SPAWN sub-agents?
-   Yes → Add Task (or Task(specific-agent) for allowlist)
+   Yes → Add Agent (or Agent(specific-agent) for allowlist)
 ```
+
+Spawning is allowed: agents can spawn agents up to a nesting depth of 3 by default (`references/_agent-spec.md` Key Constraints). Note that the Agent tool's default `subagent_type: "fork"` inherits the caller's conversation — name a specific agent type when you want a reader who has not seen it.
 
 ## Permission Modes
 
@@ -43,28 +45,38 @@ Match tools to the agent's role:
 |------|-------------|
 | `default` | Most agents. Standard permission prompts. |
 | `acceptEdits` | Agents that edit files frequently (formatters, generators). User still approves Bash. |
+| `auto` | Permission decisions classified automatically instead of prompting. |
 | `dontAsk` | Restrictive agents. Auto-denies anything not in `tools`. |
 | `plan` | Planning-phase agents. Read-only exploration. |
-| `delegate` | Team lead agents that only coordinate, not implement. |
 | `bypassPermissions` | CI/automation only. Skips ALL checks. Use with extreme caution. |
+
+Plugin subagents ignore `permissionMode` (along with `mcpServers` and `hooks`).
 
 ## Model Selection
 
-| Model | When to Use | Cost |
-|-------|-------------|------|
+**Default: omit `model` entirely.** An agent with no `model` field defaults to `inherit` and runs on the same model as the main conversation, so the user's model choice carries into every agent they delegate to. Pin a model only when a deliberate reason applies — typically that a cheaper model is demonstrably enough for the work.
+
+| Model | When to Pin It | Cost |
+|-------|----------------|------|
+| (omitted) | **Default.** Same model as the main conversation. | Varies |
 | `haiku` | Simple, fast tasks (1-2 steps). Search, lookup, format. | Low |
-| `sonnet` | Most agents. Good balance of capability and cost. | Medium |
+| `sonnet` | Routine work where the session model would be overkill. | Medium |
 | `opus` | Complex reasoning, multi-step analysis, creative design. | High |
-| `inherit` | Match parent conversation. Default if omitted. | Varies |
+| `fable` | Highest-capability tier. Only where the task justifies it and the org has access. | Highest |
+| `inherit` | Same as omitting the field. Write it only when the intent needs to be explicit. | Varies |
+
+Aliases resolve to the current member of each family (`sonnet` is Sonnet 5, `opus` is Opus 5 since 2.1.219). A full model ID also works when you need to pin an exact version. Note that a pin is not a guarantee: since 2.1.222 an organization's model allowlist can substitute another family's alias when the pinned family is blocked, which is one more reason to omit the field unless the pin is doing real work.
 
 ## Memory Selection
 
+**Default: omit `memory` entirely.** Auto memory is disabled in Labee's environment (`CLAUDE_CODE_DISABLE_AUTO_MEMORY=1`), so a `memory` field buys nothing and none of the agents in this repository set one. Set it only in a project that has deliberately turned memory back on.
+
 | Scope | Path | When to Use |
 |-------|------|-------------|
-| `user` | `~/.claude/agent-memory/<name>/` | **Recommended default.** Cross-project learnings. |
+| (omit) | — | **Default.** Stateless agent. No persistent memory. |
+| `user` | `~/.claude/agent-memory/<name>/` | Cross-project learnings, in a project that enables memory. |
 | `project` | `.claude/agent-memory/<name>/` | Project-specific, shareable via VCS. |
 | `local` | `.claude/agent-memory-local/<name>/` | Project-specific, NOT in VCS. |
-| (omit) | — | Stateless agent. No persistent memory. |
 
 Include memory instructions in the system prompt when enabled:
 

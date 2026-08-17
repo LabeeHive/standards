@@ -32,21 +32,29 @@ const VALID_FIELDS = new Set([
   "mcpServers",
   "hooks",
   "memory",
+  "background",
+  "effort",
+  "isolation",
+  "color",
+  "initialPrompt",
 ]);
 
-const VALID_MODELS = new Set(["sonnet", "opus", "haiku", "inherit"]);
+// Aliases; a full model ID (e.g. claude-sonnet-5) is also valid and is accepted via ID_PATTERN.
+const VALID_MODELS = new Set(["sonnet", "opus", "haiku", "fable", "inherit"]);
+const MODEL_ID_PATTERN = /^claude-[a-z0-9.\-]+(\[[a-z0-9]+\])?$/;
 
 const VALID_PERMISSION_MODES = new Set([
   "default",
   "acceptEdits",
+  "auto",
   "dontAsk",
-  "delegate",
   "bypassPermissions",
   "plan",
 ]);
 
 const VALID_MEMORY_SCOPES = new Set(["user", "project", "local"]);
 
+// Not exhaustive: new tools ship every release, so an unlisted name is a warning, not an error.
 const KNOWN_TOOLS = new Set([
   "Read",
   "Write",
@@ -56,21 +64,58 @@ const KNOWN_TOOLS = new Set([
   "Grep",
   "WebSearch",
   "WebFetch",
-  "Task",
+  "Agent",
+  "Task", // legacy alias for Agent
   "Skill",
   "SendMessage",
+  "ListAgents",
   "NotebookEdit",
   "EnterPlanMode",
   "ExitPlanMode",
   "AskUserQuestion",
-  "TodoWrite",
+  "Artifact",
+  "Monitor",
+  "EnterWorktree",
+  "ExitWorktree",
+  "ToolSearch",
+  "LSP",
+  "Workflow",
+  "ScheduleWakeup",
   "TaskCreate",
   "TaskUpdate",
   "TaskList",
   "TaskGet",
-  "TeamCreate",
-  "TeamDelete",
+  "TaskStop",
+  "TaskOutput",
+  "CronCreate",
+  "CronDelete",
+  "CronList",
 ]);
+
+/**
+ * Split a tool list on whitespace or commas, but only outside parentheses, so
+ * patterns that contain spaces stay in one piece: `Bash(git add *)`.
+ */
+function splitToolList(value: string): string[] {
+  const tokens: string[] = [];
+  let current = "";
+  let depth = 0;
+
+  for (const ch of value) {
+    if (ch === "(") depth++;
+    else if (ch === ")") depth = Math.max(0, depth - 1);
+
+    if (depth === 0 && (ch === "," || /\s/.test(ch))) {
+      if (current.trim()) tokens.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += ch;
+  }
+  if (current.trim()) tokens.push(current.trim());
+
+  return tokens;
+}
 
 interface ParseResult {
   frontmatter: Record<string, string> | null;
@@ -175,18 +220,20 @@ function validateDescription(description: string): { errors: string[]; warnings:
 }
 
 function validateTools(toolsStr: string): string[] {
-  const errors: string[] = [];
-  if (!toolsStr) return errors;
+  const warnings: string[] = [];
+  if (!toolsStr) return warnings;
 
-  const tools = toolsStr.split(",").map((t) => t.trim());
+  const tools = splitToolList(toolsStr);
   for (const tool of tools) {
     const baseTool = tool.split("(")[0].trim();
+    // MCP tools are named mcp__<server>__<tool> and are never in KNOWN_TOOLS.
+    if (baseTool.startsWith("mcp__")) continue;
     if (!KNOWN_TOOLS.has(baseTool)) {
-      errors.push(`[tools] Unknown tool: ${tool}`);
+      warnings.push(`[tools] Unrecognized tool name: ${tool} (check spelling; new tools ship every release)`);
     }
   }
 
-  return errors;
+  return warnings;
 }
 
 function validateBody(body: string): { errors: string[]; warnings: string[] } {
@@ -257,9 +304,13 @@ function main() {
     }
 
     // Model
-    if (frontmatter.model && !VALID_MODELS.has(frontmatter.model)) {
+    if (
+      frontmatter.model &&
+      !VALID_MODELS.has(frontmatter.model) &&
+      !MODEL_ID_PATTERN.test(frontmatter.model)
+    ) {
       allErrors.push(
-        `[model] Invalid value: ${frontmatter.model}. Must be one of: ${[...VALID_MODELS].sort().join(", ")}`
+        `[model] Invalid value: ${frontmatter.model}. Must be one of: ${[...VALID_MODELS].sort().join(", ")}, or a full model ID (claude-...)`
       );
     }
 
@@ -279,7 +330,7 @@ function main() {
 
     // Tools
     if (frontmatter.tools) {
-      allErrors.push(...validateTools(frontmatter.tools));
+      allWarnings.push(...validateTools(frontmatter.tools));
     }
   }
 

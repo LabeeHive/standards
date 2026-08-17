@@ -11,7 +11,7 @@
   "plugins": [
     {
       "name": "labee-standards",
-      "description": "Labee LLC shared skills for documentation, Swift development, GitHub workflow, and more",
+      "description": "Labee LLC shared skills for documentation, Swift development, project conventions, and review workflows, plus the AI employee agents that run them",
       "source": "./",
       "strict": false
     }

@@ -99,6 +99,28 @@ explain that you only have {limited access}.
 - Explicit prohibition with graceful fallback
 - Short: 15-25 lines
 
+## Reporting Convention
+
+Every agent runs in the background by default and its tool output is invisible to whoever spawned it, so the system prompt has to say how it reports. Include these five instructions verbatim — the same wording the agents in `agents/` carry and the scaffolder emits:
+
+```markdown
+## Reporting
+
+- Within your first tool round, `SendMessage` a one-line plan to `"main"`.
+- Send one line to `"main"` at each milestone.
+- Before doing anything outside the brief you were given, `SendMessage` to `"main"` and wait for an answer.
+- When the result runs longer than a few lines, write it to the file path the brief names, and state that path in your last message.
+- Never claim a check you did not run.
+```
+
+The message-and-wait rule is the agent's only escalation path: it cannot ask the user directly, because subagents cannot call AskUserQuestion.
+
+For any agent that scans, reviews, or audits, add the distinction that makes a clean report trustworthy:
+
+```markdown
+- Report "0 findings after scanning" separately from "not scanned" — they are different results.
+```
+
 ## Writing Tips
 
 ### Context Engineering Principles (Anthropic)
