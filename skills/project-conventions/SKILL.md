@@ -69,8 +69,6 @@ Co-Authored-By: <trailer required by the harness>
 | `02_business/` | Business documentation |
 | `03_development/` | Process docs: development guides, testing strategy |
 | `04_designs/` | UI/UX designs and mockups |
-| `05_standards/` | Project-local standards deltas |
-| `98_plans/` | Implementation and migration plans — sequence and decisions, never status |
 | `99_ideas/` | Unimplemented, speculative design — isolated from authoritative docs |
 
 `99_ideas/` is a quarantine bucket: anything not yet decided or not yet built goes here, never mixed into the numbered namespaces that describe what exists. `references/docs-structure.md` owns the full layout — the numbering convention, what each namespace holds, which are optional — and the rules about what may live where. How a document is *written* (type, template, structure, wording) belongs to `/documentation`.
@@ -171,7 +169,7 @@ SKILL.md carries the contract; each file below is the only place its listed deta
 | File | Load When |
 |------|-----------|
 | references/commit-messages.md | Drafting or reviewing a commit message. Only source for: the subject-vs-body split with `/commit-message`, body phrasing, worked verification examples, known-gaps phrasing, when the body may be skipped |
-| references/docs-structure.md | Placing a new doc or auditing docs/. Only source for: the full `docs/` layout and what each namespace holds, the two-digit numbering convention and its reserved ranges, the exists-vs-still-deciding placement heuristic, `99_ideas/` graduation/retirement rule, the `98_plans/` status test, how to handle progress content found during review, the CLAUDE.md/AGENTS.md structure snippet |
+| references/docs-structure.md | Placing a new doc or auditing docs/. Only source for: the full `docs/` layout and what each namespace holds, the two-digit numbering convention and its reserved ranges, the exists-vs-still-deciding placement heuristic, `99_ideas/` graduation/retirement rule, why plans and roadmaps do not get a namespace, how to handle progress content found during review, the CLAUDE.md/AGENTS.md structure snippet |
 | references/adr-conventions.md | Filing, reviewing or superseding an ADR, or setting up `adr/`. Only source for: file naming and numbering, append-only and the exactly-two-permitted-edits rule, the Superseded/Withdrawn vocabulary and why answering an open question is neither, the three `Decided:` header forms and the consent-vs-having-been-shown distinction, the required sections and template, the tracker-search procedure behind the Propagation table, dated-numbers-in-ADR vs no-numbers-in-current-shape-docs |
 | references/task-tracker-integration.md | Wiring a project's CLAUDE.md to its tracker or writing milestone comments. Only source for: the CLAUDE.md tracker-naming phrasing, commit-vs-tracker content routing table, three-part milestone comment shape, the project-designated-tracker-only rule |
 | references/backlog-granularity.md | Filing, splitting, or auditing tracker items, or planning a milestone/roadmap. Only source for: the Milestone/Epic/Story/Task layer model and where filing stops, the one-ADR-or-one-feature Story definition, the vertical-slice and kind-of-data splitting rules, when an ADR is split out vs. folded in, the parallel-band and cost-deferred ordering rules, the landing question and the product-completeness category sweep |

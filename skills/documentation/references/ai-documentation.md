@@ -118,8 +118,7 @@ docs/
 ├── 00_overview/        # Project overview
 ├── 01_architecture/    # System architecture
 ├── 03_development/     # Development guides
-├── 04_designs/         # UI/UX designs
-└── 05_standards/       # Project-local standards deltas
+└── 04_designs/         # UI/UX designs
 
 ```
 ````
@@ -145,14 +144,13 @@ Read these documents first:
 
 1. `docs/00_overview/README.md`
 2. `docs/01_architecture/architecture.md`
-3. `docs/05_standards/`
 
 ### Common scenarios
 
 | Task | Reference |
 |------|-----------|
 | Understanding architecture | `docs/01_architecture/` |
-| Writing new code | `docs/05_standards/` |
+| Writing new code | `docs/01_architecture/` |
 | UI design reference | `docs/04_designs/ui-mockup.md` |
 ```
 
@@ -322,8 +320,7 @@ docs/
 ├── 00_overview/
 ├── 01_architecture/
 ├── 03_development/
-├── 04_designs/
-└── 05_standards/
+└── 04_designs/
 
 ```
 
@@ -333,7 +330,6 @@ docs/
 
 1. `docs/00_overview/README.md`
 2. `docs/01_architecture/architecture.md`
-3. `docs/05_standards/`
 
 ---
 

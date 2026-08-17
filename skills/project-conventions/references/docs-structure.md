@@ -11,21 +11,19 @@ docs/
   02_business/       business documentation
   03_development/    process docs — development guides, testing strategy
   04_designs/        UI/UX designs and mockups
-  05_standards/      project-local standards deltas
-  98_plans/          implementation and migration plans
   99_ideas/          unimplemented, speculative design — quarantined
 ```
 
 ### Numbering convention
 
-Two-digit prefix, underscore separator. `00`–`09` is the core range, `98`–`99` is auxiliary content, and everything between is left free so a namespace can be inserted later without renumbering everything that follows.
+Two-digit prefix, underscore separator. `00`–`09` is the core range, `99` holds the ideas quarantine, and everything between is left free so a namespace can be inserted later without renumbering everything that follows.
 
 | Range | Purpose |
 |-------|---------|
 | 00-09 | Core documentation — overview, architecture, development |
 | 10-89 | Reserved for expansion |
-| 90-97 | Reserved |
-| 98-99 | Auxiliary content — plans, ideas |
+| 90-98 | Reserved |
+| 99 | Ideas quarantine |
 
 Do not renumber an existing project to match this list. Renumbering breaks every link into the namespace, and the slot number is not what the rules are about.
 
@@ -38,8 +36,6 @@ Do not renumber an existing project to match this list. Renumbering breaks every
 | `02_business/` | No | Monetization, competitive analysis, business requirements |
 | `03_development/` | Yes | `testing/` guidelines, development guides, build and deployment docs |
 | `04_designs/` | No | `ui-mockup.md`, `mockups/`, design system documentation |
-| `05_standards/` | No | Project-local standards deltas — where this project departs from the shared standards |
-| `98_plans/` | No | Implementation plans, migration plans |
 | `99_ideas/` | No | Feature ideas and proposals, research notes, technology exploration |
 
 `01_architecture/adr/` is where a decision's *history* lives; the numbered namespaces describe only the **current shape** and link there for the "why". A project that keeps its decision records in a different slot keeps them there. The rules themselves are in `references/adr-conventions.md`, and the ADR directory's `README.md` points at them rather than restating them.
@@ -62,7 +58,7 @@ Never place any of the following in a numbered namespace, or anywhere in `docs/`
 
 This content belongs in the task tracker (see references/task-tracker-integration.md). The reason is not aesthetic: a status table goes stale the moment work continues, and a stale doc is worse than no doc because it actively misleads. `docs/` should describe things that stay true regardless of how much is implemented — architecture, concept, standards — so it never needs a "last updated" caveat to be trusted.
 
-`98_plans/` is subject to the same test, and it is the namespace where the rule breaks most often. The moment a plan carries a status column, a percentage, or a checklist of what is finished, it is tracker content and belongs in the tracker; a plan that records only the intended sequence and the decisions behind it may stay. A release roadmap in particular is almost always tracker content wearing a doc's clothes — the milestone and its state live in the tracker (see references/backlog-granularity.md), not here.
+A plan or roadmap does not get a namespace of its own: the sequence and its state live in the tracker (see references/backlog-granularity.md) and the decisions behind it live in an ADR under `01_architecture/adr/`.
 
 When reviewing an existing docs/ tree, flag any status/progress content found and recommend moving it to the tracker rather than deleting the surrounding doc — the doc's non-progress content is usually still valid reference material.
 
@@ -95,7 +91,7 @@ Run against every docs/ placement or review before presenting:
 
 - [ ] Each new/moved doc placed by the heuristic: describes something that *exists* → numbered namespace; still being decided → `99_ideas/`
 - [ ] No status tables, percentage-complete counters, or TODO/done checklists anywhere in docs/ — any found are flagged for the tracker, with the surrounding doc preserved
-- [ ] Any `98_plans/` document records sequence and decisions only, with its status moved to the tracker
+- [ ] Any plan or roadmap content found in docs/ is routed to the tracker (sequence and state) or to an ADR (the decisions behind it)
 - [ ] Speculative or unimplemented design found outside `99_ideas/` is flagged for quarantine
 - [ ] Ideas that have since been built are graduated into the matching numbered namespace, with the `99_ideas/` doc retired or trimmed to the decision record (no duplication)
 - [ ] A doc describing *why* a decision was made links to its ADR rather than restating the history; the numbered namespace carries only the current shape

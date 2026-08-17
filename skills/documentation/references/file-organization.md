@@ -125,7 +125,7 @@ The `docs/` tree itself — which numbered namespaces exist, what each holds, an
 **✅ Good:**
 
 ```
-docs/05_standards/swift/naming.md  (4 levels)
+docs/03_development/swift/naming.md  (4 levels)
 ```
 
 **❌ Bad:**
@@ -178,10 +178,10 @@ This directory contains coding standards applicable to all projects.
 
 ```bash
 # View document history
-git log --follow docs/05_standards/swift/naming.md
+git log --follow docs/03_development/swift/naming.md
 
 # View specific changes
-git diff HEAD~1 docs/05_standards/swift/naming.md
+git diff HEAD~1 docs/03_development/swift/naming.md
 ```
 
 **❌ Bad:**
