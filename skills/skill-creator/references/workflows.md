@@ -67,7 +67,7 @@ For skills with 3+ steps, use Phase Tracking to ensure progress visibility and m
 | Annotation | Use When | Example |
 |------------|----------|---------|
 | `\| MUST run: {command}` | Script execution is required | `\| MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` |
-| `\| Skills: /name` | Skill invocation is required | `\| Skills: /swift-development` |
+| `\| Skills: /name` | Skill invocation is required | `\| Skills: /swift-core` |
 | `\| Skills: /name (if condition)` | Conditional skill invocation | `\| Skills: /localization (if UI strings changed)` |
 | (no annotation) | No specific execution required | Phase is purely manual or analytical |
 
@@ -80,6 +80,8 @@ For skills with 3+ steps, use Phase Tracking to ensure progress visibility and m
     | 1 | `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` | Always |
     | 2 | `Skill("some-skill")` | Always |
     | 3 | `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` | Always |
+
+**The task tools are opt-in on current models.** Claude Code 2.1.233 removed `TaskCreate`/`TaskGet`/`TaskUpdate`/`TaskList` from Opus 4.8, Sonnet 5, Fable 5, Mythos 5 and newer unless `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` is set. Write the phase list so it still works without them: tell the skill to keep the phases as a checklist in its responses when the task tools are unavailable, and never make a phase conditional on a task existing.
 
 **When to use Phase Tracking:**
 
@@ -138,9 +140,11 @@ Guide through decision points:
 
 | Indicator | Behavior | Example |
 |-----------|----------|---------|
-| `_filename.md` | Read every time — SKILL.md must say so | `_core-rules.md` |
+| `_filename.md` | Injected into the body every invocation via a `` ```! `` `cat` block | `_core-rules.md` |
 | `filename.md` | Load when task matches | `api.md` → API work |
 | Explicit instruction | Load when SKILL.md says | "See schemas.md for DB" |
+
+A `_` file is not auto-loaded and an instruction to read it is not reliably followed, so SKILL.md injects it instead — see `references/resource-patterns.md` Naming Conventions for the block and its costs.
 
 **When to load a reference (Claude's decision):**
 
@@ -186,17 +190,13 @@ Run `npm run build`
 
 ## Isolation Considerations
 
-Do not use `context: fork` — a forked skill cannot reach the user, so any step that asks a
-question or waits for approval stalls silently. Workflow skills run in the main context.
+Do not use `context: fork` — a forked skill cannot reach the user, so any step that asks a question or waits for approval stalls silently. Workflow skills run in the main context.
 
-When a workflow genuinely needs isolated work (a wide investigation, a parallel review), spawn
-subagents with the Task tool from inside the skill. Give each one a self-contained brief, since
-it cannot see the conversation, and have it report back to you rather than to the user.
+When a workflow genuinely needs isolated work (a wide investigation, a parallel review), spawn subagents with the Agent tool from inside the skill. Give each one a self-contained brief, since it cannot see the conversation, and have it report back to you rather than to the user.
 
 ## Bounded retry
 
-For a skill whose output can be checked mechanically, loop instead of hoping the first attempt
-lands:
+For a skill whose output can be checked mechanically, loop instead of hoping the first attempt lands:
 
 ```
 Run → Verify → pass? → done
@@ -206,14 +206,10 @@ Run → Verify → pass? → done
 
 Three things make it terminate rather than spin:
 
-- **A verification that is a command, not a judgement.** A script exiting non-zero, a build
-  failing, a linter reporting. If passing is a matter of opinion, this pattern does not apply.
+- **A verification that is a command, not a judgement.** A script exiting non-zero, a build failing, a linter reporting. If passing is a matter of opinion, this pattern does not apply.
 - **A hard iteration cap.** Three is usually right. State it in the skill.
-- **A stall condition.** If the same item fails twice running, stop and report it instead of
-  trying a third time — a repeat failure means the fix strategy is wrong, not unlucky.
+- **A stall condition.** If the same item fails twice running, stop and report it instead of trying a third time — a repeat failure means the fix strategy is wrong, not unlucky.
 
-On giving up, say which items failed and why. A skill that silently stops at the cap looks the
-same as one that succeeded.
+On giving up, say which items failed and why. A skill that silently stops at the cap looks the same as one that succeeded.
 
-`swift-localization` is the worked example: `verify.ts` reports untranslated keys, the skill
-translates what is missing and re-verifies, capped at three passes.
+`swift-localization` is the worked example: `verify.ts` reports untranslated keys, the skill translates what is missing and re-verifies, capped at three passes.

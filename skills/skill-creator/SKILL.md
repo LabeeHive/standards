@@ -2,7 +2,7 @@
 name: skill-creator
 description: Create and update Claude skills following best practices. Use this when building new skills or improving existing ones.
 when_to_use: Triggers on "スキル作成", "skill作成", "create skill", "new skill", "スキル改善".
-allowed-tools: Read Glob Grep Write Edit Bash(mkdir:*) Bash(bun:*) WebFetch WebSearch Task TaskCreate TaskUpdate TaskList
+allowed-tools: Read Glob Grep Write Edit Bash(mkdir:*) Bash(bun:*) WebFetch WebSearch Agent SendMessage TaskCreate TaskUpdate TaskList
 ---
 
 # Skill Creator
@@ -17,7 +17,7 @@ Create effective skills that extend Claude's capabilities.
 
 ```
 TaskCreate: "Phase 1: Understand"
-TaskCreate: "Phase 2: Research              | WebFetch spec + guide, Task(Explore)"
+TaskCreate: "Phase 2: Research              | WebFetch spec + guide, Agent(Explore)"
 TaskCreate: "Phase 3: Plan Resources"
 TaskCreate: "Phase 4: Initialize            | MUST run: bun ${CLAUDE_SKILL_DIR}/scripts/init_skill.ts"
 TaskCreate: "Phase 5: Create Resources      | Test scripts against real project"
@@ -28,14 +28,16 @@ TaskCreate: "Phase 8: Validate & Package    | MUST run: bun ${CLAUDE_SKILL_DIR}/
 
 Update status as you progress: `in_progress` when starting, `completed` when done.
 
+The task tools are opt-in on current models — Claude Code 2.1.233 removed `TaskCreate`/`TaskGet`/`TaskUpdate`/`TaskList` from Opus 4.8, Sonnet 5, Fable 5, Mythos 5 and newer unless `CLAUDE_CODE_ENABLE_TODO_TOOLS=1` is set. When they are unavailable, keep the same phases as a checklist in your responses and report which phase you are on; do not skip phases because the tool is missing.
+
 **Execution checklist (verify at end):**
 
 | Phase | Must Execute | Condition |
 |-------|-------------|-----------|
-| 2 | WebFetch spec + guide, Task(Explore) | Unless skip criteria met |
+| 2 | WebFetch spec + guide, Agent(Explore) | Unless skip criteria met |
 | 4 | `bun ${CLAUDE_SKILL_DIR}/scripts/init_skill.ts` | New skill only |
 | 5 | Test scripts against real project | Scripts exist |
-| 7 | `Task(labee-dev-tech-lead)` + `Task(labee-dev-apm)` | Always |
+| 7 | `Agent(labee-dev-tech-lead)` + `Agent(labee-dev-apm)` | Always |
 | 8 | `bun ${CLAUDE_SKILL_DIR}/scripts/quick_validate.ts` | Always |
 
 ## Progressive Disclosure (3-Level Loading)
@@ -95,7 +97,7 @@ skill-name/
 | Target | Method |
 |--------|--------|
 | Agent Skills Spec | WebFetch agentskills.io/specification |
-| Existing similar skills | Task(Explore) in skills/ directory |
+| Existing similar skills | Agent(Explore) in skills/ directory |
 | Domain tools | WebSearch "{tool-name} CLI documentation" |
 
 **Skip when ALL of these are true:**
@@ -127,9 +129,9 @@ For **each scenario** from Phase 1, ask:
 1. **allowed-tools** — List specific tool patterns needed (space-delimited)
 2. **argument-hint** — See `references/output-patterns.md` argument-hint Decision
 3. **Invocation control** — See `references/output-patterns.md` Invocation Control
-4. **paths** — Do not set (deprecated; see `references/output-patterns.md` paths Decision). Express file affinity in `description`/`when_to_use` instead
+4. **paths** — Do not set (see `references/output-patterns.md` paths Decision). Express file affinity in `description`/`when_to_use` instead
 
-**Do not set** `model`, `effort`, `context: fork`, or `agent`. These were removed from every Labee skill: `context: fork` runs the skill in an isolated background process where the caller sees nothing but a launch notice, so any instruction to ask the user or wait for approval hangs silently forever, and the `model`/`effort` pinning existed mainly to configure those forked runs. Skills inherit the session's model and effort.
+**Do not set** `model`, `effort`, `context: fork`, `agent`, or `background`. No skill in this repository sets any of them. `context: fork` runs the skill in an isolated subagent with no conversation history, backgrounded by default since Claude Code 2.1.218 (`background: false` waits in-turn) — either way it cannot ask the user anything, which is why the field was removed from this repository in July. A skill that needs isolation spawns a subagent instead. `model` is worse than unnecessary: since 2.1.227 it is recorded but not applied in interactive sessions (works only under `claude -p`; Anthropic reproduced this on 2.1.233, issue #85658). Skills inherit the session's model and effort.
 
 **Present the resource plan to the user for approval before proceeding.**
 
@@ -180,7 +182,7 @@ For each script identified in Phase 3:
 For each reference file identified in Phase 3:
 
 - Write focused markdown files
-- Use `_` prefix only for files that apply to ALL invocations (keep <200 lines)
+- Use `_` prefix only for files that apply to ALL invocations (keep <200 lines), and inject them into SKILL.md with a `` ```! `` `cat` block plus `Bash(cat:*)` in `allowed-tools` — see `references/resource-patterns.md` Naming Conventions
 - Load on-demand by default
 
 #### 5c: Assets
@@ -194,8 +196,7 @@ For each asset identified in Phase 3:
 
 Now write the SKILL.md body, referencing the resources created in Phase 5.
 
-**Frontmatter** — Use values decided in Phase 3. See `references/output-patterns.md` for the
-field reference, invocation control, and allowed-tools patterns.
+**Frontmatter** — Use values decided in Phase 3. See `references/output-patterns.md` for the field reference, invocation control, and allowed-tools patterns.
 
 **Body guidelines:**
 
@@ -219,37 +220,43 @@ field reference, invocation control, and allowed-tools patterns.
 
 ### Phase 7: Review Gate (PARALLEL)
 
-**Spawn both `labee-dev-tech-lead` and `labee-dev-apm` in one message via the Task tool. This
-phase blocks Phase 8 until both approve.**
+**Spawn both `labee-dev-tech-lead` and `labee-dev-apm` in one message via the Agent tool. This phase blocks Phase 8 until both approve.**
 
-A skill you just wrote reads correctly to you because you hold the intent that produced it. A
-reader who does not catches the two things that intent hides: instructions that only make sense
-if you already know what was meant, and steps left as prose that should have been a script.
+A skill you just wrote reads correctly to you because you hold the intent that produced it. A reader who does not catches the two things that intent hides: instructions that only make sense if you already know what was meant, and steps left as prose that should have been a script.
 
 Not a process audit — do not ask whether references were read or TODOs remain.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│ PARALLEL: Spawn 2 reviewers via Task                        │
+│ PARALLEL: Spawn 2 reviewers via Agent                       │
 ├─────────────────────────────────────────────────────────────┤
-│ 1. Task(labee-dev-tech-lead) → Instructions as written      │
+│ 1. Agent(labee-dev-tech-lead) → Instructions as written     │
 │    - Steps that assume context the reader will not have     │
 │    - Claims about tool behaviour that are not true          │
 │    - Blocking questions on a path the user cannot reach     │
 │    - Drift from how existing skills in this repo are built  │
 │                                                             │
-│ 2. Task(labee-dev-apm) → Scripts and automation             │
+│ 2. Agent(labee-dev-apm) → Scripts and automation            │
 │    - Script quality (error handling, exit codes, shebang)   │
 │    - Scripts tested against real projects, not just --help  │
 │    - Repeated manual steps that should have been a script   │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Give each reviewer** the SKILL.md text, the resources created in Phase 5, and the plan from
-Phase 3. They run in fresh contexts and see nothing of this conversation.
+**Give each reviewer** the SKILL.md text, the resources created in Phase 5, and the plan from Phase 3. They run in fresh contexts and see nothing of this conversation.
+
+**Each brief must state:**
+
+- Where the review output goes and in what format
+- Acceptance criteria — what "LGTM" requires, concretely
+- What is out of scope (the other reviewer's lane, and the process audit above)
+
+The reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
+
+**Name the reviewers when you spawn them** (the Agent tool's `name` parameter, e.g. `tech-lead-review` and `apm-review`) so a rejection can go back to the same reviewer.
 
 **On approval:** both LGTM → Phase 8.
-**On rejection:** fix what they cite → re-run Phase 7.
+**On rejection:** fix what they cite, then send the fix to the *same* reviewer with `SendMessage(to: <name>)` — what changed and where — and ask it to re-check its own findings. Do not spawn a fresh reviewer for the re-review: a new one has not seen the findings it would be verifying, and re-reads everything from zero. Repeat until it returns LGTM; a fresh spawn is only for a reviewer that has died or lost its context.
 
 ### Phase 8: Validate & Package
 
@@ -275,9 +282,9 @@ Fix any errors and re-run.
 - [ ] description key info front-loaded (`description` + `when_to_use` are capped at 1,536 chars in the skill listing)
 - [ ] name does not contain reserved words (`anthropic`, `claude`)
 - [ ] allowed-tools uses specific patterns (not generic `Bash`)
-- [ ] `model`, `effort`, `context`, `agent` NOT set
+- [ ] `model`, `effort`, `context`, `agent`, `background`, `paths` NOT set — `quick_validate.ts` now fails the skill if any of them appears
 - [ ] No instruction that blocks on user input sits in a code path the user cannot reach
-- [ ] paths NOT set — deprecated due to known Claude Code bugs (skill discovery breaks; see `references/output-patterns.md` paths Decision)
+- [ ] paths NOT set — removed from this repository over Claude Code bugs that break skill discovery (see `references/output-patterns.md` paths Decision)
 - [ ] argument-hint set for skills with `disable-model-invocation: true` or meaningful arguments
 - [ ] Invocation control set correctly for skill type
 - [ ] `disable-model-invocation: true` skills carry no `when_to_use` trigger list — the model cannot see or invoke them, so trigger phrases there are dead text
@@ -311,6 +318,7 @@ Principles from the official skill-creator (anthropics/skills) for iterating on 
 - **Keep the prompt lean.** Read the transcripts, not just the outputs. If a section makes the model do unproductive work, removing it is an improvement.
 - **Bundle repeated work.** If test runs keep writing the same helper script or repeating the same multi-step sequence, ship it in `scripts/` so future invocations don't reinvent it.
 - **Strengthen triggering empirically.** If the skill undertriggers, make the description more concrete (and slightly "pushy") about when to use it; test with both should-trigger and tricky near-miss should-not-trigger phrasings.
+- **Measure instead of guessing.** The official skill-creator plugin ships an eval loop — `evals/evals.json` plus per-eval grading, run isolated per subagent, with benchmark and version A/B modes — which is the documented way to compare two versions of a skill on the same prompts.
 
 ## Reference Files
 

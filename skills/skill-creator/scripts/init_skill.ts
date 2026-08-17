@@ -101,7 +101,17 @@ Documentation Claude **reads into context** when needed.
 
 - **Use when:** API specs, detailed guides, domain knowledge
 - **Pattern:** Focused markdown files, on-demand loading
-- **Naming:** \`_filename.md\` for auto-load (use sparingly)
+- **Naming:** \`_filename.md\` marks a reference that applies to every invocation. Nothing loads it automatically, and an instruction to read it is not reliably followed — inject it into this SKILL.md with the block below and add \`Bash(cat:*)\` to allowed-tools (use sparingly: every invocation pays the tokens)
+
+Injection block for a \`_\` reference — put it near the top of the body, right after the intro. Copy it out of this indented block so the fence starts at the line start:
+
+    ## Core Rules (injected on every invocation)
+
+    \`\`\`!
+    cat "\${CLAUDE_SKILL_DIR}/references/_core-rules.md" 2>/dev/null || echo "(reference missing: _core-rules.md)"
+    \`\`\`
+
+The \`|| echo\` fallback matters: a non-zero exit from an injected command aborts the whole invocation. Injection also does not run in claude.ai-synced skills or when \`disableSkillShellExecution\` is set.
 
 ### assets/
 Files used **in output**, not for Claude's understanding.

@@ -141,18 +141,13 @@ Output: `fix: resolve null pointer on app launch`
 
 ## Model, effort, and execution context
 
-Do not set `model`, `effort`, `context`, or `agent` on a skill. Every Labee skill had these
-removed; a skill inherits the session's model and effort.
+Do not set `model`, `effort`, `context`, `agent`, or `background` on a skill. No skill in this repository sets any of them; a skill inherits the session's model and effort.
 
-`context: fork` runs the skill in an isolated background process. Measured behaviour: the
-caller receives only `Skill "<name>" launched (forked execution, running in the background).`
-— no instructions, no phase progress, no errors, and in one trial no completion notification
-at all. The forked run cannot reach the user, so any instruction to ask a question or wait for
-approval leaves it stalled indefinitely while appearing to work. That is what the `model` and
-`effort` pinning mostly existed to configure, so all four fields went together.
+`context: fork` runs the skill in an **isolated** subagent that starts from a fresh context — the name is misleading, because it does not inherit the conversation. (The Agent tool's `subagent_type: "fork"`, the default since Claude Code 2.1.232, is the one that inherits the parent's conversation and prompt cache.) Since 2.1.218 a forked skill runs in the background by default; `background: false` makes the caller wait for it in-turn instead. Either way the forked run cannot reach the user, so a skill that has to ask a question or wait for approval stalls there. That is why the field was removed from this repository in July; a skill that needs isolation spawns a subagent instead.
 
-If a skill genuinely needs isolation, spawn a subagent with the Task tool from inside the
-skill instead — the result comes back to the caller.
+`model` and `effort` existed mostly to configure those forked runs. `model` additionally does not work: since 2.1.227 (still true on 2.1.233) a skill's `model` is recorded but never applied in interactive sessions — it only takes effect under `claude -p`. Anthropic reproduced this on 2.1.233 and it is unfixed ([#85658](https://github.com/anthropics/claude-code/issues/85658)). A skill that pins a model therefore silently runs on whatever the session is using.
+
+If a skill genuinely needs isolation, spawn a subagent with the Agent tool from inside the skill instead — the result comes back to the caller, and the caller stays able to talk to the user.
 
 ## Invocation Control
 
@@ -175,8 +170,8 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 | Pattern | Example | Reason |
 |---------|---------|--------|
 | Daily tasks | commit-message, vigilare-task | Frequent use, triggers naturally |
-| Code assistance | swift-development, documentation | Helps during normal development flow |
-| Workflow shortcuts | github-workflow | "Issue作って" should just work |
+| Code assistance | swift-core, documentation | Helps during normal development flow |
+| Workflow shortcuts | obsidian-note | "メモして" should just work |
 
 ### When to use `user-invocable: false`
 
@@ -184,6 +179,12 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 |---------|---------|--------|
 | Helper sub-skill | Internal validation | Only called by other skills |
 | Background automation | Session cleanup | Claude decides when to run |
+
+### Naming and visibility of the invocation
+
+- **Stacked invocations.** A prompt can lead with several skills — `/skill-a /skill-b …` loads up to 5 leading skills into the same turn (Claude Code 2.1.199). Write a skill so it composes: do not assume it is the only instruction set in the turn.
+- **Nested skill directories.** Skills under a nested `.claude/skills` appear as `<dir>:<name>` when the bare name collides with another skill (2.1.178). Plugin skills are always `plugin:<name>`.
+- **`skillOverrides` setting.** Users can downgrade a skill's availability per project without editing it: `"on"` (normal), `"name-only"` (listed by name, description withheld), `"user-invocable-only"` (Claude cannot auto-invoke it), `"off"`. Toggled with Space in the `/skills` menu and saved to `.claude/settings.local.json`. It does not apply to plugin skills — those are managed through `/plugin`.
 
 ## Frontmatter Fields
 
@@ -208,19 +209,22 @@ Source: <https://code.claude.com/docs/en/skills>
 
 | Field | Required | Type | Default | Description |
 |-------|:--------:|------|---------|-------------|
-| model | No | string | (inherited) | **Do not set.** Same values as `/model`, or `inherit`. Override applies for the rest of the current turn only; the session model resumes on the next prompt |
+| model | No | string | (inherited) | **Do not set.** Same values as `/model`, or `inherit`. Documented to apply for the rest of the current turn only; the session model resumes on the next prompt. Also broken in interactive sessions — see Model, effort, and execution context |
 | effort | No | enum | (inherited) | **Do not set.** `low`, `medium`, `high`, `xhigh`, `max`. Available levels depend on the model. Overrides session effort while the skill is active |
 | when_to_use | No | string | - | Additional triggering context (trigger phrases, example requests). Appended to `description` in the skill listing; counts toward the 1,536-char cap |
 | arguments | No | string/list | - | Named positional arguments for `$name` substitution. `arguments: [issue, branch]` → `$issue`, `$branch` map to positions in order |
-| context | No | enum | (normal) | `fork` for isolated execution. **Do not set** — see Model, effort, and execution context |
+| context | No | enum | (normal) | `fork` runs the skill in an isolated subagent. **Do not set** — see Model, effort, and execution context |
 | agent | No | string | - | Agent type when `context: fork`. **Do not set** |
-| paths | No | string | - | **Deprecated — do not set** (see paths Decision). Glob patterns intended to limit auto-activation to matching files |
+| background | No | bool | true | Only meaningful together with `context: fork` (Claude Code 2.1.218+). `true` runs the forked skill in the background; `background: false` makes the caller wait for it in-turn. **Do not set** — it has no effect without `context: fork` |
+| paths | No | string | - | **Not used in this repository** (see paths Decision). Glob patterns intended to limit auto-activation to matching files |
 | argument-hint | No | string | - | Hint shown in `/` autocomplete (e.g., `[issue-number]`) |
 | disable-model-invocation | No | bool | false | Prevent auto-invocation by Claude. The skill's description is removed from Claude's context entirely (still visible in the `/` menu) |
 | user-invocable | No | bool | true | Show in `/` menu |
 | disallowed-tools | No | string/list | - | Tools removed from Claude's available pool while the skill is active. Restriction clears on the next user message |
 | hooks | No | object | - | Hooks scoped to this skill's lifecycle |
 | shell | No | enum | bash | Shell for `` !`command` `` blocks. `bash` or `powershell` |
+
+Boolean fields (`disable-model-invocation`, `user-invocable`, `background`, …) accept `yes`/`no`, `on`/`off`, and `1`/`0` in addition to `true`/`false` since Claude Code 2.1.218. Prefer `true`/`false` anyway — it is the form the skills in this repository already use, and spec-compliant tools outside Claude Code only guarantee the YAML booleans.
 
 ### String Substitutions
 
@@ -234,6 +238,11 @@ Available in SKILL.md body content:
 | `${CLAUDE_SESSION_ID}` | Current session ID |
 | `${CLAUDE_EFFORT}` | Current effort level (`low`–`max`). Use to adapt instructions to the active effort |
 | `${CLAUDE_SKILL_DIR}` | Directory containing SKILL.md (use for referencing bundled scripts/files) |
+| `${CLAUDE_PROJECT_DIR}` | Project root directory |
+| `${CLAUDE_PLUGIN_ROOT}` | Plugin root directory — plugin skills only |
+| `${CLAUDE_PLUGIN_DATA}` | Plugin data directory that survives plugin updates — plugin skills only |
+
+Unmatched `$N` placeholders are left in place rather than deleted (Claude Code 2.1.210). Do not write a literal `$0` or `$1` in body prose that is not meant as a placeholder: multi-word argument values have been reported to corrupt such literals during substitution ([#87109](https://github.com/anthropics/claude-code/issues/87109), 2026-08-16). Write the index in prose ("the first argument") or fence it as code when you need to talk about the syntax itself.
 
 ### Dynamic Context Injection
 
@@ -257,14 +266,14 @@ Why SKILL.md conciseness matters beyond the initial load:
 
 ## paths Decision
 
-**Deprecated in this repository — do not set `paths`.**
+**Not used in this repository — do not set `paths`.**
 
-The field is still in the official docs ("Claude loads the skill automatically only when working with files matching the patterns"), but it is broken in practice as of Claude Code 2.1.150 (2026-06):
+`paths` is not deprecated: the official skills documentation still lists it as a current field ("Claude loads the skill automatically only when working with files matching the patterns"). This repository removed it on 2026-06-11 because it did not work, as of Claude Code 2.1.150:
 
 - The auto-load trigger does not fire at all ([#62049](https://github.com/anthropics/claude-code/issues/62049), verified at the API level)
 - A skill carrying `paths` can become undiscoverable — missing from the skill listing and uninvocable via `/name` ([#49835](https://github.com/anthropics/claude-code/issues/49835), open)
 
-`description` + `when_to_use` are the actual trigger mechanism — express file affinity there instead (e.g., mention the file types in the description). Re-check the issues above before reintroducing `paths`; the intended syntax was glob patterns as a comma-separated string (`paths: "**/*.swift, **/Package.swift"`) or YAML list.
+`description` + `when_to_use` are the actual trigger mechanism — express file affinity there instead (e.g., mention the file types in the description). Both issues predate the versions this repository now targets, so re-verify them on your Claude Code version before relying on `paths`; the intended syntax is glob patterns as a comma-separated string (`paths: "**/*.swift, **/Package.swift"`) or a YAML list.
 
 ## argument-hint Decision
 

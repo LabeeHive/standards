@@ -28,6 +28,7 @@ const ALLOWED_PROPERTIES = new Set([
   "arguments",
   "context",
   "agent",
+  "background",
   "paths",
   "argument-hint",
   "disable-model-invocation",
@@ -37,7 +38,44 @@ const ALLOWED_PROPERTIES = new Set([
   "shell",
 ]);
 
+// Valid Claude Code fields that this repository nonetheless forbids — see
+// references/output-patterns.md. They stay in ALLOWED_PROPERTIES so a skill that
+// sets one gets this specific message instead of a generic "unknown key".
+const FORBIDDEN_PROPERTIES = ["model", "effort", "context", "agent", "background", "paths"];
+
 const RESERVED_NAME_WORDS = ["anthropic", "claude"];
+
+// Claude Code 2.1.218+ accepts these spellings for boolean frontmatter fields.
+const TRUTHY_VALUES = new Set(["true", "yes", "on", "1"]);
+
+function isTruthy(value: string | undefined): boolean {
+  return TRUTHY_VALUES.has((value || "").trim().toLowerCase());
+}
+
+/**
+ * Split a tool list on whitespace or commas, but only outside parentheses, so
+ * patterns that contain spaces stay in one piece: `Bash(git add *)`.
+ */
+export function splitToolList(value: string): string[] {
+  const tokens: string[] = [];
+  let current = "";
+  let depth = 0;
+
+  for (const ch of value) {
+    if (ch === "(") depth++;
+    else if (ch === ")") depth = Math.max(0, depth - 1);
+
+    if (depth === 0 && (ch === "," || /\s/.test(ch))) {
+      if (current.trim()) tokens.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += ch;
+  }
+  if (current.trim()) tokens.push(current.trim());
+
+  return tokens;
+}
 
 interface ValidationResult {
   valid: boolean;
@@ -91,6 +129,15 @@ export function validateSkill(skillPath: string): ValidationResult {
     };
   }
 
+  // Check for properties this repository forbids
+  const forbiddenKeys = FORBIDDEN_PROPERTIES.filter((k) => k in frontmatter);
+  if (forbiddenKeys.length > 0) {
+    return {
+      valid: false,
+      message: `Forbidden key(s) in SKILL.md frontmatter: ${forbiddenKeys.sort().join(", ")}. Do not set ${FORBIDDEN_PROPERTIES.join(", ")} in this repository — see references/output-patterns.md`,
+    };
+  }
+
   // Check required fields
   if (!frontmatter.name) {
     return { valid: false, message: "Missing 'name' in frontmatter" };
@@ -131,16 +178,25 @@ export function validateSkill(skillPath: string): ValidationResult {
 
   // --- Labee Standards ---
 
-  // Trigger phrases must exist in when_to_use (recommended) or inline in description
+  // Trigger phrases must exist in when_to_use (recommended) or inline in description.
+  // Skipped for disable-model-invocation skills: Claude cannot see or auto-invoke them,
+  // so trigger phrases there are dead text (see SKILL.md Phase 8 checklist).
   const whenToUse = (frontmatter["when_to_use"] || "").trim();
-  if (description && !description.includes("Triggers on") && !whenToUse.includes("Triggers on")) {
+  const modelInvocationDisabled = isTruthy(frontmatter["disable-model-invocation"]);
+  if (
+    description &&
+    !modelInvocationDisabled &&
+    !description.includes("Triggers on") &&
+    !whenToUse.includes("Triggers on")
+  ) {
     return { valid: false, message: "Missing 'Triggers on' section (Labee standard: put triggers in when_to_use, or inline in description)" };
   }
 
   // allowed-tools must not contain bare "Bash" (must use specific patterns like Bash(git:*))
   const allowedTools = frontmatter["allowed-tools"] || "";
   if (allowedTools) {
-    const tools = allowedTools.split(",").map((t) => t.trim());
+    // Claude Code accepts space-delimited (spec standard) and comma-separated lists.
+    const tools = splitToolList(allowedTools);
     if (tools.includes("Bash")) {
       return { valid: false, message: "allowed-tools contains generic 'Bash'. Use specific patterns like Bash(git:*), Bash(bun:*)" };
     }

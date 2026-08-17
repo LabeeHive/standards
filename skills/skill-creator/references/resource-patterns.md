@@ -187,23 +187,36 @@ Scripts execute **without loading code into context**. Only output consumes toke
 
 | Pattern | Meaning |
 |---------|---------|
-| `_filename.md` | Applies to every invocation — SKILL.md must tell Claude to read it |
+| `_filename.md` | Applies to every invocation — SKILL.md injects it with a `` ```! `` block |
 | `filename.md` | Situational — SKILL.md says when to read it |
 
-**There is no auto-load mechanism.** Invoking a skill delivers `SKILL.md` and nothing else;
-reference content arrives only when Claude opens the file. Measured directly: a skill whose
-body claimed a `_`-prefixed file was "auto-loaded" delivered the body alone, and the reference
-content was unavailable until read explicitly.
+**There is no auto-load mechanism.** Invoking a skill delivers `SKILL.md` and nothing else; reference content never arrives on its own. So a `_` file is injected into the body by dynamic context injection: Claude Code runs the command before the body is sent to the model, and the file content lands inline.
 
-So the `_` prefix is a convention for humans, not a trigger. A `_` file still needs an explicit
-instruction in SKILL.md — "Read `references/_core-rules.md` first" — or it will not be read.
-Keep such files under 200 lines, since every invocation pays for them.
+````markdown
+## Core Rules (injected on every invocation)
+
+```!
+cat "${CLAUDE_SKILL_DIR}/references/_core-rules.md" 2>/dev/null || echo "(reference missing: _core-rules.md)"
+```
+````
+
+Add `Bash(cat:*)` to `allowed-tools` so the injection's command is permitted, and put the block near the top of the body, right after the intro.
+
+**Why injection instead of an instruction.** "Read `references/_core-rules.md` first" is a request the model may or may not act on, and content that applies to every invocation cannot depend on that. Injection puts the content in front of the model before it starts, so there is nothing to skip.
+
+**Costs and limits:**
+
+- Every invocation pays the tokens, so use it only for files that genuinely apply every time. Keep them under 200 lines.
+- A non-zero exit from an injected command aborts the whole invocation — hence `2>/dev/null || echo "(reference missing: ...)"`, which keeps a missing file visible instead of fatal.
+- The inline form `` !`command` `` must start at line start or after whitespace; for multi-line output use the fenced ```` ```! ```` form above.
+- Injection does not run in claude.ai-synced skills, or when `disableSkillShellExecution` is set. A skill that must work there needs the content in the body itself.
+- Subagents receive only what their brief carries. When a SKILL.md hands a checklist to a reviewer agent, it still has to tell that agent to read the `_` file.
 
 ### Structure
 
 ```
 references/
-├── _core-rules.md    # Read every time — SKILL.md must say so (keep it small)
+├── _core-rules.md    # Injected into SKILL.md every invocation (keep it small)
 ├── api.md            # Situational
 └── schemas.md        # On-demand
 ```
