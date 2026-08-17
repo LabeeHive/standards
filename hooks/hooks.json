@@ -1,1 +1,15 @@
-{"hooks":{"PreToolUse":[{"matcher":"Agent|Task","hooks":[{"type":"command","command":"jq -c --arg note 'Reporting (from the lead): within your first tool round, SendMessage a one-line plan to \"main\". Send one line to \"main\" at each milestone. Before doing anything outside this brief, SendMessage to \"main\" and wait for an answer. Write your result to a file — the path the brief names, or, if it names none, a file under the current working directory that you name in your last message — and keep every SendMessage to one line: SendMessage truncates long bodies, so it carries the notice, the file carries the content.' 'if (.tool_name==\"Agent\" or .tool_name==\"Task\") and ((.tool_input.prompt|type)==\"string\") and ((.tool_input.prompt|test(\"SendMessage\") and test(\"\\\"main\\\"\"))|not) then {hookSpecificOutput:{hookEventName:\"PreToolUse\",updatedInput:(.tool_input+{prompt:(.tool_input.prompt+\"\\n\\n\"+$note)})}} else empty end' 2>/dev/null || true"}]}]}}
+{
+  "hooks": {
+    "SubagentStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStart\",\"additionalContext\":\"Reporting (from the lead): within your first tool round, SendMessage a one-line plan to main. Send one line to main at each milestone. Before doing anything outside your brief, SendMessage to main and wait for an answer. Write your result to a file — the path the brief names, or, if it names none, a file under the current working directory that you name in your last message — and keep every SendMessage to one line: SendMessage truncates long bodies, so it carries the notice and the file carries the content.\"}}'"
+          }
+        ]
+      }
+    ]
+  }
+}

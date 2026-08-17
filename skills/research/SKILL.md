@@ -82,7 +82,7 @@ Ask user (if unclear):
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
-**Brief contents for the `Explore` agent:** where to put the result (a file path once it runs past a few lines), the output format, what a complete answer covers, and what is out of scope; the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
+**Brief contents for the `Explore` agent:** where to put the result (a file path once it runs past a few lines), the output format, what a complete answer covers, and what is out of scope; the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are delivered to every subagent at start by this plugin's `hooks/hooks.json` (a `SubagentStart` hook).
 
 ### Phase 3.5: Deep Read (PARALLEL)
 

@@ -18,7 +18,7 @@ Shared standards for Labee LLC projects, distributed as a Claude Code plugin mar
 
 The plugin activates immediately when that is safe (Claude Code 2.1.221 and later); otherwise run `/reload-plugins`.
 
-Along with the skills and agents, the plugin registers one hook, defined entirely in `hooks/hooks.json` as an inline `jq` command with no script file: a `PreToolUse` hook on the Agent tool that appends the standard reporting instructions (send a plan, report each milestone, ask before going outside the brief, write the result to a file) to every subagent brief that does not already carry them. It requires `jq` on PATH. To turn it off, disable the plugin or remove the hook from `/hooks`.
+Along with the skills and agents, the plugin registers one hook, defined entirely in `hooks/hooks.json` with no script file: a `SubagentStart` hook that adds the standard reporting instructions (send a plan to main, one line per milestone, ask before going outside the brief, write the result to a file) to every subagent's context before its first prompt. It has no dependency beyond `printf`. To turn it off, disable the plugin or remove the hook from `/hooks`.
 
 ---
 

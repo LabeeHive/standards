@@ -56,7 +56,7 @@ Read `references/release-notes-generator.md` for the generation guidelines, then
 
 The agent returns the generated text for every configured locale directly in its response — it must not write any files, and must not re-run `git log`. Focus only on user-facing features — the guidelines already exclude `refactor:`/`chore:`/`ci:`/`docs:`/`test:`/`build:`/`i18n:` commits.
 
-**Brief contents:** where the result goes (in the response itself — this workflow writes no files), the exact output format (title line, blank line, bullets, per locale), what makes it acceptable (every configured locale present, user-facing changes only), and what is out of scope (writing files, re-running `git log`); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json` — the file line does not apply here, so tell the agent explicitly to keep the result in its response.
+**Brief contents:** where the result goes (in the response itself — this workflow writes no files), the exact output format (title line, blank line, bullets, per locale), what makes it acceptable (every configured locale present, user-facing changes only), and what is out of scope (writing files, re-running `git log`); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are delivered to every subagent at start by this plugin's `hooks/hooks.json` (a `SubagentStart` hook) — the file line does not apply here, so tell the agent explicitly to keep the result in its response.
 
 **Show the generated text to the user and ask them to review it before continuing.**
 

@@ -250,7 +250,7 @@ Not a process audit — do not ask whether references were read or TODOs remain.
 - Acceptance criteria — what "LGTM" requires, concretely
 - What is out of scope (the other reviewer's lane, and the process audit above)
 
-The reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
+The reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are delivered to every subagent at start by this plugin's `hooks/hooks.json` (a `SubagentStart` hook).
 
 **Name the reviewers when you spawn them** (the Agent tool's `name` parameter, e.g. `tech-lead-review` and `apm-review`) so a rejection can go back to the same reviewer.
 

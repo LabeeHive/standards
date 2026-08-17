@@ -205,7 +205,7 @@ What it is *not* for: confirming that tests exist, that references were opened, 
 
 **Give each reviewer:** the files changed in Phase 5, the task from Phase 1, and the paths to the relevant `swift-*` references. A reviewer that has not read the standards cannot enforce them, and it runs in a fresh context — a named agent type like `labee-dev-tech-lead` starts from zero and sees nothing of this conversation unless you send it (only `subagent_type: "fork"` inherits the conversation, and these reviewers are not forks).
 
-**Brief contents (both reviewers):** where to put the result (a file path once it runs past a few lines), the format you want it in, what counts as approval, and what is out of scope (process auditing — see above); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
+**Brief contents (both reviewers):** where to put the result (a file path once it runs past a few lines), the format you want it in, what counts as approval, and what is out of scope (process auditing — see above); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are delivered to every subagent at start by this plugin's `hooks/hooks.json` (a `SubagentStart` hook).
 
 **Name the reviewers when you spawn them** (the Agent tool's `name` parameter, e.g. `tech-lead-review` and `apm-review`) so a rejection can go back to the same reviewer.
 

@@ -97,7 +97,7 @@ Each reviewer works independently and returns its findings to you. Reviewers do 
 
 **Name each reviewer when you spawn it** (the Agent tool's `name` parameter, e.g. `aso-review-agent`, `naturalness-review`, `messaging-review`) so Phase 4 can go back to the one that raised a finding.
 
-**Brief contents (every reviewer):** where to put the result (a file path once it runs past a few lines — per-locale findings usually do), the output format, what a complete review covers (every detected locale), and what is out of scope (another reviewer's angle — you reconcile in Phase 4); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are appended to every brief by this plugin's `hooks/hooks.json`.
+**Brief contents (every reviewer):** where to put the result (a file path once it runs past a few lines — per-locale findings usually do), the output format, what a complete review covers (every detected locale), and what is out of scope (another reviewer's angle — you reconcile in Phase 4); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are delivered to every subagent at start by this plugin's `hooks/hooks.json` (a `SubagentStart` hook).
 
 **Each agent receives:**
 
