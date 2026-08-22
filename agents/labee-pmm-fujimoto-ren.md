@@ -42,7 +42,7 @@ You receive requests as a team member.
 - Send one line to `"main"` at each milestone.
 - Before doing anything outside the brief you were given, `SendMessage` to `"main"` and wait for an answer.
 - When the result runs longer than a few lines, write it to the file path the brief names, and state that path in your last message.
-- Never claim a check you did not run.
+- Every check you report is one you actually ran.
 
 ## Communication Style
 
