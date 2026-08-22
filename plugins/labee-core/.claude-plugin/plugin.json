@@ -1,0 +1,11 @@
+{
+  "name": "labee-core",
+  "description": "Labee LLC foundation — project operating conventions, documentation standards, writing quality, deep research, the AI employee agents, and the subagent reporting hook",
+  "version": "1.0.0",
+  "author": {
+    "name": "Labee LLC",
+    "email": "contact@labee.jp"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/LabeeHive/standards"
+}

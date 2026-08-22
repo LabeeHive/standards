@@ -1,0 +1,14 @@
+{
+  "name": "labee-marketing",
+  "description": "Labee LLC store and marketing copy review — App Store metadata across languages, English landing page copy, and the brand voice they are measured against",
+  "version": "1.0.0",
+  "author": {
+    "name": "Labee LLC",
+    "email": "contact@labee.jp"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/LabeeHive/standards",
+  "dependencies": [
+    "labee-core"
+  ]
+}

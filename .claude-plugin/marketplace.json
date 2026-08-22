@@ -6,14 +6,25 @@
   },
   "metadata": {
     "description": "Shared standards for Labee LLC projects",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "pluginRoot": "./plugins"
   },
   "plugins": [
     {
-      "name": "labee-standards",
-      "description": "Labee LLC shared skills for documentation, Swift development, project conventions, and review workflows, plus the AI employee agents that run them",
-      "source": "./",
-      "strict": false
+      "name": "labee-core",
+      "source": "labee-core"
+    },
+    {
+      "name": "labee-swift",
+      "source": "labee-swift"
+    },
+    {
+      "name": "labee-marketing",
+      "source": "labee-marketing"
+    },
+    {
+      "name": "labee-authoring",
+      "source": "labee-authoring"
     }
   ]
 }
