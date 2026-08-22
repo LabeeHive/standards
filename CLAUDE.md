@@ -2,7 +2,9 @@
 
 Shared standards repository for Labee LLC projects. Install as a Claude Code plugin marketplace to use skills across your projects.
 
-Skills live in `skills/` (invoke with `/skill-name`) and AI employee agents in `agents/` — browse the directories to see what is available.
+Each plugin lives under `plugins/`, with its skills in `skills/` (invoke with `/skill-name`) and its AI employee agents in `agents/` — browse the directories to see what is available. `labee-core` carries the conventions every project needs and the employee agents; `labee-swift`, `labee-marketing`, and `labee-authoring` add a domain on top and depend on it.
+
+A skill belongs to the plugin whose domain it serves, and a file it links to with a relative path must sit inside that same plugin — only the plugin's own directory is copied at install, so a link that climbs above it breaks.
 
 ---
 
