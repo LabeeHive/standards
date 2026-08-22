@@ -1,7 +1,7 @@
 ---
 name: project-conventions
-description: Apply Labee project operating conventions — commit messages that record verification and known gaps, numbered docs/ namespaces, decision records (ADR) and the research files they cite, keeping progress tracking out of docs, task tracker integration, backlog granularity (Story-sized tickets and landing verification), and resuming interrupted work. Use when writing a commit message body, structuring or reviewing docs/, filing or superseding an ADR, wiring up a task tracker, filing or auditing a backlog, or resuming work after an interruption, in any Labee project.
-when_to_use: Triggers on "commit body", "コミット本文", "docs構造", "docs structure", "運用規約", "known gaps", "既知の制約", "進捗管理", "task tracker", "再開", "resume", "resumption", "backlog", "バックログ", "起票", "粒度", "granularity", "Story", "Epic", "milestone", "マイルストーン", "ロードマップ", "roadmap", "ADR", "決定記録", "設計決定", "decision record", "調査", "リサーチ", "research", "superseded", "撤回", "withdrawn".
+description: Apply Labee project operating conventions — commit messages that record verification and known gaps, numbered docs/ namespaces, decision records (ADR) and the research files they cite, keeping progress tracking out of docs, task tracker integration, backlog granularity (Story-sized tickets and landing verification), new repository setup and Renovate configuration, and resuming interrupted work. Use when writing a commit message body, structuring or reviewing docs/, filing or superseding an ADR, wiring up a task tracker, filing or auditing a backlog, setting up a new repository or its dependency automation, or resuming work after an interruption, in any Labee project.
+when_to_use: Triggers on "commit body", "コミット本文", "docs構造", "docs structure", "運用規約", "known gaps", "既知の制約", "進捗管理", "task tracker", "再開", "resume", "resumption", "backlog", "バックログ", "起票", "粒度", "granularity", "Story", "Epic", "milestone", "マイルストーン", "ロードマップ", "roadmap", "ADR", "決定記録", "設計決定", "decision record", "調査", "リサーチ", "research", "superseded", "撤回", "withdrawn", "リポジトリ作成", "repository setup", "新規リポジトリ", "new repository", "Renovate", "renovate.json5", "依存更新", "automerge", "自動マージ".
 ---
 
 # Project Conventions
@@ -51,13 +51,13 @@ Co-Authored-By: <trailer required by the harness>
 
 | Part | Rule |
 |------|------|
-| Subject line | Conventional Commits `<type>: <subject>`, one verb + one object, as `/commit-message` produces it |
+| Subject line | Conventional Commits `<type>: <subject>`, one verb + one object, 50 characters or fewer, type by the first matching rule |
 | Body | One paragraph per logical change; state the *why* whenever the choice was not the obvious one |
 | Verification | Name what was run and what it reported. A run that did not finish is void, not a pass |
 | Known gaps | Explicit: what is left, and the decision behind leaving it. Write "Known gaps: none" when true |
 | Trailer | Whatever the harness requires; nothing else |
 
-`/commit-message` sees only the staged diff and the recent log, and returns the subject line. The body — change paragraphs, Verification, Known gaps — comes from the session that did the work, so the caller writes it. A commit is a resumption point: someone (including a future agent) must be able to read the message alone and know what remains.
+The subject line can be drafted from the staged diff and the recent log alone. The body — change paragraphs, Verification, Known gaps — cannot: it comes from the session that did the work. A commit is a resumption point: someone (including a future agent) must be able to read the message alone and know what remains.
 
 ### docs/ Namespace
 
@@ -109,7 +109,7 @@ Identify the task type and follow the matching path.
 ### Writing a commit message
 
 1. Load `references/commit-messages.md`
-2. Get the subject line from `/commit-message`; write the body from what this session changed, ran, and left undone
+2. Draft the subject line from the staged diff and the recent log; write the body from what this session changed, ran, and left undone
 3. Run the Pre-Commit Check below before presenting
 
 ### Structuring or reviewing docs/
@@ -137,6 +137,12 @@ Identify the task type and follow the matching path.
 2. Check each item against the Story definition; fold Tasks into commits and split buckets
 3. Answer the landing question and sweep the product-completeness categories
 
+### Setting up a new repository or its dependency automation
+
+1. Load `references/repository-setup.md`
+2. Create the baseline files, apply the GitHub settings, and write `.github/renovate.json5` extending the shared config
+3. Run that reference's `## Checklist`; pushing the initial commit is the user's call, not this skill's
+
 ### Resuming interrupted work
 
 1. Load `references/resumption-workflow.md`
@@ -152,7 +158,7 @@ Identify the task type and follow the matching path.
 
 Verify the drafted message against each item, and present it once every item passes. A failing check is fixed first.
 
-- [ ] Subject line is `<type>: <subject>` and passes `/commit-message`'s own self-check
+- [ ] Subject line is `<type>: <subject>`, one verb + one object, 50 characters or fewer, type by the first matching rule
 - [ ] Body paragraphs are logical units with their why, not a diff narration
 - [ ] Verification names what was run and what it reported
 - [ ] Known gaps is present — explicit "left undone" + reason, even if the answer is "none"
@@ -169,17 +175,17 @@ SKILL.md carries the contract; each file below is the only place its listed deta
 
 | File | Load When |
 |------|-----------|
-| references/commit-messages.md | Drafting or reviewing a commit message. Only source for: the subject-vs-body split with `/commit-message`, body phrasing, worked verification examples, known-gaps phrasing, when the body may be skipped |
+| references/commit-messages.md | Drafting or reviewing a commit message. Only source for: the subject line rules and the type decision table, the subject-vs-body split, body phrasing, worked verification examples, known-gaps phrasing, when the body may be skipped |
 | references/docs-structure.md | Placing a new doc or auditing docs/. Only source for: the full `docs/` layout and what each namespace holds, the two-digit numbering convention and its reserved ranges, the exists-vs-found-vs-still-deciding placement heuristic, the `07_research/` split into `research/` and `references/` and their chronological file numbering, `99_ideas/` graduation/retirement rule, why a plan or roadmap is routed to the tracker instead of a namespace, how to handle progress content found during review, the CLAUDE.md/AGENTS.md structure snippet |
 | references/adr-conventions.md | Filing, reviewing or superseding an ADR, or setting up `06_decisions/`. Only source for: file naming and numbering, append-only and the exactly-two-permitted-edits rule, the Superseded/Withdrawn vocabulary and why answering an open question is neither, the three `Decided:` header forms and the consent-vs-having-been-shown distinction, the required sections and template, why Consequences is separate from Alternatives rejected, the no-tracker-item-ids rule, the pre-filing search procedure, dated-numbers-in-ADR vs no-numbers-in-current-shape-docs |
 | references/task-tracker-integration.md | Wiring a project's CLAUDE.md to its tracker or writing milestone comments. Only source for: the CLAUDE.md tracker-naming phrasing, commit-vs-tracker content routing table, three-part milestone comment shape, the project-designated-tracker-only rule |
 | references/backlog-granularity.md | Filing, splitting, or auditing tracker items, or planning a milestone/roadmap. Only source for: the Milestone/Epic/Story/Task layer model and where filing stops, the one-ADR-or-one-feature Story definition, the vertical-slice and kind-of-data splitting rules, when an ADR is split out vs. folded in, the parallel-band and cost-deferred ordering rules, the landing question and the product-completeness category sweep |
+| references/repository-setup.md | Setting up a new repository or configuring Renovate. Only source for: the three baseline files, the two required GitHub settings and their verification command, the `.github/renovate.json5` placement and shared-config extend, what the shared config already provides, the automerge table and the tests-gate rule, `minimumReleaseAge`, the override-with-a-comment rule |
 | references/resumption-workflow.md | Resuming after a stall, API disconnect, or new session. Only source for: the two-command entry-point procedure, the deferral-reasoning rule (continue or explicitly un-defer), tracker cross-check ordering, resumption anti-patterns |
 
 ## Related Skills
 
 | Skill | Purpose |
 |-------|---------|
-| /commit-message | Drafts the subject line from the staged diff |
 | /vigilare-task | Creates and comments on the tracker items this skill routes content to |
 | /documentation | Owns how a document is written — type, template, structure, wording, markdown; this skill owns where it goes |

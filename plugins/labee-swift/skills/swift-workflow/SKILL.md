@@ -32,7 +32,7 @@ TaskCreate: "Phase 5: Implementation             | Skills: /swift-core /swift-ar
 TaskCreate: "Phase 6: Review Gate                | Agents: labee-dev-tech-lead, labee-dev-apm"
 TaskCreate: "Phase 7: Build & Test               | Skills: none"
 TaskCreate: "Phase 8: Localization               | Skills: /swift-localization (if UI strings changed)"
-TaskCreate: "Phase 9: Wrap-up                    | Skills: /commit-message"
+TaskCreate: "Phase 9: Wrap-up                    | Skills: /project-conventions"
 ```
 
 The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`TaskList` are not available, keep the same phases as a checklist in your response instead. The phases are the contract; the tool is one way to hold it.
@@ -56,7 +56,7 @@ The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`
 | 6 | `labee-dev-tech-lead` | `Agent(labee-dev-tech-lead)` | Always |
 | 6 | `labee-dev-apm` | `Agent(labee-dev-apm)` | Always |
 | 8 | `/swift-localization` | `Skill("swift-localization")` | UI strings added/changed |
-| 9 | `/commit-message` | `Skill("commit-message")` | Always |
+| 9 | `/project-conventions` | `Skill("project-conventions")` | Always |
 
 ## Constraints
 
@@ -64,7 +64,7 @@ The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`
 |------|------|
 | Related work | Phase 1.5 is **mandatory**. MUST search related/duplicate tasks and READ referenced design docs (not skim) before Phase 4. |
 | vigilare_get_reminders | `filter: 'all'` returns every reminder and floods the context, and the work after it gets sloppy — list with `today` or `list_id`, then narrow |
-| Commit | Commit in the workflow: subject from `/commit-message`, body written by this session (see `/project-conventions` for the commit shape). The permission prompt on `git commit` is the gate |
+| Commit | Commit in the workflow: subject from the staged diff, body written by this session (see `/project-conventions` for the commit shape). The permission prompt on `git commit` is the gate |
 | Task completion | Do NOT call `vigilare_complete_reminder`. User decides |
 | Xcode build | Required for xcstrings update. Ask user to build in Xcode before Phase 8 |
 | Review gate | Both reviewers must approve before Phase 7. Send them the standards — a reviewer running in a fresh context cannot enforce what it has not read |
@@ -251,9 +251,9 @@ swift test
 
 ### Phase 9: Wrap-up
 
-**Required skill:** MUST call `Skill("commit-message")`.
+**Required skill:** MUST call `Skill("project-conventions")`.
 
-1. **Generate commit message** - MUST call `Skill("commit-message")` for the subject line, then write the body from what this session changed, verified, and left undone (see `/project-conventions` for the shape)
+1. **Generate commit message** - draft the subject line from the staged diff and the recent log, then write the body from what this session changed, verified, and left undone. `/project-conventions` owns both halves — its `references/commit-messages.md` holds the subject rules and the type decision table
 2. **Commit** - stage the change and `git commit` with that message. The permission prompt is the gate; if it is declined, hand the message to the user instead
 3. **Record work** - `vigilare_add_comment` with summary of changes
 4. **Inform user** - タスク完了は user が行う。Do NOT call `vigilare_complete_reminder`
@@ -303,7 +303,7 @@ Phase 6: [PARALLEL] ← REVIEW GATE
 Phase 7: swift build → swift test → All green
 Phase 8: Ask user to build in Xcode
          Skill("swift-localization") ← INVOKED
-Phase 9: Skill("commit-message") ← INVOKED
+Phase 9: Skill("project-conventions") ← INVOKED
          Write the body, then git commit (permission prompt = the gate)
          Record progress to Vigilare
          → "タスク完了はお願いします"

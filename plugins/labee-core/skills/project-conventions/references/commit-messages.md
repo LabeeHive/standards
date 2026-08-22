@@ -18,11 +18,33 @@ Co-Authored-By: ...
 
 Merge commits and one-line fixes (typo, trivial config change) can skip the body — the subject line alone is enough when there is genuinely nothing to record.
 
-## Subject line and who writes what
+## Subject line
 
-The subject line follows Conventional Commits, `<type>: <subject>`, and `/commit-message` is the authority on it: imperative mood, one verb + one object, 50 characters or fewer, type chosen by the first matching rule in its decision table. Those rules live there and are read from there; this file adds the body.
+The subject line follows Conventional Commits, `<type>: <subject>`: imperative mood ("add", not "added"), English, lowercase start, no trailing period, 50 characters or fewer.
 
-`/commit-message` is given the staged diff and the recent log for style, and returns the subject line only. It cannot know why a change was made, what was run, or what was left out — that lives in the session that did the work. The caller writes the body: the change paragraphs, Verification, and Known gaps. If a message is being written without `/commit-message`, apply its subject rules by hand.
+Give it exactly one verb and one object naming the thing changed, then stop. Enumerations ("X and Y") and purpose or method tails ("for X", "to improve Y", "with Z") belong in the body, and they are also what breaks the character limit. The subject names the change, not the file it landed in.
+
+Read `git diff --cached` and `git log --oneline -15` before drafting. The diff decides the type; the recent log shows the conventions this repository already follows, and those win wherever they do not conflict with the rules here.
+
+### Type
+
+Classify by effect, not by file extension, and take the first rule that matches.
+
+| # | Condition | Type |
+|---|-----------|------|
+| 1 | Only human-facing explanation changed (README, guides, code comments) | `docs` |
+| 2 | Only test files changed | `test` |
+| 3 | Only CI config changed | `ci` |
+| 4 | Behavior changes: new capability added | `feat` |
+| 5 | Behavior changes: defect corrected | `fix` |
+| 6 | Behavior-defining content changed, behavior equivalent | `refactor` |
+| 7 | None of the above (dependencies, tooling, build config, repo maintenance) | `chore` |
+
+Markdown is not automatically `docs`. Files that define behavior — `SKILL.md`, agent definitions, prompt templates — are source code, so they take rules 4 through 6. `docs` is only for content whose sole job is informing humans. Reach `chore` only after every rule above has been checked and none matched, and classify a mixed changeset by its dominant intent.
+
+## Who writes what
+
+The subject can be drafted from the staged diff and the recent log alone. The body cannot: why a change was made, what was run, and what was left out live in the session that did the work, so the session that wrote the code writes the change paragraphs, Verification, and Known gaps.
 
 ## Body
 
@@ -69,7 +91,7 @@ Each line below states what the message should say instead, and what the failure
 
 SKILL.md's Pre-Commit Check gates section *presence*; this checklist gates the phrasing quality only this file defines. Run it on the drafted message:
 
-- [ ] Subject line passes `/commit-message`'s rules (type by first matching rule, one verb + one object, ≤ 50 characters)
+- [ ] Subject line follows the Subject line section (type by first matching rule, one verb + one object, ≤ 50 characters)
 - [ ] Every paragraph whose choice is not obvious carries its *why* (the constraint or the rejected alternative), not a diff narration
 - [ ] Verification names the runs and their verdicts in the tool's words, and says plainly when a run did not complete or was not run
 - [ ] Known gaps names each deferred item *and* the reason deferring was right for this scope; "Known gaps: none" written explicitly when true

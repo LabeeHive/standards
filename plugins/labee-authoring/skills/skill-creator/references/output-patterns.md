@@ -150,18 +150,18 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 
 | Pattern | Example | Reason |
 |---------|---------|--------|
-| Setup/Init | repository-setup, docusaurus-setup | One-time setup should be intentional |
+| Setup/Init | Scaffolding a new repository or site | One-time setup should be intentional |
 | Release/Deploy | swift-release | Side effects, requires user confirmation |
-| Config changes | automation-config | Modifies project configuration |
+| Config changes | Editing dependency or CI configuration | Modifies project configuration |
 | Complex creation | swift-mcp-server | Large-scale changes, user should control timing |
 
 ### When to keep default (auto-invocation allowed)
 
 | Pattern | Example | Reason |
 |---------|---------|--------|
-| Daily tasks | commit-message, vigilare-task | Frequent use, triggers naturally |
+| Daily tasks | vigilare-task, documentation | Frequent use, triggers naturally |
 | Code assistance | swift-core, documentation | Helps during normal development flow |
-| Workflow shortcuts | obsidian-note | "メモして" should just work |
+| Workflow shortcuts | humanizer | "AI臭い" should just work |
 
 ### When to use `user-invocable: false`
 
