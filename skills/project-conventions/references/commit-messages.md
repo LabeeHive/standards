@@ -38,10 +38,10 @@ This states the change *and* the alternative that was rejected, so a reader who 
 
 ## Verification
 
-Name what was run and what it reported, in the words the tool printed, so the next reader knows which claims rest on a run and which rest on reading:
+Name what was run and its verdict, so the next reader knows which claims rest on a run and which rest on reading. The verdict is the part that keeps: it stays true, while a count like "84 passed" is a fact about one moment that the next commit invalidates.
 
-- `swift test: 84 passed, 0 failed. xcodebuild -scheme App build: succeeded` — the commands and what they printed
-- `The repo passes its own linter: 0 findings, fences balanced in all 76 files` — what was checked and the verdict
+- `swift test: passed. xcodebuild -scheme App build: succeeded` — the commands and their verdicts
+- `The repo passes its own linter: no findings, fences balanced in every file` — what was checked and the verdict
 - `Tests: a new case pins the give-up branch` — what was added, by what it pins rather than by how many
 - `Not run: no code changed` — when that is the truth, which is a useful thing to say plainly
 

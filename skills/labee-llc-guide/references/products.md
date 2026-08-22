@@ -1,7 +1,5 @@
 # Products & Services
 
-> Last updated: 2026-02-14
-
 ## Target Audiences
 
 | Segment | Needs | Messaging Focus |
