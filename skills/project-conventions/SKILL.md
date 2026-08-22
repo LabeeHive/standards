@@ -1,7 +1,7 @@
 ---
 name: project-conventions
-description: Apply Labee project operating conventions — commit messages that record verification and known gaps, numbered docs/ namespaces, decision records (ADR) and their propagation, keeping progress tracking out of docs, task tracker integration, backlog granularity (Story-sized tickets and landing verification), and resuming interrupted work. Use when writing a commit message body, structuring or reviewing docs/, filing or superseding an ADR, wiring up a task tracker, filing or auditing a backlog, or resuming work after an interruption, in any Labee project.
-when_to_use: Triggers on "commit body", "コミット本文", "docs構造", "docs structure", "運用規約", "known gaps", "既知の制約", "進捗管理", "task tracker", "再開", "resume", "resumption", "backlog", "バックログ", "起票", "粒度", "granularity", "Story", "Epic", "milestone", "マイルストーン", "ロードマップ", "roadmap", "ADR", "決定記録", "設計決定", "decision record", "波及先", "propagation", "superseded", "撤回", "withdrawn".
+description: Apply Labee project operating conventions — commit messages that record verification and known gaps, numbered docs/ namespaces, decision records (ADR) and the research files they cite, keeping progress tracking out of docs, task tracker integration, backlog granularity (Story-sized tickets and landing verification), and resuming interrupted work. Use when writing a commit message body, structuring or reviewing docs/, filing or superseding an ADR, wiring up a task tracker, filing or auditing a backlog, or resuming work after an interruption, in any Labee project.
+when_to_use: Triggers on "commit body", "コミット本文", "docs構造", "docs structure", "運用規約", "known gaps", "既知の制約", "進捗管理", "task tracker", "再開", "resume", "resumption", "backlog", "バックログ", "起票", "粒度", "granularity", "Story", "Epic", "milestone", "マイルストーン", "ロードマップ", "roadmap", "ADR", "決定記録", "設計決定", "decision record", "調査", "リサーチ", "research", "superseded", "撤回", "withdrawn".
 ---
 
 # Project Conventions
@@ -64,41 +64,43 @@ Co-Authored-By: <trailer required by the harness>
 | Namespace | Contents |
 |-----------|----------|
 | `00_overview/` | Project overview, terminology, product identity |
-| `01_architecture/` | System architecture; `adr/` holds the decision records |
+| `01_architecture/` | System architecture — the current shape |
 | `02_business/` | Business documentation |
 | `03_development/` | Process docs: development guides, testing strategy |
 | `04_designs/` | UI/UX designs and mockups |
+| `06_decisions/` | ADRs — the decision records |
+| `07_research/` | What was investigated, and what was found |
 | `99_ideas/` | Unimplemented, speculative design — isolated from authoritative docs |
 
-`99_ideas/` is a quarantine bucket: anything not yet decided or not yet built goes here, never mixed into the numbered namespaces that describe what exists. `references/docs-structure.md` owns the full layout — the numbering convention, what each namespace holds, which are optional — and the rules about what may live where. How a document is *written* (type, template, structure, wording) belongs to `/documentation`.
+`99_ideas/` is a quarantine bucket: anything not yet decided or not yet built goes here, never mixed into the numbered namespaces that describe what exists. `07_research/` is not that bucket — a finding is a result, not a proposal, and its files are numbered chronologically from `00-` in both `research/` and `references/`. `references/docs-structure.md` owns the full layout — the numbering convention, what each namespace holds, which are optional — and the rules about what may live where. How a document is *written* (type, template, structure, wording) belongs to `/documentation`.
 
 ### Decision Records (ADR)
 
-A design decision that is **made, narrowed, reversed or withdrawn** gets an ADR in `01_architecture/adr/`, and so does answering an earlier ADR's open question. The accident this prevents is a decision changing in code while the old version survives in a doc, a comment, `CLAUDE.md` or a tracker ticket — so a later session implements from a stale spec. That is why **the Propagation table is the body of an ADR**, not an appendix to it.
+A design decision that is **made, narrowed, reversed or withdrawn** gets an ADR in `06_decisions/`, and so does answering an earlier ADR's open question. The accident this prevents is an alternative being re-proposed and re-argued because nobody recorded why it was not taken. An ADR answers four questions — what was decided, which alternatives were rejected and why, what the chosen option costs, and what is left unresolved — and carries nothing else: the investigation behind it is a numbered file under `07_research/`, cited by link.
 
 Three rules break most often and are worth stating here rather than only in the reference:
 
-- **Append-only.** A filed ADR is never rewritten. Changes are a *new* ADR; the only edits permitted on the old one are its Status line and one link line beneath it
+- **Append-only.** A filed ADR stands as written. A change is a *new* ADR; the old one accepts exactly two edits, its Status line and one link line beneath it
 - **Consent, not authorship.** A decision belongs in an ADR *once the user has agreed to it*. Having shown it to them is not agreement. Recording an unagreed decision as the user's is the worst failure the namespace has, because it destroys the ledger's ability to say who is accountable
-- **No implementation status.** Built / in progress / assigned lives in the tracker, never here
+- **Progress and tracker item ids live in the tracker.** Built / in progress / assigned belongs where it can be updated, and so does the id of the item holding it — an ADR is permanent and an item id is not. The tracker links to the ADR, one way
 
-The three permitted `Decided:` header forms, the required sections, and the tracker-search procedure behind the Propagation table live in `references/adr-conventions.md`. A project's `adr/README.md` points at that file rather than restating it.
+The three permitted `Decided:` header forms, the required sections and the pre-filing search procedure live in `references/adr-conventions.md`. A project's `06_decisions/README.md` points at that file rather than restating it.
 
-### No Progress in docs/
+### Progress Goes to the Tracker
 
-Never write implementation-status tables, percentage-complete, or "TODO/done" checklists into `docs/`. That content goes to the task tracker the project designates. `docs/` holds reference material that stays true regardless of what is implemented yet — mixing in progress state is what makes docs go stale.
+Implementation-status tables, percentage-complete and "TODO/done" checklists go to the task tracker the project designates. `docs/` keeps the reference material that stays true regardless of what is implemented yet, which is what keeps it from going stale.
 
 ### Task Tracker Integration
 
-The project's `CLAUDE.md` names the tracker list/board explicitly; cross-commit progress lives in tracker comments, not docs or commit bodies. **Use only the tracker that project names — reaching for any other tracker, tool, or ad-hoc list is forbidden.** If no tracker is named, ask; do not pick one. For Labee projects the tracker is normally Vigilare, driven through `/vigilare-task`; the comment shape and commit-vs-tracker routing live in `references/task-tracker-integration.md`.
+The project's `CLAUDE.md` names the tracker list/board explicitly; cross-commit progress lives in tracker comments, while docs and commit bodies stay scoped to what they own. **Use the tracker that project names, and that one alone** — every other tracker, tool or ad-hoc list is a second place to look, and the two drift apart. When no tracker is named, ask: the choice is the user's, and a guess leaves the next session guessing differently. For Labee projects the tracker is normally Vigilare, driven through `/vigilare-task`; the comment shape and commit-vs-tracker routing live in `references/task-tracker-integration.md`.
 
 ### Backlog Granularity
 
-The unit filed in the tracker is a **Story**: one ADR if it is a decision, one usable feature if it is implementation, 3–7 solo days either way — never a technical layer, never "look into X". Sub-Story detail is a commit, not a ticket. A backlog must also answer "if every item closes, what exists?" with a shippable result. The layer model, the splitting rules, and the product-completeness categories live in `references/backlog-granularity.md`.
+The unit filed in the tracker is a **Story**: one ADR if it is a decision, one usable feature if it is implementation, 3–7 solo days either way, cut vertically so it ends at something a second person can evaluate. Sub-Story detail is a commit, not a ticket. A backlog must also answer "if every item closes, what exists?" with a shippable result. The layer model, the splitting rules, and the product-completeness categories live in `references/backlog-granularity.md`.
 
 ### Resumption Workflow
 
-Before resuming interrupted work (session stall, API disconnect, new session): read the **Known gaps** of the last completed commit first. It is the intended entry point — do not re-derive state from scratch or re-scan the whole codebase. The full procedure lives in `references/resumption-workflow.md`.
+Before resuming interrupted work (session stall, API disconnect, new session): read the **Known gaps** of the last completed commit first. It is the intended entry point, and it usually answers the question on its own — a full re-scan spends the session's opening minutes re-deriving what is already written down. The full procedure lives in `references/resumption-workflow.md`.
 
 ## Workflow
 
@@ -120,7 +122,7 @@ Identify the task type and follow the matching path.
 
 1. Load `references/adr-conventions.md`
 2. Confirm the decision has the user's agreement, and pick the matching `Decided:` header form
-3. Full-text search the tracker on every name the subject goes by, *then* write the Propagation table
+3. Full-text search the code, the docs and the tracker on every name the subject goes by, and file what it turns up as tracker items citing the ADR
 4. Run that reference's `## Checklist` against the draft before presenting
 
 ### Setting up or reviewing task tracker integration
@@ -148,7 +150,7 @@ Identify the task type and follow the matching path.
 
 ## Pre-Commit Check (before presenting a commit message)
 
-Verify the drafted message against each item. If any check fails, fix it first — do not present a non-compliant message.
+Verify the drafted message against each item, and present it once every item passes. A failing check is fixed first.
 
 - [ ] Subject line is `<type>: <subject>` and passes `/commit-message`'s own self-check
 - [ ] Body paragraphs are logical units with their why, not a diff narration
@@ -168,8 +170,8 @@ SKILL.md carries the contract; each file below is the only place its listed deta
 | File | Load When |
 |------|-----------|
 | references/commit-messages.md | Drafting or reviewing a commit message. Only source for: the subject-vs-body split with `/commit-message`, body phrasing, worked verification examples, known-gaps phrasing, when the body may be skipped |
-| references/docs-structure.md | Placing a new doc or auditing docs/. Only source for: the full `docs/` layout and what each namespace holds, the two-digit numbering convention and its reserved ranges, the exists-vs-still-deciding placement heuristic, `99_ideas/` graduation/retirement rule, why plans and roadmaps do not get a namespace, how to handle progress content found during review, the CLAUDE.md/AGENTS.md structure snippet |
-| references/adr-conventions.md | Filing, reviewing or superseding an ADR, or setting up `adr/`. Only source for: file naming and numbering, append-only and the exactly-two-permitted-edits rule, the Superseded/Withdrawn vocabulary and why answering an open question is neither, the three `Decided:` header forms and the consent-vs-having-been-shown distinction, the required sections and template, the tracker-search procedure behind the Propagation table, dated-numbers-in-ADR vs no-numbers-in-current-shape-docs |
+| references/docs-structure.md | Placing a new doc or auditing docs/. Only source for: the full `docs/` layout and what each namespace holds, the two-digit numbering convention and its reserved ranges, the exists-vs-found-vs-still-deciding placement heuristic, the `07_research/` split into `research/` and `references/` and their chronological file numbering, `99_ideas/` graduation/retirement rule, why a plan or roadmap is routed to the tracker instead of a namespace, how to handle progress content found during review, the CLAUDE.md/AGENTS.md structure snippet |
+| references/adr-conventions.md | Filing, reviewing or superseding an ADR, or setting up `06_decisions/`. Only source for: file naming and numbering, append-only and the exactly-two-permitted-edits rule, the Superseded/Withdrawn vocabulary and why answering an open question is neither, the three `Decided:` header forms and the consent-vs-having-been-shown distinction, the required sections and template, why Consequences is separate from Alternatives rejected, the no-tracker-item-ids rule, the pre-filing search procedure, dated-numbers-in-ADR vs no-numbers-in-current-shape-docs |
 | references/task-tracker-integration.md | Wiring a project's CLAUDE.md to its tracker or writing milestone comments. Only source for: the CLAUDE.md tracker-naming phrasing, commit-vs-tracker content routing table, three-part milestone comment shape, the project-designated-tracker-only rule |
 | references/backlog-granularity.md | Filing, splitting, or auditing tracker items, or planning a milestone/roadmap. Only source for: the Milestone/Epic/Story/Task layer model and where filing stops, the one-ADR-or-one-feature Story definition, the vertical-slice and kind-of-data splitting rules, when an ADR is split out vs. folded in, the parallel-band and cost-deferred ordering rules, the landing question and the product-completeness category sweep |
 | references/resumption-workflow.md | Resuming after a stall, API disconnect, or new session. Only source for: the two-command entry-point procedure, the deferral-reasoning rule (continue or explicitly un-defer), tracker cross-check ordering, resumption anti-patterns |

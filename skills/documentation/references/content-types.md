@@ -485,7 +485,7 @@ This document explains [concept] and why it matters for [context].
 
 ## Architecture Decision Record (ADR)
 
-ADRs record a design decision that was made, narrowed, reversed or withdrawn, and every place that decision reaches. The template, the required sections, the append-only rule, the `Decided:` header forms and the Propagation table procedure live in one place — `/project-conventions` (`references/adr-conventions.md`). Use that; this file does not carry a second copy of the template.
+ADRs record a design decision that was made, narrowed, reversed or withdrawn: what was decided, which alternatives were rejected and why, and what the decision leaves unresolved. The template, the required sections, the append-only rule and the `Decided:` header forms live in one place — `/project-conventions` (`references/adr-conventions.md`). Use that; this file does not carry a second copy of the template.
 
 ---
 

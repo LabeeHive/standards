@@ -4,9 +4,9 @@
 
 The project's `CLAUDE.md` states the tracker and the exact list/board it uses, so any agent picking up the project knows where to look without asking. Example phrasing:
 
-> Task/progress tracking lives in Vigilare (list: `Labee - <Project>`) — never keep implementation-status tables in docs
+> Task/progress tracking lives in Vigilare (list: `Labee - <Project>`) — implementation-status tables belong there, and docs stay free of them
 
-This single line does two jobs: it points to the tracker, and it restates the "no progress in docs" rule at the point where an agent is most likely to be tempted to break it (right before writing a status update somewhere).
+This single line does two jobs: it points to the tracker, and it restates where progress goes at the point where an agent is most likely to reach for the wrong place (right before writing a status update somewhere).
 
 ## What goes in the tracker vs. what goes in a commit
 
@@ -15,6 +15,8 @@ This single line does two jobs: it points to the tracker, and it restates the "n
 | What changed in this commit, verified how, what is deferred from *this* commit's scope | Commit message (Known gaps) |
 | Cross-commit progress: where a multi-commit feature stands, what is next across sessions | Task tracker |
 | Percentage complete, feature status board | Task tracker |
+
+**The link between a tracker item and an ADR points one way: the item names the ADR.** An ADR is permanent and an item id is not — ids get closed, re-filed and migrated between tools, and an ADR that names one is left asserting something untrue in a file nobody may correct (see references/adr-conventions.md). An item that implements or is changed by a decision cites `ADR-NNNN` in its notes; the ADR cites nothing back.
 
 A commit's Known gaps is scoped to that commit. The tracker is scoped to the feature/milestone across however many commits it takes.
 
@@ -32,9 +34,9 @@ A recurring task (a weekly scan, an audit that repeats) gets its run summaries a
 
 ## Practical mechanics
 
-Use the tracker the project names in its `CLAUDE.md`, through that tracker's own interface, and nothing else. Any other tracker, any side tool, any ad-hoc list or file kept "just for this session" is forbidden — a second place to look is how progress state goes stale and contradicts itself. If `CLAUDE.md` names no tracker, ask which one to use; do not choose one, and do not fall back to writing status into docs or the repo.
+Use the tracker the project names in its `CLAUDE.md`, through that tracker's own interface, and that one alone. Every other tracker, side tool, and ad-hoc list kept "just for this session" is one more place to look, which is how progress state goes stale and starts contradicting itself. When `CLAUDE.md` names no tracker, ask which one to use — the answer is the user's to give, and a session that guesses leaves the next one guessing differently.
 
-For Vigilare, `/vigilare-task` is the interface: it knows the title shape, the notes structure, the list selection, and the comment prefixes. Whatever the tracker is, the mechanics are the same: search it for the existing item before writing, comment on that item, and do not open a new one for work that is just a commit-scoped detail — that is what the commit's own Known gaps section is for.
+For Vigilare, `/vigilare-task` is the interface: it knows the title shape, the notes structure, the list selection, and the comment prefixes. Whatever the tracker is, the mechanics are the same: search it for the existing item before writing, then comment on that item. A new item is for work that outlives this commit; a commit-scoped detail is already covered by the commit's own Known gaps section.
 
 ## Checklist
 
@@ -45,4 +47,5 @@ Run against every tracker setup or milestone comment before presenting:
 - [ ] Content is routed by the table: commit-scoped deferrals → the commit's Known gaps; cross-commit progress and status → the tracker
 - [ ] Each milestone comment carries all three parts: what was done, the commit hash, and the next resumption point (including any open decision)
 - [ ] The comment was attached to the existing task found by search — no new task created for a commit-scoped detail
+- [ ] An item that carries a decision names its `ADR-NNNN`, and no ADR names an item id
 - [ ] Nothing that belongs in the tracker was written into docs/ or a commit body instead

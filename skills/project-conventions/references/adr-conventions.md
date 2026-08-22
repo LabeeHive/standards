@@ -1,23 +1,32 @@
 # ADR Conventions
 
-The decision record directory: what an ADR is for, what makes one valid, and the two rules that get broken most.
+The decision record namespace: what an ADR is for, what makes one valid, and the two rules that get broken most.
 
-## Why the directory exists
+## Why the namespace exists
 
-The recurring accident this prevents is **a decision that is made, narrowed or retracted in code while the old version survives somewhere else** — a system doc, a code comment, `CLAUDE.md`, a tracker ticket — so a later session implements from a stale spec.
+The recurring accident this prevents is **a decision that is re-litigated because nobody recorded why the other option was not taken** — the alternative gets re-proposed, argued again, and sometimes implemented, with no way to tell that it was already considered and rejected.
 
-That makes the **Propagation table the body of an ADR**. The prose around it is context for reading it. An ADR whose propagation table is thin has failed at the one job the directory was created for, however good its rationale reads.
+An ADR answers four questions, and nothing else belongs in one:
 
-## Location
+1. What was decided
+2. Which alternatives were considered, and why they were not taken
+3. What the chosen option costs
+4. What this decision leaves unresolved
+
+An ADR is the **output**. The investigation behind it — measurements, competitor surveys, engine behaviour — is the **workings**, and lives in `07_research/` where the ADR cites it by file. An ADR that absorbs its own research is unreadable as a decision and unmaintainable as a report.
+
+## Namespace slot
 
 ```
-docs/01_architecture/adr/
-  README.md      what this directory is for, and where its rules live
+docs/06_decisions/
+  README.md      what this namespace is for, and where its rules live
   TEMPLATE.md    copied to file a new one; takes no number
   ADR-0001-....md
 ```
 
-A contributor reading `docs/` must be able to find the rules without knowing the skill exists, so the directory's `README.md` **points at this file**. A project that already keeps its records elsewhere keeps them there — the location is not what the rules are about, and moving them breaks every link in.
+`06_` leaves `05_` free as the insertion slot. **A project that filed its decisions under a different slot before this convention existed keeps them there** — the slot number is not what the rules are about, and moving them breaks every link in.
+
+A contributor reading `docs/` must be able to find the rules without knowing the skill exists, so the namespace's `README.md` **points at this file**.
 
 ## Naming and numbering
 
@@ -30,9 +39,9 @@ ADR-NNNN-<lowercase-hyphenated-summary>.md
 
 ## Immutability (append-only)
 
-**An ADR is immutable once filed.** The decision, the rationale, the propagation table and the state-at-decision section are not rewritten afterwards. An ADR is a snapshot of "when, what, why"; rewriting it destroys the thing that made it worth keeping.
+**An ADR is immutable once filed.** The decision, the rationale, the consequences and the open questions are not rewritten afterwards. An ADR is a snapshot of "when, what, why"; rewriting it destroys the thing that made it worth keeping. A decision log whose losing arguments have been quietly overwritten is worse than no log at all, because it still looks authoritative.
 
-- **Changes, withdrawals and additions are appended as a new ADR.** Do not amend an existing one. The unit of work is "file ADR-NNNN", not "add decision N to an old ADR"
+- **Changes, withdrawals and additions are appended as a new ADR.** The unit of work is "file ADR-NNNN", so a change to an existing decision is a new file with its own number
 - **Exactly two things may be updated on an old ADR**: (a) the **Status** line, and (b) a **single link line directly under it** pointing at the replacement. Nothing else, not one character
 - The new ADR states which decision of the old one it replaces or withdraws, and why. **The history goes in the newer document**
 - Fixing a typo or a broken link is outside this rule; a fix that changes the meaning is not a fix, it is a new ADR
@@ -51,17 +60,17 @@ A project that violated this before the rule existed **does not retroactively fi
 
 ### Answering an ADR's own open question is not superseding it
 
-An ADR that resolves a point a previous one explicitly listed under **Open questions** leaves that previous ADR **Accepted and untouched** — its status line is not flipped, and its propagation rows are not edited. The earlier decision was never contradicted; a gap it declared was filled. Reach for `Superseded` only when a later decision actually replaces an earlier one.
+An ADR that resolves a point a previous one explicitly listed under **Open questions** leaves that previous ADR **Accepted and untouched** — its status line is not flipped and its body is not edited. The earlier decision was never contradicted; a gap it declared was filled. Reach for `Superseded` only when a later decision actually replaces an earlier one.
 
-## No implementation status
+## No implementation status, and no tracker item ids
 
-**Do not record progress in an ADR.** Whether something is built, in progress, or assigned lives in the task tracker. Never flip a status to "implemented", never rewrite a propagation row from "to do" to "done" — that is both an immutability violation and a second place to keep the same fact in sync.
+**Progress lives in the task tracker.** Whether something is built, in progress, or assigned changes as the work moves, so it belongs where it can be updated. An ADR's Status stays in its own vocabulary (`Accepted` / `Superseded` / `Withdrawn`); a status flipped to "implemented" both breaks immutability and creates a second place to keep the same fact in sync.
 
-The **State at the time of the decision** section is a record of what the code looked like *on the decision date*, written in type and API names so it can be grepped. It is not updated afterwards, and it is read as "this is how it was that day". To know how it is now, read the code.
+**Tracker item ids live in the tracker too.** An ADR is permanent and an item id is not: ids get closed, re-filed, migrated between tools and renumbered, and each of those leaves the ADR asserting something untrue in a file nobody may correct. The link runs one way — the tracker item names the ADR, which stays put.
 
 ## An ADR is a record, not a spec
 
-It captures what was decided at one point in time; the current spec is the code. Never treat ADR text as the authority for how the system behaves now.
+It captures what was decided at one point in time. For how the system behaves now, the code is the authority — an ADR tells you why it got that way, and the two answer different questions.
 
 This is what makes dated numbers acceptable **inside an ADR** and unacceptable in the numbered namespaces that describe the present:
 
@@ -76,12 +85,16 @@ File a new one by copying `TEMPLATE.md`.
 
 | Section | Contents |
 |---|---|
-| Header | Decided (date + whose decision) / Status / Related commits / Supersedes (only when it does) |
+| Header | Decided (date + whose decision) / Status / Supersedes (only when it does) |
 | Decision | What was decided. One or two paragraphs. Split with `### Decision 1: ...` when there is more than one |
 | Context and rationale | Why, grounded in dated facts. Includes **Alternatives rejected** — the section that ages best and stops a later implementer re-proposing the same thing |
-| **Propagation** | **Required.** Every place the decision reaches, as a table. See below |
-| State at the time of the decision | What the code looked like **on the decision date**, in type/API names. Not updated later |
+| Consequences | What the chosen option costs. Bullets, both directions |
 | Open questions | Points this decision leaves undecided. Write "none" rather than deleting the section — "we looked and there were none" is itself a record |
+| References | The research files and commits this rests on. Links only |
+
+**Consequences is separate from Alternatives rejected on purpose.** Alternatives rejected argues against the options not taken; Consequences states what the taken one costs. Folded into the rationale, the cost gets written as something the rationale overcomes and then quietly disappears — hiding the trade-off is the failure the section exists to prevent. An empty heading is conspicuous in a way a missing sentence is not, which is the same reason `Open questions` says "none" rather than being deleted.
+
+Keep it minimal: bullets naming the cost, not a pros-and-cons table per option. The per-option analysis, if it was done, is a research file.
 
 ### Template
 
@@ -90,7 +103,6 @@ File a new one by copying `TEMPLATE.md`.
 
 **Decided:** YYYY-MM-DD (user decision | proposed, user-confirmed | implementer decision, recorded)
 **Status:** Accepted
-**Related commits:** <hash>, <hash>
 **Supersedes:** ADR-NNNN (only when it does)
 
 ## Decision
@@ -105,42 +117,34 @@ File a new one by copying `TEMPLATE.md`.
 
 - <alternative> — <why it was not taken>
 
-## Propagation
+## Consequences
 
-| Kind | Location | Content |
-|---|---|---|
-| Code | `path/to/File.swift` | <what changes, in type and member names> |
-| Tests | `path/to/FileTests.swift` | <which behaviour is pinned> |
-| Docs | `01_architecture/xxx.md` | <which section> |
-| Tracker | <list/board name + item id> | <every hit from the search, `(**unchanged**)` where nothing changes> |
-
-## State at the time of the decision
-
-<what the code looked like on the decision date, in type/API names>
+- <what the chosen option costs, and what it gives up>
 
 ## Open questions
 
 none
+
+## References
+
+- [`../07_research/research/NN-....md`](../07_research/research/NN-....md) — <what it established>
+- <commit hash> — <the change this decision was filed with>
 ````
 
-### Writing the Propagation table
+### Reaching the places the decision touches
 
-**Full-text search the tracker before writing it.** Do not write the table from memory or from whatever came up in the conversation — recall is biased toward the one or two items discussed just before filing.
+The decision has to land in the code, the tests and the current-shape docs, and a decision that lands in one and not the others is the accident this namespace exists next to. **That work is done, and tracked, in the tracker — not listed inside the ADR.** A checklist written into an immutable file cannot be corrected when a location is missed or moved, and it decays into a stale map of a tree that has changed underneath it.
 
-The failure this rule exists for is concrete: a decision's ADR named one backlog item and was corrected there, while a second item touching the same decision went unnamed and kept describing the removed feature. Being named was the only difference between them.
-
-Search on **every name the subject goes by** — feature name, type name, the string shown in the UI, the settings key, the localization key. List every hit in the table, **including the ones that need no change**: marking a location `(**unchanged**)` records that the question was asked and answered.
-
-No "done / to do" marks — this is not a progress column.
+Before filing, search the code, the docs and the tracker on **every name the subject goes by** — feature name, type name, the string shown in the UI, the settings key, the localization key. Recall is biased toward the one or two things discussed just before filing. What the search turns up becomes tracker items that cite the ADR; the ADR itself stays a record of the decision.
 
 ## Consent, not authorship
 
 **It does not matter who thought of the decision.** A design judgement made by an agent or by the implementer belongs in an ADR **once the user has agreed to it** — that is the normal path: propose, ask, record. Record comes *after* agreement.
 
-Two things are forbidden, and they are not the same size:
+Two failures cost more than the rest, and they are not the same size:
 
-1. Filing an ADR for a decision the user has not agreed to
-2. **Recording it as the user's decision when they were never asked** — worse, because it corrupts the ledger's ability to say who is accountable for anything in it
+1. An ADR filed for a decision the user has yet to agree to — the record then claims a settlement that has not happened
+2. **A decision recorded as the user's when they were never asked** — worse, because it corrupts the ledger's ability to say who is accountable for anything in it
 
 Having *shown* the user a decision is not agreement. A question asked and left unanswered leaves the decision unagreed; it does not promote it.
 
@@ -152,7 +156,7 @@ The header states whose decision it was, in one of exactly these forms:
 **Decided:** 2026-08-01 (implementer decision, recorded) <- decided in the course of the work
 ```
 
-Do not invent a fourth form. When one document would carry decisions of different provenance, either split it into one ADR per provenance, or use `### Decision N:` sections and state the provenance on each — but the header must still be one of the three.
+Those three are the whole vocabulary. When one document would carry decisions of different provenance, either split it into one ADR per provenance, or use `### Decision N:` sections and state the provenance on each — the header still reads as one of the three.
 
 `(implementer decision, recorded)` is the slot for calls taken while building something, where stopping to ask would have blocked the work. It is an honest label, not a way to skip consent on a decision the user is actively being asked about.
 
@@ -170,11 +174,12 @@ Run against every ADR before presenting:
 
 - [ ] Header uses exactly one of the three `Decided:` forms, and it matches what actually happened — nothing the user has not agreed to is recorded as their decision
 - [ ] Every decision in the body has the user's agreement, or is honestly marked as taken in the course of the work
-- [ ] Propagation table exists, and was written **after** a full-text tracker search on every name the subject goes by — unchanged locations included and marked `(**unchanged**)`
-- [ ] No implementation-status content anywhere: not in Status, not as done/to-do marks in Propagation
-- [ ] `State at the time of the decision` is written in greppable type/API names and carries its date
+- [ ] A full-text search on every name the subject goes by was run before filing, and what it turned up is in the tracker — not listed inside the ADR
+- [ ] No implementation-status content anywhere, and no tracker item id
 - [ ] Numbers in the body carry the date they were true; no undated assertions
 - [ ] `Open questions` is present — "none" if there are none, not deleted
 - [ ] `Alternatives rejected` names what was considered and why it was not taken
+- [ ] `Consequences` names what the chosen option costs, not only what it gains
+- [ ] The investigation behind the decision is a file under `07_research/`, cited from `References` rather than pasted into the ADR
 - [ ] No existing ADR body was edited; if one was superseded or withdrawn, only its Status line and one link line beneath it changed
 - [ ] An ADR that merely answers an earlier one's Open question left that earlier ADR `Accepted` and untouched
