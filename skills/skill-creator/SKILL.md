@@ -125,12 +125,12 @@ For **each scenario** from Phase 1, ask:
 
 **Then decide frontmatter:**
 
-1. **allowed-tools** — Do not set (see `references/output-patterns.md` allowed-tools Decision). It grants, never restricts, so a checked-in grant buys nothing here. Use `disallowed-tools` when a skill must lose access to a tool
+1. **allowed-tools** — leave it out (see `references/output-patterns.md` allowed-tools Decision). It grants rather than restricts, so a checked-in grant buys nothing here. Use `disallowed-tools` when a skill must lose access to a tool
 2. **argument-hint** — See `references/output-patterns.md` argument-hint Decision
 3. **Invocation control** — See `references/output-patterns.md` Invocation Control
-4. **paths** — Do not set (see `references/output-patterns.md` paths Decision). Express file affinity in `description`/`when_to_use` instead
+4. **paths** — leave it out and express file affinity in `description`/`when_to_use` (see `references/output-patterns.md` paths Decision)
 
-**Do not set** `model`, `effort`, `context: fork`, `agent`, or `background`. No skill in this repository sets any of them. `context: fork` runs the skill in an isolated subagent with no conversation history, backgrounded by default since Claude Code 2.1.218 (`background: false` waits in-turn) — either way it cannot ask the user anything, which is why the field was removed from this repository in July. A skill that needs isolation spawns a subagent instead. `model` is worse than unnecessary: since 2.1.227 it is recorded but not applied in interactive sessions (works only under `claude -p`; Anthropic reproduced this on 2.1.233, issue #85658). Skills inherit the session's model and effort.
+**Leave `model`, `effort`, `context: fork`, `agent` and `background` out.** No skill in this repository sets any of them. `context: fork` runs the skill in an isolated subagent with no conversation history, backgrounded by default since Claude Code 2.1.218 (`background: false` waits in-turn) — either way it cannot ask the user anything, which is why the field was removed from this repository in July. A skill that needs isolation spawns a subagent instead. `model` is worse than unnecessary: since 2.1.227 it is recorded but not applied in interactive sessions (works only under `claude -p`; Anthropic reproduced this on 2.1.233, issue #85658). Skills inherit the session's model and effort.
 
 **Present the resource plan to the user for approval before proceeding.**
 
@@ -199,9 +199,9 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 
 **Body guidelines:**
 
-1. Keep it concise — Claude is smart, don't over-explain. Skill content persists in context across turns, so every line is a recurring cost (see `references/output-patterns.md` Skill Content Lifecycle)
+1. Keep it concise — Claude is smart, so state the point once. Skill content persists in context across turns, so every line is a recurring cost (see `references/output-patterns.md` Skill Content Lifecycle)
 2. Explain the *why* behind instructions instead of stacking ALL-CAPS MUSTs — models follow reasoning better than rigid commands. Repeated MUST/ALWAYS/NEVER is a yellow flag (official guidance)
-3. Reference scripts via the `CLAUDE_SKILL_DIR` substitution so paths resolve regardless of cwd — never write a cwd-relative `bun scripts/...` path. Exact syntax: see `references/resource-patterns.md` Referencing in SKILL.md
+3. Reference scripts via the `CLAUDE_SKILL_DIR` substitution so paths resolve regardless of cwd, which a relative `bun scripts/...` path does only from the right directory. Exact syntax: see `references/resource-patterns.md` Referencing in SKILL.md
 4. Reference files: "See `references/api.md` for details"
 5. Include step-by-step workflow if the skill has 3+ steps (see `references/workflows.md`)
 6. Add a **Reference Files** table at the bottom:
@@ -223,7 +223,7 @@ Now write the SKILL.md body, referencing the resources created in Phase 5.
 
 A skill you just wrote reads correctly to you because you hold the intent that produced it. A reader who does not catches the two things that intent hides: instructions that only make sense if you already know what was meant, and steps left as prose that should have been a script.
 
-Not a process audit — do not ask whether references were read or TODOs remain.
+Ask about the writing itself, which is what a second reader can judge — reading order and leftover TODOs are the author's own to see.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -315,7 +315,7 @@ Principles from the official skill-creator (anthropics/skills) for iterating on 
 - **Test before and after.** Run 2-3 realistic prompts against the skill, ideally comparing old vs new versions (snapshot the old version first). Judge from real outputs, not from how the instructions read.
 - **Generalize from feedback.** A skill is used across many prompts — fixes that only patch the tested examples are overfitting. Prefer reframing the instruction over adding narrow special cases.
 - **Keep the prompt lean.** Read the transcripts, not just the outputs. If a section makes the model do unproductive work, removing it is an improvement.
-- **Bundle repeated work.** If test runs keep writing the same helper script or repeating the same multi-step sequence, ship it in `scripts/` so future invocations don't reinvent it.
+- **Bundle repeated work.** If test runs keep writing the same helper script or repeating the same multi-step sequence, ship it in `scripts/` so future invocations call it.
 - **Strengthen triggering empirically.** If the skill undertriggers, make the description more concrete (and slightly "pushy") about when to use it; test with both should-trigger and tricky near-miss should-not-trigger phrasings.
 - **Measure instead of guessing.** The official skill-creator plugin ships an eval loop — `evals/evals.json` plus per-eval grading, run isolated per subagent, with benchmark and version A/B modes — which is the documented way to compare two versions of a skill on the same prompts.
 
