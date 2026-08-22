@@ -12,7 +12,7 @@ Review checklist for English-language landing pages. All copy is authored in Eng
 ## CTA Hierarchy
 
 - [ ] Primary CTA is clear, action-oriented, and appears above the fold
-- [ ] Secondary CTAs do not compete with primary
+- [ ] Primary CTA is visually dominant over every secondary one
 - [ ] CTA copy states the benefit, not just the action ("Start free" > "Sign up")
 - [ ] No more than one primary CTA per viewport
 

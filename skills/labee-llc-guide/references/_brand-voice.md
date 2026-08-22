@@ -50,7 +50,7 @@ Casual ◄───────────────────────�
 
 ### Landing Page (Japanese)
 
-- Warm but direct. Use です/ます but avoid excessive keigo.
+- Warm but direct. Use です/ます, and keep keigo at that level.
 - Emphasize partnership and proximity.
 
 **Good:**
@@ -62,9 +62,9 @@ Casual ◄───────────────────────�
 ### App Store Descriptions
 
 - Scannable: lead with the key benefit
-- Keyword-aware but natural — don't stuff
+- Keyword-aware but natural — each keyword earns its place in a sentence that reads well
 - Multi-language: maintain voice across all locales
-- Focus on what the user can DO, not feature lists
+- Focus on what the user can DO; features appear as the thing they enable
 
 **Good:**
 > Your calendar, tasks, and meetings — one glance. Chimr keeps your day visible without getting in the way.

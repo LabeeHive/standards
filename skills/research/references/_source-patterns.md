@@ -105,4 +105,4 @@ Agent(subagent_type="Explore", description="Analyze official docs", prompt="Read
 
 1. **Critical claims**: 2+ Tier A/B sources
 2. **Technical details**: 1 Tier A/B + 1 Tier C
-3. **Opinions/trends**: Note source tier, don't assert as fact
+3. **Opinions/trends**: Note the source tier and present it as that source's position

@@ -20,7 +20,7 @@ Merge commits and one-line fixes (typo, trivial config change) can skip the body
 
 ## Subject line and who writes what
 
-The subject line follows Conventional Commits, `<type>: <subject>`, and `/commit-message` is the authority on it: imperative mood, one verb + one object, 50 characters or fewer, type chosen by the first matching rule in its decision table. Do not restate those rules here or override them.
+The subject line follows Conventional Commits, `<type>: <subject>`, and `/commit-message` is the authority on it: imperative mood, one verb + one object, 50 characters or fewer, type chosen by the first matching rule in its decision table. Those rules live there and are read from there; this file adds the body.
 
 `/commit-message` is given the staged diff and the recent log for style, and returns the subject line only. It cannot know why a change was made, what was run, or what was left out — that lives in the session that did the work. The caller writes the body: the change paragraphs, Verification, and Known gaps. If a message is being written without `/commit-message`, apply its subject rules by hand.
 
@@ -56,12 +56,14 @@ This is a decision record, not an apology. State explicitly what was left undone
 
 The second example is the pattern to imitate generally: name the deferred work, and say *why* it is deferred (scope, time cost, separate concern) rather than leaving a silent gap. A commit with "Known gaps: none" is fine and often correct — write it explicitly rather than omitting the section, so a resuming reader does not have to guess whether the omission means "nothing left" or "forgot to check".
 
-## What NOT to do
+## Where messages go wrong
 
-- Do not write a subject line that only names the file touched
-- Do not bundle "what changed" and "what is still broken" into the same paragraph — known gaps gets its own place so a resuming reader can find it without re-reading the whole body
-- Do not put progress/TODO tracking in the commit body for anything beyond this commit's own scope — that belongs in the task tracker, not git history (see references/task-tracker-integration.md)
-- Do not claim a verification the session did not perform. `/commit-message` never writes one; if a Verification line exists, the caller wrote it from a run
+Each line below states what the message should say instead, and what the failure costs when it says something else:
+
+- The subject names the change, not the file it landed in. A subject that only names a file leaves the log unreadable at a glance, which is the one thing the log is for
+- "What changed" and "what is still broken" get separate sections. Bundled into one paragraph, the resuming reader has to re-read the whole body to find the part addressed to them
+- Progress and TODO tracking beyond this commit's own scope goes to the task tracker (see references/task-tracker-integration.md). Git history is immutable, so a status written into it is wrong from the next commit onward
+- A Verification line describes a run the session actually performed. `/commit-message` writes none, so every one that exists was written by the caller from a real run — that is what makes the section worth reading
 
 ## Checklist
 

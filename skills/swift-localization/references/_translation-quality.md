@@ -1,6 +1,6 @@
 # Translation Quality Guide
 
-Core principle: **Localize, don't translate.**
+Core principle: **Localize rather than translate.**
 
 Every translation must read as if a native speaker wrote the UI from scratch. Grammatically correct is not enough — it must feel culturally natural.
 
@@ -22,7 +22,7 @@ Different string types have different rules:
 
 ### Japanese (ja)
 
-- Casual tone for consumer apps — avoid keigo
+- Casual tone for consumer apps — plain です/ます at most, keigo left aside
 - Noun-ending sentences are natural
 - Keep UI labels short (2-4 characters ideal)
 - **Bad:** "タスクを削除することができます" (verbose, translated feel)
@@ -33,7 +33,7 @@ Different string types have different rules:
 ### Korean (ko)
 
 - Casual/friendly register for consumer apps (-해요 or noun endings)
-- Avoid formal -습니다 in UI labels
+- UI labels use the casual register; -습니다 belongs to formal copy
 - 할 일 (casual) over 작업 (formal/technical)
 - **Bad:** "설정을 관리합니다" (overly formal for settings tab)
 - **Good:** "설정" (simple, native)
@@ -43,7 +43,7 @@ Different string types have different rules:
 ### Chinese Simplified (zh-Hans)
 
 - Short punchy labels preferred
-- Avoid written/formal register (书面语) in consumer apps
+- Consumer apps use the spoken register; 书面语 belongs to formal copy
 - Four-character phrases add rhythm when appropriate
 - **Bad:** "管理您的提醒事项" (formal, translated feel)
 - **Good:** "提醒事项" (native, scannable)
@@ -53,7 +53,7 @@ Different string types have different rules:
 ### German (de)
 
 - "du" form for consumer apps (dein/deine, not Ihr/Ihre)
-- Direct and concise — avoid unnecessary compound nouns
+- Direct and concise — a compound noun earns its place or is split
 - Address user directly
 - **Bad:** "Einstellungen verwalten" (verbose tab label)
 - **Good:** "Einstellungen" (direct)
@@ -62,7 +62,7 @@ Different string types have different rules:
 
 ### Spanish (es)
 
-- Tu form for consumer apps (avoid usted)
+- Tu form for consumer apps; usted belongs to formal copy
 - Warm but concise
 - **Bad:** "Gestione sus tareas de manera eficiente" (usted, verbose)
 - **Good:** "Tus tareas" (casual, direct)
@@ -73,7 +73,7 @@ Different string types have different rules:
 
 - Tu form for consumer apps (ton/ta, not votre)
 - Slightly more formal than EN, but not stiff
-- Avoid anglicisms where French equivalents exist
+- Use the French equivalent wherever one exists
 - **Bad:** "Gérez vos tâches efficacement" (vous form, generic)
 - **Good:** "Tes tâches" (casual, direct)
 - **Bad:** "Cliquer ici pour supprimer" (robotic)

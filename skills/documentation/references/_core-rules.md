@@ -43,7 +43,7 @@ Stop at H3. Wanting an H4 usually means the document should be split, not nested
 
 **Voice** — active. "The engine retries the request", not "the request is retried by the engine".
 
-**Person** — address the reader as "you". Avoid "I" and "we", and avoid third-party attribution that reads the same way: "the platform team decided" tells a reader no more than "we decided" does. Say what the system does, or what the reader should do.
+**Person** — address the reader as "you", and say what the system does or what the reader should do. That covers what "I", "we", and third-party attribution would have carried: "the platform team decided" tells a reader no more than "we decided" does.
 
 **Headings** — sentence case. See `markdown-formatting.md` for why this one needs a deliberate pass rather than a linter.
 

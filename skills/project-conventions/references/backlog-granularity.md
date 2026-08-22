@@ -23,9 +23,9 @@ If an item cannot be phrased as one of those two, it is not a Story yet.
 
 ## Rules
 
-### Never split by technical layer
+### Split vertically, not by technical layer
 
-"Write the model side", "write the View side", "write the doc listing them" are not Stories. Cut **vertically**: a Story crosses every layer it needs to and ends at something observable.
+Cut so that a Story crosses every layer it needs and ends at something observable. "Write the model side", "write the View side", "write the doc listing them" are layers rather than Stories: each closes on its own author's judgement and none of them produces anything a second person can look at.
 
 Splitting by *kind of data* is the same mistake wearing a different hat. Two Stories like "the item list" and "the category list" look like a clean split, but categories contain items — deciding either one moves the other, so the split guarantees round trips. Split the chain by *stage* (or by whatever axis makes each piece independently closable), not by which table the rows land in.
 

@@ -13,7 +13,7 @@ git log -1
 git show <hash>   # read the full message, especially Known gaps
 ```
 
-The Known gaps section is the intended resumption point — it was written for exactly this purpose. Treat it as the starting instruction, not as background context to skim. If it names a deferred item with a reason ("X is a separate multi-hour follow-up, explicitly scoped out"), that is a decision already made — do not silently redo the analysis of whether to tackle X now; either continue the deferral or make a new, equally explicit decision to un-defer it.
+The Known gaps section is the intended resumption point — it was written for exactly this purpose. Treat it as the starting instruction, not as background context to skim. If it names a deferred item with a reason ("X is a separate multi-hour follow-up, explicitly scoped out"), that is a decision already made — carry it forward, or make a new decision to un-defer it that is just as explicit as the one it replaces. Redoing the analysis silently produces a third answer nobody recorded.
 
 ## Cross-check against the tracker
 
@@ -23,11 +23,13 @@ If a milestone comment exists in the task tracker (see references/task-tracker-i
 
 This works because commit messages and tracker comments are written *as* resumption points from the start (see references/commit-messages.md) — the cost of this workflow is proportional to how disciplined those artifacts were kept, not to the size of the codebase. A project that consistently writes Known gaps turns "where was I?" into a two-command lookup instead of a re-investigation.
 
-## What NOT to do
+## Where resumptions go wrong
 
-- Do not re-scan the whole codebase or re-run a full audit before checking the last commit's Known gaps first
-- Do not assume silence means "nothing left" — if a commit has no Known gaps, that should be an explicit "Known gaps: none", not an absence to interpret
-- Do not treat a deferred item's reasoning as still open for debate unless something material has changed since it was deferred
+Each line states the move that works, and what it replaces:
+
+- The last commit's Known gaps is read first, and it usually answers the question on its own. A full re-scan or re-audit ahead of that spends the session's opening minutes re-deriving something already written down
+- A commit whose Known gaps section is missing is treated as an unknown, and the next message it writes says "Known gaps: none" explicitly. Reading silence as "nothing left" turns a forgotten section into a finished one
+- A deferred item's reasoning stands until something material changes. Re-opening it on a hunch spends the deferral decision twice and often lands on the same answer
 
 ## Checklist
 

@@ -1,6 +1,6 @@
 # Localization Principles
 
-Core principle: **Localize, don't translate.**
+Core principle: **Localize rather than translate.**
 
 Metadata must read as if a native speaker wrote it from scratch for their local market.
 
@@ -31,13 +31,13 @@ Detect these regardless of language:
 
 - Casual tone OK for consumer apps
 - Noun-ending sentences are natural (体言止め)
-- Avoid keigo (敬語) in consumer app metadata
+- Plain です/ます at most — consumer app metadata stays out of keigo (敬語)
 - Natural: 「チームのタスクと時間をまとめて管理」
 - Unnatural: 「タスクを管理することができます」
 
 ### Korean (ko)
 
-- Avoid overly formal -습니다 endings for consumer apps
+- Consumer apps end sentences in the casual register, leaving -습니다 to formal copy
 - Use casual/friendly register: -해요 or noun endings
 - 할 일 (casual) preferred over 작업 (formal/technical)
 - Natural: 「할 일, 한눈에 정리」
@@ -47,13 +47,13 @@ Detect these regardless of language:
 
 - Short punchy phrases preferred
 - Four-character idioms (成语) add punch when appropriate
-- Avoid 书面语 (written/formal register) in consumer apps
+- Consumer apps use the spoken register; 书面语 belongs to formal copy
 - Natural: 「轻松搞定每日待办」
 - Unnatural: 「任务管理和时间跟踪」
 
 ### German (de)
 
-- Direct and precise, avoid marketing fluff
+- Direct and precise — every phrase carries information
 - "du" form for consumer apps (Deine, not Ihre)
 - Address user directly
 - Natural: 「Deine Aufgaben und Zeit im Griff」
@@ -61,7 +61,7 @@ Detect these regardless of language:
 
 ### Spanish (es)
 
-- Tu form for consumer apps (avoid usted)
+- Tu form for consumer apps; usted belongs to formal copy
 - Warm but not excessive
 - Natural: 「Organiza tus tareas a tu manera」
 - Unnatural: 「Gestione sus tareas de manera eficiente」
@@ -69,6 +69,6 @@ Detect these regardless of language:
 ### French (fr)
 
 - Slightly more formal than EN, but not stiff
-- Avoid heavy anglicisms where French equivalents exist
+- Use the French equivalent wherever one exists
 - Natural: 「Tes tâches, bien organisées」
 - Unnatural: 「Gérez vos tâches de manière comprehensive」
