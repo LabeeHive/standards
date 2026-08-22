@@ -172,7 +172,7 @@ For each script identified in Phase 3:
    bun skills/{skill-name}/scripts/{script-name}.ts {test-input}  # Verify with real input
    ```
 
-3. **Test against a real project:** Run the script against an actual project that uses the target tool/format. Do not rely on `--help` alone.
+3. **Test against a real project:** Run the script against an actual project that uses the target tool/format — `--help` shows the interface, not the behaviour.
 
 4. Fix any failures before moving on.
 

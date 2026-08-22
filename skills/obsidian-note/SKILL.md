@@ -9,7 +9,7 @@ argument-hint: [note content or topic]
 
 Create and manage notes in the user's Obsidian vault via the `obsidian` CLI.
 
-**Out of scope:** Daily notes, MOC (Maps of Content) notes. Do not create or modify these automatically. If the user asks for a daily note, suggest using Obsidian's daily note feature directly.
+**Out of scope:** Daily notes and MOC (Maps of Content) notes, which Obsidian's own features own. When the user asks for a daily note, point them at that feature.
 
 ## Vault Conventions
 
@@ -99,7 +99,7 @@ obsidian append file="<Title>" content="# <Title>\n\n<body content>"
 
 **Append to existing note:**
 
-Only append content. Do not modify existing properties or tags.
+Append content, and leave the existing properties and tags as the note has them.
 
 ```
 obsidian append file="<Note Name>" content="\n\n## <Section Title>\n\n<additional content>"

@@ -190,7 +190,7 @@ Run `npm run build`
 
 ## Isolation Considerations
 
-Do not use `context: fork` — a forked skill cannot reach the user, so any step that asks a question or waits for approval stalls silently. Workflow skills run in the main context.
+Workflow skills run in the main context. A forked skill (`context: fork`) cannot reach the user, so any step that asks a question or waits for approval stalls silently.
 
 When a workflow genuinely needs isolated work (a wide investigation, a parallel review), spawn subagents with the Agent tool from inside the skill. Give each one a self-contained brief, since it cannot see the conversation, and have it report back to you rather than to the user.
 

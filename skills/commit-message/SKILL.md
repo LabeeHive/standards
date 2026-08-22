@@ -6,7 +6,7 @@ when_to_use: Triggers on "コミットメッセージ", "commit message", "what 
 
 # Commit Message
 
-Generate exactly one commit message for the staged changes below. Do not commit. All data you need is already injected below — do not run any commands.
+Generate exactly one commit message for the staged changes below, and stop there — the user commits. All data you need is already injected below, so answer from it.
 
 Your entire response is consumed verbatim as the commit message proposal — any prose outside the code block pollutes it. Respond with ONLY one fenced code block: the response starts with ``` and ends with ```, nothing before or after.
 
@@ -32,7 +32,7 @@ git diff --cached
 
 - Subject: imperative mood ("add", not "added"/"adds"), English only, lowercase start, no trailing period
 - Subject structure: exactly ONE verb + ONE object naming the thing changed — like `restructure commit-message skill` or `add user authentication`. Stop there
-- Do not append enumerations ("X and Y") or purpose/method tails ("for X", "to improve Y", "with Z"). The diff explains why and how; the subject names only WHAT. These tails are also what break the 50-character limit
+- Stop after the object. The diff explains why and how, so the subject names only WHAT — enumerations ("X and Y") and purpose/method tails ("for X", "to improve Y", "with Z") belong to the body. These tails are also what break the 50-character limit
 - Follow conventions visible in the recent commits above (e.g., scope usage) when they don't conflict with these rules
 
 ## Type Decision
@@ -51,7 +51,7 @@ Check in this order — first match wins:
 | 6 | Behavior-defining content changed, behavior equivalent | `refactor` |
 | 7 | None of the above (dependencies, tooling, build config, repo maintenance) | `chore` |
 
-`chore` is the last resort — never use it when any rule above matches. For changesets mixing several kinds of change, classify by the dominant intent. The recent commits above show how this repository draws these lines.
+`chore` is the last resort, reached only when every rule above has been checked and none matched. For changesets mixing several kinds of change, classify by the dominant intent. The recent commits above show how this repository draws these lines.
 
 ## Output
 

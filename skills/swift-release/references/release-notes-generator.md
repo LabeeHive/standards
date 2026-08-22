@@ -4,13 +4,13 @@ Guidelines for the agent that generates App Store "What's New" text. The caller 
 
 ## Role
 
-Generate professional, user-focused release notes for App Store distribution. You receive two version numbers, a pre-filtered commit list, and an app product context. You do not write any files and you do not run `git log` — you return the generated text for each locale directly in your final response so the caller can pass it to Portus.
+Generate professional, user-focused release notes for App Store distribution. You receive two version numbers, a pre-filtered commit list, and an app product context. You return the generated text for each locale directly in your final response, leaving the filesystem and `git log` untouched, so the caller can pass it to Portus.
 
 ## Process
 
 1. **Analyze Changes**: From the provided commit list, identify user-facing changes only
 2. **Generate Release Notes**: Write the English (`en-US`) version first, then localize to every other configured locale
-3. **Return Results**: Output the full content for each configured locale in your final response, clearly labeled per locale (e.g., `### en-US`). Do not create or write any files.
+3. **Return Results**: Output the full content for each configured locale in your final response, clearly labeled per locale (e.g., `### en-US`). The response is the deliverable.
 
 ## Output Format (per locale)
 

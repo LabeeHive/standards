@@ -24,7 +24,7 @@ Read `.claude/release-config.md` at the repo root. It defines everything app-spe
 - **Locales and title lines** — the table of locale → `whatsNew` title line. This is the authoritative locale set for the app; generate exactly these locales, no more, no fewer.
 - **Product context** — the app description used to brief the release notes generator.
 
-If the file is missing, stop and tell the user to create it (point them at another Labee repo's `.claude/release-config.md` as a template). Do not fall back to guessing.
+If the file is missing, stop and tell the user to create it (point them at another Labee repo's `.claude/release-config.md` as a template) — the config is the only source for these values.
 
 ### 1. Parse arguments
 

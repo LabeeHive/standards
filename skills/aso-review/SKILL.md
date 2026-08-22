@@ -9,7 +9,7 @@ argument-hint: "[path/to/fastlane/metadata]"
 
 Review App Store metadata across all locales from three perspectives: ASO optimization, naturalness, and messaging consistency.
 
-Core principle: **Localize, don't translate.** Metadata must read as if a native speaker wrote it from scratch.
+Core principle: **Localize rather than translate.** Metadata must read as if a native speaker wrote it from scratch.
 
 ## Review Checklist (injected on every invocation)
 
@@ -72,7 +72,7 @@ Glob("**/metadata/**")     → fastlane metadata
 - Build the locale inventory from what is actually on disk — the tree is the source of truth, not a fixed expected count
 - Log discovered locales: `ja, en, ko, zh-Hans, de, es, fr, ...`
 
-Report the locale count in your findings and review every locale you found. Do not block waiting for locales that may or may not be coming.
+Report the locale count in your findings and review every locale you found — the tree as it stands is the scope.
 
 ### Phase 2: Build Shared Context
 

@@ -110,7 +110,7 @@ Every agent runs in the background by default and its tool output is invisible t
 - Send one line to `"main"` at each milestone.
 - Before doing anything outside the brief you were given, `SendMessage` to `"main"` and wait for an answer.
 - When the result runs longer than a few lines, write it to the file path the brief names, and state that path in your last message.
-- Never claim a check you did not run.
+- Every check you report is one you actually ran.
 ```
 
 The message-and-wait rule is the agent's only escalation path: it cannot ask the user directly, because subagents cannot call AskUserQuestion.

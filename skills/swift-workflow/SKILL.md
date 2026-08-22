@@ -83,7 +83,7 @@ The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`
 
 ### Phase 1.5: Related Work Discovery (MANDATORY)
 
-**Required skills:** None. **This phase is mandatory and must not be skipped.**
+**Required skills:** None. **This phase runs every time.**
 
 A task rarely exists in isolation. Before researching or planning, find out what else in the backlog and docs touches the same area — otherwise you risk duplicating work, fixing the wrong layer, or building on a design that is about to change.
 

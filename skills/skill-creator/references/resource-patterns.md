@@ -83,7 +83,7 @@ bunx some-cli-tool            # Exit code issues (GitHub #26674)
 3. Document why the dependency is needed
 4. Prefer established packages (>1M weekly downloads)
 
-**Never:**
+**These leave a script that breaks on someone else's machine:**
 
 - Dynamic package installation at runtime
 - Unpinned dependency versions
@@ -148,7 +148,7 @@ Run the validation script:
 If validation fails, fix the errors and retry.
 ```
 
-Note: this works only in SKILL.md content (where substitution happens). Do not use it inside script source code or shell strings — write `<skill-dir>` as a plain placeholder there.
+Note: this works only in SKILL.md content (where substitution happens). Inside script source code or shell strings, write `<skill-dir>` as a plain placeholder.
 
 ### Output Format
 

@@ -60,13 +60,13 @@ description: GitHub workflow helper.
 
 ## allowed-tools Decision
 
-**Not used in this repository — do not set `allowed-tools`.** `quick_validate.ts` fails a skill that carries it.
+**Left out in this repository.** `quick_validate.ts` fails a skill that carries `allowed-tools`.
 
-The field exists and is valid in the Agent Skills Spec, so it is worth knowing what it does before deciding not to use it. `allowed-tools` *pre-approves* the listed tools while the skill is active — it grants, it never restricts. Every tool left off the list remains callable under the session's normal permission settings, so the field cannot be used to keep a skill away from anything. `disallowed-tools` is the field that removes tools from the pool, and it stays.
+The field exists and is valid in the Agent Skills Spec, so it is worth knowing what it does before settling on leaving it out. `allowed-tools` *pre-approves* the listed tools while the skill is active — it grants rather than restricts. Every tool left off the list remains callable under the session's normal permission settings, so the field cannot be used to keep a skill away from anything. `disallowed-tools` is the field that removes tools from the pool, and it stays.
 
 The grant is also worth very little here, and costs something. Labee sessions run in auto mode, where deny and ask rules are applied before the classifier, a narrow `Bash(...)` grant only skips the classifier, a broad one is suspended outright, and non-Bash tools go to the classifier regardless — so most of a typical list changes nothing. Dynamic injection (`` ```! `` and `` !`command` `` blocks) runs without any `allowed-tools` entry in both default and auto modes, measured on Claude Code 2.1.233, so injecting a `_reference.md` with `cat` needs no grant either. What the field does do is apply without the workspace trust dialog, which makes a checked-in pre-approval an exposure that buys nothing.
 
-**Bad — do not add this to a skill:**
+**Bad — what a skill carrying it looks like:**
 
 ```yaml
 allowed-tools: Read Glob Grep Bash(git:*) Bash(gh:*)
@@ -131,7 +131,7 @@ Output: `fix: resolve null pointer on app launch`
 
 ## Model, effort, and execution context
 
-Do not set `model`, `effort`, `context`, `agent`, or `background` on a skill. No skill in this repository sets any of them; a skill inherits the session's model and effort.
+Leave `model`, `effort`, `context`, `agent` and `background` off a skill. No skill in this repository sets any of them; a skill inherits the session's model and effort.
 
 `context: fork` runs the skill in an **isolated** subagent that starts from a fresh context — the name is misleading, because it does not inherit the conversation. (The Agent tool's `subagent_type: "fork"`, the default since Claude Code 2.1.232, is the one that inherits the parent's conversation and prompt cache.) Since 2.1.218 a forked skill runs in the background by default; `background: false` makes the caller wait for it in-turn instead. Either way the forked run cannot reach the user, so a skill that has to ask a question or wait for approval stalls there. That is why the field was removed from this repository in July; a skill that needs isolation spawns a subagent instead.
 
@@ -172,7 +172,7 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 
 ### Naming and visibility of the invocation
 
-- **Stacked invocations.** A prompt can lead with several skills — `/skill-a /skill-b …` loads up to 5 leading skills into the same turn (Claude Code 2.1.199). Write a skill so it composes: do not assume it is the only instruction set in the turn.
+- **Stacked invocations.** A prompt can lead with several skills — `/skill-a /skill-b …` loads up to 5 leading skills into the same turn (Claude Code 2.1.199). Write a skill so it composes with whatever else the turn is carrying.
 - **Nested skill directories.** Skills under a nested `.claude/skills` appear as `<dir>:<name>` when the bare name collides with another skill (2.1.178). Plugin skills are always `plugin:<name>`.
 - **`skillOverrides` setting.** Users can downgrade a skill's availability per project without editing it: `"on"` (normal), `"name-only"` (listed by name, description withheld), `"user-invocable-only"` (Claude cannot auto-invoke it), `"off"`. Toggled with Space in the `/skills` menu and saved to `.claude/settings.local.json`. It does not apply to plugin skills — those are managed through `/plugin`.
 
@@ -190,7 +190,7 @@ Source: <https://agentskills.io/specification>
 | description | Yes | string | 1-1024 chars, no angle brackets. Listing shows `description` + `when_to_use` up to 1,536 chars. Must be third person | WHAT + WHEN + Triggers |
 | license | No | string | SPDX identifier | License for the skill |
 | compatibility | No | string | 1-500 chars | Environment requirements (platform, packages, network) |
-| allowed-tools | No | string | **Do not set in this repository** (see allowed-tools Decision). Space-delimited (spec standard); Claude Code also accepts comma-separated and YAML list | Pre-approves the listed tools while the skill is active. It grants, never restricts, and applies without the workspace trust dialog — use `disallowed-tools` to take tools away |
+| allowed-tools | No | string | **Left out in this repository** (see allowed-tools Decision). Space-delimited (spec standard); Claude Code also accepts comma-separated and YAML list | Pre-approves the listed tools while the skill is active. It grants rather than restricts, and applies without the workspace trust dialog — use `disallowed-tools` to take tools away |
 | metadata | No | object | Key-value pairs | Arbitrary metadata |
 
 ### Claude Code Extension Fields
@@ -199,13 +199,13 @@ Source: <https://code.claude.com/docs/en/skills>
 
 | Field | Required | Type | Default | Description |
 |-------|:--------:|------|---------|-------------|
-| model | No | string | (inherited) | **Do not set.** Same values as `/model`, or `inherit`. Documented to apply for the rest of the current turn only; the session model resumes on the next prompt. Also broken in interactive sessions — see Model, effort, and execution context |
-| effort | No | enum | (inherited) | **Do not set.** `low`, `medium`, `high`, `xhigh`, `max`. Available levels depend on the model. Overrides session effort while the skill is active |
+| model | No | string | (inherited) | **Left out.** Same values as `/model`, or `inherit`. Documented to apply for the rest of the current turn only; the session model resumes on the next prompt. Also broken in interactive sessions — see Model, effort, and execution context |
+| effort | No | enum | (inherited) | **Left out.** `low`, `medium`, `high`, `xhigh`, `max`. Available levels depend on the model. Overrides session effort while the skill is active |
 | when_to_use | No | string | - | Additional triggering context (trigger phrases, example requests). Appended to `description` in the skill listing; counts toward the 1,536-char cap |
 | arguments | No | string/list | - | Named positional arguments for `$name` substitution. `arguments: [issue, branch]` → `$issue`, `$branch` map to positions in order |
-| context | No | enum | (normal) | `fork` runs the skill in an isolated subagent. **Do not set** — see Model, effort, and execution context |
-| agent | No | string | - | Agent type when `context: fork`. **Do not set** |
-| background | No | bool | true | Only meaningful together with `context: fork` (Claude Code 2.1.218+). `true` runs the forked skill in the background; `background: false` makes the caller wait for it in-turn. **Do not set** — it has no effect without `context: fork` |
+| context | No | enum | (normal) | `fork` runs the skill in an isolated subagent. **Left out** — see Model, effort, and execution context |
+| agent | No | string | - | Agent type when `context: fork`. **Left out** |
+| background | No | bool | true | Only meaningful together with `context: fork` (Claude Code 2.1.218+). `true` runs the forked skill in the background; `background: false` makes the caller wait for it in-turn. **Left out** — it has no effect without `context: fork` |
 | paths | No | string | - | **Not used in this repository** (see paths Decision). Glob patterns intended to limit auto-activation to matching files |
 | argument-hint | No | string | - | Hint shown in `/` autocomplete (e.g., `[issue-number]`) |
 | disable-model-invocation | No | bool | false | Prevent auto-invocation by Claude. The skill's description is removed from Claude's context entirely (still visible in the `/` menu) |
@@ -232,7 +232,7 @@ Available in SKILL.md body content:
 | `${CLAUDE_PLUGIN_ROOT}` | Plugin root directory — plugin skills only |
 | `${CLAUDE_PLUGIN_DATA}` | Plugin data directory that survives plugin updates — plugin skills only |
 
-Unmatched `$N` placeholders are left in place rather than deleted (Claude Code 2.1.210). Do not write a literal `$0` or `$1` in body prose that is not meant as a placeholder: multi-word argument values have been reported to corrupt such literals during substitution ([#87109](https://github.com/anthropics/claude-code/issues/87109), 2026-08-16). Write the index in prose ("the first argument") or fence it as code when you need to talk about the syntax itself.
+Unmatched `$N` placeholders are left in place rather than deleted (Claude Code 2.1.210). Write the index in prose ("the first argument") or fence it as code whenever body prose refers to `$0` or `$1` without meaning a placeholder: multi-word argument values have been reported to corrupt such literals during substitution ([#87109](https://github.com/anthropics/claude-code/issues/87109), 2026-08-16).
 
 ### Dynamic Context Injection
 
@@ -256,7 +256,7 @@ Why SKILL.md conciseness matters beyond the initial load:
 
 ## paths Decision
 
-**Not used in this repository — do not set `paths`.**
+**Left out in this repository.**
 
 `paths` is not deprecated: the official skills documentation still lists it as a current field ("Claude loads the skill automatically only when working with files matching the patterns"). This repository removed it on 2026-06-11 because it did not work, as of Claude Code 2.1.150:
 
