@@ -23,7 +23,7 @@ Orchestrate Swift development from Vigilare task to completion.
 **At workflow start, create tasks for each phase. Each task MUST include the required skill invocations:**
 
 ```
-TaskCreate: "Phase 1: Task Identification       | Skills: /vigilare-task (if no task exists)"
+TaskCreate: "Phase 1: Task Identification       | File the task in the tracker if none exists"
 TaskCreate: "Phase 1.5: Related Work Discovery   | Vigilare search + read related tasks & design docs"
 TaskCreate: "Phase 2: Project Context            | Skills: none"
 TaskCreate: "Phase 3: Check what you know        | Verify recalled APIs against Apple docs"
@@ -46,7 +46,7 @@ The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`
 
 | Phase | Skill/Agent | Invocation | Condition |
 |-------|-------------|------------|-----------|
-| 1 | `/vigilare-task` | `Skill("vigilare-task")` | No task exists |
+| 1 | (no skill) | `vigilare_create_reminder`, or the tracker the project names | No task exists |
 | 1.5 | (no skill) | `vigilare_search_reminders` + read related tasks/comments + read referenced design docs | Always |
 | 3 | `/research` | `Skill("research")` | Only for genuinely deep questions |
 | 5 | `/swift-core` | `Skill("swift-core")` | Always |
@@ -73,13 +73,13 @@ The task tools are opt-in on current models — when `TaskCreate`/`TaskUpdate`/`
 
 ### Phase 1: Task Identification
 
-**Required skill:** `Skill("vigilare-task")` if no task exists.
+**Required:** file the task in the project's tracker if none exists.
 
 **Priority order:**
 
 1. **Check conversation context** - Task already mentioned? Use it
 2. **Query Vigilare** - `vigilare_get_reminders(filter: 'today')` or by list
-3. **No task exists** - Ask user: "タスクを起票しますか？" → MUST call `Skill("vigilare-task")`
+3. **No task exists** - Ask user: "タスクを起票しますか？" → file it with `vigilare_create_reminder`, or whatever tracker the project names
 
 ### Phase 1.5: Related Work Discovery (MANDATORY)
 

@@ -159,7 +159,7 @@ user-invocable: false           # Only Claude can invoke (hidden from / menu)
 
 | Pattern | Example | Reason |
 |---------|---------|--------|
-| Daily tasks | vigilare-task, documentation | Frequent use, triggers naturally |
+| Daily tasks | project-conventions, documentation | Frequent use, triggers naturally |
 | Code assistance | swift-core, documentation | Helps during normal development flow |
 | Workflow shortcuts | humanizer | "AI臭い" should just work |
 

@@ -92,7 +92,7 @@ Implementation-status tables, percentage-complete and "TODO/done" checklists go 
 
 ### Task Tracker Integration
 
-The project's `CLAUDE.md` names the tracker list/board explicitly; cross-commit progress lives in tracker comments, while docs and commit bodies stay scoped to what they own. **Use the tracker that project names, and that one alone** — every other tracker, tool or ad-hoc list is a second place to look, and the two drift apart. When no tracker is named, ask: the choice is the user's, and a guess leaves the next session guessing differently. For Labee projects the tracker is normally Vigilare, driven through `/vigilare-task`; the comment shape and commit-vs-tracker routing live in `references/task-tracker-integration.md`.
+The project's `CLAUDE.md` names the tracker list/board explicitly; cross-commit progress lives in tracker comments, while docs and commit bodies stay scoped to what they own. **Use the tracker that project names, and that one alone** — every other tracker, tool or ad-hoc list is a second place to look, and the two drift apart. When no tracker is named, ask: the choice is the user's, and a guess leaves the next session guessing differently. For Labee projects the tracker is normally Vigilare; the comment shape and commit-vs-tracker routing live in `references/task-tracker-integration.md`.
 
 ### Backlog Granularity
 
@@ -187,5 +187,4 @@ SKILL.md carries the contract; each file below is the only place its listed deta
 
 | Skill | Purpose |
 |-------|---------|
-| /vigilare-task | Creates and comments on the tracker items this skill routes content to |
 | /documentation | Owns how a document is written — type, template, structure, wording, markdown; this skill owns where it goes |

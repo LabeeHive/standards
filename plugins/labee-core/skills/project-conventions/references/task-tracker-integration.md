@@ -36,7 +36,7 @@ A recurring task (a weekly scan, an audit that repeats) gets its run summaries a
 
 Use the tracker the project names in its `CLAUDE.md`, through that tracker's own interface, and that one alone. Every other tracker, side tool, and ad-hoc list kept "just for this session" is one more place to look, which is how progress state goes stale and starts contradicting itself. When `CLAUDE.md` names no tracker, ask which one to use — the answer is the user's to give, and a session that guesses leaves the next one guessing differently.
 
-For Vigilare, `/vigilare-task` is the interface: it knows the title shape, the notes structure, the list selection, and the comment prefixes. Whatever the tracker is, the mechanics are the same: search it for the existing item before writing, then comment on that item. A new item is for work that outlives this commit; a commit-scoped detail is already covered by the commit's own Known gaps section.
+Whatever the tracker is, the mechanics are the same: search it for the existing item before writing, then comment on that item. Where a skill or MCP server wraps the tracker, use it — it holds the title shape, the notes structure, the list selection, and the comment prefixes. A new item is for work that outlives this commit; a commit-scoped detail is already covered by the commit's own Known gaps section.
 
 ## Checklist
 
