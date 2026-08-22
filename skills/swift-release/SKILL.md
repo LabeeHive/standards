@@ -19,7 +19,7 @@ No local files are created at any point in this workflow — release notes text 
 
 Read `.claude/release-config.md` at the repo root. It defines everything app-specific:
 
-- **ASC app id** and bundle id (never guess an id — if Portus rejects the configured id, re-resolve with `portus_list_apps` and tell the user to update the config)
+- **ASC app id** and bundle id (take both from the config — if Portus rejects the configured id, re-resolve with `portus_list_apps` and tell the user to update it)
 - **Tag convention** (whether version tags carry a `v` prefix)
 - **Locales and title lines** — the table of locale → `whatsNew` title line. This is the authoritative locale set for the app; generate exactly these locales, no more, no fewer.
 - **Product context** — the app description used to brief the release notes generator.
@@ -39,7 +39,7 @@ git tag -l "$ARGUMENTS[1]" && git tag -l "$ARGUMENTS[0]"
 git log $ARGUMENTS[1]..HEAD --pretty=format:'- %s' --no-merges
 ```
 
-Treat the commit list as authoritative — don't re-run `git log` in step 3. Sanity-check the result before continuing:
+Treat the commit list as authoritative — step 3 reads it as given. Sanity-check the result before continuing:
 
 - If `$ARGUMENTS[1]` doesn't exist as a tag, stop and ask the user instead of guessing.
 - If the commit list comes back empty or contradictory, stop and ask the user.
@@ -54,7 +54,7 @@ Read `references/release-notes-generator.md` for the generation guidelines, then
 - `$ARGUMENTS[0]` / `$ARGUMENTS[1]` and the commit list from step 2
 - The locale list from the release config's title-line table
 
-The agent returns the generated text for every configured locale directly in its response — it must not write any files, and must not re-run `git log`. Focus only on user-facing features — the guidelines already exclude `refactor:`/`chore:`/`ci:`/`docs:`/`test:`/`build:`/`i18n:` commits.
+The agent returns the generated text for every configured locale directly in its response — it returns text and leaves the filesystem and `git log` alone. Focus only on user-facing features — the guidelines already exclude `refactor:`/`chore:`/`ci:`/`docs:`/`test:`/`build:`/`i18n:` commits.
 
 **Brief contents:** where the result goes (in the response itself — this workflow writes no files), the exact output format (title line, blank line, bullets, per locale), what makes it acceptable (every configured locale present, user-facing changes only), and what is out of scope (writing files, re-running `git log`); the reporting lines (plan to main, one line per milestone, message-and-wait before going outside the brief, results to a file) are delivered to every subagent at start by this plugin's `hooks/hooks.json` (a `SubagentStart` hook) — the file line does not apply here, so tell the agent explicitly to keep the result in its response.
 

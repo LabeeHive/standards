@@ -14,7 +14,7 @@ This document defines naming conventions for Swift code. Consistent naming impro
 
 - Use `UpperCamelCase` for all type names
 - Use nouns or noun phrases
-- Avoid abbreviations unless widely understood
+- Spell words out, keeping only abbreviations a reader already knows
 
 **✅ Good:**
 
@@ -203,7 +203,7 @@ class ReminderManager { }        // Missing UseCase suffix
 **Rules:**
 
 - Use `lowerCamelCase` for constants
-- Avoid global constants (prefer static properties)
+- Put constants on the type they belong to, as static properties
 - Use descriptive names
 
 **✅ Good:**
@@ -234,7 +234,7 @@ var TIMEOUT = 30                // SCREAMING_SNAKE_CASE, mutable
 
 **Rules:**
 
-- Avoid abbreviations unless widely understood
+- Spell words out, keeping only abbreviations a reader already knows
 - When used, follow Swift conventions (URL, ID, HTTP)
 
 **✅ Good:**

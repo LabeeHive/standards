@@ -17,10 +17,10 @@ cat "${CLAUDE_SKILL_DIR}/references/_translation-quality.md" 2>/dev/null || echo
 
 ## Core Principles
 
-1. **verify.ts execution is mandatory** - You MUST run `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` at Step 1 and Step 3. Skipping verification is never acceptable.
-2. **xckit is the ONLY write path** - Never edit .xcstrings files directly and never write ad-hoc scripts (python, bun one-liners, jq, etc.) to read or modify them. All writes go through `xckit set`; the only script you may run is the bundled verify.ts.
-3. **Fail loudly, don't work around** - If xckit or verify.ts fails, report the error to the user and stop. Do not improvise an alternative tool.
-4. **Localize, don't translate** - Each translation must read as if a native speaker wrote the UI from scratch
+1. **verify.ts execution is mandatory** - Run `bun ${CLAUDE_SKILL_DIR}/scripts/verify.ts` at Step 1 and Step 3, every time.
+2. **xckit is the ONLY write path** - Every read and write of an .xcstrings file goes through `xckit set`, and the bundled verify.ts is the one script to run. Direct edits and ad-hoc python/bun/jq one-liners corrupt the format that xckit maintains.
+3. **Fail loudly** - If xckit or verify.ts fails, report the error to the user and stop there. The failure is the result; an improvised alternative tool hides it.
+4. **Localize rather than translate** - Each translation must read as if a native speaker wrote the UI from scratch
 5. **Phase tracking** - Use TaskCreate at start, TaskUpdate to mark progress
 
 ## Phase Tracking
@@ -56,7 +56,7 @@ Outputs xckit status, untranslated keys, and key naming violations for all disco
 
 ### Step 2: Translate
 
-**Localize, don't translate.** Each translation must read as if a native speaker wrote the UI from scratch. The per-language guidelines are injected at the top of this skill.
+**Localize rather than translate.** Each translation must read as if a native speaker wrote the UI from scratch. The per-language guidelines are injected at the top of this skill.
 
 **Before writing any translation, consider:**
 

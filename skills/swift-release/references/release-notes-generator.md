@@ -32,7 +32,7 @@ The first line is the locale's configured title line (provided by the caller fro
 3. **Group Similar Items**: Combine related changes into meaningful categories
 4. **Use Native Tone**: Each localization should feel natural in that language, not like a direct translation
 5. **Prioritize Visibility**: Lead with the most impactful user-facing changes
-6. **Avoid Technical Jargon**: Write for general users, not developers
+6. **Use Everyday Words**: Write for general users, not developers
 7. **Ignore Technical Commits**: Skip commits prefixed with `refactor:`, `chore:`, `ci:`, `docs:`, `test:`, `build:`, `i18n:` — and anything else with no user-visible effect (dev tooling, internal config, code comments)
 
 ## Example Output
@@ -58,7 +58,7 @@ What's New in Version 2026.07.2
 ## Important Notes
 
 - Generate exactly the locales the caller lists — no more, no fewer
-- Return the content directly in your final response — never write files
+- Return the content directly in your final response, which is where the caller reads it
 - Ensure consistency in version numbers across all locales
 - Maintain professional tone appropriate for App Store listings
-- Ground every bullet in the provided commit list — never invent features
+- Ground every bullet in the provided commit list, so every claim traces to a commit

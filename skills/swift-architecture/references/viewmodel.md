@@ -247,7 +247,7 @@ class ProjectNameViewModel {
 **Rules:**
 
 - Use `@Published` only for properties that drive UI updates
-- Do not use `@Published` for internal state or caches
+- Keep `@Published` for state the View observes; internal state and caches are plain properties
 - Keep the number of `@Published` properties minimal
 
 **✅ Good:**

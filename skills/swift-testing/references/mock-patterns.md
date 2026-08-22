@@ -8,7 +8,7 @@ This document defines patterns for creating and using mocks in tests. Proper moc
 
 ## Critical rule
 
-**All tests must use mocks. Tests must never affect real services or data.**
+**All tests run on mocks, so a test run touches no real service or data.**
 
 ### Forbidden in tests
 
@@ -641,13 +641,13 @@ final class FloatingReminderViewModel {
 **Rules:**
 
 - Isolate the owning type (and its tests) with `@MainActor` so cancellation and task execution share the same serial executor
-- Never resolve a mocked delay before every expected `sleep` call has been recorded — use a call-count gate like `fireAll(afterSleepCallCount:)`, not a bare `fireAll()`, whenever a call site cancels and replaces a pending task
-- Never wait for a call-count gate with a `Task.yield()` poll loop (`while condition { await Task.yield() }`) — it has no forward-progress guarantee and can hang indefinitely; use a continuation-based waiter instead
+- Gate a mocked delay on the expected `sleep` call count — `fireAll(afterSleepCallCount:)` rather than a bare `fireAll()` — whenever a call site cancels and replaces a pending task, so the delay resolves only once every call has been recorded
+- Wait for a call-count gate with a continuation-based waiter. A `Task.yield()` poll loop (`while condition { await Task.yield() }`) has no forward-progress guarantee and can hang indefinitely
 - Count a `sleep` call *before* touching its cancellation state — a cancelled Task's body still runs far enough to call `sleep`, and it must still be counted, or a count-gated wait can hang forever
 - Mutate the call counter, the continuation registry, and the waiter list under one lock, and only resume continuations after releasing it — resuming while holding the lock risks reentrancy, and mutating outside the lock risks a registration racing a resolve
 - Handle cancellation with `withTaskCancellationHandler`, and account for the race where cancellation fires before the continuation is registered (mirror this with a "cancelled IDs" set, the same technique `TestClock` from `pointfreeco/swift-clocks` uses)
 - Check `Task.isCancelled` (or `try Task.checkCancellation()`) immediately after the delay resolves — cancellation correctness must not depend on timing
-- Never inject a shortened *real* duration to speed up tests; replace the delay mechanism itself so tests never wait on real time
+- Replace the delay mechanism itself rather than shortening a *real* duration, so tests stop waiting on real time altogether
 - Expose a dedicated `awaitPendingXxx()` test-support method instead of making the debounce `Task` itself `private(set)` — this keeps the property genuinely private and gives tests only "wait until settled" semantics
 
 **Timer vs. DebounceScheduler abstraction:**

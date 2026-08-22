@@ -8,7 +8,7 @@ when_to_use: Triggers on "test", "テスト", "mock", "stub", "TDD", "テスト�
 
 Labee's test standards: Swift Testing with `@Suite`/`@Test`, AAA structure, and protocol-based test doubles. Read the reference before writing or reviewing tests.
 
-Mocks carry a hard rule that is easy to break by accident: never mock a UseCase. Mock the protocol below it and let the real UseCase run.
+Mocks carry a hard rule that is easy to break by accident: mock the protocol below a UseCase and let the real UseCase run.
 
 ## Reference Files
 

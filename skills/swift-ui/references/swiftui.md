@@ -255,7 +255,7 @@ struct ContentView: View {
 
 - Extract complex subviews using `@ViewBuilder` computed properties
 - Keep `body` clean by delegating to subviews
-- Avoid deeply nested view hierarchies in `body`
+- Keep `body` shallow, extracting a subview once it nests
 
 **✅ Good:**
 
@@ -366,7 +366,7 @@ struct ReminderView: View {
 
 **Rules:**
 
-- Never call Services or Repositories directly from Views
+- Views reach Services and Repositories through the ViewModel
 - Always go through ViewModel
 
 **✅ Good:**

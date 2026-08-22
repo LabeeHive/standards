@@ -16,7 +16,7 @@ Orchestrate Swift development from Vigilare task to completion.
 4. **Phase tracking** - Use TaskCreate at start to create phase checklist, TaskUpdate to mark progress
 5. **Skill invocation is mandatory** - Each phase lists required skills. You MUST call `Skill("name")` for every listed skill. Text references do NOT count as invocation.
 6. **Review gate** - Phase 6 blocks Build & Test. It exists to catch local optimization and reliance on rejected references, which the author cannot see from inside the change; it is not a process audit.
-7. **Related-work aware** - Before planning, search Vigilare for related/duplicate tasks and READ the design docs they reference (do not skim or assume). Assess overlap, dependencies, and correct sequencing — a task may need to be merged, deferred, or done after another decision.
+7. **Related-work aware** - Before planning, search Vigilare for related/duplicate tasks and READ the design docs they reference, in full. Assess overlap, dependencies, and correct sequencing — a task may need to be merged, deferred, or done after another decision.
 
 ## Phase Tracking
 
@@ -96,10 +96,10 @@ A task rarely exists in isolation. Before researching or planning, find out what
 │    Run several searches — synonyms and Japanese/English.    │
 │ 2. For each related/duplicate hit: vigilare_get_reminder to │
 │    read its notes AND comments fully (tasks get re-defined  │
-│    in comments — do not trust the title alone).             │
+│    in comments — read the body, not just the title).        │
 │ 3. READ every design doc / file referenced by those tasks   │
-│    (e.g. docs/**). Read the actual content — never assume   │
-│    relevance from the filename or skim the first section.   │
+│    (e.g. docs/**). Read the actual content: relevance is    │
+│    settled by what a file says, not by its name.            │
 │ 4. Glob/Grep the codebase for existing implementations of   │
 │    the same concern (a helper/adapter may already exist).   │
 └─────────────────────────────────────────────────────────────┘
@@ -183,7 +183,7 @@ xcrun swift-format --recursive . --in-place
 
 Why a separate reviewer, when you have already checked your own work: the two failure modes this catches are ones the author structurally cannot see. **Local optimization** — a change that is right for the file in front of you and wrong for the codebase — looks correct from inside the change. And **building on the wrong reference** — a pattern lifted from a source this project has deliberately moved away from — looks well-researched from inside the change. A reader who did not write the code and holds the standards catches both. In practice this gate has measurably reduced defects here, which is why it stays.
 
-What it is *not* for: confirming that tests exist, that references were opened, or that no TODOs remain. Do not ask a reviewer to audit your process — you verify your own work as you go, and a second pass over the same checklist buys nothing.
+Ask the reviewer about the code, which is what a second reader can judge. Whether tests exist, references were opened or TODOs remain is yours to verify as you go, and a second pass over the same checklist buys nothing.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
