@@ -67,8 +67,7 @@ err-hdl.md                                           (7 chars - unclear)
 
 **Rules:**
 
-- Avoid spaces and special characters
-- Do not use: `!@#$%^&*()+=[]{}|;:'",<>?/\`
+- Use letters, digits and hyphens only — spaces and `!@#$%^&*()+=[]{}|;:'",<>?/\` break paths and links
 - Use `-` (hyphen) as the word separator
 - `_` (underscore) is never a separator; it appears only as the leading marker on a reference injected on every invocation of its skill, as in `_core-rules.md`
 
@@ -119,7 +118,7 @@ The `docs/` tree itself — which numbered namespaces exist, what each holds, an
 **Rules:**
 
 - Limit directory depth to 3-4 levels maximum
-- Avoid deeply nested structures
+- Keep the tree shallow
 - Use flat structures when possible
 
 **✅ Good:**
@@ -171,7 +170,7 @@ This directory contains coding standards applicable to all projects.
 **Rules:**
 
 - Use Git commit history for tracking changes
-- Avoid "Last Updated" or "Version" sections in documents
+- Leave authorship and dates to git history, which already holds them
 - Exception: YAML frontmatter for publishing systems
 
 **✅ Good:**

@@ -51,7 +51,7 @@ The system logs errors when validation fails.
 
 **Rules:**
 
-- Avoid unnecessary words
+- Keep the words that carry meaning
 - Break long sentences into shorter ones
 
 **✅ Good:**
@@ -68,7 +68,7 @@ It is generally considered a best practice to cache database connections at star
 
 ---
 
-### Avoid jargon
+### Use plain words
 
 **Rules:**
 
@@ -96,7 +96,7 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 
 **Rules:**
 
-- Don't rely on color alone to convey meaning
+- Carry meaning in text or shape, with color as reinforcement
 - Use symbols or text in addition to color
 - Ensure sufficient contrast for readability
 
@@ -120,11 +120,11 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 
 ## Inclusive language
 
-### Avoid ableist terms
+### Use terms that describe the behaviour
 
 **Rules:**
 
-- Avoid terms that reference disabilities in a negative way
+- Describe the behaviour itself instead of borrowing a disability as a metaphor
 - Use neutral alternatives
 
 **Examples:**
@@ -162,7 +162,7 @@ Leverage the pub-sub paradigm via event buses for orthogonal system decoupling.
 **Rules:**
 
 - Use "they/their" for singular indefinite pronouns
-- Avoid gendered assumptions
+- Write for a reader of any gender
 
 **✅ Good:**
 
@@ -189,7 +189,7 @@ The user can customize his settings in the preferences panel.
 **Rules:**
 
 - Use precise technical terms
-- Avoid vague words like "thing", "stuff", "very"
+- Name the thing precisely, in place of "thing", "stuff" or "very"
 
 **✅ Good:**
 

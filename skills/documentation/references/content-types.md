@@ -399,7 +399,7 @@ In this tutorial, you learned:
 ### Guidelines
 
 - Guide users through a complete learning experience
-- Start from the beginning (don't assume prior knowledge of this topic)
+- Start from the beginning, assuming no prior knowledge of this topic
 - Show concrete, working examples
 - Explain not just what to do, but why
 - Keep a consistent pace throughout

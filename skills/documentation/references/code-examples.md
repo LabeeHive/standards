@@ -13,7 +13,7 @@ This document defines standards for writing code examples in documentation. Clea
 **Rules:**
 
 - Use `ProjectName` as the placeholder namespace/package in code examples
-- Never use real project names in shared documentation
+- Keep the placeholder in shared documentation, where a real project name would tie it to one repo
 - This ensures documentation is project-agnostic and reusable
 
 **✅ Good:**
@@ -211,8 +211,7 @@ return user
 
 **Rules:**
 
-- Don't show isolated snippets without context
-- Include imports and class/function declarations
+- Include imports and class/function declarations, so the snippet stands on its own
 - Show enough code for the example to make sense
 
 **❌ Bad:**

@@ -38,7 +38,7 @@ All errors should return a consistent JSON structure...
 
 ## YAML frontmatter
 
-Only when tooling requires it — a static site generator, a docs platform. Git history is the source of truth for authorship and dates, so never restate those in frontmatter.
+Only when tooling requires it — a static site generator, a docs platform. Git history is the source of truth for authorship and dates, so frontmatter carries only what the tooling needs.
 
 ```markdown
 ---

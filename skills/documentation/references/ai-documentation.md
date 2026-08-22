@@ -63,7 +63,7 @@ project/
 
 - Provide 1-2 paragraphs describing what the project does
 - Keep it minimal (enough for AI to understand context)
-- Do not duplicate README content
+- Point at the README for anything it already covers
 
 **Example:**
 
@@ -105,7 +105,7 @@ See `docs/terminology.md` for details.
 
 - Show the docs/ hierarchy
 - Help AI navigate to relevant documentation
-- Do not include the content itself
+- Name each file by what it holds, and let the file carry the content
 
 **Example:**
 
@@ -178,7 +178,7 @@ patterns and architecture decisions.
 
 - Implement only what is explicitly requested
 - Follow existing code patterns
-- Avoid over-engineering
+- Build to the size of the request
 ```
 
 ---
@@ -196,8 +196,7 @@ patterns and architecture decisions.
 
 **Rules:**
 
-- Do not duplicate content that exists in docs/
-- Reference existing documentation instead of copying
+- Reference the doc in docs/ that already carries the content
 - AI does not need general programming advice
 
 **❌ Bad:**
@@ -255,8 +254,8 @@ Read relevant documentation before writing any code.
 Match the coding style and patterns already used in the codebase.
 
 ### Minimal changes
-Implement only what is explicitly requested. Do not add unrequested features
-or refactoring.
+Implement what is explicitly requested, and leave features and
+refactoring nobody asked for to a request of their own.
 
 ### Ask when uncertain
 If requirements are unclear, ask for clarification before proceeding.
