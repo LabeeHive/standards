@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The rules that apply to every Labee document, and the only reference injected on every invocation. Most of it is what a linter cannot judge; the skeleton below is the exception, stated because a reader needs the shape even though `markdownlint-cli2` also enforces parts of it. Run the linter rather than checking mechanical rules by eye — the config is `.markdownlint-cli2.jsonc`.
+The rules that apply to every Labee document, and the only reference injected on every invocation. Most of it is what a linter cannot judge; the skeleton below is the exception, stated because a reader needs the shape even though the project's linter also enforces parts of it. Run whatever linter the project configures rather than checking mechanical rules by eye, and take its config as the authority.
 
 ---
 
@@ -62,6 +62,6 @@ Stop at H3. Wanting an H4 usually means the document should be split, not nested
 
 ## References
 
-- [markdown-formatting.md](markdown-formatting.md) — which rules the linter owns, and the conventions it cannot check
+- [markdown-formatting.md](markdown-formatting.md) — the markdown conventions a formatter cannot decide
 - [writing-principles.md](writing-principles.md) — word choice, inclusive language, numbers and units
 - [document-structure.md](document-structure.md) — organizing sections, YAML frontmatter

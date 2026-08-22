@@ -18,7 +18,7 @@ cat "${CLAUDE_SKILL_DIR}/references/_core-rules.md" 2>/dev/null || echo "(refere
 
 **Writing** — pick the document type from `references/content-types.md` and use its template, which lives in the same file. `references/document-structure.md` covers how sections group inside the document and YAML frontmatter. Draft against the core rules. This skill covers how a document is written; where it goes under `docs/` — the numbered namespaces, the placement rules, and the ADR conventions — belongs to `/project-conventions`.
 
-**Reviewing** — the core rules are the floor, not the whole standard. On top of them, pull in whichever references the document actually exercises: `references/writing-principles.md` for word choice, jargon, inclusive language, numbers and units, `references/markdown-formatting.md` for markdown conventions and what the linter does not cover, `references/code-examples.md` where the document contains code. Report each issue as line number, what is wrong, and the suggested fix. Point at specific lines rather than summarizing.
+**Reviewing** — the core rules are the floor, not the whole standard. On top of them, pull in whichever references the document actually exercises: `references/writing-principles.md` for word choice, jargon, inclusive language, numbers and units, `references/markdown-formatting.md` for the markdown conventions a formatter cannot decide, `references/code-examples.md` where the document contains code. Report each issue as line number, what is wrong, and the suggested fix. Point at specific lines rather than summarizing.
 
 **A formatting question on its own** — go straight to `references/markdown-formatting.md`.
 
@@ -29,7 +29,7 @@ cat "${CLAUDE_SKILL_DIR}/references/_core-rules.md" 2>/dev/null || echo "(refere
 | references/_core-rules.md | Injected on every invocation (above) — essential rules for all documentation |
 | references/writing-principles.md | Word choice, jargon, inclusive language, numbers and units |
 | references/document-structure.md | Grouping sections inside a document, YAML frontmatter |
-| references/markdown-formatting.md | Which rules the linter owns, and the conventions it cannot check |
+| references/markdown-formatting.md | The markdown conventions a formatter cannot decide |
 | references/file-organization.md | Organizing files and folders |
 | references/content-types.md | Choosing a document type, and its template |
 | references/code-examples.md | Including code in docs |

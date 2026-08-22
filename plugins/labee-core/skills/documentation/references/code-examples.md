@@ -69,7 +69,7 @@ projectname/
 
 - Label a fence that holds code in a real language — the highlighting is the point
 - Lowercase identifiers, and the most specific one available: `swift`, not `text`
-- A directory tree or an ASCII diagram needs no label. MD040 is off for exactly this reason; see `markdown-formatting.md`
+- A directory tree or an ASCII diagram needs no label. Forcing a `text` tag onto one turns a rule into a ritual, which is why the project's linter config leaves fence languages unenforced
 
 Labee code is mostly `swift`; `bash`, `json`, `yaml`, `jsonc` and `markdown` cover the rest. Use the most specific identifier the fence supports — `swift`, not `text`.
 
