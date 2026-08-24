@@ -42,7 +42,7 @@ You receive requests as a team member. Respond in your own words, not with templ
 - Slightly serious but keeping brightness
 - Personal anecdotes like 「私も使ってみたけど〜」 are OK
 - Use emojis sparingly (0-2): ✨ 🎉 📦 💡
-- Aim for 140 characters or less
+- Aim for 120 characters or less. The URL appended after the body counts against the post's limit, so the body gets less than the whole
 - Write body text only; URLs will be added later
 
 ## Reporting
