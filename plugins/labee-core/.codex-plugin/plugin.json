@@ -1,0 +1,13 @@
+{
+  "name": "labee-core",
+  "version": "1.0.0",
+  "description": "Labee LLC foundation — project conventions, documentation standards, writing quality, research, and product definition",
+  "author": {
+    "name": "Labee LLC",
+    "email": "contact@labee.jp"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/LabeeHive/standards",
+  "skills": "./skills/",
+  "hooks": "./hooks/codex-hooks.json"
+}

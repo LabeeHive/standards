@@ -1,0 +1,15 @@
+{
+  "description": "Labee reporting conventions for Codex subagents.",
+  "hooks": {
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '%s' '{\"hookSpecificOutput\":{\"hookEventName\":\"SubagentStart\",\"additionalContext\":\"Reporting: state your plan before tool work, report each milestone to the parent agent, stay within the assigned brief, and return a concise result with file paths when applicable.\"}}'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Shared standards for Labee LLC projects, distributed as a Claude Code plugin marketplace. Each plugin lives under `plugins/` — browse its `skills/` and `agents/` to see what it carries.
+Shared standards for Labee LLC projects, distributed as Claude Code and Codex plugins. Each plugin lives under `plugins/` — browse its `skills/` and `agents/` to see what it carries.
 
 ---
 
@@ -33,6 +33,15 @@ Shared standards for Labee LLC projects, distributed as a Claude Code plugin mar
 # Or install the foundation on its own
 /plugin install labee-core@labee-standards
 ```
+
+Codex uses the repository marketplace at `.agents/plugins/marketplace.json`:
+
+```bash
+codex plugin marketplace add LabeeHive/standards --sparse .agents/plugins
+codex plugin add labee-core@labee-standards
+```
+
+The same `skills/` content is shared by both hosts. Claude Code agents remain under `agents/`; Codex custom agents use `.codex/agents/*.toml` in the consuming project.
 
 A plugin activates immediately when that is safe (Claude Code 2.1.221 and later); otherwise run `/reload-plugins`.
 

@@ -1,0 +1,56 @@
+{
+  "name": "labee-standards",
+  "interface": {
+    "displayName": "Labee Standards"
+  },
+  "plugins": [
+    {
+      "name": "labee-core",
+      "source": {
+        "source": "local",
+        "path": "./plugins/labee-core"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "labee-swift",
+      "source": {
+        "source": "local",
+        "path": "./plugins/labee-swift"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    },
+    {
+      "name": "labee-marketing",
+      "source": {
+        "source": "local",
+        "path": "./plugins/labee-marketing"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "labee-authoring",
+      "source": {
+        "source": "local",
+        "path": "./plugins/labee-authoring"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

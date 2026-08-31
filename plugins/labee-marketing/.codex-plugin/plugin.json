@@ -1,0 +1,12 @@
+{
+  "name": "labee-marketing",
+  "version": "1.0.0",
+  "description": "Labee LLC store and marketing copy review, localization, and brand voice standards",
+  "author": {
+    "name": "Labee LLC",
+    "email": "contact@labee.jp"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/LabeeHive/standards",
+  "skills": "./skills/"
+}
